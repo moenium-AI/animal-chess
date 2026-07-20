@@ -306,6 +306,124 @@ html, body {
   75% { transform: translateX(-5px); }
 }
 
+/* ===== コマ種類バッジ ===== */
+.type-badge {
+  position: absolute; top: 1px; right: 1px;
+  width: 16px; height: 16px; line-height: 16px;
+  font-size: 12px; text-align: center;
+  border-radius: 50%;
+  pointer-events: none; z-index: 20;
+}
+.type-badge.w { background: rgba(255, 253, 245, 0.95); color: #3d2f24; box-shadow: 0 0 0 1px #c8b28a; }
+.type-badge.b { background: rgba(70, 56, 46, 0.95); color: #fff6e0; box-shadow: 0 0 0 1px #2c211a; }
+
+/* ===== 3Dモード: 傾斜盤 ===== */
+.board-wrap.mode-3d { padding-top: 34px; }
+.mode-3d .board {
+  transform: scaleY(0.72);
+  transform-origin: top center;
+  margin-bottom: calc(min(92vw, 560px) * -0.26);
+  overflow: visible;
+  border-color: #7c6248;
+}
+.mode-3d .board .square { overflow: visible; }
+.mode-3d .square::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 12%;
+  background: rgba(90, 66, 40, 0.16);
+  pointer-events: none;
+}
+
+/* 3Dピース(縦つぶれを打ち消して直立) */
+.p3d {
+  position: absolute; left: 50%; bottom: 3%;
+  transform: translateX(-50%) scaleY(1.3889);
+  transform-origin: bottom center;
+  pointer-events: none;
+  z-index: 5;
+}
+.p3d::before {
+  content: ""; position: absolute; left: 50%; bottom: -2px;
+  width: 120%; height: 10px; transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(60, 40, 20, 0.32) 0%, transparent 70%);
+}
+.p3d canvas {
+  position: relative;
+  display: block;
+  width: calc(min(92vw, 560px) / 8 * 0.60);
+  height: auto;
+  image-rendering: pixelated;
+  animation: bob3d 0.9s linear infinite;
+}
+@keyframes bob3d {
+  0%, 48% { transform: translateY(0); }
+  52%, 100% { transform: translateY(-4%); }
+}
+.mode-3d .square.selected .p3d canvas { animation: hop3d 0.5s ease-in-out infinite; }
+@keyframes hop3d { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16%); } }
+
+/* ===== 3D宴会会場 ===== */
+.venue.v3d { background: linear-gradient(#f8e2b8, #eac98e); border-color: #d8b070; }
+.venue.v3d .venue-guests {
+  display: block; position: relative; height: 96px; overflow: hidden;
+  border-radius: 10px;
+  background:
+    linear-gradient(rgba(120, 80, 40, 0.42) 0 26px, transparent 26px),
+    repeating-linear-gradient(0deg, #e2b876 0 12px, #d8ac66 12px 24px);
+}
+.venue.v3d .venue-guests::before {
+  content: "🏮"; position: absolute; top: 1px; left: 8px; font-size: 15px; z-index: 3;
+}
+.venue.v3d .venue-guests::after {
+  content: "🏮"; position: absolute; top: 1px; right: 8px; font-size: 15px; z-index: 3;
+}
+.bq-table {
+  position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
+  width: 110px; image-rendering: pixelated; z-index: 1;
+}
+.bq-deco { position: absolute; bottom: 30px; image-rendering: pixelated; z-index: 2; }
+.bq-guest { position: absolute; bottom: 4px; z-index: 4; transition-property: left; transition-timing-function: linear; }
+.bq-guest canvas.spr {
+  display: block; width: 40px; height: auto; image-rendering: pixelated;
+  animation: bob3d 0.8s linear infinite;
+}
+.bq-guest.flip canvas.spr { transform: scaleX(-1); }
+.bq-guest canvas.item {
+  position: absolute; right: -16px; bottom: 12px;
+  image-rendering: pixelated; display: none;
+  animation: munch 0.8s ease-in-out infinite;
+}
+.bq-guest.eating canvas.item, .bq-guest.drinking canvas.item { display: block; }
+.bq-guest.sleeping canvas.spr { transform: rotate(90deg) translateY(-8px); animation: none; }
+.bq-zzz { display: none; position: absolute; top: -14px; right: -4px; font-size: 13px; }
+.bq-guest.sleeping .bq-zzz { display: block; animation: zzzfloat 1.8s ease-in-out infinite; }
+@keyframes zzzfloat {
+  0% { opacity: 0; transform: translateY(3px); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes munch {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-4px) rotate(-14deg); }
+}
+
+/* ===== 3D馬車 ===== */
+.carriage3d {
+  position: absolute;
+  transition: transform 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
+  z-index: 30;
+}
+.carriage3d canvas { display: block; width: 128px; image-rendering: pixelated; }
+
+/* 3Dプロモーション選択 */
+.promo-choices canvas { width: 44px; height: auto; image-rendering: pixelated; }
+
+.check-line {
+  flex-direction: row !important; align-items: center; gap: 6px !important;
+  font-size: 0.85rem !important;
+}
+.check-line input { width: 16px; height: 16px; accent-color: var(--accent); }
+
 @media (max-width: 980px) {
   .layout { flex-direction: column; align-items: center; }
   .panel { width: min(92vw, 560px); max-width: none; }

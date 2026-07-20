@@ -5,7 +5,7 @@
 // ===== 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
-let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true };
+let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true, viewMode: '3d', badges: true };
 let orient = 'w';            // 盤の下側の色
 let selected = null;         // 選択中マス
 let legalTargets = [];       // 選択中の合法手
@@ -41,8 +41,11 @@ function saveSolved() {
 }
 
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
-const isAnimal = () => !!SET().emoji;
-const pieceName = (type) => SET().names[type] || PIECE_JA[type];
+const is3D = () => settings.viewMode === '3d';
+const isAnimal = () => is3D() || !!SET().emoji;
+const pieceName = (type) => is3D() ? Sprites.charName(type) + 'さん' : (SET().names[type] || PIECE_JA[type]);
+const BADGE_GLYPHS = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
+const badgesOn = () => settings.badges && (is3D() || SET().emoji);
 
 // ===== サウンド =====
 let audioCtx = null;
@@ -88,6 +91,7 @@ function squareName(dispR, dispC) {
 }
 function buildBoard() {
   boardEl.innerHTML = '';
+  $('board-wrap').classList.toggle('mode-3d', is3D());
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
       const sq = squareName(r, c);
@@ -96,6 +100,7 @@ function buildBoard() {
       const div = document.createElement('div');
       div.className = 'square ' + ((f + rank) % 2 === 0 ? 'light' : 'dark');
       div.dataset.square = sq;
+      div.style.zIndex = r + 1; // 3Dモードで手前の列が上に重なるように
       if (r === 7) { const s = document.createElement('span'); s.className = 'coord file'; s.textContent = sq[0]; div.appendChild(s); }
       if (c === 0) { const s = document.createElement('span'); s.className = 'coord rank'; s.textContent = sq[1]; div.appendChild(s); }
       div.addEventListener('click', () => onSquareClick(sq));
@@ -107,6 +112,31 @@ function pieceHtml(type, color) {
   const set = SET();
   const cls = set.emoji ? 'piece emoji ' + color : 'piece glyph ' + color;
   return `<span class="${cls}">${set.glyphs[type]}</span>`;
+}
+// 盤面用ピース要素(モード別)
+function createPieceEl(type, color, sq) {
+  if (is3D()) {
+    const wrap = document.createElement('div');
+    wrap.className = 'p3d';
+    const cv = Sprites.makePiece(type, color);
+    // ゆれの位相はマスごとに固定(再描画でリズムが変わらないように)
+    const f = FILES.indexOf(sq[0]);
+    const rank = parseInt(sq[1], 10);
+    cv.style.animationDelay = '-' + (((f * 7 + rank * 13) % 9) / 10).toFixed(1) + 's';
+    wrap.appendChild(cv);
+    return wrap;
+  }
+  const span = document.createElement('span');
+  const set = SET();
+  span.className = (set.emoji ? 'piece emoji ' : 'piece glyph ') + color;
+  span.textContent = set.glyphs[type];
+  return span;
+}
+function createBadge(type, color) {
+  const b = document.createElement('span');
+  b.className = 'type-badge ' + color;
+  b.textContent = BADGE_GLYPHS[type];
+  return b;
 }
 function renderPosition() {
   const board = game.board();
@@ -125,7 +155,10 @@ function renderPosition() {
     for (const child of [...div.children]) {
       if (!child.classList.contains('coord')) child.remove();
     }
-    if (pc) div.insertAdjacentHTML('beforeend', pieceHtml(pc.type, pc.color));
+    if (pc) {
+      div.appendChild(createPieceEl(pc.type, pc.color, sq));
+      if (badgesOn()) div.appendChild(createBadge(pc.type, pc.color));
+    }
     div.classList.toggle('selected', selected === sq);
     div.classList.toggle('lastmove', !!lastMove && (lastMove.from === sq || lastMove.to === sq));
     div.classList.toggle('check', inCheck === sq);
@@ -145,29 +178,44 @@ function venueOf(color) { // color 側チームの会場(取ったコマをも�
   return color === orient ? $('venue-bottom') : $('venue-top');
 }
 function colorJa(c) { return c === 'w' ? 'しろ' : 'くろ'; }
-function renderVenues() {
-  const animal = isAnimal();
+function computeGuests() {
   const hist = game.history({ verbose: true });
   const guests = { w: [], b: [] };
   let capIdx = 0;
   for (const m of hist) {
     if (m.captured) {
-      guests[m.color].push({ type: m.captured, food: foodFor(capIdx, m.captured) });
+      guests[m.color].push({ type: m.captured, victim: m.color === 'w' ? 'b' : 'w', food: foodFor(capIdx, m.captured) });
       capIdx++;
     }
   }
+  return guests;
+}
+
+function renderVenues() {
+  const v3d = is3D();
+  const animal = isAnimal();
+  const guests = computeGuests();
   for (const color of ['w', 'b']) {
     const v = venueOf(color);
+    v.classList.toggle('v3d', v3d);
     const title = v.querySelector('.venue-title');
     const area = v.querySelector('.venue-guests');
+    const list = guests[color];
+    const hideFrom = color === lastCapturer ? list.length - pendingGuests : list.length;
+    const visible = list.slice(0, Math.max(0, hideFrom));
+
+    if (v3d) {
+      title.textContent = `${colorJa(color)}チームの宴会会場`;
+      banquetSync(color, area, visible);
+      continue;
+    }
+    // シンプルモード: バンケットDOMが残っていたら破棄
+    if (area.dataset.bq) { area.innerHTML = ''; delete area.dataset.bq; delete banquets[color]; }
     title.textContent = animal
       ? `🏰 ${colorJa(color)}チームのおもてなし会場`
       : `${colorJa(color)}がとったコマ`;
     area.innerHTML = '';
-    const list = guests[color];
-    const hideFrom = color === lastCapturer ? list.length - pendingGuests : list.length;
-    list.forEach((g, i) => {
-      if (i >= hideFrom) return; // 馬車で移動中
+    visible.forEach((g) => {
       const span = document.createElement('span');
       if (animal) {
         span.className = 'guest';
@@ -175,21 +223,143 @@ function renderVenues() {
         span.title = `${pieceName(g.type)} … ${g.food}でおもてなし中`;
       } else {
         span.className = 'guest plain';
-        span.innerHTML = pieceHtml(g.type, color === 'w' ? 'b' : 'w');
+        span.innerHTML = pieceHtml(g.type, g.victim);
       }
       area.appendChild(span);
     });
-    if (list.length === 0 || (animal && area.children.length === 0 && list.length === 0)) {
-      if (list.length === 0) {
-        const empty = document.createElement('span');
-        empty.style.cssText = 'font-size:0.78rem;color:#c9b28a;';
-        empty.textContent = animal ? 'おきゃくさまをおまちしています…' : 'まだありません';
-        area.appendChild(empty);
-      }
+    if (visible.length === 0) {
+      const empty = document.createElement('span');
+      empty.style.cssText = 'font-size:0.78rem;color:#c9b28a;';
+      empty.textContent = animal ? 'おきゃくさまをおまちしています…' : 'まだありません';
+      area.appendChild(empty);
     }
   }
 }
 let lastCapturer = null;
+
+// ===== 3D宴会会場 =====
+let banquets = {}; // color -> { area, guests: [{el, spr, itemEl, type, team, state, until, x}] }
+
+function banquetSync(color, area, list) {
+  let bq = banquets[color];
+  if (!bq || bq.area !== area) {
+    area.innerHTML = '';
+    area.dataset.bq = '1';
+    // テーブルとごちそう
+    const table = document.createElement('canvas');
+    table.className = 'bq-table';
+    const t = Sprites.itemCanvas('table');
+    table.width = t.width; table.height = t.height;
+    table.getContext('2d').drawImage(t, 0, 0);
+    area.appendChild(table);
+    const deco = [['meat', 'calc(50% - 34px)'], ['cake', 'calc(50% - 4px)'], ['mug', 'calc(50% + 24px)']];
+    for (const [name, left] of deco) {
+      const d = document.createElement('canvas');
+      d.className = 'bq-deco';
+      const src = Sprites.itemCanvas(name);
+      d.width = src.width; d.height = src.height;
+      d.getContext('2d').drawImage(src, 0, 0);
+      d.style.left = left;
+      d.style.width = (src.width * 2) + 'px';
+      area.appendChild(d);
+    }
+    bq = banquets[color] = { area, guests: [] };
+  }
+  // 型が合わない場合(待ったなど)は作り直し
+  const mismatch = bq.guests.some((g, i) => !list[i] || g.type !== list[i].type || g.team !== list[i].victim);
+  if (mismatch) {
+    for (const g of bq.guests) g.el.remove();
+    bq.guests = [];
+  }
+  while (bq.guests.length > list.length) bq.guests.pop().el.remove();
+  while (bq.guests.length < list.length) {
+    bq.guests.push(spawnGuest(bq, list[bq.guests.length]));
+  }
+}
+
+function spawnGuest(bq, info) {
+  const el = document.createElement('div');
+  el.className = 'bq-guest';
+  const spr = Sprites.makePiece(info.type, info.victim);
+  spr.className = 'spr';
+  spr.style.animationDelay = '-' + (Math.random() * 0.8).toFixed(2) + 's';
+  const itemEl = document.createElement('canvas');
+  itemEl.className = 'item';
+  const zzz = document.createElement('span');
+  zzz.className = 'bq-zzz';
+  zzz.textContent = '💤';
+  el.appendChild(spr); el.appendChild(itemEl); el.appendChild(zzz);
+  const W = Math.max(120, bq.area.clientWidth);
+  const x = 8 + Math.random() * (W - 60);
+  el.style.left = x + 'px';
+  bq.area.appendChild(el);
+  const g = { el, spr, itemEl, type: info.type, team: info.victim, state: 'idle', until: Date.now() + 600 + Math.random() * 1500, x };
+  return g;
+}
+
+function setGuestState(g, s) {
+  const now = Date.now();
+  g.el.classList.remove('eating', 'drinking', 'sleeping');
+  g.state = s;
+  if (s === 'stroll') {
+    const W = Math.max(120, g.el.parentElement.clientWidth);
+    const nx = 8 + Math.random() * (W - 60);
+    const dist = Math.abs(nx - g.x);
+    const dur = Math.max(0.5, dist / 30);
+    g.el.style.transitionDuration = dur.toFixed(2) + 's';
+    g.el.classList.toggle('flip', nx < g.x);
+    g.el.style.left = nx + 'px';
+    g.x = nx;
+    g.until = now + dur * 1000 + 300;
+  } else if (s === 'eat' || s === 'drink') {
+    const name = s === 'eat' ? ['meat', 'cake', 'apple'][Math.floor(Math.random() * 3)] : 'mug';
+    const src = Sprites.itemCanvas(name);
+    g.itemEl.width = src.width; g.itemEl.height = src.height;
+    g.itemEl.getContext('2d').drawImage(src, 0, 0);
+    g.itemEl.style.width = (src.width * 2) + 'px';
+    g.el.classList.add(s === 'eat' ? 'eating' : 'drinking');
+    g.until = now + 2500 + Math.random() * 3500;
+  } else if (s === 'sleep') {
+    g.el.classList.add('sleeping');
+    Sprites.redrawPiece(g.spr, true); // おめめを閉じる
+    g.until = now + 4000 + Math.random() * 5000;
+  } else {
+    g.until = now + 1000 + Math.random() * 2200;
+  }
+  if (s !== 'sleep') Sprites.redrawPiece(g.spr, false);
+}
+
+function pickGuestState() {
+  const r = Math.random();
+  if (r < 0.30) return 'stroll';
+  if (r < 0.55) return 'eat';
+  if (r < 0.70) return 'drink';
+  if (r < 0.85) return 'sleep';
+  return 'idle';
+}
+
+setInterval(() => {
+  const now = Date.now();
+  for (const color in banquets) {
+    for (const g of banquets[color].guests) {
+      if (g.state !== 'sleeping' && Math.random() < 0.07) {
+        Sprites.redrawPiece(g.spr, true);
+        setTimeout(() => Sprites.redrawPiece(g.spr, false), 150);
+      }
+      if (now >= g.until) setGuestState(g, pickGuestState());
+    }
+  }
+}, 600);
+
+// 盤上ピースのまばたき(3Dモード)
+setInterval(() => {
+  if (!is3D()) return;
+  const canvases = boardEl.querySelectorAll('.p3d canvas');
+  if (canvases.length === 0) return;
+  const cv = canvases[Math.floor(Math.random() * canvases.length)];
+  Sprites.redrawPiece(cv, true);
+  setTimeout(() => { if (cv.isConnected) Sprites.redrawPiece(cv, false); }, 160);
+}, 1100);
 
 // 馬車アニメーション
 function carriageRide(move) {
@@ -212,10 +382,25 @@ function carriageRide(move) {
   const goingDown = venueOf(capturer) === $('venue-bottom');
   const endX = goingDown ? wrapRect.width - 150 : 10;
   const endY = goingDown ? wrapRect.height + 8 : -62;
+  const rideMs = is3D() ? 2200 : 1800;
 
   const el = document.createElement('div');
-  el.className = 'carriage';
-  el.innerHTML = `<span class="pony">🐴</span><span class="cart"><span class="rider">${SET().glyphs[capturedType]}</span><span class="wheel w1"></span><span class="wheel w2"></span></span>`;
+  let spin = null;
+  if (is3D()) {
+    el.className = 'carriage3d';
+    const cv = document.createElement('canvas');
+    el.appendChild(cv);
+    const faceLeft = endX < startX;
+    let frame = 0;
+    Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft);
+    spin = setInterval(() => {
+      frame ^= 1;
+      Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft);
+    }, 160);
+  } else {
+    el.className = 'carriage';
+    el.innerHTML = `<span class="pony">🐴</span><span class="cart"><span class="rider">${SET().glyphs[capturedType]}</span><span class="wheel w1"></span><span class="wheel w2"></span></span>`;
+  }
   el.style.transform = `translate(${startX}px, ${startY}px)`;
   overlayEl.appendChild(el);
   // 反映後にゴールへ
@@ -223,23 +408,26 @@ function carriageRide(move) {
     el.style.transform = `translate(${endX}px, ${endY}px)`;
   }));
   const name = pieceName(capturedType);
-  toast(`🐴ガラガラ… ${name}が馬車にのって${colorJa(capturer)}チームの会場へ!`);
+  toast(`🐴ガラガラ… ${name}が馬車にのって${colorJa(capturer)}チームの${is3D() ? '宴会会場' : '会場'}へ!`);
   setTimeout(() => {
+    if (spin) clearInterval(spin);
     el.remove();
     if (pendingGuests > 0) pendingGuests--;
     renderVenues();
     const hist = game.history({ verbose: true });
     let capIdx = -1, food = FOODS[0];
     for (const m of hist) if (m.captured) { capIdx++; food = foodFor(capIdx, m.captured); }
-    toast(`🏰 ${name}は${food}でおもてなしされています♪`);
-  }, 1900);
+    toast(is3D()
+      ? `🏮 ${name}が宴会に合流!ごちそうを楽しんでいます♪`
+      : `🏰 ${name}は${food}でおもてなしされています♪`);
+  }, rideMs + 100);
 }
 
 // ===== ステータス =====
 function turnBadge() {
   const set = SET();
   const c = game.turn();
-  const glyph = set.emoji ? set.glyphs.k : (c === 'w' ? '♔' : '♚');
+  const glyph = is3D() ? (c === 'w' ? '⚪' : '⚫') : (set.emoji ? set.glyphs.k : (c === 'w' ? '♔' : '♚'));
   return `${glyph} ${colorJa(c)}チームのばん`;
 }
 function renderStatus() {
@@ -330,7 +518,7 @@ function applyMove(moveArg, opts = {}) {
   renderAll();
   if (game.in_check() && !game.game_over()) sCheck();
   if (mode === 'play') {
-    if (game.game_over()) { setTimeout(showGameOver, m.captured && isAnimal() ? 2100 : 500); }
+    if (game.game_over()) { setTimeout(showGameOver, m.captured && isAnimal() ? (is3D() ? 2600 : 2100) : 500); }
     else if (!opts.noCpu) maybeCpuMove();
   }
   return m;
@@ -394,7 +582,11 @@ function showPromotion(from, to) {
   const color = game.turn();
   for (const t of ['q', 'r', 'b', 'n']) {
     const btn = document.createElement('button');
-    btn.innerHTML = SET().emoji ? SET().glyphs[t] : `<span class="piece glyph ${color}" style="font-size:2.2rem">${SET().glyphs[t]}</span>`;
+    if (is3D()) {
+      btn.appendChild(Sprites.makePiece(t, color));
+    } else {
+      btn.innerHTML = SET().emoji ? SET().glyphs[t] : `<span class="piece glyph ${color}" style="font-size:2.2rem">${SET().glyphs[t]}</span>`;
+    }
     btn.title = pieceName(t);
     btn.addEventListener('click', () => {
       modal.classList.add('hidden');
@@ -409,7 +601,7 @@ function showPromotion(from, to) {
 function requestHint() {
   if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking) return;
   if (mode === 'play' && settings.opponent === 'cpu' && game.turn() !== settings.playerColor) return;
-  const advisor = SET().emoji ? `${SET().glyphs.q} ${SET().names.q}せんせい` : '🧙 コーチ';
+  const advisor = is3D() ? '🐱 ねこせんせい' : (SET().emoji ? `${SET().glyphs.q} ${SET().names.q}せんせい` : '🧙 コーチ');
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
     if (!p || game.turn() !== p.turn) return;
@@ -640,12 +832,35 @@ function setupUI() {
     selSet.appendChild(opt);
   }
   selSet.value = settings.set;
+  $('sel-view').value = settings.viewMode;
   $('sel-opponent').value = settings.opponent;
   $('sel-level').value = String(settings.level);
   $('sel-color').value = settings.playerColor;
+  $('chk-badges').checked = settings.badges;
   $('btn-sound').textContent = settings.sound ? '🔊' : '🔇';
   $('row-level').style.display = settings.opponent === 'cpu' ? '' : 'none';
   $('row-color').style.display = settings.opponent === 'cpu' ? '' : 'none';
+  $('row-set').style.display = is3D() ? 'none' : '';
+
+  $('sel-view').addEventListener('change', (e) => {
+    settings.viewMode = e.target.value; saveSettings();
+    $('row-set').style.display = is3D() ? 'none' : '';
+    // 会場を作り直す
+    for (const color of ['w', 'b']) {
+      const area = venueOf(color).querySelector('.venue-guests');
+      area.innerHTML = ''; delete area.dataset.bq;
+    }
+    banquets = {};
+    overlayEl.innerHTML = '';
+    pendingGuests = 0;
+    buildBoard();
+    renderAll();
+    toast(is3D() ? '🎮 3Dモードにきりかえたよ!' : '✨ シンプルモードにきりかえたよ!');
+  });
+  $('chk-badges').addEventListener('change', (e) => {
+    settings.badges = e.target.checked; saveSettings();
+    renderPosition();
+  });
 
   selSet.addEventListener('change', () => {
     settings.set = selSet.value; saveSettings();
