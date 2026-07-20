@@ -1,2 +1,4 @@
 Thumbs.db
 .DS_Store
+tools/*.png
+tools/test_puzzles.js
