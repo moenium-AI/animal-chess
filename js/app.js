@@ -5,7 +5,7 @@
 // ===== 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
-let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true, viewMode: '3d', badges: true };
+let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true, bgm: true, viewMode: '3d', badges: true };
 let orient = 'w';            // 盤の下側の色
 let selected = null;         // 選択中マス
 let legalTargets = [];       // 選択中の合法手
@@ -881,6 +881,15 @@ function setupUI() {
     $('btn-sound').textContent = settings.sound ? '🔊' : '🔇';
     if (settings.sound) sMove();
   });
+  // BGM: ブラウザの自動再生制限があるため、最初の操作をきっかけに開始する
+  $('btn-bgm').classList.toggle('muted', !settings.bgm);
+  $('btn-bgm').addEventListener('click', () => {
+    settings.bgm = !settings.bgm; saveSettings();
+    $('btn-bgm').classList.toggle('muted', !settings.bgm);
+    if (settings.bgm) BGM.start(); else BGM.stop();
+    toast(settings.bgm ? '🎵 BGMをつけたよ' : '🎵 BGMをけしたよ');
+  });
+  document.addEventListener('pointerdown', () => { if (settings.bgm) BGM.start(); }, { once: true });
   $('btn-new').addEventListener('click', newGame);
   $('btn-hint').addEventListener('click', requestHint);
   $('btn-undo').addEventListener('click', undoMove);

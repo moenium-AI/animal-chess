@@ -35,6 +35,8 @@ html, body {
   transition: transform 0.15s;
 }
 .icon-btn:hover { transform: scale(1.1); }
+.header-btns { display: flex; gap: 8px; }
+.icon-btn.muted { opacity: 0.4; filter: grayscale(1); }
 
 .layout {
   display: flex; gap: 18px; padding: 10px 22px 30px;
@@ -349,7 +351,7 @@ html, body {
 .p3d canvas {
   position: relative;
   display: block;
-  width: calc(min(92vw, 560px) / 8 * 0.60);
+  width: calc(min(92vw, 560px) / 8 * 0.64);
   height: auto;
   image-rendering: pixelated;
   animation: bob3d 0.9s linear infinite;

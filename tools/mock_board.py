@@ -5,7 +5,7 @@ from render_sprites import load_data, hex2rgb, tint, write_png
 
 SQ_W = 70
 SQ_H = int(70 * 0.72)
-SPR_W = 42
+SPR_W = 45
 MARGIN_TOP = 40
 OUT = os.path.join(os.path.dirname(__file__), "board_mock.png")
 
@@ -46,7 +46,7 @@ def main():
                     put(c * SQ_W + dx, MARGIN_TOP + r * SQ_H + dy, rgb)
 
     # スプライト(奥の列から描く)
-    scale = SPR_W / 18.0
+    scale = None  # per-sprite
     for r in range(8):
         for c in range(8):
             ch = START[r][c]
@@ -58,7 +58,9 @@ def main():
             pal = dict(cdef["pal"])
             pal.update(teams[team])
             art = cdef["art"]
-            spr_h = int(len(art) * scale)
+            aw = max(len(r) for r in art)
+            sc = SPR_W / float(aw)
+            spr_h = int(len(art) * sc)
             x0 = c * SQ_W + (SQ_W - SPR_W) // 2
             y0 = MARGIN_TOP + r * SQ_H + SQ_H - 2 - spr_h
             # 影
@@ -69,10 +71,10 @@ def main():
                         old = canvas.get((cx + dx, cy + dy), LIGHT)
                         put(cx + dx, cy + dy, tuple(int(v * 0.82) for v in old))
             for py in range(spr_h):
-                sy = min(len(art) - 1, int(py / scale))
+                sy = min(len(art) - 1, int(py / sc))
                 row = art[sy]
                 for px in range(SPR_W):
-                    sx = min(17, int(px / scale))
+                    sx = min(aw - 1, int(px / sc))
                     chp = row[sx] if sx < len(row) else "."
                     if chp == ".":
                         continue
