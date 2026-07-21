@@ -2,3 +2,8 @@ Thumbs.db
 .DS_Store
 tools/*.png
 tools/test_puzzles.js
+
+# ローカル作業用・自動生成物(公開しない)
+.claude/settings.local.json
+__pycache__/
+*.pyc
