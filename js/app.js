@@ -790,7 +790,7 @@ function replayToPlay() {
   orient = settings.opponent === 'cpu' ? settings.playerColor : 'w';
   buildBoard();
   renderAll();
-  switchTab('play');
+  switchTab('game');
   toast(`🎮 ここから対局スタート!あなたは${colorJa(settings.playerColor)}だよ`);
   maybeCpuMove();
 }
@@ -806,10 +806,13 @@ const SAMPLE_PGN = `[Event "オペラ座のゲーム"]
 8. Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7 12. O-O-O Rd8 13. Rxd7 Rxd7
 14. Rd1 Qe6 15. Bxd7+ Nxd7 16. Qb8+ Nxb8 17. Rd8# 1-0`;
 
-// ===== タブ =====
+// ===== タブ(グループごとに独立して切り替え) =====
 function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.tab-page').forEach((p) => p.classList.toggle('active', p.id === 'tab-' + name));
+  const clicked = document.querySelector(`.tab[data-tab="${name}"]`);
+  const group = clicked ? clicked.dataset.group : null;
+  if (!group) return;
+  document.querySelectorAll(`.tab[data-group="${group}"]`).forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll(`.tab-page[data-group="${group}"]`).forEach((p) => p.classList.toggle('active', p.id === 'tab-' + name));
 }
 
 // ===== 全体描画 =====
@@ -898,7 +901,7 @@ function setupUI() {
     if (!pgn) { toast('まだ棋譜がないよ'); return; }
     (navigator.clipboard ? navigator.clipboard.writeText(pgn) : Promise.reject())
       .then(() => toast('📋 棋譜をコピーしたよ!'))
-      .catch(() => { $('pgn-input').value = pgn; switchTab('kifu'); toast('棋譜タブに書き出したよ'); });
+      .catch(() => { $('pgn-input').value = pgn; switchTab('load'); toast('棋譜よみこみタブに書き出したよ'); });
   });
 
   document.querySelectorAll('.tab').forEach((t) => {

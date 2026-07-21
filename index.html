@@ -19,8 +19,8 @@
 
 <main class="layout">
 
-  <!-- 盤面エリア -->
-  <section class="board-side">
+  <!-- 左: 盤面エリア -->
+  <section class="board-col">
     <div id="venue-top" class="venue">
       <div class="venue-title"></div>
       <div class="venue-guests"></div>
@@ -39,98 +39,114 @@
     <div id="status-bar" class="status-bar"></div>
   </section>
 
-  <!-- 操作パネル -->
-  <aside class="panel">
-    <nav class="tabs">
-      <button class="tab active" data-tab="play">🎮 対局</button>
-      <button class="tab" data-tab="puzzle">🧩 パズル</button>
-      <button class="tab" data-tab="kifu">📜 棋譜</button>
-    </nav>
+  <!-- 右: 情報列 -->
+  <div class="side-col">
 
-    <!-- 対局タブ -->
-    <div id="tab-play" class="tab-page active">
-      <div class="settings">
-        <label>グラフィック
-          <select id="sel-view">
-            <option value="3d">3Dモード(ドット絵)</option>
-            <option value="simple">シンプルモード</option>
-          </select>
-        </label>
-        <label id="row-set">ピースのデザイン
-          <select id="sel-set"></select>
-        </label>
-        <label>あいて
-          <select id="sel-opponent">
-            <option value="cpu">コンピューター</option>
-            <option value="2p">ふたりで遊ぶ</option>
-          </select>
-        </label>
-        <label id="row-level">コンピューターの強さ
-          <select id="sel-level">
-            <option value="1">レベル1 はじめて</option>
-            <option value="2">レベル2 やさしい</option>
-            <option value="3" selected>レベル3 ふつう</option>
-            <option value="4">レベル4 つよい</option>
-            <option value="5">レベル5 とてもつよい</option>
-          </select>
-        </label>
-        <label id="row-color">じぶんの色
-          <select id="sel-color">
-            <option value="w">しろ(先手)</option>
-            <option value="b">くろ(後手)</option>
-          </select>
-        </label>
-        <label class="check-line"><input type="checkbox" id="chk-badges"> コマの種類記号を表示</label>
-      </div>
-      <div class="btn-row">
-        <button id="btn-new" class="btn primary">🌱 新しいゲーム</button>
-        <button id="btn-hint" class="btn">💡 ヒント</button>
-        <button id="btn-undo" class="btn">↩️ 待った</button>
-        <button id="btn-copy-pgn" class="btn">📋 棋譜コピー</button>
-      </div>
-      <div class="movelist-wrap">
-        <div class="movelist-title">きふ</div>
-        <ol id="movelist" class="movelist"></ol>
-      </div>
-    </div>
+    <!-- 右上: 棋譜カード -->
+    <section class="panel card-kifu">
+      <nav class="tabs">
+        <button class="tab active" data-tab="game" data-group="kifu">📜 この対局</button>
+        <button class="tab" data-tab="load" data-group="kifu">📥 棋譜よみこみ</button>
+      </nav>
 
-    <!-- パズルタブ -->
-    <div id="tab-puzzle" class="tab-page">
-      <div id="puzzle-info" class="puzzle-info">
-        <div id="puzzle-title" class="puzzle-title"></div>
-        <div id="puzzle-goal" class="puzzle-goal"></div>
-      </div>
-      <div class="btn-row">
-        <button id="btn-puzzle-retry" class="btn">🔄 さいしょから</button>
-        <button id="btn-puzzle-hint" class="btn">💡 ヒント</button>
-      </div>
-      <div id="puzzle-list" class="puzzle-list"></div>
-    </div>
-
-    <!-- 棋譜タブ -->
-    <div id="tab-kifu" class="tab-page">
-      <p class="hint-text">PGN形式の棋譜を貼り付けるか、ファイルを選んでね</p>
-      <textarea id="pgn-input" rows="6" placeholder="1. e4 e5 2. Nf3 Nc6 ..."></textarea>
-      <div class="btn-row">
-        <button id="btn-load-pgn" class="btn primary">📥 読み込み</button>
-        <label class="btn file-btn">📂 ファイル<input type="file" id="pgn-file" accept=".pgn,.txt" hidden></label>
-        <button id="btn-sample-pgn" class="btn">✨ サンプル棋譜</button>
-      </div>
-      <div id="replay-controls" class="replay-controls hidden">
-        <div class="btn-row center">
-          <button id="btn-replay-first" class="btn small">⏮</button>
-          <button id="btn-replay-prev" class="btn small">◀</button>
-          <span id="replay-counter" class="replay-counter">0 / 0</span>
-          <button id="btn-replay-next" class="btn small">▶</button>
-          <button id="btn-replay-last" class="btn small">⏭</button>
+      <!-- この対局の棋譜 -->
+      <div id="tab-game" class="tab-page active" data-group="kifu">
+        <div class="movelist-wrap tall">
+          <div class="movelist-title">きふ</div>
+          <ol id="movelist" class="movelist"></ol>
         </div>
-        <button id="btn-replay-play" class="btn primary full">🎮 この局面から対局する</button>
       </div>
-      <div class="movelist-wrap">
-        <ol id="replay-movelist" class="movelist"></ol>
+
+      <!-- 棋譜よみこみ -->
+      <div id="tab-load" class="tab-page" data-group="kifu">
+        <p class="hint-text">PGN形式の棋譜を貼り付けるか、ファイルを選んでね</p>
+        <textarea id="pgn-input" rows="5" placeholder="1. e4 e5 2. Nf3 Nc6 ..."></textarea>
+        <div class="btn-row">
+          <button id="btn-load-pgn" class="btn primary">📥 読み込み</button>
+          <label class="btn file-btn">📂 ファイル<input type="file" id="pgn-file" accept=".pgn,.txt" hidden></label>
+          <button id="btn-sample-pgn" class="btn">✨ サンプル棋譜</button>
+        </div>
+        <div id="replay-controls" class="replay-controls hidden">
+          <div class="btn-row center">
+            <button id="btn-replay-first" class="btn small">⏮</button>
+            <button id="btn-replay-prev" class="btn small">◀</button>
+            <span id="replay-counter" class="replay-counter">0 / 0</span>
+            <button id="btn-replay-next" class="btn small">▶</button>
+            <button id="btn-replay-last" class="btn small">⏭</button>
+          </div>
+          <button id="btn-replay-play" class="btn primary full">🎮 この局面から対局する</button>
+        </div>
+        <div class="movelist-wrap">
+          <ol id="replay-movelist" class="movelist"></ol>
+        </div>
       </div>
-    </div>
-  </aside>
+    </section>
+
+    <!-- 右下: 設定カード -->
+    <section class="panel card-settings">
+      <nav class="tabs">
+        <button class="tab active" data-tab="settings" data-group="ctrl">⚙️ 設定</button>
+        <button class="tab" data-tab="puzzle" data-group="ctrl">🧩 パズル</button>
+      </nav>
+
+      <!-- 設定 -->
+      <div id="tab-settings" class="tab-page active" data-group="ctrl">
+        <div class="settings">
+          <label>グラフィック
+            <select id="sel-view">
+              <option value="3d">3Dモード(ドット絵)</option>
+              <option value="simple">シンプルモード</option>
+            </select>
+          </label>
+          <label id="row-set">ピースのデザイン
+            <select id="sel-set"></select>
+          </label>
+          <label>あいて
+            <select id="sel-opponent">
+              <option value="cpu">コンピューター</option>
+              <option value="2p">ふたりで遊ぶ</option>
+            </select>
+          </label>
+          <label id="row-level">コンピューターの強さ
+            <select id="sel-level">
+              <option value="1">レベル1 はじめて</option>
+              <option value="2">レベル2 やさしい</option>
+              <option value="3" selected>レベル3 ふつう</option>
+              <option value="4">レベル4 つよい</option>
+              <option value="5">レベル5 とてもつよい</option>
+            </select>
+          </label>
+          <label id="row-color">じぶんの色
+            <select id="sel-color">
+              <option value="w">しろ(先手)</option>
+              <option value="b">くろ(後手)</option>
+            </select>
+          </label>
+          <label class="check-line"><input type="checkbox" id="chk-badges"> コマの種類記号を表示</label>
+        </div>
+        <div class="btn-row">
+          <button id="btn-new" class="btn primary">🌱 新しいゲーム</button>
+          <button id="btn-hint" class="btn">💡 ヒント</button>
+          <button id="btn-undo" class="btn">↩️ 待った</button>
+          <button id="btn-copy-pgn" class="btn">📋 棋譜コピー</button>
+        </div>
+      </div>
+
+      <!-- パズル -->
+      <div id="tab-puzzle" class="tab-page" data-group="ctrl">
+        <div id="puzzle-info" class="puzzle-info">
+          <div id="puzzle-title" class="puzzle-title"></div>
+          <div id="puzzle-goal" class="puzzle-goal"></div>
+        </div>
+        <div class="btn-row">
+          <button id="btn-puzzle-retry" class="btn">🔄 さいしょから</button>
+          <button id="btn-puzzle-hint" class="btn">💡 ヒント</button>
+        </div>
+        <div id="puzzle-list" class="puzzle-list"></div>
+      </div>
+    </section>
+
+  </div>
 </main>
 
 <!-- トースト表示 -->

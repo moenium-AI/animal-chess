@@ -14,6 +14,8 @@
   --check: #ff8f8f;
   --hint: #9ad0ff;
   --radius: 16px;
+  --board-size: min(60vw, 760px);
+  --side-w: 360px;
 }
 
 html, body {
@@ -39,18 +41,19 @@ html, body {
 .icon-btn.muted { opacity: 0.4; filter: grayscale(1); }
 
 .layout {
-  display: flex; gap: 18px; padding: 10px 22px 30px;
-  align-items: flex-start; justify-content: center; flex-wrap: wrap;
+  display: flex; gap: 20px; padding: 10px 22px 30px;
+  align-items: flex-start; justify-content: center;
 }
 
 /* ===== 盤面 ===== */
-.board-side { display: flex; flex-direction: column; gap: 10px; }
+.board-col { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+.side-col { display: flex; flex-direction: column; gap: 16px; width: var(--side-w); flex-shrink: 0; }
 
 .board-wrap { position: relative; }
 .board {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  width: min(92vw, 560px);
+  width: var(--board-size);
   aspect-ratio: 1;
   border: 6px solid #8a6f56;
   border-radius: 12px;
@@ -94,14 +97,14 @@ html, body {
 .piece { line-height: 1; z-index: 2; transition: transform 0.1s; }
 .square:hover .piece { transform: scale(1.08); }
 .piece.emoji {
-  font-size: calc(min(92vw, 560px) / 8 * 0.62);
+  font-size: calc(var(--board-size) / 8 * 0.62);
   width: 82%; height: 82%;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
 }
 .piece.emoji.w { background: rgba(255, 253, 245, 0.92); box-shadow: 0 0 0 3px #f6c95c, 0 2px 4px rgba(0,0,0,0.18); }
 .piece.emoji.b { background: rgba(101, 78, 63, 0.85); box-shadow: 0 0 0 3px #4e3a2d, 0 2px 4px rgba(0,0,0,0.25); }
-.piece.glyph { font-size: calc(min(92vw, 560px) / 8 * 0.8); }
+.piece.glyph { font-size: calc(var(--board-size) / 8 * 0.8); }
 .piece.glyph.w { color: #fffdf6; text-shadow: 0 0 2px #3a2c20, 0 0 3px #3a2c20, 0 2px 3px rgba(0,0,0,0.4); }
 .piece.glyph.b { color: #3d2f24; text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
 
@@ -111,7 +114,7 @@ html, body {
   border: 2px solid #f2d9a8;
   border-radius: var(--radius);
   padding: 8px 14px;
-  width: min(92vw, 560px);
+  width: var(--board-size);
   min-height: 58px;
 }
 .venue-title { font-size: 0.8rem; font-weight: bold; color: #a97f3c; margin-bottom: 4px; }
@@ -163,7 +166,7 @@ html, body {
 .status-bar {
   background: var(--card); border: 2px solid #eadfce; border-radius: var(--radius);
   padding: 10px 16px; font-size: 1.05rem; font-weight: bold;
-  width: min(92vw, 560px); text-align: center; min-height: 46px;
+  width: var(--board-size); text-align: center; min-height: 46px;
 }
 .status-bar .thinking { color: #b0854f; }
 
@@ -173,10 +176,12 @@ html, body {
   border: 2px solid #eadfce;
   border-radius: var(--radius);
   padding: 14px;
-  width: 340px;
-  max-width: 92vw;
+  width: 100%;
   box-shadow: 0 6px 18px rgba(120, 90, 60, 0.12);
 }
+/* 右上カードは対局の棋譜を広く見せる */
+.card-kifu { flex: 1 1 auto; }
+.movelist-wrap.tall .movelist { max-height: min(38vh, 360px); }
 .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
 .tab {
   flex: 1; padding: 8px 4px; font-size: 0.92rem; font-weight: bold;
@@ -324,7 +329,7 @@ html, body {
 .mode-3d .board {
   transform: scaleY(0.72);
   transform-origin: top center;
-  margin-bottom: calc(min(92vw, 560px) * -0.26);
+  margin-bottom: calc(var(--board-size) * -0.26);
   overflow: visible;
   border-color: #7c6248;
 }
@@ -351,7 +356,7 @@ html, body {
 .p3d canvas {
   position: relative;
   display: block;
-  width: calc(min(92vw, 560px) / 8 * 0.64);
+  width: calc(var(--board-size) / 8 * 0.64);
   height: auto;
   image-rendering: pixelated;
   animation: bob3d 0.9s linear infinite;
@@ -426,7 +431,8 @@ html, body {
 }
 .check-line input { width: 16px; height: 16px; accent-color: var(--accent); }
 
-@media (max-width: 980px) {
+@media (max-width: 1099px) {
+  :root { --board-size: min(94vw, 660px); }
   .layout { flex-direction: column; align-items: center; }
-  .panel { width: min(92vw, 560px); max-width: none; }
+  .side-col { width: var(--board-size); }
 }
