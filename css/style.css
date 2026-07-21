@@ -330,9 +330,9 @@ html, body {
 /* ===== 3Dモード: 傾斜盤 ===== */
 .board-wrap.mode-3d { padding-top: 34px; }
 .mode-3d .board {
-  transform: scaleY(0.72);
+  transform: scaleY(0.85);
   transform-origin: top center;
-  margin-bottom: calc(var(--board-size) * -0.26);
+  margin-bottom: calc(var(--board-size) * -0.13);
   overflow: visible;
   border-color: #7c6248;
 }
@@ -346,7 +346,7 @@ html, body {
 /* 3Dピース(縦つぶれを打ち消して直立) */
 .p3d {
   position: absolute; left: 50%; bottom: 3%;
-  transform: translateX(-50%) scaleY(1.3889);
+  transform: translateX(-50%) scaleY(1.1765);
   transform-origin: bottom center;
   pointer-events: none;
   z-index: 5;
