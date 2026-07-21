@@ -17,9 +17,9 @@ OUT_SVG = os.path.join(HERE, "..", "favicon.svg")
 OUT_PNG = os.path.join(HERE, "..", "favicon.png")
 PREVIEW = os.path.join(HERE, "favicon_preview.png")
 
-# 切り出す範囲(ライオンの頭部。王冠の先〜たてがみの下端まで)
-ROW0, ROW1 = 0, 17   # 王冠の先〜たてがみ下端
-COL0, COL1 = 1, 24   # たてがみの左端〜右端
+# どのコマの顔を使うか(k=ライオン/q=ねこ/r=くま/b=ふくろう/n=うま/p=ひよこ)
+CHAR = "q"           # クイーン(ねこ)
+ROW0, ROW1 = 2, 16   # 耳の先〜あごの下(横の範囲は自動で計算する)
 TEAM = "w"           # しろチーム(赤い衣装)の配色
 
 
@@ -41,24 +41,37 @@ def build_pixels():
     余白を均等に足して正方形にする(余白は透明のまま)。
     """
     data = load_data()
-    lion = data["chars"]["k"]
-    pal = dict(lion["pal"])
+    ch_def = data["chars"][CHAR]
+    pal = dict(ch_def["pal"])
     pal.update(data["teams"][TEAM])
-    cw = COL1 - COL0 + 1
-    ch = ROW1 - ROW0 + 1
-    size = max(cw, ch)
+    rows = ch_def["art"][ROW0:ROW1 + 1]
+
+    # 横の範囲は実際に絵がある位置から自動で求める(切り取りミス防止)
+    col0, col1 = None, None
+    for row in rows:
+        for x, c in enumerate(row):
+            if c == ".":
+                continue
+            col0 = x if col0 is None else min(col0, x)
+            col1 = x if col1 is None else max(col1, x)
+    if col0 is None:
+        raise SystemExit("指定した行に絵がありません")
+
+    cw = col1 - col0 + 1
+    chh = len(rows)
+    size = max(cw, chh)
     offx = (size - cw) // 2
-    offy = (size - ch) // 2
+    offy = (size - chh) // 2
     px = {}
-    for y in range(ROW0, ROW1 + 1):
-        row = lion["art"][y]
-        for x in range(COL0, COL1 + 1):
+    for y, row in enumerate(rows):
+        for x in range(col0, col1 + 1):
             c = row[x] if x < len(row) else "."
             if c == ".":
                 continue
             if c not in pal:
                 raise SystemExit("UNKNOWN PALETTE CHAR %r" % c)
-            px[(x - COL0 + offx, y - ROW0 + offy)] = hex2rgb(pal[c])
+            px[(x - col0 + offx, y + offy)] = hex2rgb(pal[c])
+    print("  %s: %dx%d ドットを %dx%d に中央寄せ" % (ch_def["name"], cw, chh, size, size))
     return px, size, size
 
 
