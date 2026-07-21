@@ -61,7 +61,7 @@ const SPRITE_DATA = {
         ".....oo............oo.....",
         ".....ofo...yYy....ofo.....",
         ".....ofpo..yyyyy.opfo.....",
-        "........oooooooooo........",
+        "......oooooooooooooo......",
         "......ooFFFFFFffffoo......",
         ".....oFFFFFFffffffddo.....",
         "....oFFFFFffffffffdddo....",
