@@ -200,7 +200,7 @@ const BGM = (() => {
       ],
     },
     { // 10. なかよしダンス (Gメジャーペンタ・にぎやか)
-      name: 'なかよしダンス', tempo: 116, loop: 64, repeat: 3,
+      name: 'なかよしダンス', tempo: 104, loop: 64, repeat: 3,
       melType: 'triangle', melVol: 0.08, bassVol: 0.075, padVol: 0.022, echo: 0.35,
       mel: [
         [0, 67, 2], [2, 71, 2], [4, 74, 2], [6, 79, 2],
