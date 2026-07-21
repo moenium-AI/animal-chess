@@ -5,7 +5,7 @@
 // ===== 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
-let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true, bgm: true, viewMode: '3d', badges: true };
+let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true };
 let orient = 'w';            // 盤の下側の色
 let selected = null;         // 選択中マス
 let legalTargets = [];       // 選択中の合法手
@@ -893,6 +893,30 @@ function setupUI() {
     toast(settings.bgm ? '🎵 BGMをつけたよ' : '🎵 BGMをけしたよ');
   });
   document.addEventListener('pointerdown', () => { if (settings.bgm) BGM.start(); }, { once: true });
+
+  // BGMの曲選び(オート=全曲順番に / 個別=その曲をずっと)
+  const selBgm = $('sel-bgm');
+  const optAuto = document.createElement('option');
+  optAuto.value = 'auto';
+  optAuto.textContent = '🔀 オート(ぜんぶ順番に)';
+  selBgm.appendChild(optAuto);
+  BGM.songNames().forEach((n, i) => {
+    const o = document.createElement('option');
+    o.value = String(i);
+    o.textContent = `${i + 1}. ${n}`;
+    selBgm.appendChild(o);
+  });
+  selBgm.value = settings.bgmSong;
+  if (!selBgm.value) { selBgm.value = 'auto'; settings.bgmSong = 'auto'; }
+  BGM.setMode(settings.bgmSong);
+  selBgm.addEventListener('change', (e) => {
+    settings.bgmSong = e.target.value; saveSettings();
+    BGM.setMode(settings.bgmSong);
+    if (settings.bgm) BGM.start();
+    toast(settings.bgmSong === 'auto'
+      ? '🎵 オート: ぜんぶの曲を順番に流すよ'
+      : `🎵 「${BGM.songNames()[Number(settings.bgmSong)]}」をずっと流すよ`);
+  });
   $('btn-new').addEventListener('click', newGame);
   $('btn-hint').addEventListener('click', requestHint);
   $('btn-undo').addEventListener('click', undoMove);

@@ -1,12 +1,14 @@
 // やさしいBGM(Web Audioで生成・外部ファイルなし)
-// 5曲をローテーション再生。曲ごとに数回ループして次の曲へ。
+// 全10曲。オート時は数回ループごとに次の曲へ。曲を指定するとその曲をずっとリピート。
 const BGM = (() => {
   let ctx = null, master = null, delayIn = null;
   let timer = null, playing = false, scheduledUntil = 0;
   let songIdx = 0, loopsLeft = 0;
+  let mode = 'auto';        // 'auto' か 曲番号(0〜)
+  let active = [];          // 予約済みオシレーター(曲切替時に止める)
 
   const GAP = 1.6;          // 曲間の休み(秒)
-  const MASTER_VOL = 0.3;  // 全体音量(控えめ)
+  const MASTER_VOL = 0.3;   // 全体音量(控えめ)
 
   const freq = (m) => 440 * Math.pow(2, (m - 69) / 12);
 
@@ -116,6 +118,111 @@ const BGM = (() => {
         [32, [62, 66], 8], [40, [59, 62], 8], [48, [55, 59], 8], [56, [57, 61], 8],
       ],
     },
+    { // 6. あまやどりのうた (Emペンタ・しっとり雨宿り)
+      name: 'あまやどりのうた', tempo: 68, loop: 64, repeat: 2,
+      melType: 'sine', melVol: 0.075, bassVol: 0.06, padVol: 0.02, echo: 0.8,
+      mel: [
+        [0, 71, 3], [3, 69, 1], [4, 67, 4],
+        [8, 64, 4], [12, 67, 4],
+        [16, 69, 3], [19, 71, 1], [20, 74, 4],
+        [24, 71, 4], [28, 69, 4],
+        [32, 67, 3], [35, 69, 1], [36, 71, 4],
+        [40, 76, 4], [44, 74, 4],
+        [48, 71, 4], [52, 69, 4],
+        [56, 67, 8],
+      ],
+      bass: [[0, 40, 8], [8, 48, 8], [16, 43, 8], [24, 50, 8], [32, 40, 8], [40, 48, 8], [48, 43, 8], [56, 50, 8]],
+      pad: [
+        [0, [55, 59], 8], [8, [52, 55], 8], [16, [50, 55], 8], [24, [54, 57], 8],
+        [32, [55, 59], 8], [40, [52, 55], 8], [48, [50, 55], 8], [56, [54, 57], 8],
+      ],
+    },
+    { // 7. たんけんマーチ (Cメジャー・行進曲)
+      name: 'たんけんマーチ', tempo: 108, loop: 64, repeat: 3,
+      melType: 'triangle', melVol: 0.08, bassVol: 0.075, padVol: 0.022, echo: 0.3,
+      mel: [
+        [0, 60, 2], [2, 64, 2], [4, 67, 2], [6, 72, 2],
+        [8, 71, 2], [10, 67, 2], [12, 64, 4],
+        [16, 62, 2], [18, 65, 2], [20, 69, 2], [22, 74, 2],
+        [24, 72, 2], [26, 69, 2], [28, 65, 4],
+        [32, 64, 2], [34, 67, 2], [36, 72, 2], [38, 76, 2],
+        [40, 74, 2], [42, 72, 2], [44, 67, 4],
+        [48, 65, 2], [50, 64, 2], [52, 62, 2], [54, 60, 2],
+        [56, 67, 4], [60, 72, 4],
+      ],
+      bass: [
+        [0, 36, 2], [4, 43, 2], [8, 36, 2], [12, 43, 2],
+        [16, 38, 2], [20, 45, 2], [24, 41, 2], [28, 48, 2],
+        [32, 36, 2], [36, 43, 2], [40, 40, 2], [44, 47, 2],
+        [48, 41, 2], [52, 43, 2], [56, 36, 2], [60, 43, 2],
+      ],
+      pad: [
+        [0, [60, 64], 8], [8, [60, 64], 8], [16, [62, 65], 8], [24, [65, 69], 8],
+        [32, [60, 64], 8], [40, [64, 67], 8], [48, [65, 69], 8], [56, [60, 64], 8],
+      ],
+    },
+    { // 8. こもれびのうた (Aメジャーペンタ・きらきら明るい)
+      name: 'こもれびのうた', tempo: 88, loop: 64, repeat: 3,
+      melType: 'triangle', melVol: 0.08, bassVol: 0.07, padVol: 0.022, echo: 0.55,
+      mel: [
+        [0, 69, 2], [2, 73, 2], [4, 76, 4],
+        [8, 78, 2], [10, 76, 2], [12, 73, 4],
+        [16, 71, 2], [18, 73, 2], [20, 76, 4],
+        [24, 81, 4], [28, 78, 4],
+        [32, 76, 2], [34, 78, 2], [36, 81, 4],
+        [40, 78, 2], [42, 76, 2], [44, 73, 4],
+        [48, 71, 2], [50, 69, 2], [52, 73, 4],
+        [56, 69, 8],
+      ],
+      bass: [[0, 45, 8], [8, 42, 8], [16, 50, 8], [24, 52, 8], [32, 45, 8], [40, 42, 8], [48, 50, 8], [56, 52, 8]],
+      pad: [
+        [0, [61, 64], 8], [8, [57, 61], 8], [16, [57, 62], 8], [24, [59, 64], 8],
+        [32, [61, 64], 8], [40, [57, 61], 8], [48, [57, 62], 8], [56, [59, 64], 8],
+      ],
+    },
+    { // 9. ゆうやけのうた (Fメジャーペンタ・あたたかい夕暮れ)
+      name: 'ゆうやけのうた', tempo: 66, loop: 64, repeat: 2,
+      melType: 'sine', melVol: 0.075, bassVol: 0.06, padVol: 0.02, echo: 0.75,
+      mel: [
+        [0, 72, 4], [4, 69, 4],
+        [8, 67, 4], [12, 65, 4],
+        [16, 67, 4], [20, 72, 4],
+        [24, 74, 8],
+        [32, 77, 4], [36, 74, 4],
+        [40, 72, 4], [44, 69, 4],
+        [48, 67, 4], [52, 69, 4],
+        [56, 65, 8],
+      ],
+      bass: [[0, 41, 8], [8, 50, 8], [16, 46, 8], [24, 48, 8], [32, 41, 8], [40, 50, 8], [48, 46, 8], [56, 41, 8]],
+      pad: [
+        [0, [60, 65], 8], [8, [57, 62], 8], [16, [58, 62], 8], [24, [55, 60], 8],
+        [32, [60, 65], 8], [40, [57, 62], 8], [48, [58, 62], 8], [56, [60, 65], 8],
+      ],
+    },
+    { // 10. なかよしダンス (Gメジャーペンタ・にぎやか)
+      name: 'なかよしダンス', tempo: 116, loop: 64, repeat: 3,
+      melType: 'triangle', melVol: 0.08, bassVol: 0.075, padVol: 0.022, echo: 0.35,
+      mel: [
+        [0, 67, 2], [2, 71, 2], [4, 74, 2], [6, 79, 2],
+        [8, 76, 2], [10, 74, 2], [12, 71, 4],
+        [16, 69, 2], [18, 71, 2], [20, 74, 2], [22, 71, 2],
+        [24, 67, 2], [26, 71, 2], [28, 74, 4],
+        [32, 79, 2], [34, 76, 2], [36, 74, 2], [38, 71, 2],
+        [40, 74, 2], [42, 76, 2], [44, 79, 4],
+        [48, 76, 2], [50, 74, 2], [52, 71, 2], [54, 69, 2],
+        [56, 67, 8],
+      ],
+      bass: [
+        [0, 43, 1.5], [4, 43, 1.5], [8, 40, 1.5], [12, 40, 1.5],
+        [16, 48, 1.5], [20, 48, 1.5], [24, 50, 1.5], [28, 50, 1.5],
+        [32, 43, 1.5], [36, 43, 1.5], [40, 40, 1.5], [44, 40, 1.5],
+        [48, 48, 1.5], [52, 50, 1.5], [56, 43, 1.5], [60, 43, 1.5],
+      ],
+      pad: [
+        [0, [59, 62], 8], [8, [59, 64], 8], [16, [60, 64], 8], [24, [57, 62], 8],
+        [32, [59, 62], 8], [40, [59, 64], 8], [48, [60, 64], 8], [56, [57, 62], 8],
+      ],
+    },
   ];
 
   function ensure() {
@@ -150,6 +257,17 @@ const BGM = (() => {
     }
     o.start(t);
     o.stop(t + dur + 0.05);
+    active.push(o);
+    o.onended = () => {
+      const i = active.indexOf(o);
+      if (i >= 0) active.splice(i, 1);
+    };
+  }
+
+  // 予約済みの音を止める(曲を切り替えるとき用)
+  function killScheduled() {
+    for (const o of active) { try { o.stop(); } catch (e) {} }
+    active = [];
   }
 
   function scheduleLoop(song, t0) {
@@ -166,13 +284,17 @@ const BGM = (() => {
     while (scheduledUntil < ahead) {
       const song = SONGS[songIdx];
       const dur = scheduleLoop(song, scheduledUntil);
-      loopsLeft--;
-      if (loopsLeft <= 0) {
-        songIdx = (songIdx + 1) % SONGS.length;
-        loopsLeft = SONGS[songIdx].repeat;
-        scheduledUntil += dur + GAP;
+      if (mode === 'auto') {
+        loopsLeft--;
+        if (loopsLeft <= 0) {
+          songIdx = (songIdx + 1) % SONGS.length;
+          loopsLeft = SONGS[songIdx].repeat;
+          scheduledUntil += dur + GAP;   // 次の曲へ(少し間をあける)
+        } else {
+          scheduledUntil += dur;
+        }
       } else {
-        scheduledUntil += dur;
+        scheduledUntil += dur;           // 指定した曲をずっとリピート
       }
     }
   }
@@ -182,6 +304,7 @@ const BGM = (() => {
     if (ctx.state === 'suspended') ctx.resume();
     if (playing) return;
     playing = true;
+    if (mode !== 'auto') songIdx = mode;
     if (loopsLeft <= 0) loopsLeft = SONGS[songIdx].repeat;
     scheduledUntil = Math.max(scheduledUntil, ctx.currentTime + 0.1);
     tick();
@@ -191,8 +314,29 @@ const BGM = (() => {
   function stop() {
     playing = false;
     if (timer) { clearInterval(timer); timer = null; }
+    killScheduled();
+    scheduledUntil = 0;
     if (ctx) ctx.suspend();
   }
 
-  return { start, stop };
+  // 'auto' か 曲番号(0〜)。再生中なら即座に切り替える。
+  function setMode(m) {
+    if (m === 'auto' || m === null || m === undefined || m === '') {
+      mode = 'auto';
+    } else {
+      const n = Number(m);
+      mode = (isNaN(n) || n < 0 || n >= SONGS.length) ? 'auto' : n;
+    }
+    if (mode !== 'auto') songIdx = mode;
+    loopsLeft = SONGS[songIdx].repeat;
+    if (playing && ctx) {
+      killScheduled();
+      scheduledUntil = ctx.currentTime + 0.08;
+      tick();
+    }
+  }
+
+  const songNames = () => SONGS.map((s) => s.name);
+
+  return { start, stop, setMode, songNames };
 })();
