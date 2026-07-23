@@ -334,7 +334,8 @@ html, body {
 .type-badge.b { background: rgba(70, 56, 46, 0.95); color: #fff6e0; box-shadow: 0 0 0 1px #2c211a; }
 
 /* ===== 3Dモード: 傾斜盤 ===== */
-.board-wrap.mode-3d { padding-top: 34px; }
+/* 上の余白を下(盤の縦つぶしで空く 0.02×盤サイズ)と揃えて左右対称にする */
+.board-wrap.mode-3d { padding-top: calc(var(--board-size) * 0.02); }
 .mode-3d .board {
   transform: scaleY(0.85);
   transform-origin: top center;
