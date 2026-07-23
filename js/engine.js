@@ -1,5 +1,6 @@
 // シンプルなチェスAIエンジン(アルファベータ探索 + 反復深化)
-// レベル1〜5の強さ調整、ヒント探索、パズル用メイトソルバーを提供する。
+// レベル1〜10の強さ調整、オープニングブック、終盤の寄せ評価、
+// ヒント探索、パズル用メイトソルバーを提供する。
 const Engine = (() => {
   const VAL = { p: 100, n: 320, b: 330, r: 500, q: 900, k: 0 };
   const MATE = 100000;
@@ -87,10 +88,15 @@ const Engine = (() => {
     const board = game.board();
     let score = 0;
     let material = 0;
+    let wMat = 0, bMat = 0;
+    const kings = { w: null, b: null };
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
         const pc = board[r][c];
-        if (pc && pc.type !== 'k') material += VAL[pc.type];
+        if (!pc) continue;
+        if (pc.type === 'k') { kings[pc.color] = [r, c]; continue; }
+        material += VAL[pc.type];
+        if (pc.color === 'w') wMat += VAL[pc.type]; else bMat += VAL[pc.type];
       }
     }
     const endgame = material < 2600; // クイーン+ルーク数枚以下なら終盤扱い
@@ -103,6 +109,18 @@ const Engine = (() => {
         const v = VAL[pc.type] + table[idx];
         score += pc.color === 'w' ? v : -v;
       }
+    }
+    // 終盤の寄せ知識: 大きく駒得している側は、相手の玉を盤の隅へ追い、
+    // 自分の玉を近づけると詰ませやすい。これを評価に加えて終盤を『勝ち切れる』ようにする。
+    if (endgame && kings.w && kings.b && Math.abs(wMat - bMat) >= 400) {
+      const winner = wMat > bMat ? 'w' : 'b';
+      const lk = winner === 'w' ? kings.b : kings.w;   // 負けている側の玉
+      const wk = winner === 'w' ? kings.w : kings.b;   // 勝っている側の玉
+      const cmd = Math.min(Math.abs(lk[0] - 3), Math.abs(lk[0] - 4)) +
+                  Math.min(Math.abs(lk[1] - 3), Math.abs(lk[1] - 4)); // 中央からの距離(0中央〜6隅)
+      const md = Math.abs(wk[0] - lk[0]) + Math.abs(wk[1] - lk[1]);   // 両玉間の距離
+      const bonus = 8 * cmd + 3 * (14 - md);  // 相手玉を隅へ+自玉を近づける
+      score += winner === 'w' ? bonus : -bonus;
     }
     return score;
   }
@@ -192,17 +210,81 @@ const Engine = (() => {
   }
 
   const LEVELS = {
-    1: { depth: 1, timeMs: 400,  noise: 150, blunder: 0.4,  quiesce: false },
-    2: { depth: 2, timeMs: 700,  noise: 60,  blunder: 0.15, quiesce: false },
-    3: { depth: 3, timeMs: 1500, noise: 15,  blunder: 0,    quiesce: false },
-    4: { depth: 4, timeMs: 2500, noise: 0,   blunder: 0,    quiesce: true },
-    5: { depth: 5, timeMs: 4000, noise: 0,   blunder: 0,    quiesce: true },
+    1:  { depth: 1, timeMs: 300,  noise: 220, blunder: 0.55, quiesce: false, book: false },
+    2:  { depth: 1, timeMs: 400,  noise: 140, blunder: 0.40, quiesce: false, book: true },
+    3:  { depth: 2, timeMs: 500,  noise: 90,  blunder: 0.25, quiesce: false, book: true },
+    4:  { depth: 2, timeMs: 700,  noise: 50,  blunder: 0.12, quiesce: false, book: true },
+    5:  { depth: 3, timeMs: 1000, noise: 25,  blunder: 0.05, quiesce: false, book: true },
+    6:  { depth: 3, timeMs: 1400, noise: 12,  blunder: 0,    quiesce: true,  book: true },
+    7:  { depth: 4, timeMs: 2000, noise: 5,   blunder: 0,    quiesce: true,  book: true },
+    8:  { depth: 4, timeMs: 2800, noise: 0,   blunder: 0,    quiesce: true,  book: true },
+    9:  { depth: 5, timeMs: 3500, noise: 0,   blunder: 0,    quiesce: true,  book: true },
+    10: { depth: 5, timeMs: 4800, noise: 0,   blunder: 0,    quiesce: true,  book: true },
   };
+
+  // ===== オープニングブック(定跡の知識) =====
+  // まなぶ教材の定跡ラインと、よくある基本ラインから「局面→次の手」を覚える。
+  // 序盤で自然な手を指せるようにして、少しだけ強く・人間らしくする。
+  const EXTRA_LINES = [
+    'e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 d6 c3 O-O',
+    'e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 d6 O-O O-O',
+    'e4 e5 Nf3 Nc6 Bc4 Nf6 d3 Bc5 c3 d6 O-O O-O',
+    'e4 e5 Nf3 Nf6 Nxe5 d6 Nf3 Nxe4 d4 d5',
+    'e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Be2 e5 Nb3 Be7',
+    'e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 Nf6 Nc3 d6',
+    'e4 e6 d4 d5 Nc3 Nf6 Bg5 Be7 e5 Nfd7',
+    'e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6',
+    'd4 d5 c4 e6 Nc3 Nf6 Bg5 Be7 e3 O-O Nf3 h6',
+    'd4 d5 c4 c6 Nf3 Nf6 Nc3 e6',
+    'd4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O Be2 e5',
+    'd4 Nf6 c4 e6 Nc3 Bb4 e3 O-O',
+    'e4 d5 exd5 Qxd5 Nc3 Qa5 d4 Nf6 Nf3 c6',
+    'c4 e5 Nc3 Nf6 Nf3 Nc6',
+    'Nf3 d5 d4 Nf6 c4 e6',
+  ];
+
+  let BOOK = null;
+  // 駒配置・手番・キャスリング権だけで局面を識別する(アンパッサン欄の表記差に強くする)
+  function posKey(fen) { return fen.split(' ').slice(0, 3).join(' '); }
+  function addLine(sans) {
+    const g = new Chess();
+    for (const san of sans) {
+      const key = posKey(g.fen());
+      const mv = g.move(san, { sloppy: true });
+      if (!mv) break;
+      if (!BOOK[key]) BOOK[key] = [];
+      if (!BOOK[key].some((b) => b.from === mv.from && b.to === mv.to && b.promotion === mv.promotion)) {
+        BOOK[key].push({ from: mv.from, to: mv.to, promotion: mv.promotion });
+      }
+    }
+  }
+  function buildBook() {
+    if (BOOK) return;
+    BOOK = {};
+    for (const line of EXTRA_LINES) addLine(line.split(/\s+/));
+    // まなぶ教材のオープニングラインも取り込む
+    if (typeof LESSONS !== 'undefined') {
+      for (const L of LESSONS) {
+        if (L.cat === 'opening' && !L.fen) addLine(L.moves.map((m) => m.san));
+      }
+    }
+  }
+  function bookMove(fen) {
+    buildBook();
+    const list = BOOK[posKey(fen)];
+    if (!list || list.length === 0) return null;
+    return list[Math.floor(Math.random() * list.length)];
+  }
 
   // CPUの指し手を選ぶ(非同期: UI描画を待ってから計算開始)
   function chooseMove(fen, level, cb) {
     setTimeout(() => {
-      const cfg = LEVELS[level] || LEVELS[3];
+      const cfg = LEVELS[level] || LEVELS[5];
+      // 序盤は定跡ブックから指す(自然な立ち上がりで少しだけ強く)
+      if (cfg.book) {
+        const bm = bookMove(fen);
+        if (bm) { cb(bm); return; }
+      }
       const results = analyzeRoot(fen, cfg.depth, cfg.timeMs, cfg.quiesce);
       if (results.length === 0) { cb(null); return; }
       let pick;

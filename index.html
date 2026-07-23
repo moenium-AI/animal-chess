@@ -6,7 +6,8 @@
 <title>どうぶつチェス 🐱♟️</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
-<link rel="stylesheet" href="css/style.css">
+<!-- ?v= は更新時にキャッシュを確実に切り替えるための版数。中身を変えたら数字を増やす -->
+<link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
 
@@ -88,13 +89,18 @@
               <option value="2p">ふたりで遊ぶ</option>
             </select>
           </label>
-          <label id="row-level">コンピューターの強さ
+          <label id="row-level">コンピューターの強さ(1〜10)
             <select id="sel-level">
-              <option value="1">レベル1 はじめて</option>
-              <option value="2">レベル2 やさしい</option>
-              <option value="3" selected>レベル3 ふつう</option>
-              <option value="4">レベル4 つよい</option>
-              <option value="5">レベル5 とてもつよい</option>
+              <option value="1">Lv1 はじめて</option>
+              <option value="2">Lv2 とてもやさしい</option>
+              <option value="3">Lv3 やさしい</option>
+              <option value="4" selected>Lv4 すこしやさしい</option>
+              <option value="5">Lv5 ふつう</option>
+              <option value="6">Lv6 すこしつよい</option>
+              <option value="7">Lv7 つよい</option>
+              <option value="8">Lv8 かなりつよい</option>
+              <option value="9">Lv9 とてもつよい</option>
+              <option value="10">Lv10 さいきょう</option>
             </select>
           </label>
           <label id="row-color">じぶんの色
@@ -126,6 +132,7 @@
           <button id="btn-puzzle-retry" class="btn">🔄 さいしょから</button>
           <button id="btn-puzzle-hint" class="btn">💡 ヒント</button>
         </div>
+        <div id="puzzle-cats" class="chip-row"></div>
         <div id="puzzle-list" class="puzzle-list"></div>
       </div>
 
@@ -199,14 +206,14 @@
 </div>
 
 <script src="js/chess.js"></script>
-<script src="js/pieces.js"></script>
-<script src="js/sprite_data.js"></script>
-<script src="js/sprites.js"></script>
-<script src="js/bgm.js"></script>
-<script src="js/puzzles.js"></script>
-<script src="js/lessons.js"></script>
-<script src="js/games.js"></script>
-<script src="js/engine.js"></script>
-<script src="js/app.js"></script>
+<script src="js/pieces.js?v=8"></script>
+<script src="js/sprite_data.js?v=8"></script>
+<script src="js/sprites.js?v=8"></script>
+<script src="js/bgm.js?v=8"></script>
+<script src="js/puzzles.js?v=8"></script>
+<script src="js/lessons.js?v=8"></script>
+<script src="js/games.js?v=8"></script>
+<script src="js/engine.js?v=8"></script>
+<script src="js/app.js?v=8"></script>
 </body>
 </html>

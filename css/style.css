@@ -247,7 +247,13 @@ html, body {
   background: #7fb069; flex-shrink: 0;
 }
 .puzzle-item .badge.m2 { background: #e08c3c; }
+.puzzle-item .puz-name { display: flex; flex-direction: column; gap: 1px; }
+.puz-theme {
+  font-size: 0.66rem; font-weight: bold; color: #9a7ac8;
+  background: #f0eafb; border-radius: 6px; padding: 1px 6px; align-self: flex-start;
+}
 .puzzle-item .done { margin-left: auto; }
+.puz-idea { font-size: 0.82rem; color: #4d7ba6; font-weight: normal; }
 
 /* 棋譜 */
 .hint-text { font-size: 0.8rem; color: #a08c7a; margin-bottom: 6px; }

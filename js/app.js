@@ -5,7 +5,7 @@
 // ===== 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
-let settings = { set: 'farm', opponent: 'cpu', level: 3, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true };
+let settings = { set: 'farm', opponent: 'cpu', level: 4, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true };
 let orient = 'w';            // 盤の下側の色
 let selected = null;         // 選択中マス
 let legalTargets = [];       // 選択中の合法手
@@ -693,13 +693,37 @@ function undoMove() {
 }
 
 // ===== パズル =====
+const PUZZLE_THEME_JA = {
+  backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイト/フォーク',
+  diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルック', sacrifice: '犠牲',
+};
+let puzzleTheme = 'all';
+
+function puzzleThemeLabel(t) { return PUZZLE_THEME_JA[t] || 'きほん'; }
+
+function renderPuzzleCats() {
+  const wrap = $('puzzle-cats');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const themes = ['all'].concat([...new Set(PUZZLES.map((p) => p.theme))]);
+  for (const t of themes) {
+    const b = document.createElement('button');
+    b.className = 'chip' + (t === puzzleTheme ? ' active' : '');
+    b.textContent = t === 'all' ? 'すべて' : puzzleThemeLabel(t);
+    b.addEventListener('click', () => { puzzleTheme = t; renderPuzzleCats(); renderPuzzleList(); });
+    wrap.appendChild(b);
+  }
+}
 function renderPuzzleList() {
   const wrap = $('puzzle-list');
   wrap.innerHTML = '';
   PUZZLES.forEach((p, i) => {
+    if (puzzleTheme !== 'all' && p.theme !== puzzleTheme) return;
     const btn = document.createElement('button');
     btn.className = 'puzzle-item' + (i === puzzle.idx ? ' active' : '');
-    btn.innerHTML = `<span class="badge${p.mateIn === 2 ? ' m2' : ''}">${p.mateIn}手</span>${i + 1}. ${p.title}<span class="done">${solvedPuzzles.has(i) ? '✅' : ''}</span>`;
+    btn.innerHTML = `<span class="badge${p.mateIn === 2 ? ' m2' : ''}">${p.mateIn}手</span>` +
+      `<span class="puz-name">${p.title}<span class="puz-theme">${puzzleThemeLabel(p.theme)}</span></span>` +
+      `<span class="done">${solvedPuzzles.has(i) ? '✅' : ''}</span>`;
     btn.addEventListener('click', () => loadPuzzle(i));
     wrap.appendChild(btn);
   });
@@ -718,8 +742,8 @@ function loadPuzzle(i) {
   buildBoard();
   renderAll();
   renderPuzzleList();
-  $('puzzle-title').textContent = `${i + 1}. ${p.title}`;
-  $('puzzle-goal').textContent = `${colorJa(p.turn)}ばん: ${p.mateIn}手でチェックメイトさせよう!`;
+  $('puzzle-title').innerHTML = `${p.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
+  $('puzzle-goal').innerHTML = `${colorJa(p.turn)}ばん・${p.mateIn}手でチェックメイト!<br><span class="puz-idea">💡 ${p.idea}</span>`;
   toast(`🧩 パズル「${p.title}」スタート!`);
 }
 function puzzleTryMove(moveArg) {
@@ -1101,9 +1125,10 @@ function setupUI() {
   $('btn-gameover-close').addEventListener('click', () => $('gameover-modal').classList.add('hidden'));
   $('btn-gameover-new').addEventListener('click', newGame);
 
+  renderPuzzleCats();
   renderPuzzleList();
   $('puzzle-title').textContent = 'パズルをえらんでね';
-  $('puzzle-goal').textContent = 'したのリストからちょうせんするパズルをタップ!';
+  $('puzzle-goal').textContent = 'テーマでしぼりこめるよ。リストからタップして挑戦!';
 }
 
 // ===== 起動 =====
