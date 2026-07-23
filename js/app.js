@@ -14,7 +14,7 @@ let hintSquares = [];
 let cpuThinking = false;
 let hintThinking = false;
 let pendingGuests = 0;       // 馬車で移動中(まだ会場に表示しない)の数
-let replay = { baseFen: null, sans: [], idx: 0 };
+let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
 let solvedPuzzles = new Set();
 
@@ -616,14 +616,47 @@ function requestHint() {
   }
   hintThinking = true;
   renderStatus();
-  Engine.bestMove(game.fen(), (m) => {
+  const fenBefore = game.fen();
+  Engine.bestMove(fenBefore, (m) => {
     hintThinking = false;
     renderStatus();
     if (!m) return;
     hintSquares = [m.from, m.to];
     renderPosition();
-    toast(`💡 ${advisor}のおすすめ: ${pieceName(m.piece)} ${m.from} → ${m.to}`);
+    const why = explainHintMove(fenBefore, m);
+    toast(`💡 ${advisor}のおすすめ: ${pieceName(m.piece)} ${m.from}→${m.to}\n${why}`, 5200);
   });
+}
+
+// ヒントの「なぜその手か」を推奨手の特徴から独自に説明する
+function explainHintMove(fenBefore, m) {
+  const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+  const g = new Chess(fenBefore);
+  const mv = g.move({ from: m.from, to: m.to, promotion: m.promotion });
+  if (!mv) return 'いい手だよ!';
+  const reasons = [];
+  if (g.in_checkmate()) return 'これでチェックメイト! 勝ちだよ🎉';
+  // 駒を取る
+  if (mv.captured) {
+    const cap = pieceName(mv.captured);
+    if (VAL[mv.captured] >= VAL[mv.piece]) reasons.push(`ただで${cap}が取れて駒得だよ`);
+    else reasons.push(`${cap}が取れるよ`);
+  }
+  // 成り
+  if (mv.promotion) reasons.push('ポーンがクイーンに大出世できる');
+  // 王手
+  if (g.in_check()) reasons.push('相手の王に王手をかけて主導権をにぎれる');
+  // キャスリング
+  if (mv.flags.includes('k') || mv.flags.includes('q')) reasons.push('玉を安全な場所に囲えるよ');
+  // 中央のポーン前進
+  if (mv.piece === 'p' && ['d4', 'e4', 'd5', 'e5'].includes(mv.to)) reasons.push('中央をおさえて盤の主導権をにぎれる');
+  // 軽い駒の展開(初期段からの発展)
+  if ((mv.piece === 'n' || mv.piece === 'b')) {
+    const backRank = mv.color === 'w' ? '1' : '8';
+    if (mv.from[1] === backRank) reasons.push('眠っていた駒を戦いに参加させられる');
+  }
+  if (reasons.length === 0) reasons.push('駒の働きが良くなって、じっくり有利にできるよ');
+  return '👉 ' + reasons.slice(0, 2).join('。') + '。';
 }
 
 // ===== 新しいゲーム =====
@@ -633,6 +666,7 @@ function newGame() {
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
   overlayEl.innerHTML = '';
+  const sp = $('study-panel'); if (sp) sp.classList.add('hidden');
   orient = settings.opponent === 'cpu' ? settings.playerColor : 'w';
   buildBoard();
   renderAll();
@@ -679,6 +713,7 @@ function loadPuzzle(i) {
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
   overlayEl.innerHTML = '';
+  $('study-panel').classList.add('hidden');
   orient = p.turn;
   buildBoard();
   renderAll();
@@ -737,15 +772,12 @@ function puzzleSolved() {
 }
 
 // ===== 棋譜(PGN) =====
-function loadPgnText(text) {
-  const tmp = new Chess();
-  if (!tmp.load_pgn(text.trim(), { sloppy: true })) {
-    toast('😿 棋譜が読み込めなかったよ。PGN形式か確認してね');
-    return;
-  }
-  const headers = tmp.header();
-  replay.baseFen = headers.SetUp === '1' && headers.FEN ? headers.FEN : null;
-  replay.sans = tmp.history();
+// study = { baseFen, sans[], notes[], meta:{title, sub, intro, takeaway} } を再生モードで開く
+function enterStudy(study) {
+  replay.baseFen = study.baseFen || null;
+  replay.sans = study.sans;
+  replay.notes = study.notes || [];
+  replay.meta = study.meta || null;
   replay.idx = 0;
   mode = 'replay';
   selected = null; legalTargets = []; hintSquares = [];
@@ -753,10 +785,51 @@ function loadPgnText(text) {
   overlayEl.innerHTML = '';
   orient = 'w';
   buildBoard();
-  $('replay-controls').classList.remove('hidden');
+  const panel = $('study-panel');
+  panel.classList.remove('hidden');
+  $('study-title').textContent = replay.meta ? replay.meta.title : '棋譜さいせい';
+  $('study-meta').textContent = replay.meta && replay.meta.sub ? replay.meta.sub : '';
   replayGoTo(0);
-  toast(`📜 ${replay.sans.length}手の棋譜を読み込んだよ!`);
 }
+
+function loadPgnText(text) {
+  const tmp = new Chess();
+  if (!tmp.load_pgn(text.trim(), { sloppy: true })) {
+    toast('😿 棋譜が読み込めなかったよ。PGN形式か確認してね');
+    return;
+  }
+  const headers = tmp.header();
+  const baseFen = headers.SetUp === '1' && headers.FEN ? headers.FEN : null;
+  const sans = tmp.history();
+  const players = [headers.White, headers.Black].filter(Boolean).join(' 対 ');
+  enterStudy({
+    baseFen, sans, notes: [],
+    meta: { title: headers.Event || 'よみこんだ棋譜', sub: players, intro: '手をクリックするか、下のボタンでどこからでも再生できます。', takeaway: '' },
+  });
+  toast(`📜 ${sans.length}手の棋譜を読み込んだよ!`);
+}
+
+// 名局・レッスンの共通データ({fen, moves:[{san,note}]}) をstudyに変換して開く
+function loadAnnotated(data, meta) {
+  enterStudy({
+    baseFen: data.fen || null,
+    sans: data.moves.map((m) => m.san),
+    notes: data.moves.map((m) => m.note),
+    meta,
+  });
+}
+
+function showStudyNote() {
+  const i = replay.idx;
+  let html = '';
+  if (i === 0) html = (replay.meta && replay.meta.intro) || '';
+  else html = replay.notes[i - 1] || '';
+  if (i === replay.sans.length && replay.meta && replay.meta.takeaway) {
+    html += `<div class="study-takeaway">💡 ${replay.meta.takeaway}</div>`;
+  }
+  $('study-note').innerHTML = html;
+}
+
 function replayGoTo(idx) {
   replay.idx = Math.max(0, Math.min(idx, replay.sans.length));
   game = replay.baseFen ? new Chess(replay.baseFen) : new Chess();
@@ -764,6 +837,7 @@ function replayGoTo(idx) {
   const hist = game.history({ verbose: true });
   lastMove = hist.length > 0 ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
   $('replay-counter').textContent = `${replay.idx} / ${replay.sans.length}`;
+  showStudyNote();
   renderAll();
   renderReplayMovelist();
 }
@@ -781,8 +855,13 @@ function renderReplayMovelist() {
   const cur = ol.querySelector('.current');
   if (cur) cur.scrollIntoView({ block: 'nearest' });
 }
+function closeStudy() {
+  $('study-panel').classList.add('hidden');
+  newGame();
+}
 function replayToPlay() {
   if (mode !== 'replay') return;
+  $('study-panel').classList.add('hidden');
   mode = 'play';
   settings.playerColor = game.turn();
   $('sel-color').value = settings.playerColor;
@@ -793,6 +872,62 @@ function replayToPlay() {
   switchTab('game');
   toast(`🎮 ここから対局スタート!あなたは${colorJa(settings.playerColor)}だよ`);
   maybeCpuMove();
+}
+
+// ===== まなぶ(レッスン) =====
+const LEARN_CATS = [
+  { key: 'opening', label: '♟️ オープニング' },
+  { key: 'combo', label: '⚡ コンビネーション' },
+  { key: 'endgame', label: '👑 エンドゲーム' },
+];
+const CAT_JA = { opening: 'オープニング定跡', combo: 'コンビネーション(戦術)', endgame: 'エンドゲーム(終盤)' };
+let learnCat = 'opening';
+
+function renderLearnCats() {
+  const wrap = $('learn-cats');
+  wrap.innerHTML = '';
+  for (const c of LEARN_CATS) {
+    const b = document.createElement('button');
+    b.className = 'chip' + (c.key === learnCat ? ' active' : '');
+    b.textContent = c.label;
+    b.addEventListener('click', () => { learnCat = c.key; renderLearnCats(); renderLearnList(); });
+    wrap.appendChild(b);
+  }
+}
+function renderLearnList() {
+  const wrap = $('learn-list');
+  wrap.innerHTML = '';
+  const list = (typeof LESSONS !== 'undefined' ? LESSONS : []).filter((l) => l.cat === learnCat);
+  list.forEach((l) => {
+    const b = document.createElement('button');
+    b.className = 'study-item';
+    b.innerHTML = `<span class="study-item-title">${l.title}</span><span class="study-item-sub">${l.intro.slice(0, 32)}…</span>`;
+    b.addEventListener('click', () => {
+      loadAnnotated(l, { title: `🎓 ${l.title}`, sub: CAT_JA[l.cat], intro: l.intro, takeaway: l.takeaway });
+      toast(`🎓 「${l.title}」を開いたよ。▶で一手ずつ解説を読んでね`);
+    });
+    wrap.appendChild(b);
+  });
+}
+function renderGamesList() {
+  const wrap = $('games-list');
+  wrap.innerHTML = '';
+  const list = (typeof FAMOUS_GAMES !== 'undefined' ? FAMOUS_GAMES : []);
+  list.forEach((gm) => {
+    const b = document.createElement('button');
+    b.className = 'study-item';
+    b.innerHTML = `<span class="study-item-title">🏆 ${gm.title}</span>` +
+      `<span class="study-item-sub">${gm.white} 対 ${gm.black}・${gm.year}</span>`;
+    b.addEventListener('click', () => {
+      loadAnnotated(gm, {
+        title: `🏆 ${gm.title}`,
+        sub: `${gm.white} 対 ${gm.black}・${gm.year}(${gm.opening})`,
+        intro: gm.intro, takeaway: gm.takeaway,
+      });
+      toast(`🏆 「${gm.title}」を開いたよ。▶で一手ずつ解説を読んでね`);
+    });
+    wrap.appendChild(b);
+  });
 }
 
 const SAMPLE_PGN = `[Event "オペラ座のゲーム"]
@@ -952,6 +1087,12 @@ function setupUI() {
   $('btn-replay-next').addEventListener('click', () => replayGoTo(replay.idx + 1));
   $('btn-replay-last').addEventListener('click', () => replayGoTo(replay.sans.length));
   $('btn-replay-play').addEventListener('click', replayToPlay);
+  $('btn-study-close').addEventListener('click', closeStudy);
+
+  // まなぶ・名局
+  renderLearnCats();
+  renderLearnList();
+  renderGamesList();
 
   // モーダル
   $('promo-modal').addEventListener('click', (e) => {

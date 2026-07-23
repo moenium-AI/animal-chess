@@ -15,7 +15,9 @@
 | `js/sprites.js` | スプライト描画エンジン(canvas・チーム色変換・まばたき・馬車合成) |
 | `js/bgm.js` | BGM生成(Web Audio・5曲ローテーション) |
 | `js/puzzles.js` | パズルデータ(python-chess で自動検証して生成) |
-| `js/app.js` | ゲーム本体(UI・対局・棋譜・パズル・おもてなし演出) |
+| `js/lessons.js` | まなぶ教材(オープニング/コンビネーション/エンドゲーム。検証して生成) |
+| `js/games.js` | 名局データ(独自解説つき。python-chess で全手検証して生成) |
+| `js/app.js` | ゲーム本体(UI・対局・棋譜・パズル・まなぶ・名局・おもてなし演出) |
 | `tools/` | 検証用スクリプト(下記) |
 
 外部への通信は一切なし。設定とパズルのクリア状況は localStorage に保存。
@@ -55,6 +57,21 @@ python verify_puzzles.py ../js/puzzles.js
 ```
 
 `python-chess` が必要: `python -m pip install python-chess`
+
+## 名局・まなぶ教材を追加する
+
+いずれも指し手(SAN)と独自解説を Python 側に書き、python-chess で一手ずつ合法手を
+検証してから JS を生成する。**他者の解説の転載は禁止。解説は必ず独自に書く。**
+
+```bash
+cd tools
+python games_gen.py     # tools/games_gen.py の GAMES → js/games.js
+python lessons_gen.py   # tools/lessons_gen.py の LESSONS → js/lessons.js
+```
+
+- 名局は `GAMES` に `moves=[(SAN, 解説), ...]` を追記。`#` で終わる手は詰みも自動確認される。
+- 教材は `LESSONS` に `fen`(初期配置なら None)＋ `moves` ＋ `cat`(opening/combo/endgame)。
+- 検証に失敗した項目は生成時にエラーで知らせる(不正な手を混ぜたまま公開しない)。
 
 ## BGMをいじる
 

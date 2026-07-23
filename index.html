@@ -38,56 +38,36 @@
     </div>
 
     <div id="status-bar" class="status-bar"></div>
+
+    <!-- 学習・棋譜再生の解説パネル(盤の下・どのタブから開いても共通) -->
+    <div id="study-panel" class="study-panel hidden">
+      <div class="study-head">
+        <span id="study-title" class="study-title"></span>
+        <button id="btn-study-close" class="icon-btn small" title="とじる">✖</button>
+      </div>
+      <div id="study-meta" class="study-meta"></div>
+      <div id="study-note" class="study-note"></div>
+      <div class="study-nav">
+        <button id="btn-replay-first" class="btn small" title="さいしょ">⏮</button>
+        <button id="btn-replay-prev" class="btn small" title="まえ">◀</button>
+        <span id="replay-counter" class="replay-counter">0 / 0</span>
+        <button id="btn-replay-next" class="btn small" title="つぎ">▶</button>
+        <button id="btn-replay-last" class="btn small" title="さいご">⏭</button>
+        <button id="btn-replay-play" class="btn primary">🎮 ここから対局</button>
+      </div>
+      <ol id="replay-movelist" class="movelist study-moves"></ol>
+    </div>
   </section>
 
   <!-- 右: 情報列 -->
   <div class="side-col">
 
-    <!-- 右上: 棋譜カード -->
-    <section class="panel card-kifu">
-      <nav class="tabs">
-        <button class="tab active" data-tab="game" data-group="kifu">📜 この対局</button>
-        <button class="tab" data-tab="load" data-group="kifu">📥 棋譜よみこみ</button>
-      </nav>
-
-      <!-- この対局の棋譜 -->
-      <div id="tab-game" class="tab-page active" data-group="kifu">
-        <div class="movelist-wrap tall">
-          <div class="movelist-title">きふ</div>
-          <ol id="movelist" class="movelist"></ol>
-        </div>
-      </div>
-
-      <!-- 棋譜よみこみ -->
-      <div id="tab-load" class="tab-page" data-group="kifu">
-        <p class="hint-text">PGN形式の棋譜を貼り付けるか、ファイルを選んでね</p>
-        <textarea id="pgn-input" rows="5" placeholder="1. e4 e5 2. Nf3 Nc6 ..."></textarea>
-        <div class="btn-row">
-          <button id="btn-load-pgn" class="btn primary">📥 読み込み</button>
-          <label class="btn file-btn">📂 ファイル<input type="file" id="pgn-file" accept=".pgn,.txt" hidden></label>
-          <button id="btn-sample-pgn" class="btn">✨ サンプル棋譜</button>
-        </div>
-        <div id="replay-controls" class="replay-controls hidden">
-          <div class="btn-row center">
-            <button id="btn-replay-first" class="btn small">⏮</button>
-            <button id="btn-replay-prev" class="btn small">◀</button>
-            <span id="replay-counter" class="replay-counter">0 / 0</span>
-            <button id="btn-replay-next" class="btn small">▶</button>
-            <button id="btn-replay-last" class="btn small">⏭</button>
-          </div>
-          <button id="btn-replay-play" class="btn primary full">🎮 この局面から対局する</button>
-        </div>
-        <div class="movelist-wrap">
-          <ol id="replay-movelist" class="movelist"></ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- 右下: 設定カード -->
+    <!-- 右上: 設定カード -->
     <section class="panel card-settings">
       <nav class="tabs">
         <button class="tab active" data-tab="settings" data-group="ctrl">⚙️ 設定</button>
         <button class="tab" data-tab="puzzle" data-group="ctrl">🧩 パズル</button>
+        <button class="tab" data-tab="learn" data-group="ctrl">🎓 まなぶ</button>
       </nav>
 
       <!-- 設定 -->
@@ -148,6 +128,48 @@
         </div>
         <div id="puzzle-list" class="puzzle-list"></div>
       </div>
+
+      <!-- まなぶ(オープニング/コンビネーション/エンドゲーム) -->
+      <div id="tab-learn" class="tab-page" data-group="ctrl">
+        <p class="hint-text">テーマを選ぶと、一手ずつ「なぜそう指すのか」を解説つきで学べます</p>
+        <div id="learn-cats" class="chip-row"></div>
+        <div id="learn-list" class="study-list"></div>
+      </div>
+    </section>
+
+    <!-- 右下: 棋譜カード -->
+    <section class="panel card-kifu">
+      <nav class="tabs">
+        <button class="tab active" data-tab="game" data-group="kifu">📜 この対局</button>
+        <button class="tab" data-tab="games" data-group="kifu">🏆 名局</button>
+        <button class="tab" data-tab="load" data-group="kifu">📥 よみこみ</button>
+      </nav>
+
+      <!-- この対局の棋譜 -->
+      <div id="tab-game" class="tab-page active" data-group="kifu">
+        <div class="movelist-wrap tall">
+          <div class="movelist-title">きふ</div>
+          <ol id="movelist" class="movelist"></ol>
+        </div>
+      </div>
+
+      <!-- 名局(歴史的な名勝負を解説つきで) -->
+      <div id="tab-games" class="tab-page" data-group="kifu">
+        <p class="hint-text">歴史に残る名勝負を、一手ずつ独自の解説つきで鑑賞できます</p>
+        <div id="games-list" class="study-list tall"></div>
+      </div>
+
+      <!-- 棋譜よみこみ -->
+      <div id="tab-load" class="tab-page" data-group="kifu">
+        <p class="hint-text">PGN形式の棋譜を貼り付けるか、ファイルを選んでね</p>
+        <textarea id="pgn-input" rows="5" placeholder="1. e4 e5 2. Nf3 Nc6 ..."></textarea>
+        <div class="btn-row">
+          <button id="btn-load-pgn" class="btn primary">📥 読み込み</button>
+          <label class="btn file-btn">📂 ファイル<input type="file" id="pgn-file" accept=".pgn,.txt" hidden></label>
+          <button id="btn-sample-pgn" class="btn">✨ サンプル棋譜</button>
+        </div>
+        <p class="hint-text">読み込むと盤の下に再生パネルが出ます。手をクリックすればどこからでも再生できます。</p>
+      </div>
     </section>
 
   </div>
@@ -182,6 +204,8 @@
 <script src="js/sprites.js"></script>
 <script src="js/bgm.js"></script>
 <script src="js/puzzles.js"></script>
+<script src="js/lessons.js"></script>
+<script src="js/games.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/app.js"></script>
 </body>
