@@ -83,6 +83,27 @@ const Engine = (() => {
     ],
   };
 
+  // 中盤の王の安全性: 玉の前のポーンの盾が欠けていたり、玉が中央に居ると危険。
+  // 返り値は「危険度(大きいほど危ない)」。露出した玉で無謀に戦って自滅するのを抑える。
+  function kingDanger(board, kr, kc, color) {
+    const dir = color === 'w' ? -1 : 1; // 前方向(白は上=行が減る)
+    let danger = 0;
+    for (let dc = -1; dc <= 1; dc++) {
+      const c = kc + dc;
+      if (c < 0 || c > 7) { danger += 8; continue; } // 盤端は盾が作れない
+      let shield = false;
+      for (let step = 1; step <= 2; step++) {
+        const r = kr + dir * step;
+        if (r < 0 || r > 7) break;
+        const pc = board[r][c];
+        if (pc && pc.type === 'p' && pc.color === color) { shield = true; break; }
+      }
+      if (!shield) danger += 16; // 盾ポーンがない列
+    }
+    if (kc >= 2 && kc <= 5) danger += 14; // 中央に留まった玉は危険
+    return danger;
+  }
+
   // 白から見た評価値(センチポーン)
   function evaluate(game) {
     const board = game.board();
@@ -122,6 +143,11 @@ const Engine = (() => {
       const bonus = 8 * cmd + 3 * (14 - md);  // 相手玉を隅へ+自玉を近づける
       score += winner === 'w' ? bonus : -bonus;
     }
+    // 中盤は玉の安全を評価に反映(露出した玉での無謀な攻めを避ける)
+    if (!endgame && kings.w && kings.b) {
+      score -= kingDanger(board, kings.w[0], kings.w[1], 'w');
+      score += kingDanger(board, kings.b[0], kings.b[1], 'b');
+    }
     return score;
   }
 
@@ -129,51 +155,114 @@ const Engine = (() => {
     return game.turn() === 'w' ? evaluate(game) : -evaluate(game);
   }
 
-  function orderMoves(moves) {
+  const EXACT = 0, LOWER = 1, UPPER = 2;
+  function sameMove(a, b) {
+    return !!a && !!b && a.from === b.from && a.to === b.to && a.promotion === b.promotion;
+  }
+
+  // 手の並べ替え: 置換表の手 → 取り(MVV-LVA) → 成り → キラー手 → 履歴ヒューリスティック
+  // 良い手を先に読むほど枝刈りが効き、同じ時間でより深く読める(=強くなる)。
+  function orderMoves(moves, ttMove, killers, history) {
     for (const m of moves) {
-      let s = 0;
-      if (m.captured) s += 10 * VAL[m.captured] - VAL[m.piece];
-      if (m.promotion) s += VAL[m.promotion];
+      let s;
+      if (sameMove(m, ttMove)) s = 2e7;
+      else if (m.captured) s = 1e6 + 10 * VAL[m.captured] - VAL[m.piece] + (m.promotion ? VAL[m.promotion] : 0);
+      else if (m.promotion) s = 9e5 + VAL[m.promotion];
+      else if (killers && sameMove(m, killers[0])) s = 8e5 + 1;
+      else if (killers && sameMove(m, killers[1])) s = 8e5;
+      else s = history[m.from + m.to] || 0;
       m._score = s;
     }
     moves.sort((a, b) => b._score - a._score);
     return moves;
   }
 
-  // 静止探索(取り合いだけ延長して水平線効果を軽減)
-  function quiesce(game, alpha, beta, deadline) {
-    if (Date.now() > deadline) throw TIMEOUT;
+  // 静止探索(取り合い・成りだけ延長して水平線効果を軽減)
+  // これを全レベルで使うことで「取られる寸前の駒」を正しく損と評価し、
+  // クイーン突撃のようなタダ捨てで自滅するのを防ぐ。
+  function quiesce(game, alpha, beta, deadline, ctx) {
+    if ((ctx.nodes++ & 2047) === 0 && Date.now() > deadline) throw TIMEOUT;
     const stand = sideEval(game);
     if (stand >= beta) return stand;
     if (stand > alpha) alpha = stand;
-    const moves = orderMoves(game.moves({ verbose: true }).filter((m) => m.captured));
-    for (const m of moves) {
+    let best = stand;
+    const caps = game.moves({ verbose: true }).filter((m) => m.captured || m.promotion);
+    orderMoves(caps, null, null, ctx.history);
+    for (const m of caps) {
+      // デルタ枝刈り: この取りで挽回できないほど劣勢なら読まない
+      const gain = VAL[m.captured || 'p'] + (m.promotion ? VAL[m.promotion] : 0);
+      if (stand + gain + 200 < alpha) continue;
       game.move(m);
-      const s = -quiesce(game, -beta, -alpha, deadline);
-      game.undo();
-      if (s >= beta) return s;
-      if (s > alpha) alpha = s;
-    }
-    return alpha;
-  }
-
-  function search(game, depth, alpha, beta, ply, deadline, useQuiesce) {
-    if (Date.now() > deadline) throw TIMEOUT;
-    const moves = game.moves({ verbose: true });
-    if (moves.length === 0) return game.in_check() ? -MATE + ply : 0;
-    if (depth === 0) {
-      return useQuiesce ? quiesce(game, alpha, beta, deadline) : sideEval(game);
-    }
-    orderMoves(moves);
-    let best = -INF;
-    for (const m of moves) {
-      game.move(m);
-      const s = -search(game, depth - 1, -beta, -alpha, ply + 1, deadline, useQuiesce);
+      const s = -quiesce(game, -beta, -alpha, deadline, ctx);
       game.undo();
       if (s > best) best = s;
       if (best > alpha) alpha = best;
       if (alpha >= beta) break;
     }
+    return best;
+  }
+
+  function search(game, depth, alpha, beta, ply, deadline, ctx) {
+    if ((ctx.nodes++ & 1023) === 0 && Date.now() > deadline) throw TIMEOUT;
+    // 引き分け(50手・不足駒・千日手)は0と評価。劣勢側は引き分けを目指して粘れる。
+    if (ply > 0 && game.in_draw()) return 0;
+    if (ply >= 60) return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx) : sideEval(game);
+
+    const alphaOrig = alpha, betaOrig = beta;
+    const key = game.fen();
+    const entry = ctx.tt.get(key);
+    let ttMove = null;
+    if (entry) {
+      ttMove = entry.move;
+      if (entry.depth >= depth && Math.abs(entry.score) < MATE - 1000) {
+        if (entry.flag === EXACT) return entry.score;
+        if (entry.flag === LOWER && entry.score > alpha) alpha = entry.score;
+        else if (entry.flag === UPPER && entry.score < beta) beta = entry.score;
+        if (alpha >= beta) return entry.score;
+      }
+    }
+
+    const moves = game.moves({ verbose: true });
+    if (moves.length === 0) return game.in_check() ? -MATE + ply : 0;
+    if (depth <= 0) {
+      return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx) : sideEval(game);
+    }
+
+    const killers = ctx.killers[ply] || (ctx.killers[ply] = [null, null]);
+    orderMoves(moves, ttMove, killers, ctx.history);
+
+    let best = -INF, bestMv = null, first = true;
+    for (const m of moves) {
+      game.move(m);
+      // 王手には延長(1手先を読む)。詰み・受けの見落としを防ぎ強くなる。
+      const ext = game.in_check() && ply < 40 ? 1 : 0;
+      let s;
+      if (first) {
+        s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
+      } else {
+        // PVS: 2手目以降はまずヌルウィンドウで確認し、超えたら本探索
+        s = -search(game, depth - 1 + ext, -alpha - 1, -alpha, ply + 1, deadline, ctx);
+        if (s > alpha && s < beta) s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
+      }
+      game.undo();
+      first = false;
+      if (s > best) { best = s; bestMv = m; }
+      if (best > alpha) alpha = best;
+      if (alpha >= beta) {
+        // 静かな手でのカットはキラー手・履歴として記憶し次回の並べ替えに活かす
+        if (!m.captured && !m.promotion) {
+          if (!sameMove(m, killers[0])) { killers[1] = killers[0]; killers[0] = { from: m.from, to: m.to, promotion: m.promotion }; }
+          ctx.history[m.from + m.to] = (ctx.history[m.from + m.to] || 0) + depth * depth;
+        }
+        break;
+      }
+    }
+
+    let flag = EXACT;
+    if (best <= alphaOrig) flag = UPPER;
+    else if (best >= betaOrig) flag = LOWER;
+    const storeMv = bestMv ? { from: bestMv.from, to: bestMv.to, promotion: bestMv.promotion } : ttMove;
+    if (ctx.tt.size < 250000) ctx.tt.set(key, { depth, score: best, flag, move: storeMv });
     return best;
   }
 
@@ -183,6 +272,7 @@ const Engine = (() => {
     const rootMoves = game.moves({ verbose: true });
     if (rootMoves.length === 0) return [];
     const deadline = Date.now() + timeMs;
+    const ctx = { tt: new Map(), killers: [], history: {}, nodes: 0, useQuiesce };
     let results = rootMoves.map((m) => ({ move: m, score: 0 }));
     for (let d = 1; d <= maxDepth; d++) {
       const cur = [];
@@ -190,12 +280,21 @@ const Engine = (() => {
         let alpha = -INF;
         // 前回の並び順を使うと枝刈りが効く
         const ordered = results.map((r) => r.move);
+        let first = true;
+        const dl = d === 1 ? Infinity : deadline;
         for (const m of ordered) {
           game.move(m);
-          const s = -search(game, d - 1, -INF, -alpha, 1, d === 1 ? Infinity : deadline, useQuiesce);
+          let s;
+          if (first) {
+            s = -search(game, d - 1, -INF, -alpha, 1, dl, ctx);
+          } else {
+            s = -search(game, d - 1, -alpha - 1, -alpha, 1, dl, ctx);
+            if (s > alpha) s = -search(game, d - 1, -INF, -alpha, 1, dl, ctx);
+          }
           game.undo();
           cur.push({ move: m, score: s });
           if (s > alpha) alpha = s;
+          first = false;
         }
       } catch (e) {
         if (e === TIMEOUT) break;
@@ -209,17 +308,20 @@ const Engine = (() => {
     return results;
   }
 
+  // margin: 最善手からこの点数以内の手だけを候補にする(単位センチポーン)。
+  // ノイズや気まぐれ(blunder)もこの範囲内でしか起きないので、駒のタダ捨てのような
+  // 自滅手は常に候補から外れる。弱いレベルは「小さな緩手」で弱さを表現する。
   const LEVELS = {
-    1:  { depth: 1, timeMs: 300,  noise: 220, blunder: 0.55, quiesce: false, book: false },
-    2:  { depth: 1, timeMs: 400,  noise: 140, blunder: 0.40, quiesce: false, book: true },
-    3:  { depth: 2, timeMs: 500,  noise: 90,  blunder: 0.25, quiesce: false, book: true },
-    4:  { depth: 2, timeMs: 700,  noise: 50,  blunder: 0.12, quiesce: false, book: true },
-    5:  { depth: 3, timeMs: 1000, noise: 25,  blunder: 0.05, quiesce: false, book: true },
-    6:  { depth: 3, timeMs: 1400, noise: 12,  blunder: 0,    quiesce: true,  book: true },
-    7:  { depth: 4, timeMs: 2000, noise: 5,   blunder: 0,    quiesce: true,  book: true },
-    8:  { depth: 4, timeMs: 2800, noise: 0,   blunder: 0,    quiesce: true,  book: true },
-    9:  { depth: 5, timeMs: 3500, noise: 0,   blunder: 0,    quiesce: true,  book: true },
-    10: { depth: 5, timeMs: 4800, noise: 0,   blunder: 0,    quiesce: true,  book: true },
+    1:  { depth: 2, timeMs: 500,  margin: 110, noise: 90, blunder: 0.30, quiesce: true, book: false },
+    2:  { depth: 2, timeMs: 700,  margin: 85,  noise: 60, blunder: 0.18, quiesce: true, book: true },
+    3:  { depth: 3, timeMs: 900,  margin: 60,  noise: 40, blunder: 0.10, quiesce: true, book: true },
+    4:  { depth: 3, timeMs: 1200, margin: 40,  noise: 25, blunder: 0.05, quiesce: true, book: true },
+    5:  { depth: 4, timeMs: 1500, margin: 28,  noise: 15, blunder: 0.02, quiesce: true, book: true },
+    6:  { depth: 4, timeMs: 2000, margin: 16,  noise: 8,  blunder: 0,    quiesce: true, book: true },
+    7:  { depth: 5, timeMs: 2600, margin: 8,   noise: 0,  blunder: 0,    quiesce: true, book: true },
+    8:  { depth: 6, timeMs: 3400, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
+    9:  { depth: 7, timeMs: 4400, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
+    10: { depth: 8, timeMs: 5500, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
   };
 
   // ===== オープニングブック(定跡の知識) =====
@@ -287,18 +389,21 @@ const Engine = (() => {
       }
       const results = analyzeRoot(fen, cfg.depth, cfg.timeMs, cfg.quiesce);
       if (results.length === 0) { cb(null); return; }
+      const best = results[0].score;
+      // 最善手から margin 点以内の手だけを候補にする。これより悪い手(=駒損などの
+      // 自滅手)は弱いレベルでも選ばれない。劣勢でも「一番粘れる手」の中から指す。
+      const margin = cfg.margin || 0;
+      let pool = results.filter((r) => r.score >= best - margin);
+      if (pool.length === 0) pool = [results[0]];
       let pick;
-      if (cfg.blunder > 0 && Math.random() < cfg.blunder) {
-        // わざと適当な手(ただしすぐ詰まされる手はできれば避ける)
-        const safe = results.filter((r) => r.score > -MATE + 1000);
-        const pool = safe.length > 0 ? safe : results;
+      if (cfg.blunder > 0 && pool.length > 1 && Math.random() < cfg.blunder) {
         pick = pool[Math.floor(Math.random() * pool.length)];
-      } else if (cfg.noise > 0) {
-        const noisy = results.map((r) => ({ move: r.move, score: r.score + (Math.random() * 2 - 1) * cfg.noise }));
+      } else if (cfg.noise > 0 && pool.length > 1) {
+        const noisy = pool.map((r) => ({ move: r.move, score: r.score + Math.random() * cfg.noise }));
         noisy.sort((a, b) => b.score - a.score);
         pick = noisy[0];
       } else {
-        pick = results[0];
+        pick = pool[0];
       }
       cb(pick.move);
     }, 50);
@@ -307,7 +412,7 @@ const Engine = (() => {
   // ヒント(常に強めの設定で読む)
   function bestMove(fen, cb) {
     setTimeout(() => {
-      const results = analyzeRoot(fen, 4, 2500, true);
+      const results = analyzeRoot(fen, 7, 3000, true);
       cb(results.length > 0 ? results[0].move : null);
     }, 50);
   }
