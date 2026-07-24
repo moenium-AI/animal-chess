@@ -1378,6 +1378,32 @@ var Chess = function (fen) {
       return moves
     },
 
+    /* 高速版 moves(): SAN を生成しない move オブジェクト配列を返す。
+     * 標準の verbose:true は各手ごとに move_to_san→generate_moves を呼ぶため O(n^2) で
+     * 非常に重い(探索エンジンのボトルネック)。SAN が不要な探索用にこちらを使う。
+     * 返す各手: { color, from(代数式), to(代数式), flags(文字列), piece, captured?, promotion? } */
+    fast_moves: function (options) {
+      var ugly = generate_moves(options)
+      var out = []
+      for (var i = 0, len = ugly.length; i < len; i++) {
+        var m = ugly[i]
+        var flags = ''
+        for (var flag in BITS) {
+          if (BITS[flag] & m.flags) flags += FLAGS[flag]
+        }
+        out.push({
+          color: m.color,
+          from: algebraic(m.from),
+          to: algebraic(m.to),
+          flags: flags,
+          piece: m.piece,
+          captured: m.captured,
+          promotion: m.promotion,
+        })
+      }
+      return out
+    },
+
     in_check: function () {
       return in_check()
     },
