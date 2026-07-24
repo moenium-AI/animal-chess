@@ -382,16 +382,16 @@ const Engine = (() => {
   // ※ fast_moves 化で探索が約8倍高速になったため、探索深さ・時間を実効的な値に再調整している。
   //   depth は上限で、実際は timeMs 側で頭打ちになることが多い。
   const LEVELS = {
-    1:  { depth: 2, timeMs: 300,  margin: 120, noise: 100, blunder: 0.30, quiesce: true, book: false },
-    2:  { depth: 2, timeMs: 400,  margin: 95,  noise: 70,  blunder: 0.18, quiesce: true, book: true },
-    3:  { depth: 3, timeMs: 500,  margin: 70,  noise: 45,  blunder: 0.10, quiesce: true, book: true },
-    4:  { depth: 3, timeMs: 650,  margin: 50,  noise: 30,  blunder: 0.05, quiesce: true, book: true },
-    5:  { depth: 4, timeMs: 850,  margin: 36,  noise: 18,  blunder: 0.025, quiesce: true, book: true },
-    6:  { depth: 4, timeMs: 1100, margin: 24,  noise: 10,  blunder: 0.01, quiesce: true, book: true },
-    7:  { depth: 5, timeMs: 1400, margin: 14,  noise: 5,   blunder: 0,    quiesce: true, book: true },
-    8:  { depth: 5, timeMs: 1800, margin: 8,   noise: 2,   blunder: 0,    quiesce: true, book: true },
-    9:  { depth: 6, timeMs: 2200, margin: 4,   noise: 0,   blunder: 0,    quiesce: true, book: true },
-    10: { depth: 6, timeMs: 2800, margin: 0,   noise: 0,   blunder: 0,    quiesce: true, book: true },
+    1:  { depth: 1, timeMs: 250,  margin: 150, noise: 130, blunder: 0.42, quiesce: true, book: false },
+    2:  { depth: 2, timeMs: 300,  margin: 120, noise: 95,  blunder: 0.30, quiesce: true, book: true },
+    3:  { depth: 2, timeMs: 400,  margin: 95,  noise: 65,  blunder: 0.20, quiesce: true, book: true },
+    4:  { depth: 3, timeMs: 500,  margin: 72,  noise: 45,  blunder: 0.12, quiesce: true, book: true },
+    5:  { depth: 3, timeMs: 650,  margin: 54,  noise: 30,  blunder: 0.07, quiesce: true, book: true },
+    6:  { depth: 4, timeMs: 800,  margin: 38,  noise: 18,  blunder: 0.035, quiesce: true, book: true },
+    7:  { depth: 4, timeMs: 1000, margin: 26,  noise: 11,  blunder: 0.015, quiesce: true, book: true },
+    8:  { depth: 5, timeMs: 1300, margin: 16,  noise: 6,   blunder: 0.005, quiesce: true, book: true },
+    9:  { depth: 5, timeMs: 1700, margin: 9,   noise: 3,   blunder: 0,    quiesce: true, book: true },
+    10: { depth: 6, timeMs: 2100, margin: 4,   noise: 0,   blunder: 0,    quiesce: true, book: true },
   };
 
   // ===== オープニングブック(定跡の知識) =====
