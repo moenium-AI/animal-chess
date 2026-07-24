@@ -315,16 +315,16 @@ const Engine = (() => {
   // quiesce は全レベルで維持し、margin は最大でもポーン1.5枚程度に抑えるので、
   // 弱めても駒のタダ捨て(旧版の自滅)には戻らない。弱さは浅い読みと小さな緩手で表現する。
   const LEVELS = {
-    1:  { depth: 1, timeMs: 350,  margin: 150, noise: 120, blunder: 0.40, quiesce: true, book: false },
-    2:  { depth: 2, timeMs: 450,  margin: 120, noise: 85,  blunder: 0.28, quiesce: true, book: true },
-    3:  { depth: 2, timeMs: 650,  margin: 90,  noise: 55,  blunder: 0.16, quiesce: true, book: true },
-    4:  { depth: 2, timeMs: 850,  margin: 65,  noise: 38,  blunder: 0.09, quiesce: true, book: true },
-    5:  { depth: 3, timeMs: 1050, margin: 48,  noise: 26,  blunder: 0.05, quiesce: true, book: true },
-    6:  { depth: 3, timeMs: 1350, margin: 34,  noise: 16,  blunder: 0.025, quiesce: true, book: true },
-    7:  { depth: 4, timeMs: 1700, margin: 22,  noise: 10,  blunder: 0.01, quiesce: true, book: true },
-    8:  { depth: 4, timeMs: 2300, margin: 14,  noise: 5,   blunder: 0,    quiesce: true, book: true },
-    9:  { depth: 5, timeMs: 3000, margin: 8,   noise: 2,   blunder: 0,    quiesce: true, book: true },
-    10: { depth: 6, timeMs: 4000, margin: 4,   noise: 0,   blunder: 0,    quiesce: true, book: true },
+    1:  { depth: 2, timeMs: 450,  margin: 120, noise: 90, blunder: 0.30, quiesce: true, book: false },
+    2:  { depth: 2, timeMs: 600,  margin: 95,  noise: 65, blunder: 0.20, quiesce: true, book: true },
+    3:  { depth: 3, timeMs: 800,  margin: 70,  noise: 45, blunder: 0.12, quiesce: true, book: true },
+    4:  { depth: 3, timeMs: 1050, margin: 50,  noise: 30, blunder: 0.06, quiesce: true, book: true },
+    5:  { depth: 4, timeMs: 1350, margin: 34,  noise: 18, blunder: 0.03, quiesce: true, book: true },
+    6:  { depth: 4, timeMs: 1750, margin: 22,  noise: 10, blunder: 0.015, quiesce: true, book: true },
+    7:  { depth: 5, timeMs: 2300, margin: 12,  noise: 5,  blunder: 0,    quiesce: true, book: true },
+    8:  { depth: 5, timeMs: 3000, margin: 6,   noise: 2,  blunder: 0,    quiesce: true, book: true },
+    9:  { depth: 6, timeMs: 3800, margin: 3,   noise: 0,  blunder: 0,    quiesce: true, book: true },
+    10: { depth: 7, timeMs: 4800, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
   };
 
   // ===== オープニングブック(定跡の知識) =====
