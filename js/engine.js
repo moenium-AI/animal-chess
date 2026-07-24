@@ -311,17 +311,20 @@ const Engine = (() => {
   // margin: 最善手からこの点数以内の手だけを候補にする(単位センチポーン)。
   // ノイズや気まぐれ(blunder)もこの範囲内でしか起きないので、駒のタダ捨てのような
   // 自滅手は常に候補から外れる。弱いレベルは「小さな緩手」で弱さを表現する。
+  // 全体の強さは「現状(=最強)を100、旧版を0」として70前後を狙う調整。
+  // quiesce は全レベルで維持し、margin は最大でもポーン1.5枚程度に抑えるので、
+  // 弱めても駒のタダ捨て(旧版の自滅)には戻らない。弱さは浅い読みと小さな緩手で表現する。
   const LEVELS = {
-    1:  { depth: 2, timeMs: 500,  margin: 110, noise: 90, blunder: 0.30, quiesce: true, book: false },
-    2:  { depth: 2, timeMs: 700,  margin: 85,  noise: 60, blunder: 0.18, quiesce: true, book: true },
-    3:  { depth: 3, timeMs: 900,  margin: 60,  noise: 40, blunder: 0.10, quiesce: true, book: true },
-    4:  { depth: 3, timeMs: 1200, margin: 40,  noise: 25, blunder: 0.05, quiesce: true, book: true },
-    5:  { depth: 4, timeMs: 1500, margin: 28,  noise: 15, blunder: 0.02, quiesce: true, book: true },
-    6:  { depth: 4, timeMs: 2000, margin: 16,  noise: 8,  blunder: 0,    quiesce: true, book: true },
-    7:  { depth: 5, timeMs: 2600, margin: 8,   noise: 0,  blunder: 0,    quiesce: true, book: true },
-    8:  { depth: 6, timeMs: 3400, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
-    9:  { depth: 7, timeMs: 4400, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
-    10: { depth: 8, timeMs: 5500, margin: 0,   noise: 0,  blunder: 0,    quiesce: true, book: true },
+    1:  { depth: 1, timeMs: 350,  margin: 150, noise: 120, blunder: 0.40, quiesce: true, book: false },
+    2:  { depth: 2, timeMs: 450,  margin: 120, noise: 85,  blunder: 0.28, quiesce: true, book: true },
+    3:  { depth: 2, timeMs: 650,  margin: 90,  noise: 55,  blunder: 0.16, quiesce: true, book: true },
+    4:  { depth: 2, timeMs: 850,  margin: 65,  noise: 38,  blunder: 0.09, quiesce: true, book: true },
+    5:  { depth: 3, timeMs: 1050, margin: 48,  noise: 26,  blunder: 0.05, quiesce: true, book: true },
+    6:  { depth: 3, timeMs: 1350, margin: 34,  noise: 16,  blunder: 0.025, quiesce: true, book: true },
+    7:  { depth: 4, timeMs: 1700, margin: 22,  noise: 10,  blunder: 0.01, quiesce: true, book: true },
+    8:  { depth: 4, timeMs: 2300, margin: 14,  noise: 5,   blunder: 0,    quiesce: true, book: true },
+    9:  { depth: 5, timeMs: 3000, margin: 8,   noise: 2,   blunder: 0,    quiesce: true, book: true },
+    10: { depth: 6, timeMs: 4000, margin: 4,   noise: 0,   blunder: 0,    quiesce: true, book: true },
   };
 
   // ===== オープニングブック(定跡の知識) =====
