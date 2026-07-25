@@ -696,6 +696,7 @@ function undoMove() {
 const PUZZLE_THEME_JA = {
   backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイト/フォーク',
   diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルック', sacrifice: '犠牲',
+  smother: '窒息メイト', queen: 'クイーンの寄せ', support: '支えの一撃',
 };
 let puzzleTheme = 'all';
 
