@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
 <!-- ?v= は更新時にキャッシュを確実に切り替えるための版数。中身を変えたら数字を増やす -->
-<link rel="stylesheet" href="css/style.css?v=9">
+<link rel="stylesheet" href="css/style.css?v=10">
 </head>
 <body>
 
@@ -39,8 +39,12 @@
     </div>
 
     <div id="status-bar" class="status-bar"></div>
+  </section>
 
-    <!-- 学習・棋譜再生の解説パネル(盤の下・どのタブから開いても共通) -->
+  <!-- 右: 情報列 -->
+  <div class="side-col">
+
+    <!-- 学習・棋譜再生の解説パネル(盤の横・どのタブから開いても共通) -->
     <div id="study-panel" class="study-panel hidden">
       <div class="study-head">
         <span id="study-title" class="study-title"></span>
@@ -58,10 +62,6 @@
       </div>
       <ol id="replay-movelist" class="movelist study-moves"></ol>
     </div>
-  </section>
-
-  <!-- 右: 情報列 -->
-  <div class="side-col">
 
     <!-- 右上: 設定カード -->
     <section class="panel card-settings">
@@ -213,7 +213,7 @@
 <script src="js/puzzles.js?v=9"></script>
 <script src="js/lessons.js?v=9"></script>
 <script src="js/games.js?v=9"></script>
-<script src="js/engine.js?v=16"></script>
+<script src="js/engine.js?v=17"></script>
 <script src="js/app.js?v=9"></script>
 </body>
 </html>

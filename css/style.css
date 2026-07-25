@@ -443,10 +443,12 @@ html, body {
 
 /* ===== 学習・棋譜再生パネル(盤の下) ===== */
 .study-panel {
-  width: var(--board-size);
+  width: 100%; box-sizing: border-box;
   background: #fbf6ec; border: 2px solid #e6d8bf; border-radius: var(--radius);
   padding: 10px 14px;
 }
+/* 解説文が長いときは枠内スクロールにして、盤や他のカードを押し出さない */
+.study-note { max-height: 40vh; overflow-y: auto; }
 .study-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .study-title { font-weight: bold; font-size: 1rem; color: #7a5a2e; }
 .icon-btn.small { width: 30px; height: 30px; font-size: 0.9rem; border-width: 1.5px; }
@@ -485,7 +487,9 @@ html, body {
 .study-item-sub { font-size: 0.76rem; color: #a08c7a; }
 
 @media (max-width: 1099px) {
-  :root { --board-size: min(94vw, 660px); }
+  :root { --board-size: min(94vw, 660px, 58vh); }
   .layout { flex-direction: column; align-items: center; }
   .side-col { width: var(--board-size); }
+  /* スマホ等の縦積みでは盤を画面上部に固定し、解説だけ下でスクロールできるようにする */
+  .board-col { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-bottom: 4px; }
 }
