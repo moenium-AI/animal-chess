@@ -247,6 +247,7 @@ html, body {
   background: #7fb069; flex-shrink: 0;
 }
 .puzzle-item .badge.m2 { background: #e08c3c; }
+.puzzle-item .badge.m3 { background: #d1615d; }
 .puzzle-item .puz-name { display: flex; flex-direction: column; gap: 1px; }
 .puz-theme {
   font-size: 0.66rem; font-weight: bold; color: #9a7ac8;
@@ -475,6 +476,9 @@ html, body {
   cursor: pointer;
 }
 .chip.active { background: var(--accent); color: #fff; border-color: var(--accent-dark); }
+/* 難易度チップ(詰み手数)はテーマのチップと見分けがつくよう色を変える */
+.chip.lv { background: #eaf1e2; color: #6d8a58; border-color: #cfe0be; }
+.chip.lv.active { background: #7fb069; color: #fff; border-color: #6d9b58; }
 .study-list { display: flex; flex-direction: column; gap: 6px; max-height: 320px; overflow-y: auto; }
 .study-list.tall { max-height: 420px; }
 .study-item {

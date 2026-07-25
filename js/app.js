@@ -699,13 +699,26 @@ const PUZZLE_THEME_JA = {
   smother: '窒息メイト', queen: 'クイーンの寄せ', support: '支えの一撃',
 };
 let puzzleTheme = 'all';
+let puzzleLevel = 'all';   // 難易度(詰み手数)での絞り込み
 
 function puzzleThemeLabel(t) { return PUZZLE_THEME_JA[t] || 'きほん'; }
+// 難易度ラベル(詰み手数 → やさしさの目安)
+const PUZZLE_LEVEL_JA = { 1: '⭐ 1手詰め', 2: '⭐⭐ 2手詰め', 3: '⭐⭐⭐ 3手詰め' };
 
 function renderPuzzleCats() {
   const wrap = $('puzzle-cats');
   if (!wrap) return;
   wrap.innerHTML = '';
+  // 1行目: 難易度(詰み手数)で選ぶ
+  const levels = ['all'].concat([...new Set(PUZZLES.map((p) => p.mateIn))].sort((a, b) => a - b));
+  for (const lv of levels) {
+    const b = document.createElement('button');
+    b.className = 'chip lv' + (lv === puzzleLevel ? ' active' : '');
+    b.textContent = lv === 'all' ? 'ぜんぶの難しさ' : (PUZZLE_LEVEL_JA[lv] || `${lv}手詰め`);
+    b.addEventListener('click', () => { puzzleLevel = lv; renderPuzzleCats(); renderPuzzleList(); });
+    wrap.appendChild(b);
+  }
+  // 2行目: テーマで選ぶ
   const themes = ['all'].concat([...new Set(PUZZLES.map((p) => p.theme))]);
   for (const t of themes) {
     const b = document.createElement('button');
@@ -720,9 +733,10 @@ function renderPuzzleList() {
   wrap.innerHTML = '';
   PUZZLES.forEach((p, i) => {
     if (puzzleTheme !== 'all' && p.theme !== puzzleTheme) return;
+    if (puzzleLevel !== 'all' && p.mateIn !== puzzleLevel) return;
     const btn = document.createElement('button');
     btn.className = 'puzzle-item' + (i === puzzle.idx ? ' active' : '');
-    btn.innerHTML = `<span class="badge${p.mateIn === 2 ? ' m2' : ''}">${p.mateIn}手</span>` +
+    btn.innerHTML = `<span class="badge m${p.mateIn}">${p.mateIn}手</span>` +
       `<span class="puz-name">${p.title}<span class="puz-theme">${puzzleThemeLabel(p.theme)}</span></span>` +
       `<span class="done">${solvedPuzzles.has(i) ? '✅' : ''}</span>`;
     btn.addEventListener('click', () => loadPuzzle(i));
