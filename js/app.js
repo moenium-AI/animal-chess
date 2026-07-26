@@ -628,6 +628,37 @@ function requestHint() {
   });
 }
 
+// 取り合いの結果を計算する(静的交換評価/SEE)。
+// そのマスで取り返しが続いた場合、最終的に何点得するかを返す。
+// これを見ないと「守られている駒」まで『ただで取れる』と誤って案内してしまう。
+function evalCaptureExchange(fenBefore, m) {
+  const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
+  const g = new Chess(fenBefore);
+  const mv = g.move({ from: m.from, to: m.to, promotion: m.promotion });
+  if (!mv || !mv.captured) return { see: 0, recapture: false };
+  const target = mv.to;
+  const gains = [VAL[mv.captured]];
+  let occupant = VAL[mv.promotion || mv.piece]; // いまそのマスに立っている駒の価値
+  let recapture = false;
+  let d = 0;
+  while (d < 12) {
+    // そのマスを取り返せる手のうち、いちばん安い駒で取る
+    const list = (typeof g.fast_moves === 'function' ? g.fast_moves() : g.moves({ verbose: true }))
+      .filter((x) => x.to === target && x.captured);
+    if (list.length === 0) break;
+    list.sort((a, b) => VAL[a.piece] - VAL[b.piece]);
+    const r = list[0];
+    if (d === 0) recapture = true;
+    d++;
+    gains[d] = occupant - gains[d - 1];
+    occupant = VAL[r.promotion || r.piece];
+    g.move({ from: r.from, to: r.to, promotion: r.promotion });
+  }
+  // 途中でやめる選択もできるので、後ろから畳んで最終的な損得を出す
+  for (let i = d; i > 0; i--) gains[i - 1] = -Math.max(-gains[i - 1], gains[i]);
+  return { see: gains[0], recapture };
+}
+
 // ヒントの「なぜその手か」を推奨手の特徴から独自に説明する
 function explainHintMove(fenBefore, m) {
   const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
@@ -639,7 +670,11 @@ function explainHintMove(fenBefore, m) {
   // 駒を取る
   if (mv.captured) {
     const cap = pieceName(mv.captured);
-    if (VAL[mv.captured] >= VAL[mv.piece]) reasons.push(`ただで${cap}が取れて駒得だよ`);
+    // 取り返しまで読んでから言葉を選ぶ(守られている駒を『ただ』と言わない)
+    const ex = evalCaptureExchange(fenBefore, m);
+    if (!ex.recapture) reasons.push(`ただで${cap}が取れて駒得だよ`);
+    else if (ex.see > 0) reasons.push(`${cap}が取れるよ。取り返されても駒得になる`);
+    else if (ex.see === 0) reasons.push(`${cap}と交換できるよ(取り返されても損はしない)`);
     else reasons.push(`${cap}が取れるよ`);
   }
   // 成り
@@ -693,10 +728,12 @@ function undoMove() {
 }
 
 // ===== パズル =====
+// チェス用語は一般に使われるカタカナを主に、意味が伝わりにくいものは(かっこ)で補う
 const PUZZLE_THEME_JA = {
   backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイト/フォーク',
-  diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルック', sacrifice: '犠牲',
-  smother: '窒息メイト', queen: 'クイーンの寄せ', support: '支えの一撃',
+  diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルーク',
+  sacrifice: 'サクリファイス(犠牲)', smother: 'スマザーメイト(窒息)',
+  queen: 'クイーンの寄せ', support: '支えの一撃',
 };
 let puzzleTheme = 'all';
 let puzzleLevel = 'all';   // 難易度(詰み手数)での絞り込み
