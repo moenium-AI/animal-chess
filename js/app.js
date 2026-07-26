@@ -679,10 +679,10 @@ function explainHintMove(fenBefore, m) {
   }
   // 成り
   if (mv.promotion) reasons.push('ポーンがクイーンに大出世できる');
-  // 王手
-  if (g.in_check()) reasons.push('相手の王に王手をかけて主導権をにぎれる');
+  // チェック
+  if (g.in_check()) reasons.push('相手のキングにチェックをかけて主導権をにぎれる');
   // キャスリング
-  if (mv.flags.includes('k') || mv.flags.includes('q')) reasons.push('玉を安全な場所に囲えるよ');
+  if (mv.flags.includes('k') || mv.flags.includes('q')) reasons.push('キングを安全な場所に囲えるよ');
   // 中央のポーン前進
   if (mv.piece === 'p' && ['d4', 'e4', 'd5', 'e5'].includes(mv.to)) reasons.push('中央をおさえて盤の主導権をにぎれる');
   // 軽い駒の展開(初期段からの発展)
@@ -732,7 +732,7 @@ function undoMove() {
 const PUZZLE_THEME_JA = {
   backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイト/フォーク',
   diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルーク',
-  sacrifice: 'サクリファイス(犠牲)', smother: 'スマザーメイト(窒息)',
+  sacrifice: 'サクリファイス(犠牲)', smother: 'スマザー・メイト(窒息)',
   queen: 'クイーンの寄せ', support: '支えの一撃',
 };
 let puzzleTheme = 'all';
