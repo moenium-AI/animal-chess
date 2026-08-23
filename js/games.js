@@ -3027,15 +3027,15 @@ const FAMOUS_GAMES = [
  },
  {
   "id": "deepblue_kasparov",
-  "title": "ディープ・ブルーの定跡トラップ(学習ライン)",
+  "title": "ディープ・ブルー対カスパロフ 第6局（1997）",
   "white": "ディープ・ブルー",
   "black": "ガルリ・カスパロフ",
   "year": 1997,
-  "event": "ディープ・ブルー戦を題材にした学習用アレンジライン",
+  "event": "IBMマン・マシン戦再戦・ニューヨーク 第6局",
   "result": "1-0",
-  "opening": "カロ・カン風の学習ライン",
-  "intro": "ディープ・ブルー対カスパロフ戦の有名な文脈を題材にした、戦術学習用のアレンジラインです。実際の1997年再戦第6局の棋譜そのものではありません。中央のナイト犠牲からキングを攻める考え方を学びます。",
-  "takeaway": "定跡名や手順を丸暗記するだけでなく、背後の戦術を確認する。似た形でも、実戦の棋譜と学習用の変化手順は区別して読む。",
+  "opening": "カロ・カン・ディフェンス（シュタイニッツ・バリエーション、B17）",
+  "intro": "1997年5月11日にニューヨークで行われた、ディープ・ブルー対カスパロフ再戦の第6局です。7...h6の直後に、ディープ・ブルーは有名な8.Nxe6!のナイト犠牲を決め、19.c4のあとカスパロフが投了しました。",
+  "takeaway": "定跡は手順の丸暗記だけではない。8.Nxe6!のような犠牲は、駒得だけでなく相手キングの安全と自分の展開の速さを合わせて評価する。",
   "moves": [
    {
     "san": "e4",
@@ -3059,15 +3059,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "dxe4",
-    "note": "いったん取っておく。"
+    "note": "中央のポーンを交換する。"
    },
    {
     "san": "Nxe4",
-    "note": "取り返し、ナイトを中央の好位置に。"
+    "note": "取り返し、ナイトを中央の好位置に置く。"
    },
    {
     "san": "Nd7",
-    "note": "次のNgf6に備える手堅い本線。"
+    "note": "次のNgf6に備えて展開する。"
    },
    {
     "san": "Ng5",
@@ -3075,7 +3075,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ngf6",
-    "note": "もう一枚のナイトで自然に受ける。"
+    "note": "もう一枚のナイトを展開し、g5のナイトに対応する。"
    },
    {
     "san": "Bd3",
@@ -3091,108 +3091,108 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "h6",
-    "note": "g5のナイトを追い払おうとした——が、これが有名なワナにかかる一手だった。"
+    "note": "g5のナイトを追う。直後の8.Nxe6!につながる、実戦で注目された一手。"
    },
    {
     "san": "Nxe6",
-    "note": "ナイトをe6に捨てる衝撃の一手!取ればキングの壁が崩れ、取らなければ駒損に苦しむ、逃げ場のない罠。"
+    "note": "実戦で決まったナイト犠牲。黒王の安全と展開の遅れを突く、局面の核心。"
    },
    {
     "san": "Qe7",
-    "note": "取らずに我慢したが、すでに白の攻めは約束されている。"
+    "note": "ナイトをすぐには取らず、クイーンで受ける実戦の応手。"
    },
    {
     "san": "O-O",
-    "note": "機械は慌てず、まずキングを安全にする冷静さ。"
+    "note": "まずキングを安全にし、ルークも攻撃へ参加させる。"
    },
    {
     "san": "fxe6",
-    "note": "やむなくナイトを取るが、f筋とe筋が開いてキングが丸裸になる。"
+    "note": "ナイトを取る。fポーンが動いてキング周辺の守りが変わり、e6のポーンが攻撃目標になる。"
    },
    {
     "san": "Bg6+",
-    "note": "ビショップが飛び込んでチェック。黒はキャスリングの権利まで失う。"
+    "note": "ビショップがチェック。黒王は動かざるを得ず、キャスリング権も失う。"
    },
    {
     "san": "Kd8",
-    "note": "逃げ場は狭い。キングが盤の真ん中で立ち往生する。"
+    "note": "キングをd8へ移すが、中央で危険にさらされる。"
    },
    {
     "san": "Bf4",
-    "note": "残る駒も最短で攻めに参加させる。全駒が黒のキングを向く。"
+    "note": "ビショップを攻撃に加え、e6への圧力を強める。"
    },
    {
     "san": "b5",
-    "note": "反撃の糸口を探すが、もう遅い。"
+    "note": "クイーンサイドで反撃し、スペースを取ろうとする。"
    },
    {
     "san": "a4",
-    "note": "端からこじ開けて攻めを加速。"
+    "note": "b5を攻め、クイーンサイドを開く準備をする。"
    },
    {
     "san": "Bb7",
-    "note": "ビショップを長い斜めへ逃がす。"
+    "note": "ビショップを長い対角線へ展開する。"
    },
    {
     "san": "Re1",
-    "note": "開いたe筋にルークを乗せ、e6・e7の的を狙う。"
+    "note": "ルークをeファイルに置き、e6のポーンとe7周辺を狙う。"
    },
    {
     "san": "Nd5",
-    "note": "中央にナイトを置いて必死に防ぐ。"
+    "note": "ナイトを中央に置いて守りを固める。"
    },
    {
     "san": "Bg3",
-    "note": "ビショップを引きつつ狙いを維持する。"
+    "note": "ビショップを引きつつ、e5経由の圧力を保つ。"
    },
    {
     "san": "Kc8",
-    "note": "キングを少しでも安全な方へ。"
+    "note": "キングをc8へ移して少しでも安全を求める。"
    },
    {
     "san": "axb5",
-    "note": "端を清算し、攻めをさらに加速。"
+    "note": "クイーンサイドを交換して攻撃の線を開く。"
    },
    {
     "san": "cxb5",
-    "note": "取り返すしかない。"
+    "note": "cポーンで取り返し、局面を保つ。"
    },
    {
     "san": "Qd3",
-    "note": "クイーンも攻めに合流。b5とe筋を同時ににらむ。"
+    "note": "クイーンも攻撃に加わり、b5とe6を同時に狙う。"
    },
    {
     "san": "Bc6",
-    "note": "懸命に受ける。"
+    "note": "ビショップをc6へ置いて守る。"
    },
    {
     "san": "Bf5",
-    "note": "e6を狙い、守りの網をこじ開けにいく。"
+    "note": "e6をさらに攻め、黒の守りに決断を迫る。"
    },
    {
     "san": "exf5",
-    "note": "取るしかないが…"
+    "note": "e6のポーンでビショップを取るが、eファイルが開く。"
    },
    {
     "san": "Rxe7",
-    "note": "ルークがe7へ飛び込み、クイーンを召し取る。黒の守りは完全に崩壊した。"
+    "note": "ルークがe7のクイーンを取り、黒はクイーンを失う。"
    },
    {
     "san": "Bxe7",
-    "note": "取り返しても、駒の損とキングの危険は絶望的。カスパロフはここで天を仰ぎ、投了した。"
+    "note": "ビショップでルークを取り返すが、白の攻撃と駒の働きは決定的。"
    },
    {
     "san": "c4",
-    "note": "最後にとどめの一押し。世界王者が機械に敗れた、チェス史に刻まれた瞬間。"
+    "note": "この手のあとカスパロフが投了。白のクイーンが侵入する脅威が残り、実戦はここで終わった。"
    }
   ],
   "en": {
-   "title": "Deep Blue's Opening Trap Study",
+   "title": "Deep Blue vs. Kasparov, Game 6 (1997)",
    "white": "Deep Blue",
    "black": "Garry Kasparov",
-   "opening": "Caro-Kann-inspired study line",
-   "intro": "This is an arranged training line inspired by the famous Deep Blue–Kasparov story; it is not the score of Game 6 from the 1997 rematch. It uses a central knight sacrifice to teach how an opening trap can expose the king.",
-   "takeaway": "Do not memorize an opening name and move order in isolation. Check the underlying tactic, and distinguish a study variation from the historical game score.",
+   "opening": "Caro-Kann Defense, Steinitz Variation (B17)",
+   "intro": "This is Game 6, the sixth and final game of the 1997 Deep Blue–Kasparov rematch in New York. After 7...h6, Deep Blue played the famous 8.Nxe6! knight sacrifice, and Kasparov resigned after 19.c4.",
+   "takeaway": "Opening moves are not just a sequence to memorize. The 8.Nxe6! sacrifice works because it combines pressure on the king with White's lead in development; evaluate material together with king safety and piece activity.",
    "moves": [
     {
      "san": "e4",
@@ -3216,7 +3216,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "dxe4",
-     "note": "Black captures in the center."
+     "note": "Black exchanges the central pawns."
     },
     {
      "san": "Nxe4",
@@ -3232,7 +3232,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ngf6",
-     "note": "The other knight develops naturally."
+     "note": "The other knight develops and addresses the g5-knight."
     },
     {
      "san": "Bd3",
@@ -3248,51 +3248,51 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "h6",
-     "note": "Black tries to drive away the g5-knight, but this creates the tactical opportunity."
+     "note": "Black attacks the g5-knight. This move became the key moment before 8.Nxe6! in the actual game."
     },
     {
      "san": "Nxe6",
-     "note": "The knight sacrifice on e6 is the key idea. Taking it opens the king and leaves Black with a difficult defense."
+     "note": "The famous knight sacrifice from the game. It exploits Black's king safety and lag in development."
     },
     {
      "san": "Qe7",
-     "note": "Black declines the sacrifice in the selected line, but White's initiative is already strong."
+     "note": "Black does not take immediately and uses the queen to meet the sacrifice."
     },
     {
      "san": "O-O",
-     "note": "The machine castles calmly before continuing the attack."
+     "note": "White castles, secures the king, and brings the rook toward the attack."
     },
     {
      "san": "fxe6",
-     "note": "Black eventually captures the knight, opening the f- and e-files around the king."
+     "note": "Black takes the knight. The f-pawn has moved, and the e6-pawn becomes the main target."
     },
     {
      "san": "Bg6+",
-     "note": "The bishop checks and Black also loses the right to castle."
+     "note": "The bishop checks; the black king must move and loses the right to castle."
     },
     {
      "san": "Kd8",
-     "note": "The king moves in the selected line and remains exposed in the center."
+     "note": "The king moves to d8 and remains exposed in the center."
     },
     {
      "san": "Bf4",
-     "note": "White brings another piece into the attack with maximum efficiency."
+     "note": "White brings another bishop into the attack and increases the pressure on e6."
     },
     {
      "san": "b5",
-     "note": "Black looks for a counterplay, but the attack is already advanced."
+     "note": "Black seeks counterplay on the queenside."
     },
     {
      "san": "a4",
-     "note": "White opens the flank to accelerate the attack."
+     "note": "White attacks b5 and prepares to open lines on the queenside."
     },
     {
      "san": "Bb7",
-     "note": "The bishop retreats to a long diagonal."
+     "note": "The bishop develops along the long diagonal."
     },
     {
      "san": "Re1",
-     "note": "The rook occupies the open e-file and targets e6 and e7."
+     "note": "The rook targets the e6-pawn and the e7-square."
     },
     {
      "san": "Nd5",
@@ -3304,43 +3304,43 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kc8",
-     "note": "The king moves toward a safer square."
+     "note": "The king moves to c8 in search of safety."
     },
     {
      "san": "axb5",
-     "note": "White exchanges on the queenside to keep the attack moving."
+     "note": "White opens the queenside to keep the attack moving."
     },
     {
      "san": "cxb5",
-     "note": "Black recaptures in the selected line."
+     "note": "Black recaptures with the c-pawn."
     },
     {
      "san": "Qd3",
-     "note": "The queen joins the attack and eyes b5 and the e-file."
+     "note": "The queen joins the attack and targets b5 and e6."
     },
     {
      "san": "Bc6",
-     "note": "Black tries to defend."
+     "note": "The bishop moves to c6 to defend."
     },
     {
      "san": "Bf5",
-     "note": "The bishop attacks e6 and keeps the defensive net under strain."
+     "note": "The bishop attacks e6 and forces a decision."
     },
     {
      "san": "exf5",
-     "note": "Black captures the bishop, but the king and material remain in serious danger."
+     "note": "The e6-pawn captures the bishop, but the e-file opens."
     },
     {
      "san": "Rxe7",
-     "note": "The rook invades e7 and wins the queen; the black defense collapses."
+     "note": "The rook takes the queen on e7; Black has lost the queen."
     },
     {
      "san": "Bxe7",
-     "note": "Black recaptures, but the position is hopeless and the game is resigned."
+     "note": "Black recaptures the rook, but White's attack and piece activity are decisive."
     },
     {
      "san": "c4",
-     "note": "A final push underlines the tactical finish shown in this study line."
+     "note": "After this move Kasparov resigned. White threatens to invade with the queen, and the historical game ends here."
     }
    ]
   }
