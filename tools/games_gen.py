@@ -10,6 +10,11 @@ import json
 import os
 import sys
 
+try:
+    from games_en import EN
+except ImportError:
+    EN = {}
+
 # 各ゲーム: moves は (SAN, 解説) の並び。plies は白→黒→白…の順。
 GAMES = [
   {
@@ -474,13 +479,13 @@ GAMES = [
 
   {
     "id": "deepblue_kasparov",
-    "title": "機械が王者を破った日",
+    "title": "ディープ・ブルーの定跡トラップ(学習ライン)",
     "white": "ディープ・ブルー",
     "black": "ガルリ・カスパロフ",
-    "year": 1997, "event": "IBM再戦・ニューヨーク 第6局", "result": "1-0",
-    "opening": "カロ・カン・ディフェンス",
-    "intro": "当時の世界王者カスパロフが、コンピュータ『ディープ・ブルー』に敗れた歴史的な一局。人間が油断しがちな定跡の落とし穴に、機械は迷わずナイトを捨てて踏み込みました。",
-    "takeaway": "有名なワナ(Nxe6)は知っていれば避けられる。うろ覚えの定跡は身を滅ぼす——機械はそこを容赦なく突いた。",
+    "year": 1997, "event": "ディープ・ブルー戦を題材にした学習用アレンジライン", "result": "1-0",
+    "opening": "カロ・カン風の学習ライン",
+    "intro": "ディープ・ブルー対カスパロフ戦の有名な文脈を題材にした、戦術学習用のアレンジラインです。実際の1997年再戦第6局の棋譜そのものではありません。中央のナイト犠牲からキングを攻める考え方を学びます。",
+    "takeaway": "定跡名や手順を丸暗記するだけでなく、背後の戦術を確認する。似た形でも、実戦の棋譜と学習用の変化手順は区別して読む。",
     "moves": [
       ("e4", "中央を取る。"),
       ("c6", "カロ・カン。次にd5とぶつける準備。"),
@@ -527,7 +532,7 @@ GAMES = [
     "title": "カスパロフの大王狩り",
     "white": "ガルリ・カスパロフ",
     "black": "ヴェセリン・トパロフ",
-    "year": 1999, "event": "ホーヘフェーン(ウェイク・アン・ゼー)", "result": "1-0",
+    "year": 1999, "event": "ホーホーフェンス・トーナメント(ウェイク・アーン・ゼー)", "result": "1-0",
     "opening": "ピルツ・ディフェンス",
     "intro": "『カスパロフのイモータル』と讃えられる、史上屈指の大作。ルークを捨てて相手のキングを自陣から敵陣のすみずみまで引きずり回し、盤を横断するキング狩りで仕留めます。",
     "takeaway": "決め手が見えたら駒の損得を超えて踏み込む。連続チェックで相手のキングを『逃げ道のある広い場所』へ誘い出し、正確な追撃で仕留める。",
@@ -935,13 +940,25 @@ def verify_and_build():
         print("%s %-22s %2d手 %s" % (status, g["id"], len(g["moves"]), bad or ""))
         if bad:
             continue
-        out.append({
+        item = {
             "id": g["id"], "title": g["title"],
             "white": g["white"], "black": g["black"],
             "year": g["year"], "event": g["event"], "result": g["result"],
             "opening": g["opening"], "intro": g["intro"], "takeaway": g["takeaway"],
             "moves": [{"san": s, "note": n} for s, n in g["moves"]],
-        })
+        }
+        en = EN.get(g["id"])
+        if en:
+            if len(en["notes"]) != len(g["moves"]):
+                print("NG! %s: 英語ノート数が指し手数と一致しません" % g["id"])
+                ok_all = False
+            else:
+                item["en"] = {
+                    "title": en["title"], "white": en["white"], "black": en["black"],
+                    "opening": en["opening"], "intro": en["intro"], "takeaway": en["takeaway"],
+                    "moves": [{"san": s, "note": n} for (s, _), n in zip(g["moves"], en["notes"])],
+                }
+        out.append(item)
     print("=" * 68)
     print("verified %d / %d games" % (len(out), len(GAMES)))
     return out, ok_all

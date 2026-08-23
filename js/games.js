@@ -145,7 +145,149 @@ const FAMOUS_GAMES = [
     "san": "Rd8#",
     "note": "ルークがd8に入りチェックメイト。全ての駒を働かせた者が、遊ばせた者に勝つ典型。"
    }
-  ]
+  ],
+  "en": {
+   "title": "A Night at the Opera",
+   "white": "Paul Morphy",
+   "black": "Duke of Brunswick & Count Isouard",
+   "opening": "Philidor Defense",
+   "intro": "Known for the story that it was played during an opera performance, this game is a model attacking lesson. Morphy develops every piece quickly and punishes Black while several pieces remain out of play.",
+   "takeaway": "Chess is about activity, not just material. Bring every piece into the attack before the opponent can coordinate.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Advance the king pawn two squares: take central space and open the bishops' and queen's diagonals."
+    },
+    {
+     "san": "e5",
+     "note": "Black answers symmetrically and contests the center."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops the knight while attacking the e5-pawn, combining development with a threat."
+    },
+    {
+     "san": "d6",
+     "note": "The pawn is defended, but the move is passive and restricts Black's bishop."
+    },
+    {
+     "san": "d4",
+     "note": "The other central pawn advances to challenge the center."
+    },
+    {
+     "san": "Bg4",
+     "note": "The bishop pins the knight, but the placement later becomes a target."
+    },
+    {
+     "san": "dxe5",
+     "note": "White captures in the center and tests the relationship between Black's bishop and knight."
+    },
+    {
+     "san": "Bxf3",
+     "note": "Black chooses to recapture, but this helps White gain time and activity."
+    },
+    {
+     "san": "Qxf3",
+     "note": "The queen recaptures and reaches a useful square, eyeing f7 and b7."
+    },
+    {
+     "san": "dxe5",
+     "note": "Black recaptures in turn. The material looks even, but White is ahead in development."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop targets the weak f7-square and gives the attack a clear direction."
+    },
+    {
+     "san": "Nf6",
+     "note": "The knight develops while covering ideas based on Qh5."
+    },
+    {
+     "san": "Qb3",
+     "note": "The queen attacks b7 and f7 at the same time, creating two difficult targets."
+    },
+    {
+     "san": "Qe7",
+     "note": "The queen moves to defend f7, losing more time and coordination."
+    },
+    {
+     "san": "Nc3",
+     "note": "White chooses development over a pawn grab and brings another piece into play."
+    },
+    {
+     "san": "c6",
+     "note": "Black protects b7 and d5, but is forced into defense instead of an active plan."
+    },
+    {
+     "san": "Bg5",
+     "note": "The last minor piece joins in and pins the f6-knight to the queen on d8."
+    },
+    {
+     "san": "b5",
+     "note": "Black tries to counterattack, but the move only invites White's bishop forward."
+    },
+    {
+     "san": "Nxb5",
+     "note": "White gives up the knight to destroy c6 and open lines around the uncastled king."
+    },
+    {
+     "san": "cxb5",
+     "note": "This is the selected line. Accepting the sacrifice lets White's attack accelerate; other choices would lead to different defenses."
+    },
+    {
+     "san": "Bxb5+",
+     "note": "The bishop checks while targeting d7. Black's king still has no safe castling position."
+    },
+    {
+     "san": "Nbd7",
+     "note": "The knight steps in to defend, but becomes the next target."
+    },
+    {
+     "san": "O-O-O",
+     "note": "Castling places a rook on the d-file, concentrating force on the pinned defender."
+    },
+    {
+     "san": "Rd8",
+     "note": "Black reinforces the pinned knight, but all of the pieces are tied to defensive duties."
+    },
+    {
+     "san": "Rxd7",
+     "note": "White removes a key defender and peels away another layer of the position."
+    },
+    {
+     "san": "Rxd7",
+     "note": "Black recaptures in this line, but the pressure on the d-file remains."
+    },
+    {
+     "san": "Rd1",
+     "note": "The second rook joins the d-file, doubling the pressure on the pinned piece."
+    },
+    {
+     "san": "Qe6",
+     "note": "The queen supports d7 and looks for a way to survive, but White's finish is close."
+    },
+    {
+     "san": "Bxd7+",
+     "note": "White gives up another piece to preserve the pin and expose the black king."
+    },
+    {
+     "san": "Nxd7",
+     "note": "Black recaptures, leaving the d7-knight pinned and unable to move safely."
+    },
+    {
+     "san": "Qb8+",
+     "note": "The queen sacrifice is the final combination. If Black takes, the pinned knight must move and the d-file opens."
+    },
+    {
+     "san": "Nxb8",
+     "note": "Black accepts in the selected line, and the d-file is now completely open."
+    },
+    {
+     "san": "Rd8#",
+     "note": "The rook mates on d8. White's active army overwhelms Black's pieces, which never had time to coordinate."
+    }
+   ]
+  }
  },
  {
   "id": "immortal",
@@ -339,7 +481,197 @@ const FAMOUS_GAMES = [
     "san": "Be7#",
     "note": "ビショップがe7に入りチェックメイト。ルーク2枚とクイーンを捨てた側が、軽い駒だけで詰ませた伝説の幕切れ。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The Immortal Game",
+   "white": "Adolf Anderssen",
+   "black": "Lionel Kieseritzky",
+   "opening": "King's Gambit",
+   "intro": "A symbol of Romantic-era chess. Anderssen gives up a bishop, two rooks, and finally the queen, then mates with the remaining minor pieces. The game shows how activity and concrete threats can outweigh material in a forcing attack.",
+   "takeaway": "A sacrifice can be an investment: drive the enemy pieces into awkward roles and use the resulting coordination to build a mating net.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e5",
+     "note": "Black replies symmetrically."
+    },
+    {
+     "san": "f4",
+     "note": "The King's Gambit sacrifices a pawn to gain central control and attacking time."
+    },
+    {
+     "san": "exf4",
+     "note": "Black accepts the gambit."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop develops toward f7."
+    },
+    {
+     "san": "Qh4+",
+     "note": "The queen checks, drives the king from f1, and removes White's castling option."
+    },
+    {
+     "san": "Kf1",
+     "note": "The king moves; White now commits to an attack rather than king safety."
+    },
+    {
+     "san": "b5",
+     "note": "Black tries to drive the bishop away."
+    },
+    {
+     "san": "Bxb5",
+     "note": "White takes the pawn while keeping the bishop active."
+    },
+    {
+     "san": "Nf6",
+     "note": "Develops while watching g4 and e4."
+    },
+    {
+     "san": "Nf3",
+     "note": "White develops with tempo by attacking the black queen."
+    },
+    {
+     "san": "Qh6",
+     "note": "The queen keeps its material, but its distant square contributes little to defense."
+    },
+    {
+     "san": "d3",
+     "note": "Supports the center and opens the c1-bishop's diagonal."
+    },
+    {
+     "san": "Nh5",
+     "note": "The knight protects f4 but is pushed toward the edge."
+    },
+    {
+     "san": "Nh4",
+     "note": "Eyes an advance to f5 and puts pressure on the queen."
+    },
+    {
+     "san": "Qg5",
+     "note": "The queen sidesteps the threat but remains poorly placed."
+    },
+    {
+     "san": "Nf5",
+     "note": "The knight reaches an excellent outpost and eyes g7 and the surrounding squares."
+    },
+    {
+     "san": "c6",
+     "note": "Black drives the bishop away."
+    },
+    {
+     "san": "g4",
+     "note": "The pawn protects the knight on f5 and drives the h5-knight, despite opening lines near the king."
+    },
+    {
+     "san": "Nf6",
+     "note": "The edge knight returns."
+    },
+    {
+     "san": "Rg1",
+     "note": "The rook prepares to use the open g-file; this is a first hint of the coming sacrifice."
+    },
+    {
+     "san": "cxb5",
+     "note": "Black takes the bishop and wins material, but White now begins a sequence of sacrifices."
+    },
+    {
+     "san": "h4",
+     "note": "The pawn drives the queen and opens the h-file as another attacking route."
+    },
+    {
+     "san": "Qg6",
+     "note": "The queen searches for a safe square."
+    },
+    {
+     "san": "h5",
+     "note": "White drives it again; the black queen is forced from target to target."
+    },
+    {
+     "san": "Qg5",
+     "note": "The queen returns in the selected line."
+    },
+    {
+     "san": "Qf3",
+     "note": "The queen attacks the f6-knight and also eyes the f7-area, creating two pressures."
+    },
+    {
+     "san": "Ng8",
+     "note": "The knight retreats to help defend, leaving Black's pieces poorly coordinated."
+    },
+    {
+     "san": "Bxf4",
+     "note": "White recovers the sacrificed f4-pawn while attacking the queen and rebuilding the attack."
+    },
+    {
+     "san": "Qf6",
+     "note": "The queen is pulled into defensive work."
+    },
+    {
+     "san": "Nc3",
+     "note": "White develops the last minor piece and points the whole army toward the king."
+    },
+    {
+     "san": "Bc5",
+     "note": "Black tries to counterattack against the rook on g1."
+    },
+    {
+     "san": "Nd5",
+     "note": "The knight centralizes with tempo against the queen; White is ready to sacrifice the rook."
+    },
+    {
+     "san": "Qxb2",
+     "note": "Black takes the rook, moving the queen far away from the defense."
+    },
+    {
+     "san": "Bd6",
+     "note": "White sacrifices the bishop to remove a defender and prepare the mating net."
+    },
+    {
+     "san": "Bxg1",
+     "note": "Black takes the bishop, but White's attacking pieces are reaching their targets."
+    },
+    {
+     "san": "e5",
+     "note": "The pawn blocks the queen's route back to the defense; Black cannot reorganize in time."
+    },
+    {
+     "san": "Qxa1+",
+     "note": "Black takes the other rook, but those rooks are no longer relevant to the mating attack."
+    },
+    {
+     "san": "Ke2",
+     "note": "The king steps away from check. White's king walks to safety under its own power."
+    },
+    {
+     "san": "Na6",
+     "note": "Black makes a late defensive attempt, but it is too slow."
+    },
+    {
+     "san": "Nxg7+",
+     "note": "A minor piece checks and the mating net begins to close."
+    },
+    {
+     "san": "Kd8",
+     "note": "The king moves in the selected line; other legal replies can lead to different continuations."
+    },
+    {
+     "san": "Qf6+",
+     "note": "The queen sacrifice is the final blow. If it is taken, the knight is freed from its pin."
+    },
+    {
+     "san": "Nxf6",
+     "note": "Black accepts the queen in this line."
+    },
+    {
+     "san": "Be7#",
+     "note": "The bishop mates on e7. After giving up both rooks and the queen, White finishes with the light pieces alone."
+    }
+   ]
+  }
  },
  {
   "id": "evergreen",
@@ -541,7 +873,205 @@ const FAMOUS_GAMES = [
     "san": "Bxe7#",
     "note": "ビショップがe7を取ってチェックメイト。二枚の犠牲から生まれた完璧な詰み。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The Evergreen Game",
+   "white": "Adolf Anderssen",
+   "black": "Jean Dufresne",
+   "opening": "Evans Gambit",
+   "intro": "A game praised as one that never grows old. White finishes with a beautiful sequence of sacrifices, making it a useful example of building an attack and using combinations to remove defenders.",
+   "takeaway": "Aim every attacking piece at the opponent's weak files and diagonals. A sacrifice can pull defenders away and make the final mating net possible.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e5",
+     "note": "Black mirrors the move."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops while attacking e5."
+    },
+    {
+     "san": "Nc6",
+     "note": "Develops while defending the pawn."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop targets f7."
+    },
+    {
+     "san": "Bc5",
+     "note": "Black develops symmetrically."
+    },
+    {
+     "san": "b4",
+     "note": "The Evans Gambit sacrifices a pawn to prepare c3 and d4 quickly, buying central space and development."
+    },
+    {
+     "san": "Bxb4",
+     "note": "Black accepts the gambit."
+    },
+    {
+     "san": "c3",
+     "note": "Prepares d4 and attacks the bishop, using the sacrificed pawn to gain time."
+    },
+    {
+     "san": "Ba5",
+     "note": "The bishop preserves itself."
+    },
+    {
+     "san": "d4",
+     "note": "White expands in the center and uses the open position to accelerate development."
+    },
+    {
+     "san": "exd4",
+     "note": "Black captures in the center."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles and brings a rook toward the center; the attack is ready to grow."
+    },
+    {
+     "san": "d3",
+     "note": "Black advances the pawn to disturb White's formation."
+    },
+    {
+     "san": "Qb3",
+     "note": "The queen attacks f7 and b7 at once."
+    },
+    {
+     "san": "Qf6",
+     "note": "The queen defends f7."
+    },
+    {
+     "san": "e5",
+     "note": "The pawn drives the black queen while taking more central space."
+    },
+    {
+     "san": "Qg6",
+     "note": "The queen retreats."
+    },
+    {
+     "san": "Re1",
+     "note": "The rook takes the open e-file and begins to control the center."
+    },
+    {
+     "san": "Nge7",
+     "note": "The knight develops and prepares ideas such as ...f5."
+    },
+    {
+     "san": "Ba3",
+     "note": "The bishop reaches a long diagonal, interferes with castling, and targets e7."
+    },
+    {
+     "san": "b5",
+     "note": "Black starts a counterattack."
+    },
+    {
+     "san": "Qxb5",
+     "note": "White takes the pawn and keeps the pressure."
+    },
+    {
+     "san": "Rb8",
+     "note": "Black attacks the queen."
+    },
+    {
+     "san": "Qa4",
+     "note": "The queen retreats while watching d7 and a5."
+    },
+    {
+     "san": "Bb6",
+     "note": "The bishop develops actively."
+    },
+    {
+     "san": "Nbd2",
+     "note": "White develops the last minor piece and prepares a central jump."
+    },
+    {
+     "san": "Bb7",
+     "note": "Black also develops and eyes the knight on f3."
+    },
+    {
+     "san": "Ne4",
+     "note": "The knight reaches the center and attacks f6 and d6; White's attacking setup is complete."
+    },
+    {
+     "san": "Qf5",
+     "note": "The queen defends while looking for counterplay."
+    },
+    {
+     "san": "Bxd3",
+     "note": "White recovers the pawn and adds another attacking piece."
+    },
+    {
+     "san": "Qh5",
+     "note": "The queen heads toward White's king and starts the final phase."
+    },
+    {
+     "san": "Nf6+",
+     "note": "The knight checks and invites gxf6, opening lines in front of the black king."
+    },
+    {
+     "san": "gxf6",
+     "note": "Black accepts the capture in the selected line, weakening the king."
+    },
+    {
+     "san": "exf6",
+     "note": "The pawn advances against the exposed king."
+    },
+    {
+     "san": "Rg8",
+     "note": "Black seeks counterplay against g2."
+    },
+    {
+     "san": "Rad1",
+     "note": "The last rook joins the center and prepares a sacrifice on d7."
+    },
+    {
+     "san": "Qxf3",
+     "note": "Black takes the knight, but White's combination is stronger."
+    },
+    {
+     "san": "Rxe7+",
+     "note": "White sacrifices the rook to remove a defender and pull out the black king."
+    },
+    {
+     "san": "Nxe7",
+     "note": "Black recaptures in the selected line."
+    },
+    {
+     "san": "Qxd7+",
+     "note": "The queen sacrifice is the second blow; taking it allows the forcing checks to continue."
+    },
+    {
+     "san": "Kxd7",
+     "note": "Black accepts in this line."
+    },
+    {
+     "san": "Bf5+",
+     "note": "The bishop checks and drives the king into a narrow area."
+    },
+    {
+     "san": "Ke8",
+     "note": "The king returns."
+    },
+    {
+     "san": "Bd7+",
+     "note": "Another check pushes the king farther in."
+    },
+    {
+     "san": "Kf8",
+     "note": "The king moves to the selected square."
+    },
+    {
+     "san": "Bxe7#",
+     "note": "The bishop captures on e7 and mates. Two sacrifices have created a complete mating net."
+    }
+   ]
+  }
  },
  {
   "id": "reti_tartakower",
@@ -639,7 +1169,101 @@ const FAMOUS_GAMES = [
     "san": "Bd8#",
     "note": "ビショップがd8に戻ってチェックメイト。クイーンを捨てて二枚のビショップだけで詰ませた鮮烈な幕切れ。"
    }
-  ]
+  ],
+  "en": {
+   "title": "A Queen Sacrifice in One Flash",
+   "white": "Richard Réti",
+   "black": "Savielly Tartakower",
+   "opening": "Caro-Kann-style setup",
+   "intro": "In only eleven moves, White turns a central skirmish into a queen sacrifice that drags the black king into the open and finishes with two bishops. It is a compact lesson in forcing combinations.",
+   "takeaway": "When the enemy king is stranded in the center, a sacrifice can draw it onto a vulnerable square where the minor pieces can coordinate a mate.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "c6",
+     "note": "The Caro-Kann setup prepares ...d5 to challenge e4."
+    },
+    {
+     "san": "d4",
+     "note": "Expands in the center."
+    },
+    {
+     "san": "d5",
+     "note": "Black challenges the center as planned."
+    },
+    {
+     "san": "Nc3",
+     "note": "Attacks d5 and supports e4."
+    },
+    {
+     "san": "dxe4",
+     "note": "Black captures in the center."
+    },
+    {
+     "san": "Nxe4",
+     "note": "White recaptures and places the knight on a strong central square."
+    },
+    {
+     "san": "Nf6",
+     "note": "Develops while attacking the knight on e4."
+    },
+    {
+     "san": "Qd3",
+     "note": "The queen moves forward deliberately, preparing the later sacrifice."
+    },
+    {
+     "san": "e5",
+     "note": "Black strikes in the center, but the king remains uncastled."
+    },
+    {
+     "san": "dxe5",
+     "note": "White captures, opening lines and making the exposed king more vulnerable."
+    },
+    {
+     "san": "Qa5+",
+     "note": "The queen checks while preparing to recover the pawn on e5."
+    },
+    {
+     "san": "Bd2",
+     "note": "White answers the check and develops."
+    },
+    {
+     "san": "Qxe5",
+     "note": "Black recovers the pawn, but the king is still exposed in the center."
+    },
+    {
+     "san": "O-O-O",
+     "note": "Castling places a rook on the d-file and points it toward the black king."
+    },
+    {
+     "san": "Nxe4",
+     "note": "Black wins a knight, but this is the tactical mistake in the selected game."
+    },
+    {
+     "san": "Qd8+",
+     "note": "White offers the queen with check. If Black takes, the king is dragged onto a mating square."
+    },
+    {
+     "san": "Kxd8",
+     "note": "Black accepts in the selected line and the king is pulled to d8."
+    },
+    {
+     "san": "Bg5+",
+     "note": "The bishop checks and limits the king's escape squares."
+    },
+    {
+     "san": "Kc7",
+     "note": "The king moves in the selected variation."
+    },
+    {
+     "san": "Bd8#",
+     "note": "The bishop returns to d8 and mates. White has given up the queen to finish with two bishops."
+    }
+   ]
+  }
  },
  {
   "id": "lasker_thomas",
@@ -793,7 +1417,157 @@ const FAMOUS_GAMES = [
     "san": "O-O-O#",
     "note": "キャスリングでルークがd1に入り、盤を縦断してきたキングをチェックメイト。史上もっとも有名なキング狩りの完成。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The King Hunt",
+   "white": "Edward Lasker",
+   "black": "George Thomas",
+   "opening": "Dutch Defense",
+   "intro": "A classic king hunt: after a queen sacrifice, Black's king is driven from its shelter across the board and finally mated. It demonstrates the power of a coordinated attack against an exposed king.",
+   "takeaway": "Once the king's shelter has been broken, a sequence of checks can drive it far from safety. The attacking pieces must keep the escape squares controlled.",
+   "moves": [
+    {
+     "san": "d4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e6",
+     "note": "A flexible move that can lead to Dutch- or French-style structures."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops naturally."
+    },
+    {
+     "san": "f5",
+     "note": "The Dutch Defense controls e4 and seeks active play, but it also weakens the area around the king."
+    },
+    {
+     "san": "Nc3",
+     "note": "Continues development."
+    },
+    {
+     "san": "Nf6",
+     "note": "Develops symmetrically."
+    },
+    {
+     "san": "Bg5",
+     "note": "Pins the knight on f6."
+    },
+    {
+     "san": "Be7",
+     "note": "Prepares to break the pin."
+    },
+    {
+     "san": "Bxf6",
+     "note": "White exchanges deliberately to remove a defender near the black king."
+    },
+    {
+     "san": "Bxf6",
+     "note": "Black recaptures."
+    },
+    {
+     "san": "e4",
+     "note": "White opens the center and prepares to attack the weakened king."
+    },
+    {
+     "san": "fxe4",
+     "note": "Black takes in the center."
+    },
+    {
+     "san": "Nxe4",
+     "note": "White recaptures and centralizes the knight."
+    },
+    {
+     "san": "b6",
+     "note": "Black tries to open the bishop's diagonal, but development is still behind."
+    },
+    {
+     "san": "Ne5",
+     "note": "The knight jumps toward the key squares around g4 and f7."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles, but the newly castled king becomes the target."
+    },
+    {
+     "san": "Bd3",
+     "note": "The bishop takes aim at h7 and completes the attacking setup."
+    },
+    {
+     "san": "Bb7",
+     "note": "Black tries to defend, but the response is too slow."
+    },
+    {
+     "san": "Qh5",
+     "note": "The queen attacks h7 twice and prepares the decisive sacrifice."
+    },
+    {
+     "san": "Qe7",
+     "note": "Black attempts to meet the threat."
+    },
+    {
+     "san": "Qxh7+",
+     "note": "The queen captures on h7 with check, sacrificing itself to tear open the king's shelter."
+    },
+    {
+     "san": "Kxh7",
+     "note": "Black accepts the queen in the selected line, pulling the king out."
+    },
+    {
+     "san": "Nxf6+",
+     "note": "The knight checks and drives the king farther away."
+    },
+    {
+     "san": "Kh6",
+     "note": "The king moves in the selected variation; the position may offer other legal choices."
+    },
+    {
+     "san": "Neg4+",
+     "note": "The second knight joins the checks."
+    },
+    {
+     "san": "Kg5",
+     "note": "The king is driven toward the center."
+    },
+    {
+     "san": "h4+",
+     "note": "Even the pawn gives check, cutting off the return route."
+    },
+    {
+     "san": "Kf4",
+     "note": "The king is forced deeper into White's half of the board."
+    },
+    {
+     "san": "g3+",
+     "note": "Another pawn check continues the chase."
+    },
+    {
+     "san": "Kf3",
+     "note": "The king moves farther into the attack."
+    },
+    {
+     "san": "Be2+",
+     "note": "The bishop checks and keeps the king boxed in."
+    },
+    {
+     "san": "Kg2",
+     "note": "The king moves toward the corner."
+    },
+    {
+     "san": "Rh2+",
+     "note": "The rook joins the attack with check."
+    },
+    {
+     "san": "Kg1",
+     "note": "The king reaches the corner."
+    },
+    {
+     "san": "O-O-O#",
+     "note": "Castling completes the combination: the rook arrives on d1 and mates the king that has crossed the board."
+    }
+   ]
+  }
  },
  {
   "id": "legal",
@@ -867,7 +1641,77 @@ const FAMOUS_GAMES = [
     "san": "Nd5#",
     "note": "ナイトがd5に入りチェックメイト。クイーンを捨てて軽い駒3枚で詰ませた、罠の完成形。"
    }
-  ]
+  ],
+  "en": {
+   "title": "Legal's Trap",
+   "white": "Kermur de Legal",
+   "black": "Saint Brie",
+   "opening": "Italian-style opening",
+   "intro": "A classic pattern often taught as Legal's Mate. White allows the queen to be taken and then mates with the knights and bishop, turning a pin into a tactical resource.",
+   "takeaway": "A pin is not absolute. When a mating sequence is available, a pinned piece may move if the concrete calculation supports it.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e5",
+     "note": "Black mirrors the move."
+    },
+    {
+     "san": "Nf3",
+     "note": "Attacks e5."
+    },
+    {
+     "san": "Nc6",
+     "note": "Defends the pawn."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop targets f7."
+    },
+    {
+     "san": "d6",
+     "note": "A solid, passive central defense."
+    },
+    {
+     "san": "Nc3",
+     "note": "Develops another piece."
+    },
+    {
+     "san": "Bg4",
+     "note": "The bishop pins the f3-knight and thinks the queen has been secured."
+    },
+    {
+     "san": "h3",
+     "note": "White asks the bishop to decide between moving and exchanging."
+    },
+    {
+     "san": "Bh5",
+     "note": "The bishop keeps the pin, but this allows the tactical idea."
+    },
+    {
+     "san": "Nxe5",
+     "note": "The knight moves despite the pin and attacks the queen; White is offering it as bait."
+    },
+    {
+     "san": "Bxd1",
+     "note": "Black takes the queen, but this is the decisive mistake."
+    },
+    {
+     "san": "Bxf7+",
+     "note": "The bishop checks and draws the king into the mating net."
+    },
+    {
+     "san": "Ke7",
+     "note": "The king chooses the line shown in this study."
+    },
+    {
+     "san": "Nd5#",
+     "note": "The knight mates on d5. White has given up the queen to finish with a coordinated group of minor pieces."
+    }
+   ]
+  }
  },
  {
   "id": "canal",
@@ -989,7 +1833,125 @@ const FAMOUS_GAMES = [
     "san": "Ba6#",
     "note": "ビショップがa6に入りチェックメイト。両ルークとクイーンを捨て、ビショップ一枚で締めくくる圧巻の幕切れ。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The Peruvian Immortal",
+   "white": "Esteban Canal",
+   "black": "Anonymous (NN)",
+   "opening": "Scandinavian Defense",
+   "intro": "Known as the Peruvian Immortal, this attacking game ends with White sacrificing both rooks and the queen before mating with a single bishop. It also shows why an early castle is not automatically safe when the attacking lines point toward it.",
+   "takeaway": "A castled king can still become a target. When a diagonal opens, a chain of sacrifices may suddenly make a mating attack possible.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "d5",
+     "note": "The Scandinavian immediately challenges e4."
+    },
+    {
+     "san": "exd5",
+     "note": "White captures in the center."
+    },
+    {
+     "san": "Qxd5",
+     "note": "Black recaptures with the queen, developing it early but also making it a target."
+    },
+    {
+     "san": "Nc3",
+     "note": "Develops with tempo by attacking the queen."
+    },
+    {
+     "san": "Qa5",
+     "note": "The queen retreats to a standard diagonal square."
+    },
+    {
+     "san": "d4",
+     "note": "Expands in the center."
+    },
+    {
+     "san": "c6",
+     "note": "Creates an escape square for the queen and a route for the bishop."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops."
+    },
+    {
+     "san": "Bg4",
+     "note": "Pins the f3-knight."
+    },
+    {
+     "san": "Bf4",
+     "note": "Develops while looking toward c7."
+    },
+    {
+     "san": "e6",
+     "note": "Opens the bishop's diagonal."
+    },
+    {
+     "san": "h3",
+     "note": "Questions the pinned bishop."
+    },
+    {
+     "san": "Bxf3",
+     "note": "Black chooses the exchange."
+    },
+    {
+     "san": "Qxf3",
+     "note": "White recaptures and places the queen actively."
+    },
+    {
+     "san": "Bb4",
+     "note": "Black uses the pin to seek counterplay."
+    },
+    {
+     "san": "Be2",
+     "note": "White quietly prepares to castle."
+    },
+    {
+     "san": "Nd7",
+     "note": "Develops."
+    },
+    {
+     "san": "a3",
+     "note": "The bishop is questioned again."
+    },
+    {
+     "san": "O-O-O",
+     "note": "Black castles long in the selected line, but that side of the board is exactly where White's attack is aimed."
+    },
+    {
+     "san": "axb4",
+     "note": "White captures the bishop and opens lines toward the black queen."
+    },
+    {
+     "san": "Qxa1+",
+     "note": "Black takes a rook with check, but this is the first step in White's forcing sacrifice sequence."
+    },
+    {
+     "san": "Kd2",
+     "note": "The king answers the check; White keeps the initiative."
+    },
+    {
+     "san": "Qxh1",
+     "note": "Black takes the second rook, but the captured rooks cannot return to defend the king."
+    },
+    {
+     "san": "Qxc6+",
+     "note": "White sacrifices the queen with check. If Black accepts, the bishop's final check becomes decisive."
+    },
+    {
+     "san": "bxc6",
+     "note": "Black accepts in this line, leaving the king's front completely open."
+    },
+    {
+     "san": "Ba6#",
+     "note": "The bishop mates on a6. White has given up both rooks and the queen to finish with one bishop."
+    }
+   ]
+  }
  },
  {
   "id": "levitsky_marshall",
@@ -1187,7 +2149,201 @@ const FAMOUS_GAMES = [
     "san": "Qg3",
     "note": "空きマスへクイーンを『捨てる』伝説の一手。hxg3でもfxg3でもQxg3でも、いずれもNe2かNf3の二股や詰みが受からない。白は投了。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The Gold Coins Game",
+   "white": "Stepan Levitsky",
+   "black": "Frank Marshall",
+   "opening": "French-style central battle",
+   "intro": "Marshall's final move was so striking that spectators were said to have thrown gold coins onto the board; the story is disputed. The move is a famous example of a queen sacrifice that creates several simultaneous tactical threats.",
+   "takeaway": "A piece placed on a seemingly safe square can create multiple mating or winning threats at once. Sometimes the strongest fork begins with a sacrifice.",
+   "moves": [
+    {
+     "san": "d4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e6",
+     "note": "A flexible French-style setup."
+    },
+    {
+     "san": "e4",
+     "note": "Expands further in the center."
+    },
+    {
+     "san": "d5",
+     "note": "Challenges the center."
+    },
+    {
+     "san": "Nc3",
+     "note": "Develops while attacking d5."
+    },
+    {
+     "san": "c5",
+     "note": "Counters by striking at d4."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops."
+    },
+    {
+     "san": "Nc6",
+     "note": "Develops."
+    },
+    {
+     "san": "exd5",
+     "note": "White exchanges in the center."
+    },
+    {
+     "san": "exd5",
+     "note": "Black recaptures and opens the center."
+    },
+    {
+     "san": "Be2",
+     "note": "Develops and prepares to castle."
+    },
+    {
+     "san": "Nf6",
+     "note": "Develops."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles."
+    },
+    {
+     "san": "Be7",
+     "note": "Black also develops."
+    },
+    {
+     "san": "Bg5",
+     "note": "The bishop pins the f6-knight and adds pressure."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles."
+    },
+    {
+     "san": "dxc5",
+     "note": "White captures the pawn and disturbs Black's center."
+    },
+    {
+     "san": "Be6",
+     "note": "Develops while supporting d5."
+    },
+    {
+     "san": "Nd4",
+     "note": "The knight centralizes."
+    },
+    {
+     "san": "Bxc5",
+     "note": "Black recovers the pawn and activates the bishop."
+    },
+    {
+     "san": "Nxe6",
+     "note": "White exchanges to damage Black's structure."
+    },
+    {
+     "san": "fxe6",
+     "note": "Black recaptures, opening the f-file and creating a possible attacking route."
+    },
+    {
+     "san": "Bg4",
+     "note": "The bishop targets e6."
+    },
+    {
+     "san": "Qd6",
+     "note": "The queen becomes active."
+    },
+    {
+     "san": "Bh3",
+     "note": "The bishop keeps pressure on e6."
+    },
+    {
+     "san": "Rae8",
+     "note": "The rook occupies the open e-file."
+    },
+    {
+     "san": "Qd2",
+     "note": "The queen improves its position."
+    },
+    {
+     "san": "Bb4",
+     "note": "The bishop pins the knight and prepares a tactical attack."
+    },
+    {
+     "san": "Bxf6",
+     "note": "White exchanges to remove the pin."
+    },
+    {
+     "san": "Rxf6",
+     "note": "Black recaptures with the rook and eyes the f-file."
+    },
+    {
+     "san": "Rad1",
+     "note": "The rook reaches the d-file."
+    },
+    {
+     "san": "Qc5",
+     "note": "The queen strengthens the pin on the knight and accelerates the attack."
+    },
+    {
+     "san": "Qe2",
+     "note": "White tries to defend."
+    },
+    {
+     "san": "Bxc3",
+     "note": "Black captures the pinned knight and damages the pawn structure."
+    },
+    {
+     "san": "bxc3",
+     "note": "White recaptures, but the pawn structure is weakened."
+    },
+    {
+     "san": "Qxc3",
+     "note": "The queen captures deeply and enters the white position."
+    },
+    {
+     "san": "Rxd5",
+     "note": "White counterattacks by taking on d5."
+    },
+    {
+     "san": "Nd4",
+     "note": "The knight reaches a strong square and attacks e2 and f3."
+    },
+    {
+     "san": "Qh5",
+     "note": "The queen moves forward to seek counterplay."
+    },
+    {
+     "san": "Ref8",
+     "note": "The second rook joins the f-file and concentrates the attack."
+    },
+    {
+     "san": "Re5",
+     "note": "White tries to defend."
+    },
+    {
+     "san": "Rh6",
+     "note": "The rook attacks the queen and keeps the attack going."
+    },
+    {
+     "san": "Qg5",
+     "note": "White tries to defend again."
+    },
+    {
+     "san": "Rxh3",
+     "note": "The rook captures the bishop and opens more lines around the king."
+    },
+    {
+     "san": "Rc5",
+     "note": "White attempts a counterattack, but the next move ends the game."
+    },
+    {
+     "san": "Qg3",
+     "note": "The queen is offered on an apparently safe square. Each of the three captures leads to a decisive fork or mating attack; White resigns."
+    }
+   ]
+  }
  },
  {
   "id": "byrne_fischer",
@@ -1529,19 +2685,357 @@ const FAMOUS_GAMES = [
     "san": "Rc2#",
     "note": "ルークがc2に入りチェックメイト。13歳の少年が、クイーンを捨てて軽い駒だけで相手のキングを狩り切った、まさに世紀の一局。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The Game of the Century",
+   "white": "Donald Byrne",
+   "black": "Bobby Fischer",
+   "opening": "Grünfeld Defense",
+   "intro": "A historic game played by thirteen-year-old Bobby Fischer. He sacrifices the queen and uses the bishop, knight, and rooks so effectively that White's king remains under pressure while Black's own king stays safe.",
+   "takeaway": "Coordination can outweigh the nominal value of a queen. If the enemy king remains under lasting pressure, the activity of several lesser pieces may be decisive.",
+   "moves": [
+    {
+     "san": "Nf3",
+     "note": "A flexible move that keeps the center undecided."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black replies symmetrically."
+    },
+    {
+     "san": "c4",
+     "note": "The English Opening challenges the center from the side."
+    },
+    {
+     "san": "g6",
+     "note": "A kingside fianchetto prepares to protect the king with the g7-bishop."
+    },
+    {
+     "san": "Nc3",
+     "note": "Develops."
+    },
+    {
+     "san": "Bg7",
+     "note": "The bishop reaches its long diagonal; it will remain important throughout the game."
+    },
+    {
+     "san": "d4",
+     "note": "White occupies the center."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles early and secures the king."
+    },
+    {
+     "san": "Bf4",
+     "note": "Develops while looking toward c7."
+    },
+    {
+     "san": "d5",
+     "note": "The Grünfeld challenges White's broad center immediately."
+    },
+    {
+     "san": "Qb3",
+     "note": "The queen attacks d5 and b7."
+    },
+    {
+     "san": "dxc4",
+     "note": "Black captures and draws the queen forward while taking a pawn."
+    },
+    {
+     "san": "Qxc4",
+     "note": "White recaptures."
+    },
+    {
+     "san": "c6",
+     "note": "Prepares ...b5 or ...d5 and opens a route for the bishop."
+    },
+    {
+     "san": "e4",
+     "note": "White builds a large center and appears to have the space advantage."
+    },
+    {
+     "san": "Nbd7",
+     "note": "Develops and prepares a ...b6 counterattack."
+    },
+    {
+     "san": "Rd1",
+     "note": "The rook takes the d-file."
+    },
+    {
+     "san": "Nb6",
+     "note": "Black attacks the queen with tempo."
+    },
+    {
+     "san": "Qc5",
+     "note": "The queen preserves itself."
+    },
+    {
+     "san": "Bg4",
+     "note": "The bishop pins the f3-knight and increases pressure on the center."
+    },
+    {
+     "san": "Bg5",
+     "note": "White tries to create counterplay."
+    },
+    {
+     "san": "Na4",
+     "note": "The knight attacks the queen and b2 at once, starting a sharp tactical sequence."
+    },
+    {
+     "san": "Qa3",
+     "note": "The queen retreats in the selected line."
+    },
+    {
+     "san": "Nxc3",
+     "note": "Black exchanges on c3 and prepares to break through the center."
+    },
+    {
+     "san": "bxc3",
+     "note": "White recaptures, but the pawn structure and king shelter are disturbed."
+    },
+    {
+     "san": "Nxe4",
+     "note": "Black takes the central pawn and sets tactical pressure around the pinned knight."
+    },
+    {
+     "san": "Bxe7",
+     "note": "White appears to win the queen, but this capture enters Fischer's combination."
+    },
+    {
+     "san": "Qb6",
+     "note": "The queen remains active instead of defending passively, attacking the center and the white king."
+    },
+    {
+     "san": "Bc4",
+     "note": "White tries to hold the position together."
+    },
+    {
+     "san": "Nxc3",
+     "note": "The knight checks and begins the forcing phase."
+    },
+    {
+     "san": "Bc5",
+     "note": "White answers the check."
+    },
+    {
+     "san": "Rfe8+",
+     "note": "The rook checks and drives the king away."
+    },
+    {
+     "san": "Kf1",
+     "note": "The king moves in the selected line."
+    },
+    {
+     "san": "Be6",
+     "note": "The bishop offers itself, allowing White to take the queen while opening lines for Black's remaining pieces."
+    },
+    {
+     "san": "Bxb6",
+     "note": "White takes the queen, but Black's tactical compensation is decisive."
+    },
+    {
+     "san": "Bxc4+",
+     "note": "The bishop recaptures with check and brings the light pieces into full activity."
+    },
+    {
+     "san": "Kg1",
+     "note": "The king moves."
+    },
+    {
+     "san": "Ne2+",
+     "note": "The knight checks and keeps the king tied down."
+    },
+    {
+     "san": "Kf1",
+     "note": "The king returns."
+    },
+    {
+     "san": "Nxd4+",
+     "note": "The knight captures with check and gains more material."
+    },
+    {
+     "san": "Kg1",
+     "note": "The king returns."
+    },
+    {
+     "san": "Ne2+",
+     "note": "The knight checks again and improves its position."
+    },
+    {
+     "san": "Kf1",
+     "note": "The king returns."
+    },
+    {
+     "san": "Nc3+",
+     "note": "A discovered check also attacks the white queen and rook."
+    },
+    {
+     "san": "Kg1",
+     "note": "The king returns."
+    },
+    {
+     "san": "axb6",
+     "note": "Black calmly recaptures the bishop. Black has material and every piece is active."
+    },
+    {
+     "san": "Qb4",
+     "note": "White searches for counterplay."
+    },
+    {
+     "san": "Ra4",
+     "note": "The rook attacks the queen and keeps the initiative."
+    },
+    {
+     "san": "Qxb6",
+     "note": "White takes the bishop, but Black wins a rook."
+    },
+    {
+     "san": "Nxd1",
+     "note": "The knight captures the rook, making Black's material advantage decisive."
+    },
+    {
+     "san": "h3",
+     "note": "White creates luft for the king."
+    },
+    {
+     "san": "Rxa2",
+     "note": "The rook invades the second rank and collects material."
+    },
+    {
+     "san": "Kh2",
+     "note": "The king moves away."
+    },
+    {
+     "san": "Nxf2",
+     "note": "The knight takes another pawn and reduces resistance."
+    },
+    {
+     "san": "Re1",
+     "note": "White tries to activate the rook."
+    },
+    {
+     "san": "Rxe1",
+     "note": "Black exchanges it and removes the counterplay."
+    },
+    {
+     "san": "Qd8+",
+     "note": "White checks to prolong the game."
+    },
+    {
+     "san": "Bf8",
+     "note": "Black blocks calmly; the black king remains safe."
+    },
+    {
+     "san": "Nxe1",
+     "note": "White recaptures."
+    },
+    {
+     "san": "Bd5",
+     "note": "The bishop takes an excellent diagonal and tightens the net around the king."
+    },
+    {
+     "san": "Nf3",
+     "note": "White's knight searches for a square."
+    },
+    {
+     "san": "Ne4",
+     "note": "The knight centralizes and prepares the final attack."
+    },
+    {
+     "san": "Qb8",
+     "note": "White looks for counterplay, but has no effective plan."
+    },
+    {
+     "san": "b5",
+     "note": "The pawn advances and completes the encirclement of the king."
+    },
+    {
+     "san": "h4",
+     "note": "White can only make a waiting pawn move."
+    },
+    {
+     "san": "h5",
+     "note": "Black preserves the formation."
+    },
+    {
+     "san": "Ne5",
+     "note": "White makes a final attempt."
+    },
+    {
+     "san": "Kg7",
+     "note": "The king improves its safety and prepares the finish."
+    },
+    {
+     "san": "Kg1",
+     "note": "White's king returns to the corner."
+    },
+    {
+     "san": "Bc5+",
+     "note": "The bishop checks and begins the final sequence."
+    },
+    {
+     "san": "Kf1",
+     "note": "The king moves."
+    },
+    {
+     "san": "Ng3+",
+     "note": "The knight checks and closes more escape squares."
+    },
+    {
+     "san": "Ke1",
+     "note": "The king moves."
+    },
+    {
+     "san": "Bb4+",
+     "note": "The bishop checks again."
+    },
+    {
+     "san": "Kd1",
+     "note": "The king moves."
+    },
+    {
+     "san": "Bb3+",
+     "note": "The bishop checks from the diagonal."
+    },
+    {
+     "san": "Kc1",
+     "note": "The king moves toward the corner."
+    },
+    {
+     "san": "Ne2+",
+     "note": "The knight checks."
+    },
+    {
+     "san": "Kb1",
+     "note": "The king moves to b1."
+    },
+    {
+     "san": "Nc3+",
+     "note": "The knight checks and forces the king onto the mating route."
+    },
+    {
+     "san": "Kc1",
+     "note": "The king returns."
+    },
+    {
+     "san": "Rc2#",
+     "note": "The rook mates on c2. Fischer has sacrificed the queen and used the minor pieces to complete a legendary king hunt."
+    }
+   ]
+  }
  },
  {
   "id": "deepblue_kasparov",
-  "title": "機械が王者を破った日",
+  "title": "ディープ・ブルーの定跡トラップ(学習ライン)",
   "white": "ディープ・ブルー",
   "black": "ガルリ・カスパロフ",
   "year": 1997,
-  "event": "IBM再戦・ニューヨーク 第6局",
+  "event": "ディープ・ブルー戦を題材にした学習用アレンジライン",
   "result": "1-0",
-  "opening": "カロ・カン・ディフェンス",
-  "intro": "当時の世界王者カスパロフが、コンピュータ『ディープ・ブルー』に敗れた歴史的な一局。人間が油断しがちな定跡の落とし穴に、機械は迷わずナイトを捨てて踏み込みました。",
-  "takeaway": "有名なワナ(Nxe6)は知っていれば避けられる。うろ覚えの定跡は身を滅ぼす——機械はそこを容赦なく突いた。",
+  "opening": "カロ・カン風の学習ライン",
+  "intro": "ディープ・ブルー対カスパロフ戦の有名な文脈を題材にした、戦術学習用のアレンジラインです。実際の1997年再戦第6局の棋譜そのものではありません。中央のナイト犠牲からキングを攻める考え方を学びます。",
+  "takeaway": "定跡名や手順を丸暗記するだけでなく、背後の戦術を確認する。似た形でも、実戦の棋譜と学習用の変化手順は区別して読む。",
   "moves": [
    {
     "san": "e4",
@@ -1691,7 +3185,165 @@ const FAMOUS_GAMES = [
     "san": "c4",
     "note": "最後にとどめの一押し。世界王者が機械に敗れた、チェス史に刻まれた瞬間。"
    }
-  ]
+  ],
+  "en": {
+   "title": "Deep Blue's Opening Trap Study",
+   "white": "Deep Blue",
+   "black": "Garry Kasparov",
+   "opening": "Caro-Kann-inspired study line",
+   "intro": "This is an arranged training line inspired by the famous Deep Blue–Kasparov story; it is not the score of Game 6 from the 1997 rematch. It uses a central knight sacrifice to teach how an opening trap can expose the king.",
+   "takeaway": "Do not memorize an opening name and move order in isolation. Check the underlying tactic, and distinguish a study variation from the historical game score.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "c6",
+     "note": "The Caro-Kann prepares ...d5."
+    },
+    {
+     "san": "d4",
+     "note": "White expands confidently in the center."
+    },
+    {
+     "san": "d5",
+     "note": "Black challenges the center as planned."
+    },
+    {
+     "san": "Nc3",
+     "note": "Develops while attacking d5."
+    },
+    {
+     "san": "dxe4",
+     "note": "Black captures in the center."
+    },
+    {
+     "san": "Nxe4",
+     "note": "White recaptures and centralizes the knight."
+    },
+    {
+     "san": "Nd7",
+     "note": "A solid move preparing ...Ngf6."
+    },
+    {
+     "san": "Ng5",
+     "note": "The knight attacks f7 and e6 and begins an aggressive plan."
+    },
+    {
+     "san": "Ngf6",
+     "note": "The other knight develops naturally."
+    },
+    {
+     "san": "Bd3",
+     "note": "The bishop joins the attack."
+    },
+    {
+     "san": "e6",
+     "note": "Black blocks the bishop and strengthens the structure."
+    },
+    {
+     "san": "N1f3",
+     "note": "The second knight develops and brings more force toward the king."
+    },
+    {
+     "san": "h6",
+     "note": "Black tries to drive away the g5-knight, but this creates the tactical opportunity."
+    },
+    {
+     "san": "Nxe6",
+     "note": "The knight sacrifice on e6 is the key idea. Taking it opens the king and leaves Black with a difficult defense."
+    },
+    {
+     "san": "Qe7",
+     "note": "Black declines the sacrifice in the selected line, but White's initiative is already strong."
+    },
+    {
+     "san": "O-O",
+     "note": "The machine castles calmly before continuing the attack."
+    },
+    {
+     "san": "fxe6",
+     "note": "Black eventually captures the knight, opening the f- and e-files around the king."
+    },
+    {
+     "san": "Bg6+",
+     "note": "The bishop checks and Black also loses the right to castle."
+    },
+    {
+     "san": "Kd8",
+     "note": "The king moves in the selected line and remains exposed in the center."
+    },
+    {
+     "san": "Bf4",
+     "note": "White brings another piece into the attack with maximum efficiency."
+    },
+    {
+     "san": "b5",
+     "note": "Black looks for a counterplay, but the attack is already advanced."
+    },
+    {
+     "san": "a4",
+     "note": "White opens the flank to accelerate the attack."
+    },
+    {
+     "san": "Bb7",
+     "note": "The bishop retreats to a long diagonal."
+    },
+    {
+     "san": "Re1",
+     "note": "The rook occupies the open e-file and targets e6 and e7."
+    },
+    {
+     "san": "Nd5",
+     "note": "Black places a knight in the center to defend."
+    },
+    {
+     "san": "Bg3",
+     "note": "The bishop retreats while preserving its pressure."
+    },
+    {
+     "san": "Kc8",
+     "note": "The king moves toward a safer square."
+    },
+    {
+     "san": "axb5",
+     "note": "White exchanges on the queenside to keep the attack moving."
+    },
+    {
+     "san": "cxb5",
+     "note": "Black recaptures in the selected line."
+    },
+    {
+     "san": "Qd3",
+     "note": "The queen joins the attack and eyes b5 and the e-file."
+    },
+    {
+     "san": "Bc6",
+     "note": "Black tries to defend."
+    },
+    {
+     "san": "Bf5",
+     "note": "The bishop attacks e6 and keeps the defensive net under strain."
+    },
+    {
+     "san": "exf5",
+     "note": "Black captures the bishop, but the king and material remain in serious danger."
+    },
+    {
+     "san": "Rxe7",
+     "note": "The rook invades e7 and wins the queen; the black defense collapses."
+    },
+    {
+     "san": "Bxe7",
+     "note": "Black recaptures, but the position is hopeless and the game is resigned."
+    },
+    {
+     "san": "c4",
+     "note": "A final push underlines the tactical finish shown in this study line."
+    }
+   ]
+  }
  },
  {
   "id": "kasparov_topalov",
@@ -1699,7 +3351,7 @@ const FAMOUS_GAMES = [
   "white": "ガルリ・カスパロフ",
   "black": "ヴェセリン・トパロフ",
   "year": 1999,
-  "event": "ホーヘフェーン(ウェイク・アン・ゼー)",
+  "event": "ホーホーフェンス・トーナメント(ウェイク・アーン・ゼー)",
   "result": "1-0",
   "opening": "ピルツ・ディフェンス",
   "intro": "『カスパロフのイモータル』と讃えられる、史上屈指の大作。ルークを捨てて相手のキングを自陣から敵陣のすみずみまで引きずり回し、盤を横断するキング狩りで仕留めます。",
@@ -2053,7 +3705,365 @@ const FAMOUS_GAMES = [
     "san": "Qa7",
     "note": "クイーンで受けと攻めを両立。黒に有効な手はなく、トパロフは投了。盤を端から端まで走ったキング狩りの名局。"
    }
-  ]
+  ],
+  "en": {
+   "title": "Kasparov's Immortal King Hunt",
+   "white": "Garry Kasparov",
+   "black": "Veselin Topalov",
+   "opening": "Pirc Defense",
+   "intro": "Often called Kasparov's Immortal, this is one of the great attacking games. Kasparov sacrifices a rook and drives the black king across the board before finishing the hunt with precise checks.",
+   "takeaway": "When the winning continuation is concrete, material is not the only measure. Use checks to drive the king into open space, then calculate the next net accurately.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "d6",
+     "note": "The Pirc gives White the center while preparing counterplay with the g7-bishop."
+    },
+    {
+     "san": "d4",
+     "note": "White builds a broad center."
+    },
+    {
+     "san": "Nf6",
+     "note": "The knight challenges e4."
+    },
+    {
+     "san": "Nc3",
+     "note": "Develops and supports the center."
+    },
+    {
+     "san": "g6",
+     "note": "Prepares the fianchetto."
+    },
+    {
+     "san": "Be3",
+     "note": "The bishop develops to its long diagonal."
+    },
+    {
+     "san": "Bg7",
+     "note": "Black's fianchetto bishop eyes the long diagonal."
+    },
+    {
+     "san": "Qd2",
+     "note": "The queen prepares the h6 attack and castling long."
+    },
+    {
+     "san": "c6",
+     "note": "Black prepares ...b5 and gives the king a flight square."
+    },
+    {
+     "san": "f3",
+     "note": "Supports e4 and prepares the later g4-h4 advance."
+    },
+    {
+     "san": "b5",
+     "note": "Black starts a counterattack on the opposite wing; both sides are racing toward the enemy king."
+    },
+    {
+     "san": "Nge2",
+     "note": "The knight develops and prepares to castle."
+    },
+    {
+     "san": "Nbd7",
+     "note": "Black completes development and prepares ...c5 or ...e5."
+    },
+    {
+     "san": "Bh6",
+     "note": "White exchanges the dangerous bishop and removes a defender near the king."
+    },
+    {
+     "san": "Bxh6",
+     "note": "Black recaptures in the selected line."
+    },
+    {
+     "san": "Qxh6",
+     "note": "The queen occupies an aggressive square near the black king."
+    },
+    {
+     "san": "Bb7",
+     "note": "The bishop develops and watches e4 from the long diagonal."
+    },
+    {
+     "san": "a3",
+     "note": "Prevents ...b4 and gives White's king more breathing room."
+    },
+    {
+     "san": "e5",
+     "note": "Black strikes in the center and opens the position."
+    },
+    {
+     "san": "O-O-O",
+     "note": "White castles long and places the king on the opposite wing."
+    },
+    {
+     "san": "Qe7",
+     "note": "The queen connects the pieces and prepares to castle long."
+    },
+    {
+     "san": "Kb1",
+     "note": "The king steps to b1 for extra safety."
+    },
+    {
+     "san": "a6",
+     "note": "Black reinforces the king's shelter."
+    },
+    {
+     "san": "Nc1",
+     "note": "The knight heads toward b3 and central squares."
+    },
+    {
+     "san": "O-O-O",
+     "note": "Black castles long; both kings are now on opposite wings and the attack becomes a race."
+    },
+    {
+     "san": "Nb3",
+     "note": "The knight reaches a useful square and eyes d4 and c5."
+    },
+    {
+     "san": "exd4",
+     "note": "Black exchanges in the center."
+    },
+    {
+     "san": "Rxd4",
+     "note": "White recaptures with the rook and contests the d-file."
+    },
+    {
+     "san": "c5",
+     "note": "Black drives the rook away."
+    },
+    {
+     "san": "Rd1",
+     "note": "The rook retreats temporarily to build pressure."
+    },
+    {
+     "san": "Nb6",
+     "note": "The knight advances toward d5 and c4."
+    },
+    {
+     "san": "g3",
+     "note": "White prepares the bishop and h3."
+    },
+    {
+     "san": "Kb8",
+     "note": "The king moves to b8, the selected safety square."
+    },
+    {
+     "san": "Na5",
+     "note": "The knight attacks c6 and b7 from a5."
+    },
+    {
+     "san": "Ba8",
+     "note": "The bishop retreats to the corner while keeping its diagonal."
+    },
+    {
+     "san": "Bh3",
+     "note": "The bishop enters the attack and targets d7 and e6."
+    },
+    {
+     "san": "d5",
+     "note": "Black pushes in the center, starting the tactical battle."
+    },
+    {
+     "san": "Qf4+",
+     "note": "The queen checks while moving to an active attacking square."
+    },
+    {
+     "san": "Ka7",
+     "note": "The king moves toward the queenside and into danger."
+    },
+    {
+     "san": "Rhe1",
+     "note": "The final rook joins the attack; every white piece now faces the king."
+    },
+    {
+     "san": "d4",
+     "note": "Black advances the central pawn and tries to blunt the knight."
+    },
+    {
+     "san": "Nd5",
+     "note": "The knight centralizes and increases the pressure."
+    },
+    {
+     "san": "Nbxd5",
+     "note": "Black captures the knight in the selected line."
+    },
+    {
+     "san": "exd5",
+     "note": "White recaptures, opening the e- and d-files toward the king."
+    },
+    {
+     "san": "Qd6",
+     "note": "The queen tries to organize a defense."
+    },
+    {
+     "san": "Rxd4",
+     "note": "White sacrifices a rook. This is the decision that starts the cross-board king hunt."
+    },
+    {
+     "san": "cxd4",
+     "note": "Black accepts the rook in the selected line."
+    },
+    {
+     "san": "Re7+",
+     "note": "The other rook checks and drags the king away from its shelter."
+    },
+    {
+     "san": "Kb6",
+     "note": "The king is forced forward in the selected variation."
+    },
+    {
+     "san": "Qxd4+",
+     "note": "The queen checks again; the king cannot find a safe square."
+    },
+    {
+     "san": "Kxa5",
+     "note": "The king is driven all the way to a5 near White's camp."
+    },
+    {
+     "san": "b4+",
+     "note": "A pawn check restricts the remaining escape squares."
+    },
+    {
+     "san": "Ka4",
+     "note": "The king reaches a4 on the edge of the board."
+    },
+    {
+     "san": "Qc3",
+     "note": "The queen quietly tightens the net."
+    },
+    {
+     "san": "Qxd5",
+     "note": "Black counterattacks while trying to survive."
+    },
+    {
+     "san": "Ra7",
+     "note": "The rook runs to the seventh rank and attacks the king on the a-file."
+    },
+    {
+     "san": "Bb7",
+     "note": "The bishop blocks the attack."
+    },
+    {
+     "san": "Rxb7",
+     "note": "White captures and continues the chase."
+    },
+    {
+     "san": "Qc4",
+     "note": "Black looks for counterplay."
+    },
+    {
+     "san": "Qxf6",
+     "note": "White recovers material without releasing the attack."
+    },
+    {
+     "san": "Kxa3",
+     "note": "The king runs deeper into White's position."
+    },
+    {
+     "san": "Qxa6+",
+     "note": "The queen checks and keeps the king moving."
+    },
+    {
+     "san": "Kxb4",
+     "note": "The king moves still farther into White's camp."
+    },
+    {
+     "san": "c3+",
+     "note": "The pawn checks and removes another escape square."
+    },
+    {
+     "san": "Kxc3",
+     "note": "The king captures in the selected line."
+    },
+    {
+     "san": "Qa1+",
+     "note": "The queen checks again and closes the net."
+    },
+    {
+     "san": "Kd2",
+     "note": "The king moves into the heart of White's position."
+    },
+    {
+     "san": "Qb2+",
+     "note": "Another queen check drives the king toward the first rank."
+    },
+    {
+     "san": "Kd1",
+     "note": "The king reaches d1."
+    },
+    {
+     "san": "Bf1",
+     "note": "The bishop quietly seals an escape square."
+    },
+    {
+     "san": "Rd2",
+     "note": "Black makes a desperate counterattack."
+    },
+    {
+     "san": "Rd7",
+     "note": "White keeps defense and attack coordinated."
+    },
+    {
+     "san": "Rxd7",
+     "note": "Black exchanges rooks."
+    },
+    {
+     "san": "Bxc4",
+     "note": "White recaptures the queen and secures a winning advantage."
+    },
+    {
+     "san": "bxc4",
+     "note": "Black recaptures."
+    },
+    {
+     "san": "Qxh8",
+     "note": "White collects the distant rook as well."
+    },
+    {
+     "san": "Rd3",
+     "note": "Black makes a final attempt."
+    },
+    {
+     "san": "Qa8",
+     "note": "The queen retreats to stop the c-pawn."
+    },
+    {
+     "san": "c3",
+     "note": "Black pushes the passed pawn and hopes for promotion."
+    },
+    {
+     "san": "Qa4+",
+     "note": "The queen checks while preparing to take the pawn."
+    },
+    {
+     "san": "Ke1",
+     "note": "The king moves."
+    },
+    {
+     "san": "f4",
+     "note": "White advances a pawn calmly while the king hunt is already decided."
+    },
+    {
+     "san": "f5",
+     "note": "Black replies."
+    },
+    {
+     "san": "Kc1",
+     "note": "The king moves to safety and prepares the finish."
+    },
+    {
+     "san": "Rd2",
+     "note": "Black keeps trying to hold on."
+    },
+    {
+     "san": "Qa7",
+     "note": "The queen balances defense and attack. Black has no useful move left and resigns after a king hunt from one side of the board to the other."
+    }
+   ]
+  }
  },
  {
   "id": "paulsen_morphy",
@@ -2291,7 +4301,241 @@ const FAMOUS_GAMES = [
     "san": "Be3",
     "note": "ビショップが致命的な地点に入り、受けが尽きた白は投了。駒を捨てて速度で圧倒した、モーフィーらしい名局。"
    }
-  ]
+  ],
+  "en": {
+   "title": "Morphy's Queen Sacrifice",
+   "white": "Louis Paulsen",
+   "black": "Paul Morphy",
+   "opening": "Four Knights Game",
+   "intro": "This queen sacrifice helped make Morphy famous as a master of attack. He ignores pieces that are not helping the defense, gives up the queen, and finishes with a fast coordinated assault.",
+   "takeaway": "Attacking strength comes from activity and speed, not only material count. When the winning continuation is clear, even the queen can be sacrificed before the defender coordinates.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e5",
+     "note": "Black replies symmetrically."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops while attacking e5."
+    },
+    {
+     "san": "Nc6",
+     "note": "Defends the pawn while developing."
+    },
+    {
+     "san": "Nc3",
+     "note": "The second knight joins the game."
+    },
+    {
+     "san": "Nf6",
+     "note": "The Four Knights formation is complete and symmetrical."
+    },
+    {
+     "san": "Bb5",
+     "note": "The bishop indirectly pressures the knight."
+    },
+    {
+     "san": "Bc5",
+     "note": "Black develops symmetrically."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles first and secures the king."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles too."
+    },
+    {
+     "san": "Nxe5",
+     "note": "White takes the central pawn."
+    },
+    {
+     "san": "Re8",
+     "note": "Black declines an immediate recapture and places a rook on the e-file for counterplay."
+    },
+    {
+     "san": "Nxc6",
+     "note": "White exchanges one knight."
+    },
+    {
+     "san": "dxc6",
+     "note": "Black recaptures and opens the d-file and bishop's diagonal."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop retreats to a safer diagonal."
+    },
+    {
+     "san": "b5",
+     "note": "Black gains time by attacking the bishop."
+    },
+    {
+     "san": "Be2",
+     "note": "The bishop retreats."
+    },
+    {
+     "san": "Nxe4",
+     "note": "Black recaptures the central pawn and removes the other knight."
+    },
+    {
+     "san": "Nxe4",
+     "note": "White recaptures."
+    },
+    {
+     "san": "Rxe4",
+     "note": "The rook takes control of the e-file."
+    },
+    {
+     "san": "Bf3",
+     "note": "The bishop attacks the rook and tries to gain a tempo."
+    },
+    {
+     "san": "Re6",
+     "note": "The rook moves while keeping the later ...Rg6/...Rh6 attack in reserve."
+    },
+    {
+     "san": "c3",
+     "note": "Supports the center."
+    },
+    {
+     "san": "Qd3",
+     "note": "The queen penetrates deeply and ties down the white position."
+    },
+    {
+     "san": "b4",
+     "note": "The pawn attacks the bishop to gain time."
+    },
+    {
+     "san": "Bb6",
+     "note": "The bishop retreats while keeping its line."
+    },
+    {
+     "san": "a4",
+     "note": "White seeks counterplay on the wing."
+    },
+    {
+     "san": "bxa4",
+     "note": "Black captures the pawn."
+    },
+    {
+     "san": "Qxa4",
+     "note": "White recaptures."
+    },
+    {
+     "san": "Bd7",
+     "note": "The bishop develops and prepares to bring the other rook to the e-file."
+    },
+    {
+     "san": "Ra2",
+     "note": "The rook defends the second rank, but White's pieces are being pushed into passive roles."
+    },
+    {
+     "san": "Rae8",
+     "note": "The second rook joins the attack; all of Black's pieces point toward the king."
+    },
+    {
+     "san": "Qa6",
+     "note": "The queen tries to collect material, but it is far from the king."
+    },
+    {
+     "san": "Qxf3",
+     "note": "The queen sacrifice opens the g-file. If White accepts, the king shelter is torn open."
+    },
+    {
+     "san": "gxf3",
+     "note": "White accepts in the selected line."
+    },
+    {
+     "san": "Rg6+",
+     "note": "The rook enters the open g-file with check; the main attack begins."
+    },
+    {
+     "san": "Kh1",
+     "note": "The king moves to the corner."
+    },
+    {
+     "san": "Bh3",
+     "note": "The bishop joins and prepares mating ideas on f1 and g2."
+    },
+    {
+     "san": "Rd1",
+     "note": "White tries to defend."
+    },
+    {
+     "san": "Bg2+",
+     "note": "The bishop checks from g2."
+    },
+    {
+     "san": "Kg1",
+     "note": "The king returns in the selected line."
+    },
+    {
+     "san": "Bxf3+",
+     "note": "The bishop retreats with discovered check and also recovers a pawn."
+    },
+    {
+     "san": "Kf1",
+     "note": "The king moves."
+    },
+    {
+     "san": "Bg2+",
+     "note": "The bishop returns with another check."
+    },
+    {
+     "san": "Kg1",
+     "note": "The king returns."
+    },
+    {
+     "san": "Bh3+",
+     "note": "The bishop checks again and removes another escape square."
+    },
+    {
+     "san": "Kh1",
+     "note": "The king moves to the corner."
+    },
+    {
+     "san": "Bxf2",
+     "note": "The bishop captures while tightening the mating net."
+    },
+    {
+     "san": "Qf1",
+     "note": "White makes a final defensive move."
+    },
+    {
+     "san": "Bxf1",
+     "note": "Black captures the defender."
+    },
+    {
+     "san": "Rxf1",
+     "note": "White recaptures."
+    },
+    {
+     "san": "Re2",
+     "note": "The rook invades the second rank and prepares to finish."
+    },
+    {
+     "san": "Ra1",
+     "note": "White struggles to defend."
+    },
+    {
+     "san": "Rh6",
+     "note": "The other rook joins from the h-file."
+    },
+    {
+     "san": "d4",
+     "note": "White makes a desperate pawn move."
+    },
+    {
+     "san": "Be3",
+     "note": "The bishop reaches the decisive square; White has no defense and resigns."
+    }
+   ]
+  }
  },
  {
   "id": "steinitz_bardeleben",
@@ -2501,7 +4745,213 @@ const FAMOUS_GAMES = [
     "san": "Rxh7+",
     "note": "ポーンを取りながらなおチェック。バルデレーベンは席を立って戻らず、スタイニッツは十手以内の詰みを読み上げた。連続チェックでキングを狩り切った不滅の名局。"
    }
-  ]
+  ],
+  "en": {
+   "title": "Chasing the King",
+   "white": "Wilhelm Steinitz",
+   "black": "Curt von Bardeleben",
+   "opening": "Italian Game",
+   "intro": "A classic game by the first official world champion. A series of rook checks that cannot safely be captured drives the king to the edge, creating a famous lesson in a forcing king hunt.",
+   "takeaway": "In a checking sequence, keep placing the attacking piece where the king cannot take it. Give the king legal squares, but use each move to build the next part of the net.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "Takes central space."
+    },
+    {
+     "san": "e5",
+     "note": "Black replies symmetrically."
+    },
+    {
+     "san": "Nf3",
+     "note": "Develops while attacking e5."
+    },
+    {
+     "san": "Nc6",
+     "note": "Defends the pawn."
+    },
+    {
+     "san": "Bc4",
+     "note": "The Italian bishop eyes f7."
+    },
+    {
+     "san": "Bc5",
+     "note": "Black replies symmetrically."
+    },
+    {
+     "san": "c3",
+     "note": "Prepares d4 and a larger center."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black attacks e4."
+    },
+    {
+     "san": "d4",
+     "note": "White opens the center."
+    },
+    {
+     "san": "exd4",
+     "note": "Black captures."
+    },
+    {
+     "san": "cxd4",
+     "note": "White recaptures and gains a broad center."
+    },
+    {
+     "san": "Bb4+",
+     "note": "The bishop checks while developing."
+    },
+    {
+     "san": "Nc3",
+     "note": "White interposes and develops."
+    },
+    {
+     "san": "d5",
+     "note": "Black strikes in the center."
+    },
+    {
+     "san": "exd5",
+     "note": "White captures."
+    },
+    {
+     "san": "Nxd5",
+     "note": "Black recaptures."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles and secures the king."
+    },
+    {
+     "san": "Be6",
+     "note": "Black connects the pieces and supports d5."
+    },
+    {
+     "san": "Bg5",
+     "note": "The bishop pins and increases pressure."
+    },
+    {
+     "san": "Be7",
+     "note": "Black breaks the pin."
+    },
+    {
+     "san": "Bxd5",
+     "note": "White exchanges to clarify the position."
+    },
+    {
+     "san": "Bxd5",
+     "note": "Black recaptures."
+    },
+    {
+     "san": "Nxd5",
+     "note": "White recaptures."
+    },
+    {
+     "san": "Qxd5",
+     "note": "The queen recaptures."
+    },
+    {
+     "san": "Bxe7",
+     "note": "The bishop exchanges and makes the king move."
+    },
+    {
+     "san": "Nxe7",
+     "note": "Black recaptures, but the king shelter is thinner."
+    },
+    {
+     "san": "Re1",
+     "note": "The rook occupies the open e-file and targets e7."
+    },
+    {
+     "san": "f6",
+     "note": "Black creates luft, but the pawn move leaves a lasting weakness."
+    },
+    {
+     "san": "Qe2",
+     "note": "The queen joins the e-file pressure."
+    },
+    {
+     "san": "Qd7",
+     "note": "Black organizes the defense."
+    },
+    {
+     "san": "Rac1",
+     "note": "The second rook reaches a strong square; the whole army points toward the king."
+    },
+    {
+     "san": "c6",
+     "note": "Black prevents the knight from reaching d5."
+    },
+    {
+     "san": "d5",
+     "note": "White pushes anyway and opens the center."
+    },
+    {
+     "san": "cxd5",
+     "note": "Black captures."
+    },
+    {
+     "san": "Nd4",
+     "note": "The knight centralizes and eyes the key e6-square."
+    },
+    {
+     "san": "Kf7",
+     "note": "The king steps forward into the dangerous part of the board."
+    },
+    {
+     "san": "Ne6",
+     "note": "The knight occupies a powerful outpost and restricts the black position."
+    },
+    {
+     "san": "Rhc8",
+     "note": "Black brings a rook across to seek counterplay."
+    },
+    {
+     "san": "Qg4",
+     "note": "The queen turns toward the attack and eyes g7 and d7."
+    },
+    {
+     "san": "g6",
+     "note": "Black defends."
+    },
+    {
+     "san": "Ng5+",
+     "note": "The knight checks and starts the king chase."
+    },
+    {
+     "san": "Ke8",
+     "note": "The king moves back in the selected line."
+    },
+    {
+     "san": "Rxe7+",
+     "note": "White sacrifices the rook with check. Taking it would allow a different mating continuation, so the rook cannot be touched safely."
+    },
+    {
+     "san": "Kf8",
+     "note": "Black declines the capture and moves the king."
+    },
+    {
+     "san": "Rf7+",
+     "note": "The rook checks again from f7 and remains untouchable."
+    },
+    {
+     "san": "Kg8",
+     "note": "The king moves."
+    },
+    {
+     "san": "Rg7+",
+     "note": "The rook shifts sideways with check and continues the forcing sequence."
+    },
+    {
+     "san": "Kh8",
+     "note": "The king is driven into the corner."
+    },
+    {
+     "san": "Rxh7+",
+     "note": "The rook captures the pawn with check. The historical game is remembered for this relentless sequence; the players' later actions are part of the story, not a forced chess move."
+    }
+   ]
+  }
  },
  {
   "id": "fischer_spassky72",
@@ -2839,7 +5289,341 @@ const FAMOUS_GAMES = [
     "san": "Qf4",
     "note": "とどめの一手。受けが尽きたスパスキーは投了し、観客とともに立ち上がって拍手を送ったと伝えられる。派手な犠牲ではなく、優位を積み重ねて押し切った完璧な一局。"
    }
-  ]
+  ],
+  "en": {
+   "title": "A Game for the Crown",
+   "white": "Bobby Fischer",
+   "black": "Boris Spassky",
+   "opening": "Queen's Gambit (Tartakower variation)",
+   "intro": "Played during the Cold War match for the world title, this was one of Fischer's finest games. He begins with 1.c4 rather than his usual 1.e4, builds quietly, then opens the center and converts the accumulated advantages.",
+   "takeaway": "A game can be won without a spectacular sacrifice. Build small advantages—better piece placement, weak pawns, and open lines—then open the center when the position is ready.",
+   "moves": [
+    {
+     "san": "c4",
+     "note": "Fischer begins with c4 instead of his usual e4, also sidestepping some preparation."
+    },
+    {
+     "san": "e6",
+     "note": "Black responds in a classical way."
+    },
+    {
+     "san": "Nf3",
+     "note": "White develops flexibly."
+    },
+    {
+     "san": "d5",
+     "note": "Black claims the center."
+    },
+    {
+     "san": "d4",
+     "note": "White joins the d4 structure and reaches a Queen's Gambit position."
+    },
+    {
+     "san": "Nf6",
+     "note": "Natural development."
+    },
+    {
+     "san": "Nc3",
+     "note": "White develops another piece."
+    },
+    {
+     "san": "Be7",
+     "note": "Black prepares to castle."
+    },
+    {
+     "san": "Bg5",
+     "note": "The bishop pins the f6-knight and adds pressure."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles."
+    },
+    {
+     "san": "e3",
+     "note": "White supports the center and opens the bishop's diagonal."
+    },
+    {
+     "san": "h6",
+     "note": "Black asks the bishop to choose a square."
+    },
+    {
+     "san": "Bh4",
+     "note": "The bishop keeps the pin."
+    },
+    {
+     "san": "b6",
+     "note": "The Tartakower setup prepares to develop the bishop on the long diagonal."
+    },
+    {
+     "san": "cxd5",
+     "note": "White exchanges in the center."
+    },
+    {
+     "san": "Nxd5",
+     "note": "Black recaptures and works to remove the pin."
+    },
+    {
+     "san": "Bxe7",
+     "note": "White continues the exchange."
+    },
+    {
+     "san": "Qxe7",
+     "note": "The queen recaptures."
+    },
+    {
+     "san": "Nxd5",
+     "note": "White exchanges again."
+    },
+    {
+     "san": "exd5",
+     "note": "Black recaptures with the pawn, leaving d5 as a potential long-term weakness."
+    },
+    {
+     "san": "Rc1",
+     "note": "The rook occupies the open c-file and eyes c7 and c5."
+    },
+    {
+     "san": "Be6",
+     "note": "The bishop supports d5."
+    },
+    {
+     "san": "Qa4",
+     "note": "The queen becomes active and eyes a6 and c6."
+    },
+    {
+     "san": "c5",
+     "note": "Black expands in the center and seeks counterplay."
+    },
+    {
+     "san": "Qa3",
+     "note": "The queen changes direction and targets c5."
+    },
+    {
+     "san": "Rc8",
+     "note": "The rook joins the c-file."
+    },
+    {
+     "san": "Bb5",
+     "note": "The bishop adds pressure."
+    },
+    {
+     "san": "a6",
+     "note": "Black attacks the bishop."
+    },
+    {
+     "san": "dxc5",
+     "note": "White exchanges in the center."
+    },
+    {
+     "san": "bxc5",
+     "note": "Black recaptures, leaving the pawns less coordinated."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles and brings the remaining pieces into the game."
+    },
+    {
+     "san": "Ra7",
+     "note": "Black is forced into a cramped defensive position."
+    },
+    {
+     "san": "Be2",
+     "note": "The bishop retreats calmly and prepares the next plan."
+    },
+    {
+     "san": "Nd7",
+     "note": "Black rearranges the pieces."
+    },
+    {
+     "san": "Nd4",
+     "note": "The knight centralizes and attacks the bishop on e6."
+    },
+    {
+     "san": "Qf8",
+     "note": "Black defends."
+    },
+    {
+     "san": "Nxe6",
+     "note": "White exchanges and removes another defender."
+    },
+    {
+     "san": "fxe6",
+     "note": "Black recaptures, but weak e6 and d5 pawns remain together."
+    },
+    {
+     "san": "e4",
+     "note": "White opens the center with the key move of the game, targeting the weak pawns and king at once."
+    },
+    {
+     "san": "d4",
+     "note": "Black pushes the center to hold."
+    },
+    {
+     "san": "f4",
+     "note": "White advances the other pawn and increases the pressure."
+    },
+    {
+     "san": "Qe7",
+     "note": "Black reorganizes the defense."
+    },
+    {
+     "san": "e5",
+     "note": "White closes the center and restricts Black's pieces."
+    },
+    {
+     "san": "Rb8",
+     "note": "Black searches for counterplay."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop reaches its strongest diagonal and attacks e6."
+    },
+    {
+     "san": "Kh8",
+     "note": "Black moves the king away."
+    },
+    {
+     "san": "Qh3",
+     "note": "The queen joins the attack and eyes e6 and h6."
+    },
+    {
+     "san": "Nf8",
+     "note": "Black defends as well as possible."
+    },
+    {
+     "san": "b3",
+     "note": "White makes a quiet improving move and removes a potential weakness."
+    },
+    {
+     "san": "a5",
+     "note": "Black tries to counterattack but has little activity."
+    },
+    {
+     "san": "f5",
+     "note": "White pushes the f-pawn and opens the next attacking route."
+    },
+    {
+     "san": "exf5",
+     "note": "Black captures in the selected line."
+    },
+    {
+     "san": "Rxf5",
+     "note": "The rook recaptures and turns the f-file into an open highway."
+    },
+    {
+     "san": "Nh7",
+     "note": "Black's pieces are driven into passive defense."
+    },
+    {
+     "san": "Rcf1",
+     "note": "The other rook joins; every white piece now points toward the king."
+    },
+    {
+     "san": "Qd8",
+     "note": "Black looks for a defensive square."
+    },
+    {
+     "san": "Qg3",
+     "note": "The queen improves its position."
+    },
+    {
+     "san": "Re7",
+     "note": "Black keeps trying to hold the line."
+    },
+    {
+     "san": "h4",
+     "note": "The h-pawn joins the encirclement."
+    },
+    {
+     "san": "Rbb7",
+     "note": "Black can only defend."
+    },
+    {
+     "san": "e6",
+     "note": "White drives the pawn deeper into the position."
+    },
+    {
+     "san": "Rbc7",
+     "note": "Black moves the rook to block."
+    },
+    {
+     "san": "Qe5",
+     "note": "The queen reaches the central crossing point of the attack."
+    },
+    {
+     "san": "Qe8",
+     "note": "Black has no useful active move."
+    },
+    {
+     "san": "a4",
+     "note": "White secures the flank and removes counterplay."
+    },
+    {
+     "san": "Qd8",
+     "note": "Black shuffles the queen."
+    },
+    {
+     "san": "R1f2",
+     "note": "White calmly coordinates the rooks."
+    },
+    {
+     "san": "Qe8",
+     "note": "Black shuffles again."
+    },
+    {
+     "san": "R2f3",
+     "note": "The second rook improves; White keeps passing the move back."
+    },
+    {
+     "san": "Qd8",
+     "note": "Black returns the queen."
+    },
+    {
+     "san": "Bd3",
+     "note": "The bishop turns toward the h7-knight and creates the last tactical target."
+    },
+    {
+     "san": "Qe8",
+     "note": "Black tries to defend."
+    },
+    {
+     "san": "Qe4",
+     "note": "The queen attacks h7 and the f-file at once."
+    },
+    {
+     "san": "Nf6",
+     "note": "The knight is forced to defend."
+    },
+    {
+     "san": "Rxf6",
+     "note": "White sacrifices a rook to remove the final defender around the king."
+    },
+    {
+     "san": "gxf6",
+     "note": "Black recaptures, leaving the king exposed."
+    },
+    {
+     "san": "Rxf6",
+     "note": "The other rook enters and the attack is decisive."
+    },
+    {
+     "san": "Kg8",
+     "note": "The king moves."
+    },
+    {
+     "san": "Bc4",
+     "note": "The bishop helps control the king's escape squares."
+    },
+    {
+     "san": "Kh8",
+     "note": "The king returns to the corner."
+    },
+    {
+     "san": "Qf4",
+     "note": "The queen delivers the final pressure. Spassky resigns in the selected line; the win was built from small advantages rather than a single flashy sacrifice."
+    }
+   ]
+  }
  },
  {
   "id": "larsen_spassky",
@@ -2989,6 +5773,152 @@ const FAMOUS_GAMES = [
     "san": "gxf1=Q+",
     "note": "ポーンがルークを取りながらクイーンに昇格!駒損どころか大優勢になり、ラルセンは投了。たった17手の伝説的な逆転劇。"
    }
-  ]
+  ],
+  "en": {
+   "title": "The Seventeen-Move Turnaround",
+   "white": "Bent Larsen",
+   "black": "Boris Spassky",
+   "opening": "Larsen Opening (1.b3)",
+   "intro": "A miniature ending after only seventeen moves. White gives up a rook and relies on a single passed pawn, producing an astonishing promotion finish.",
+   "takeaway": "Material value is not everything: if a passed pawn cannot be stopped and checks remain available, sacrificing a rook may be the fastest route to victory.",
+   "moves": [
+    {
+     "san": "b3",
+     "note": "The Larsen Opening develops pressure from the side with an unusual first move."
+    },
+    {
+     "san": "e5",
+     "note": "Black confidently takes the center."
+    },
+    {
+     "san": "Bb2",
+     "note": "The bishop occupies the long diagonal and eyes e5."
+    },
+    {
+     "san": "Nc6",
+     "note": "Develops while defending the pawn."
+    },
+    {
+     "san": "c4",
+     "note": "White adds pressure from the other side."
+    },
+    {
+     "san": "Nf6",
+     "note": "Natural development."
+    },
+    {
+     "san": "Nf3",
+     "note": "White attacks e5 and gains a tempo."
+    },
+    {
+     "san": "e4",
+     "note": "Black pushes the pawn to drive away the knight and gain central space."
+    },
+    {
+     "san": "Nd4",
+     "note": "The knight jumps to the center."
+    },
+    {
+     "san": "Bc5",
+     "note": "Black attacks the knight and gains time."
+    },
+    {
+     "san": "Nxc6",
+     "note": "White exchanges."
+    },
+    {
+     "san": "dxc6",
+     "note": "Black recaptures and opens the d-file for the attack."
+    },
+    {
+     "san": "e3",
+     "note": "White stabilizes the formation."
+    },
+    {
+     "san": "Bf5",
+     "note": "The bishop supports e4 and Black's pieces become active."
+    },
+    {
+     "san": "Qc2",
+     "note": "The queen attacks e4 while improving its position."
+    },
+    {
+     "san": "Qe7",
+     "note": "The queen connects the pieces and prepares to castle long."
+    },
+    {
+     "san": "Be2",
+     "note": "White develops and prepares to castle."
+    },
+    {
+     "san": "O-O-O",
+     "note": "Black castles long, starting the race toward the kingside attack."
+    },
+    {
+     "san": "f4",
+     "note": "White attacks the black pawns but loosens the area around the king."
+    },
+    {
+     "san": "Ng4",
+     "note": "The knight jumps out and eyes h2 and e3."
+    },
+    {
+     "san": "g3",
+     "note": "White tries to defend, but creates a hole near the king."
+    },
+    {
+     "san": "h5",
+     "note": "The h-pawn begins the assault and tries to open the h-file."
+    },
+    {
+     "san": "h3",
+     "note": "White tries to drive the knight away."
+    },
+    {
+     "san": "h4",
+     "note": "Black continues regardless; allowing the pawn to be captured is part of the plan to open the h-file."
+    },
+    {
+     "san": "hxg4",
+     "note": "White takes the knight, but Black's attacking idea succeeds."
+    },
+    {
+     "san": "hxg3",
+     "note": "Black recaptures and leaves a pawn on g3 next to the king."
+    },
+    {
+     "san": "Rg1",
+     "note": "The rook tries to stop the pawn, but the position only appears safe."
+    },
+    {
+     "san": "Rh1",
+     "note": "The rook sacrifice opens the route to g2 and is the key tactical idea."
+    },
+    {
+     "san": "Rxh1",
+     "note": "Black accepts the rook in the selected line."
+    },
+    {
+     "san": "g2",
+     "note": "The pawn advances past the rook and cannot be stopped by ordinary means."
+    },
+    {
+     "san": "Rf1",
+     "note": "The rook moves to control the promotion square."
+    },
+    {
+     "san": "Qh4+",
+     "note": "The queen checks and removes the king's escape squares."
+    },
+    {
+     "san": "Kd1",
+     "note": "The king moves in the selected variation."
+    },
+    {
+     "san": "gxf1=Q+",
+     "note": "The pawn captures the rook and promotes with check. The rook sacrifice has produced a winning queen and Black resigns."
+    }
+   ]
+  }
  }
 ];

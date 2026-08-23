@@ -72,6 +72,7 @@ python lessons_gen.py   # tools/lessons_gen.py の LESSONS → js/lessons.js
 ```
 
 - 名局は `GAMES` に `moves=[(SAN, 解説), ...]` を追記。`+/#` と実際のチェック状態を照合し、`#` は詰みも自動確認される。
+- 名局の英訳は `tools/games_en.py` に同じIDで追加する。生成された `js/games.js` に日本語と英語の両方が埋め込まれる。
 - 教材は `LESSONS` に `fen`(初期配置なら None)＋ `moves` ＋ `cat`(opening/combo/endgame)。英訳は `tools/lessons_en.py` に同じIDで追加する。
 - 検証に失敗した項目は生成時にエラーで知らせる(不正な手を混ぜたまま公開しない)。
 

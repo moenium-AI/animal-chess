@@ -52,6 +52,7 @@ const tr = (key, vars) => I18N.t(key, vars);
 const BGM_NAMES_EN = ['Meadow Song', 'Strolling Waltz', 'Naptime Song', 'Feast Polka', 'Starlit Music Box', 'Rainy-Day Song', 'Exploration March', 'Dappled Sunlight Song', 'Sunset Song', 'Friendship Dance'];
 const bgmSongName = (index) => I18N.language === 'en' ? (BGM_NAMES_EN[index] || BGM.songNames()[index]) : BGM.songNames()[index];
 function lessonText(lesson) { return I18N.language === 'en' && lesson.en ? lesson.en : lesson; }
+function gameText(game) { return I18N.language === 'en' && game.en ? game.en : game; }
 
 // ===== サウンド =====
 let audioCtx = null;
@@ -909,7 +910,7 @@ function loadPgnText(text) {
 
 // 名局・レッスンの共通データ({fen, moves:[{san,note}]}) をstudyに変換して開く
 function loadAnnotated(data, meta) {
-  const text = lessonText(data);
+  const text = data && data.moves && data.en ? gameText(data) : lessonText(data);
   const localizedMeta = meta ? {
     ...meta,
     title: meta.titleKey ? tr(meta.titleKey, { title: text.title }) : meta.title,
@@ -1022,17 +1023,18 @@ function renderGamesList() {
   wrap.innerHTML = '';
   const list = (typeof FAMOUS_GAMES !== 'undefined' ? FAMOUS_GAMES : []);
   list.forEach((gm) => {
+    const text = gameText(gm);
     const b = document.createElement('button');
     b.className = 'study-item';
-    b.innerHTML = `<span class="study-item-title">🏆 ${gm.title}</span>` +
-      `<span class="study-item-sub">${gm.white} 対 ${gm.black}・${gm.year}</span>`;
+    b.innerHTML = `<span class="study-item-title">🏆 ${text.title}</span>` +
+      `<span class="study-item-sub">${I18N.language === 'en' ? `${text.white} vs. ${text.black} · ${gm.year}` : `${text.white} 対 ${text.black}・${gm.year}`}</span>`;
     b.addEventListener('click', () => {
       loadAnnotated(gm, {
-        title: `🏆 ${gm.title}`,
-        sub: `${gm.white} 対 ${gm.black}・${gm.year}(${gm.opening})`,
-        intro: gm.intro, takeaway: gm.takeaway,
+        title: `🏆 ${text.title}`,
+        sub: I18N.language === 'en' ? `${text.white} vs. ${text.black} · ${gm.year} (${text.opening})` : `${text.white} 対 ${text.black}・${gm.year}(${text.opening})`,
+        intro: text.intro, takeaway: text.takeaway,
       });
-      toast(tr('toast.gameOpened', { title: gm.title }));
+      toast(tr('toast.gameOpened', { title: text.title }));
     });
     wrap.appendChild(b);
   });
