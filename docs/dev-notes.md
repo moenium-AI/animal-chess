@@ -13,9 +13,11 @@
 | `js/pieces.js` | ピースセット定義(シンプルモード) |
 | `js/sprite_data.js` | 3Dモード用ドット絵データ(JSON形式・Python検証ツールと共有) |
 | `js/sprites.js` | スプライト描画エンジン(canvas・チーム色変換・まばたき・馬車合成) |
-| `js/bgm.js` | BGM生成(Web Audio・5曲ローテーション) |
+| `js/bgm.js` | BGM生成(Web Audio・10曲ローテーション) |
 | `js/puzzles.js` | パズルデータ(python-chess で自動検証して生成) |
 | `js/lessons.js` | まなぶ教材(オープニング/コンビネーション/エンドゲーム。検証して生成) |
+| `js/i18n.js` | UIの日英切り替えとメッセージ辞書 |
+| `js/puzzle_en.js` | パズルの英語タイトル・狙い |
 | `js/games.js` | 名局データ(独自解説つき。python-chess で全手検証して生成) |
 | `js/app.js` | ゲーム本体(UI・対局・棋譜・パズル・まなぶ・名局・おもてなし演出) |
 | `tools/` | 検証用スクリプト(下記) |
@@ -69,8 +71,8 @@ python games_gen.py     # tools/games_gen.py の GAMES → js/games.js
 python lessons_gen.py   # tools/lessons_gen.py の LESSONS → js/lessons.js
 ```
 
-- 名局は `GAMES` に `moves=[(SAN, 解説), ...]` を追記。`#` で終わる手は詰みも自動確認される。
-- 教材は `LESSONS` に `fen`(初期配置なら None)＋ `moves` ＋ `cat`(opening/combo/endgame)。
+- 名局は `GAMES` に `moves=[(SAN, 解説), ...]` を追記。`+/#` と実際のチェック状態を照合し、`#` は詰みも自動確認される。
+- 教材は `LESSONS` に `fen`(初期配置なら None)＋ `moves` ＋ `cat`(opening/combo/endgame)。英訳は `tools/lessons_en.py` に同じIDで追加する。
 - 検証に失敗した項目は生成時にエラーで知らせる(不正な手を混ぜたまま公開しない)。
 
 ## BGMをいじる

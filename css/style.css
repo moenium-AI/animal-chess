@@ -38,7 +38,16 @@ html, body {
   transition: transform 0.15s;
 }
 .icon-btn:hover { transform: scale(1.1); }
-.header-btns { display: flex; gap: 8px; }
+.header-btns { display: flex; gap: 8px; align-items: center; }
+.language-select {
+  min-height: 32px;
+  border: 1px solid #eadfce;
+  border-radius: 8px;
+  padding: 4px 7px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
 .icon-btn.muted { opacity: 0.4; filter: grayscale(1); }
 
 .layout {

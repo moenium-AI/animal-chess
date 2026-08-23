@@ -5,7 +5,7 @@
 // ===== 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
-let settings = { set: 'farm', opponent: 'cpu', level: 4, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true };
+let settings = { set: 'farm', opponent: 'cpu', level: 4, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true, language: 'ja' };
 let orient = 'w';            // 盤の下側の色
 let selected = null;         // 選択中マス
 let legalTargets = [];       // 選択中の合法手
@@ -14,7 +14,7 @@ let hintSquares = [];
 let cpuThinking = false;
 let hintThinking = false;
 let pendingGuests = 0;       // 馬車で移動中(まだ会場に表示しない)の数
-let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null };
+let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
 let solvedPuzzles = new Set();
 
@@ -43,9 +43,15 @@ function saveSolved() {
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
 const is3D = () => settings.viewMode === '3d';
 const isAnimal = () => is3D() || !!SET().emoji;
-const pieceName = (type) => is3D() ? Sprites.charName(type) + 'さん' : (SET().names[type] || PIECE_JA[type]);
+const pieceName = (type) => I18N.language === 'en'
+  ? ((SET().namesEn && SET().namesEn[type]) || I18N.t('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[type])))
+  : (is3D() ? Sprites.charName(type) + 'さん' : (SET().names[type] || PIECE_JA[type]));
 const BADGE_GLYPHS = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
 const badgesOn = () => settings.badges && (is3D() || SET().emoji);
+const tr = (key, vars) => I18N.t(key, vars);
+const BGM_NAMES_EN = ['Meadow Song', 'Strolling Waltz', 'Naptime Song', 'Feast Polka', 'Starlit Music Box', 'Rainy-Day Song', 'Exploration March', 'Dappled Sunlight Song', 'Sunset Song', 'Friendship Dance'];
+const bgmSongName = (index) => I18N.language === 'en' ? (BGM_NAMES_EN[index] || BGM.songNames()[index]) : BGM.songNames()[index];
+function lessonText(lesson) { return I18N.language === 'en' && lesson.en ? lesson.en : lesson; }
 
 // ===== サウンド =====
 let audioCtx = null;
@@ -177,7 +183,7 @@ function renderPosition() {
 function venueOf(color) { // color 側チームの会場(取ったコマをもてなす場所)
   return color === orient ? $('venue-bottom') : $('venue-top');
 }
-function colorJa(c) { return c === 'w' ? 'しろ' : 'くろ'; }
+function colorJa(c) { return tr(c === 'w' ? 'color.white' : 'color.black'); }
 function computeGuests() {
   const hist = game.history({ verbose: true });
   const guests = { w: [], b: [] };
@@ -205,22 +211,22 @@ function renderVenues() {
     const visible = list.slice(0, Math.max(0, hideFrom));
 
     if (v3d) {
-      title.textContent = `${colorJa(color)}チームの宴会会場`;
+      title.textContent = tr('venue.banquet', { color: colorJa(color) });
       banquetSync(color, area, visible);
       continue;
     }
     // シンプルモード: バンケットDOMが残っていたら破棄
     if (area.dataset.bq) { area.innerHTML = ''; delete area.dataset.bq; delete banquets[color]; }
     title.textContent = animal
-      ? `🏰 ${colorJa(color)}チームのおもてなし会場`
-      : `${colorJa(color)}がとったコマ`;
+      ? tr('venue.hosting', { color: colorJa(color) })
+      : tr('venue.captured', { color: colorJa(color) });
     area.innerHTML = '';
     visible.forEach((g) => {
       const span = document.createElement('span');
       if (animal) {
         span.className = 'guest';
         span.innerHTML = `${SET().glyphs[g.type]}<span class="food">${g.food}</span>`;
-        span.title = `${pieceName(g.type)} … ${g.food}でおもてなし中`;
+        span.title = tr('venue.hosted', { piece: pieceName(g.type), food: g.food });
       } else {
         span.className = 'guest plain';
         span.innerHTML = pieceHtml(g.type, g.victim);
@@ -230,7 +236,7 @@ function renderVenues() {
     if (visible.length === 0) {
       const empty = document.createElement('span');
       empty.style.cssText = 'font-size:0.78rem;color:#c9b28a;';
-      empty.textContent = animal ? 'おきゃくさまをおまちしています…' : 'まだありません';
+      empty.textContent = animal ? tr('venue.waiting') : tr('venue.none');
       area.appendChild(empty);
     }
   }
@@ -408,7 +414,7 @@ function carriageRide(move) {
     el.style.transform = `translate(${endX}px, ${endY}px)`;
   }));
   const name = pieceName(capturedType);
-  toast(`🐴ガラガラ… ${name}が馬車にのって${colorJa(capturer)}チームの${is3D() ? '宴会会場' : '会場'}へ!`);
+  toast(tr('venue.arriving', { name, color: colorJa(capturer), place: is3D() ? tr('venue.banquetPlace') : tr('venue.hostPlace') }));
   setTimeout(() => {
     if (spin) clearInterval(spin);
     el.remove();
@@ -418,8 +424,8 @@ function carriageRide(move) {
     let capIdx = -1, food = FOODS[0];
     for (const m of hist) if (m.captured) { capIdx++; food = foodFor(capIdx, m.captured); }
     toast(is3D()
-      ? `🏮 ${name}が宴会に合流!ごちそうを楽しんでいます♪`
-      : `🏰 ${name}は${food}でおもてなしされています♪`);
+      ? tr('venue.joined', { name })
+      : tr('venue.simpleHosted', { name, food }));
   }, rideMs + 100);
 }
 
@@ -428,18 +434,18 @@ function turnBadge() {
   const set = SET();
   const c = game.turn();
   const glyph = is3D() ? (c === 'w' ? '⚪' : '⚫') : (set.emoji ? set.glyphs.k : (c === 'w' ? '♔' : '♚'));
-  return `${glyph} ${colorJa(c)}チームのばん`;
+  return tr('venue.turn', { glyph, color: colorJa(c) });
 }
 function renderStatus() {
   if (mode === 'replay') {
-    statusEl.innerHTML = `📜 きふ さいせいちゅう (${replay.idx} / ${replay.sans.length}手)`;
+    statusEl.innerHTML = tr('status.replay', { current: replay.idx, total: replay.sans.length });
     return;
   }
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
-    if (!p) { statusEl.textContent = '🧩 パズルをえらんでね'; return; }
-    if (game.in_checkmate()) { statusEl.innerHTML = '🎉 チェックメイト!せいかい!'; return; }
-    statusEl.innerHTML = `🧩 ${colorJa(p.turn)}ばん: あと${puzzle.movesLeft}手でチェックメイトしよう!`;
+    if (!p) { statusEl.textContent = tr('status.choosePuzzle'); return; }
+    if (game.in_checkmate()) { statusEl.innerHTML = tr('status.checkmate'); return; }
+    statusEl.innerHTML = tr('status.puzzleTurn', { color: colorJa(p.turn), moves: puzzle.movesLeft });
     return;
   }
   if (game.game_over()) {
@@ -447,9 +453,9 @@ function renderStatus() {
     return;
   }
   let html = turnBadge();
-  if (cpuThinking) html = `<span class="thinking">🤔 コンピューターがかんがえちゅう…</span>`;
-  else if (hintThinking) html = `<span class="thinking">💡 ヒントをかんがえちゅう…</span>`;
-  else if (game.in_check()) html += ' ⚠️ チェック!';
+  if (cpuThinking) html = `<span class="thinking">${tr('status.cpuThinking')}</span>`;
+  else if (hintThinking) html = `<span class="thinking">${tr('status.hintThinking')}</span>`;
+  else if (game.in_check()) html += tr('status.check');
   renderStatusExtra(html);
 }
 function renderStatusExtra(html) { statusEl.innerHTML = html; }
@@ -461,15 +467,15 @@ function gameOverText() {
     const playerWon = vsCpu && winner === settings.playerColor;
     if (vsCpu) {
       return playerWon
-        ? { short: '🎉 チェックメイト!あなたのかち!', emoji: '🎉🏆🎉', text: 'チェックメイト!あなたのかち!すごい!' }
-        : { short: '😢 チェックメイト…まけちゃった', emoji: '🌧️🐾', text: 'まけちゃった…つぎはきっとかてるよ!' };
+        ? { short: tr('game.playerWinShort'), emoji: '🎉🏆🎉', text: tr('game.playerWinText') }
+        : { short: tr('game.playerLoseShort'), emoji: '🌧️🐾', text: tr('game.playerLoseText') };
     }
-    return { short: `🎉 チェックメイト!${colorJa(winner)}チームのかち!`, emoji: '🎉🏆🎉', text: `チェックメイト!${colorJa(winner)}チームのかち!` };
+    return { short: tr('game.teamWinShort', { color: colorJa(winner) }), emoji: '🎉🏆🎉', text: tr('game.teamWinText', { color: colorJa(winner) }) };
   }
-  if (game.in_stalemate()) return { short: '🤝 ステイルメイト!ひきわけ', emoji: '🤝', text: 'ステイルメイト!ひきわけだよ' };
-  if (game.in_threefold_repetition()) return { short: '🤝 くりかえしでひきわけ', emoji: '🔁', text: 'おなじ局面が3回…ひきわけだよ' };
-  if (game.insufficient_material()) return { short: '🤝 ひきわけ', emoji: '🤝', text: 'おたがいチェックメイトできないのでひきわけ' };
-  return { short: '🤝 ひきわけ', emoji: '🤝', text: 'ひきわけだよ' };
+  if (game.in_stalemate()) return { short: tr('game.stalemateShort'), emoji: '🤝', text: tr('game.stalemateText') };
+  if (game.in_threefold_repetition()) return { short: tr('game.repetitionShort'), emoji: '🔁', text: tr('game.repetitionText') };
+  if (game.insufficient_material()) return { short: tr('game.insufficientShort'), emoji: '🤝', text: tr('game.insufficientText') };
+  return { short: tr('game.drawShort'), emoji: '🤝', text: tr('game.drawText') };
 }
 
 function confetti() {
@@ -601,7 +607,9 @@ function showPromotion(from, to) {
 function requestHint() {
   if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking) return;
   if (mode === 'play' && settings.opponent === 'cpu' && game.turn() !== settings.playerColor) return;
-  const advisor = is3D() ? '🐱 ねこせんせい' : (SET().emoji ? `${SET().glyphs.q} ${SET().names.q}せんせい` : '🧙 コーチ');
+  const advisor = I18N.language === 'en'
+    ? (is3D() ? '🐱 Cat Coach' : '🧙 Coach')
+    : (is3D() ? '🐱 ねこせんせい' : (SET().emoji ? `${SET().glyphs.q} ${SET().names.q}せんせい` : '🧙 コーチ'));
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
     if (!p || game.turn() !== p.turn) return;
@@ -610,7 +618,7 @@ function requestHint() {
       const m = cands[0];
       hintSquares = [m.from, m.to];
       renderPosition();
-      toast(`💡 ${advisor}: ${pieceName(m.piece)}をうごかしてみて!`);
+      toast(tr('toast.hintPuzzle', { advisor, piece: pieceName(m.piece) }));
     }
     return;
   }
@@ -624,7 +632,7 @@ function requestHint() {
     hintSquares = [m.from, m.to];
     renderPosition();
     const why = explainHintMove(fenBefore, m);
-    toast(`💡 ${advisor}のおすすめ: ${pieceName(m.piece)} ${m.from}→${m.to}\n${why}`, 5200);
+    toast(tr('toast.hintMove', { advisor, piece: pieceName(m.piece), from: m.from, to: m.to, why }), 5200);
   });
 }
 
@@ -664,33 +672,33 @@ function explainHintMove(fenBefore, m) {
   const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
   const g = new Chess(fenBefore);
   const mv = g.move({ from: m.from, to: m.to, promotion: m.promotion });
-  if (!mv) return 'いい手だよ!';
+  if (!mv) return tr('hint.good');
   const reasons = [];
-  if (g.in_checkmate()) return 'これでチェックメイト! 勝ちだよ🎉';
+  if (g.in_checkmate()) return tr('hint.mate');
   // 駒を取る
   if (mv.captured) {
     const cap = pieceName(mv.captured);
     // 取り返しまで読んでから言葉を選ぶ(守られている駒を『ただ』と言わない)
     const ex = evalCaptureExchange(fenBefore, m);
-    if (!ex.recapture) reasons.push(`ただで${cap}が取れて駒得だよ`);
-    else if (ex.see > 0) reasons.push(`${cap}が取れるよ。取り返されても駒得になる`);
-    else if (ex.see === 0) reasons.push(`${cap}と交換できるよ(取り返されても損はしない)`);
-    else reasons.push(`${cap}が取れるよ`);
+    if (!ex.recapture) reasons.push(tr('hint.freeCapture', { piece: cap }));
+    else if (ex.see > 0) reasons.push(tr('hint.captureGain', { piece: cap }));
+    else if (ex.see === 0) reasons.push(tr('hint.exchange', { piece: cap }));
+    else reasons.push(tr('hint.capture', { piece: cap }));
   }
   // 成り
-  if (mv.promotion) reasons.push('ポーンがクイーンに大出世できる');
+  if (mv.promotion) reasons.push(tr('hint.promotion'));
   // チェック
-  if (g.in_check()) reasons.push('相手のキングにチェックをかけて主導権をにぎれる');
+  if (g.in_check()) reasons.push(tr('hint.check'));
   // キャスリング
-  if (mv.flags.includes('k') || mv.flags.includes('q')) reasons.push('キングを安全な場所に囲えるよ');
+  if (mv.flags.includes('k') || mv.flags.includes('q')) reasons.push(tr('hint.castle'));
   // 中央のポーン前進
-  if (mv.piece === 'p' && ['d4', 'e4', 'd5', 'e5'].includes(mv.to)) reasons.push('中央をおさえて盤の主導権をにぎれる');
+  if (mv.piece === 'p' && ['d4', 'e4', 'd5', 'e5'].includes(mv.to)) reasons.push(tr('hint.center'));
   // 軽い駒の展開(初期段からの発展)
   if ((mv.piece === 'n' || mv.piece === 'b')) {
     const backRank = mv.color === 'w' ? '1' : '8';
-    if (mv.from[1] === backRank) reasons.push('眠っていた駒を戦いに参加させられる');
+    if (mv.from[1] === backRank) reasons.push(tr('hint.develop'));
   }
-  if (reasons.length === 0) reasons.push('駒の働きが良くなって、じっくり有利にできるよ');
+  if (reasons.length === 0) reasons.push(tr('hint.general'));
   return '👉 ' + reasons.slice(0, 2).join('。') + '。';
 }
 
@@ -698,6 +706,7 @@ function explainHintMove(fenBefore, m) {
 function newGame() {
   game = new Chess();
   mode = 'play';
+  replay.annotation = null;
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
   overlayEl.innerHTML = '';
@@ -724,7 +733,7 @@ function undoMove() {
   lastMove = hist.length > 0 ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
   selected = null; legalTargets = []; hintSquares = [];
   renderAll();
-  toast('↩️ 待った!ひとつまえにもどしたよ');
+  toast(tr('toast.undo'));
 }
 
 // ===== パズル =====
@@ -735,10 +744,19 @@ const PUZZLE_THEME_JA = {
   sacrifice: 'サクリファイス(犠牲)', smother: 'スマザー・メイト(窒息)',
   queen: 'クイーンの寄せ', support: '支えの一撃',
 };
+const PUZZLE_THEME_EN = {
+  backrank: 'Back rank', opening: 'Opening traps', knight: 'Knight / fork', diagonal: 'Diagonal line',
+  endgame: 'Endgame', ladder: 'Two rooks', sacrifice: 'Sacrifice', smother: 'Smothered mate',
+  queen: 'Queen finish', support: 'Supported attack',
+};
 let puzzleTheme = 'all';
 let puzzleLevel = 'all';   // 難易度(詰み手数)での絞り込み
 
-function puzzleThemeLabel(t) { return PUZZLE_THEME_JA[t] || 'きほん'; }
+function puzzleText(p) {
+  const en = I18N.language === 'en' && typeof PUZZLE_EN !== 'undefined' ? PUZZLE_EN[PUZZLES.indexOf(p)] : null;
+  return en ? { title: en[0], idea: en[1] } : p;
+}
+function puzzleThemeLabel(t) { return (I18N.language === 'en' ? PUZZLE_THEME_EN[t] : PUZZLE_THEME_JA[t]) || (I18N.language === 'en' ? 'Basics' : 'きほん'); }
 // 難易度ラベル(詰み手数 → やさしさの目安)
 const PUZZLE_LEVEL_JA = { 1: '⭐ 1手詰め', 2: '⭐⭐ 2手詰め', 3: '⭐⭐⭐ 3手詰め' };
 
@@ -751,7 +769,7 @@ function renderPuzzleCats() {
   for (const lv of levels) {
     const b = document.createElement('button');
     b.className = 'chip lv' + (lv === puzzleLevel ? ' active' : '');
-    b.textContent = lv === 'all' ? 'ぜんぶの難しさ' : (PUZZLE_LEVEL_JA[lv] || `${lv}手詰め`);
+    b.textContent = lv === 'all' ? tr('puzzle.allLevels') : (I18N.language === 'en' ? `⭐`.repeat(Number(lv)) + ` Mate in ${lv}` : (PUZZLE_LEVEL_JA[lv] || `${lv}手詰め`));
     b.addEventListener('click', () => { puzzleLevel = lv; renderPuzzleCats(); renderPuzzleList(); });
     wrap.appendChild(b);
   }
@@ -760,7 +778,7 @@ function renderPuzzleCats() {
   for (const t of themes) {
     const b = document.createElement('button');
     b.className = 'chip' + (t === puzzleTheme ? ' active' : '');
-    b.textContent = t === 'all' ? 'すべて' : puzzleThemeLabel(t);
+    b.textContent = t === 'all' ? tr('puzzle.allThemes') : puzzleThemeLabel(t);
     b.addEventListener('click', () => { puzzleTheme = t; renderPuzzleCats(); renderPuzzleList(); });
     wrap.appendChild(b);
   }
@@ -772,9 +790,10 @@ function renderPuzzleList() {
     if (puzzleTheme !== 'all' && p.theme !== puzzleTheme) return;
     if (puzzleLevel !== 'all' && p.mateIn !== puzzleLevel) return;
     const btn = document.createElement('button');
+    const text = puzzleText(p);
     btn.className = 'puzzle-item' + (i === puzzle.idx ? ' active' : '');
-    btn.innerHTML = `<span class="badge m${p.mateIn}">${p.mateIn}手</span>` +
-      `<span class="puz-name">${p.title}<span class="puz-theme">${puzzleThemeLabel(p.theme)}</span></span>` +
+    btn.innerHTML = `<span class="badge m${p.mateIn}">${I18N.language === 'en' ? tr('puzzle.mateIn', { moves: p.mateIn }) : `${p.mateIn}手`}</span>` +
+      `<span class="puz-name">${text.title}<span class="puz-theme">${puzzleThemeLabel(p.theme)}</span></span>` +
       `<span class="done">${solvedPuzzles.has(i) ? '✅' : ''}</span>`;
     btn.addEventListener('click', () => loadPuzzle(i));
     wrap.appendChild(btn);
@@ -785,6 +804,7 @@ function loadPuzzle(i) {
   if (!p) return;
   game = new Chess(p.fen);
   mode = 'puzzle';
+  replay.annotation = null;
   puzzle = { idx: i, movesLeft: p.mateIn, busy: false };
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
@@ -794,9 +814,10 @@ function loadPuzzle(i) {
   buildBoard();
   renderAll();
   renderPuzzleList();
-  $('puzzle-title').innerHTML = `${p.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
-  $('puzzle-goal').innerHTML = `${colorJa(p.turn)}ばん・${p.mateIn}手でチェックメイト!<br><span class="puz-idea">💡 ${p.idea}</span>`;
-  toast(`🧩 パズル「${p.title}」スタート!`);
+  const text = puzzleText(p);
+  $('puzzle-title').innerHTML = `${text.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
+  $('puzzle-goal').innerHTML = tr('puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: text.idea });
+  toast(tr('toast.puzzleStart', { title: text.title }));
 }
 function puzzleTryMove(moveArg) {
   const cands = Engine.mateMoves(game, puzzle.movesLeft);
@@ -809,7 +830,7 @@ function puzzleTryMove(moveArg) {
     setTimeout(() => boardEl.classList.remove('shake'), 450);
     selected = null; legalTargets = [];
     renderPosition();
-    toast('🐾 ざんねん!そのてでは つまないみたい。もういちど!');
+    toast(tr('toast.puzzleWrong'));
     return;
   }
   applyMove({ from: hit.from, to: hit.to, promotion: hit.promotion });
@@ -842,8 +863,8 @@ function puzzleSolved() {
   sWin(); confetti();
   const next = PUZZLES.findIndex((p, i) => !solvedPuzzles.has(i));
   setTimeout(() => {
-    toast('🎉 せいかい!チェックメイト!', 3200);
-    if (next >= 0) setTimeout(() => toast(`つぎは「${PUZZLES[next].title}」にちょうせんしてみてね`), 1500);
+    toast(tr('toast.puzzleSolved'), 3200);
+    if (next >= 0) setTimeout(() => toast(tr('toast.nextPuzzle', { title: puzzleText(PUZZLES[next]).title })), 1500);
   }, 300);
 }
 
@@ -854,6 +875,7 @@ function enterStudy(study) {
   replay.sans = study.sans;
   replay.notes = study.notes || [];
   replay.meta = study.meta || null;
+  replay.annotation = study.annotation || null;
   replay.idx = 0;
   mode = 'replay';
   selected = null; legalTargets = []; hintSquares = [];
@@ -863,7 +885,7 @@ function enterStudy(study) {
   buildBoard();
   const panel = $('study-panel');
   panel.classList.remove('hidden');
-  $('study-title').textContent = replay.meta ? replay.meta.title : '棋譜さいせい';
+  $('study-title').textContent = replay.meta ? replay.meta.title : tr('study.replay');
   $('study-meta').textContent = replay.meta && replay.meta.sub ? replay.meta.sub : '';
   replayGoTo(0);
 }
@@ -871,27 +893,36 @@ function enterStudy(study) {
 function loadPgnText(text) {
   const tmp = new Chess();
   if (!tmp.load_pgn(text.trim(), { sloppy: true })) {
-    toast('😿 棋譜が読み込めなかったよ。PGN形式か確認してね');
+    toast(tr('toast.pgnBad'));
     return;
   }
   const headers = tmp.header();
   const baseFen = headers.SetUp === '1' && headers.FEN ? headers.FEN : null;
   const sans = tmp.history();
-  const players = [headers.White, headers.Black].filter(Boolean).join(' 対 ');
+  const players = [headers.White, headers.Black].filter(Boolean).join(tr('games.vs'));
   enterStudy({
     baseFen, sans, notes: [],
-    meta: { title: headers.Event || 'よみこんだ棋譜', sub: players, intro: '手をクリックするか、下のボタンでどこからでも再生できます。', takeaway: '' },
+    meta: { title: headers.Event || tr('study.loaded'), sub: players, intro: tr('study.intro'), takeaway: '' },
   });
-  toast(`📜 ${sans.length}手の棋譜を読み込んだよ!`);
+  toast(tr('toast.pgnLoaded', { moves: sans.length }));
 }
 
 // 名局・レッスンの共通データ({fen, moves:[{san,note}]}) をstudyに変換して開く
 function loadAnnotated(data, meta) {
+  const text = lessonText(data);
+  const localizedMeta = meta ? {
+    ...meta,
+    title: meta.titleKey ? tr(meta.titleKey, { title: text.title }) : meta.title,
+    sub: meta.subKey ? tr(meta.subKey) : meta.sub,
+    intro: text.intro || meta.intro,
+    takeaway: text.takeaway || meta.takeaway,
+  } : null;
   enterStudy({
     baseFen: data.fen || null,
-    sans: data.moves.map((m) => m.san),
-    notes: data.moves.map((m) => m.note),
-    meta,
+    sans: text.moves.map((m) => m.san),
+    notes: text.moves.map((m) => m.note),
+    meta: localizedMeta,
+    annotation: { data, meta },
   });
 }
 
@@ -946,17 +977,17 @@ function replayToPlay() {
   buildBoard();
   renderAll();
   switchTab('game');
-  toast(`🎮 ここから対局スタート!あなたは${colorJa(settings.playerColor)}だよ`);
+  toast(tr('toast.playFromHere', { color: colorJa(settings.playerColor) }));
   maybeCpuMove();
 }
 
 // ===== まなぶ(レッスン) =====
 const LEARN_CATS = [
-  { key: 'opening', label: '♟️ オープニング' },
-  { key: 'combo', label: '⚡ コンビネーション' },
-  { key: 'endgame', label: '👑 エンドゲーム' },
+  { key: 'opening', labelKey: 'learn.opening' },
+  { key: 'combo', labelKey: 'learn.combo' },
+  { key: 'endgame', labelKey: 'learn.endgame' },
 ];
-const CAT_JA = { opening: 'オープニング定跡', combo: 'コンビネーション(戦術)', endgame: 'エンドゲーム(終盤)' };
+const CAT_KEY = { opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame' };
 let learnCat = 'opening';
 
 function renderLearnCats() {
@@ -965,7 +996,7 @@ function renderLearnCats() {
   for (const c of LEARN_CATS) {
     const b = document.createElement('button');
     b.className = 'chip' + (c.key === learnCat ? ' active' : '');
-    b.textContent = c.label;
+    b.textContent = tr(c.labelKey);
     b.addEventListener('click', () => { learnCat = c.key; renderLearnCats(); renderLearnList(); });
     wrap.appendChild(b);
   }
@@ -977,10 +1008,11 @@ function renderLearnList() {
   list.forEach((l) => {
     const b = document.createElement('button');
     b.className = 'study-item';
-    b.innerHTML = `<span class="study-item-title">${l.title}</span><span class="study-item-sub">${l.intro.slice(0, 32)}…</span>`;
+    const text = lessonText(l);
+    b.innerHTML = `<span class="study-item-title">${text.title}</span><span class="study-item-sub">${text.intro.slice(0, I18N.language === 'en' ? 72 : 32)}…</span>`;
     b.addEventListener('click', () => {
-      loadAnnotated(l, { title: `🎓 ${l.title}`, sub: CAT_JA[l.cat], intro: l.intro, takeaway: l.takeaway });
-      toast(`🎓 「${l.title}」を開いたよ。▶で一手ずつ解説を読んでね`);
+      loadAnnotated(l, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[l.cat] });
+      toast(tr('toast.studyOpened', { title: text.title }));
     });
     wrap.appendChild(b);
   });
@@ -1000,10 +1032,42 @@ function renderGamesList() {
         sub: `${gm.white} 対 ${gm.black}・${gm.year}(${gm.opening})`,
         intro: gm.intro, takeaway: gm.takeaway,
       });
-      toast(`🏆 「${gm.title}」を開いたよ。▶で一手ずつ解説を読んでね`);
+      toast(tr('toast.gameOpened', { title: gm.title }));
     });
     wrap.appendChild(b);
   });
+}
+
+function refreshLanguage() {
+  I18N.applyStatic();
+  const selSet = $('sel-set');
+  if (selSet) [...selSet.options].forEach((opt) => {
+    const set = PIECE_SETS[opt.value];
+    if (set) opt.textContent = set.emoji ? `${set.glyphs.k} ${I18N.language === 'en' ? set.nameEn : set.name}` : `♞ ${I18N.language === 'en' ? set.nameEn : set.name}`;
+  });
+  const selBgm = $('sel-bgm');
+  if (selBgm && selBgm.options.length > 0) {
+    selBgm.options[0].textContent = tr('toast.bgmAuto').replace(/^🎵\s*/, '🔀 ');
+    [...selBgm.options].slice(1).forEach((opt, index) => { opt.textContent = `${index + 1}. ${bgmSongName(index)}`; });
+  }
+  renderLearnCats(); renderLearnList(); renderGamesList(); renderPuzzleCats(); renderPuzzleList();
+  renderAll();
+  if (puzzle.idx >= 0 && mode === 'puzzle') {
+    const p = PUZZLES[puzzle.idx];
+    if (p) {
+      const text = puzzleText(p);
+      $('puzzle-title').innerHTML = `${text.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
+      $('puzzle-goal').innerHTML = tr('puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: text.idea });
+    }
+  }
+  if (replay.annotation) {
+    const idx = replay.idx;
+    const source = replay.annotation;
+    loadAnnotated(source.data, source.meta);
+    replayGoTo(idx);
+  } else if (mode === 'replay') {
+    showStudyNote();
+  }
 }
 
 const SAMPLE_PGN = `[Event "オペラ座のゲーム"]
@@ -1036,13 +1100,22 @@ function renderAll() {
 
 // ===== イベント =====
 function setupUI() {
+  I18N.applyStatic();
+  const selLanguage = $('sel-language');
+  selLanguage.value = I18N.language;
+  selLanguage.addEventListener('change', (e) => {
+    settings.language = e.target.value === 'en' ? 'en' : 'ja';
+    saveSettings();
+    I18N.setLanguage(settings.language);
+    refreshLanguage();
+  });
   // ピースセット選択肢
   const selSet = $('sel-set');
   for (const key of Object.keys(PIECE_SETS)) {
     const opt = document.createElement('option');
     opt.value = key;
     const s = PIECE_SETS[key];
-    opt.textContent = s.emoji ? `${s.glyphs.k} ${s.name}` : `♞ ${s.name}`;
+    opt.textContent = s.emoji ? `${s.glyphs.k} ${I18N.language === 'en' ? s.nameEn : s.name}` : `♞ ${I18N.language === 'en' ? s.nameEn : s.name}`;
     selSet.appendChild(opt);
   }
   selSet.value = settings.set;
@@ -1069,7 +1142,7 @@ function setupUI() {
     pendingGuests = 0;
     buildBoard();
     renderAll();
-    toast(is3D() ? '🎮 3Dモードにきりかえたよ!' : '✨ シンプルモードにきりかえたよ!');
+    toast(is3D() ? tr('toast.view3d') : tr('toast.viewSimple'));
   });
   $('chk-badges').addEventListener('change', (e) => {
     settings.badges = e.target.checked; saveSettings();
@@ -1079,7 +1152,7 @@ function setupUI() {
   selSet.addEventListener('change', () => {
     settings.set = selSet.value; saveSettings();
     renderAll();
-    toast(`✨ ピースを「${SET().name}」にかえたよ!`);
+    toast(tr('toast.pieceChanged', { name: I18N.language === 'en' ? SET().nameEn : SET().name }));
   });
   $('sel-opponent').addEventListener('change', (e) => {
     settings.opponent = e.target.value; saveSettings();
@@ -1101,7 +1174,7 @@ function setupUI() {
     settings.bgm = !settings.bgm; saveSettings();
     $('btn-bgm').classList.toggle('muted', !settings.bgm);
     if (settings.bgm) BGM.start(); else BGM.stop();
-    toast(settings.bgm ? '🎵 BGMをつけたよ' : '🎵 BGMをけしたよ');
+    toast(settings.bgm ? tr('toast.bgmOn') : tr('toast.bgmOff'));
   });
   document.addEventListener('pointerdown', () => { if (settings.bgm) BGM.start(); }, { once: true });
 
@@ -1109,12 +1182,12 @@ function setupUI() {
   const selBgm = $('sel-bgm');
   const optAuto = document.createElement('option');
   optAuto.value = 'auto';
-  optAuto.textContent = '🔀 オート(ぜんぶ順番に)';
+  optAuto.textContent = I18N.language === 'en' ? '🔀 Auto (all in order)' : '🔀 オート(ぜんぶ順番に)';
   selBgm.appendChild(optAuto);
   BGM.songNames().forEach((n, i) => {
     const o = document.createElement('option');
     o.value = String(i);
-    o.textContent = `${i + 1}. ${n}`;
+    o.textContent = `${i + 1}. ${bgmSongName(i)}`;
     selBgm.appendChild(o);
   });
   selBgm.value = settings.bgmSong;
@@ -1125,18 +1198,18 @@ function setupUI() {
     BGM.setMode(settings.bgmSong);
     if (settings.bgm) BGM.start();
     toast(settings.bgmSong === 'auto'
-      ? '🎵 オート: ぜんぶの曲を順番に流すよ'
-      : `🎵 「${BGM.songNames()[Number(settings.bgmSong)]}」をずっと流すよ`);
+      ? tr('toast.bgmAuto')
+      : tr('toast.bgmSong', { name: bgmSongName(Number(settings.bgmSong)) }));
   });
   $('btn-new').addEventListener('click', newGame);
   $('btn-hint').addEventListener('click', requestHint);
   $('btn-undo').addEventListener('click', undoMove);
   $('btn-copy-pgn').addEventListener('click', () => {
     const pgn = game.pgn();
-    if (!pgn) { toast('まだ棋譜がないよ'); return; }
+    if (!pgn) { toast(tr('toast.noPgn')); return; }
     (navigator.clipboard ? navigator.clipboard.writeText(pgn) : Promise.reject())
-      .then(() => toast('📋 棋譜をコピーしたよ!'))
-      .catch(() => { $('pgn-input').value = pgn; switchTab('load'); toast('棋譜よみこみタブに書き出したよ'); });
+      .then(() => toast(tr('toast.pgnCopied')))
+      .catch(() => { $('pgn-input').value = pgn; switchTab('load'); toast(tr('toast.pgnExported')); });
   });
 
   document.querySelectorAll('.tab').forEach((t) => {
@@ -1179,12 +1252,13 @@ function setupUI() {
 
   renderPuzzleCats();
   renderPuzzleList();
-  $('puzzle-title').textContent = 'パズルをえらんでね';
-  $('puzzle-goal').textContent = 'テーマでしぼりこめるよ。リストからタップして挑戦!';
+  $('puzzle-title').textContent = tr('puzzle.select');
+  $('puzzle-goal').textContent = tr('puzzle.filterHelp');
 }
 
 // ===== 起動 =====
 loadSaved();
+I18N.setLanguage(settings.language, false);
 setupUI();
 newGame();
 

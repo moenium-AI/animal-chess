@@ -912,6 +912,17 @@ def verify_and_build():
                 break
             sans.append(san)
             board.push(mv)
+            if san.endswith("#"):
+                if not board.is_checkmate():
+                    bad = "ply %d '%s': # が付いているがチェックメイトではありません" % (i + 1, san)
+                    break
+            elif san.endswith("+"):
+                if not board.is_check():
+                    bad = "ply %d '%s': + が付いているがチェックではありません" % (i + 1, san)
+                    break
+            elif board.is_check():
+                bad = "ply %d '%s': チェックなのに +/# がありません" % (i + 1, san)
+                break
         status = "OK "
         if bad:
             status = "NG!"; ok_all = False
