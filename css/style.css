@@ -1,4 +1,4 @@
-/* どうぶつチェス スタイル */
+/* Animal Chess styles. / どうぶつチェス スタイル */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -55,7 +55,7 @@ html, body {
   align-items: flex-start; justify-content: center;
 }
 
-/* ===== 盤面 ===== */
+/* ===== Board / 盤面 ===== */
 .board-col { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 .side-col { display: flex; flex-direction: column; gap: 16px; width: var(--side-w); flex-shrink: 0; }
 
@@ -105,7 +105,7 @@ html, body {
 .square .coord.file { right: 3px; bottom: 2px; }
 .square .coord.rank { left: 3px; top: 2px; }
 
-/* ピース */
+/* Pieces / ピース */
 .piece { line-height: 1; z-index: 2; transition: transform 0.1s; }
 .square:hover .piece { transform: scale(1.08); }
 .piece.emoji {
@@ -120,7 +120,7 @@ html, body {
 .piece.glyph.w { color: #fffdf6; text-shadow: 0 0 2px #3a2c20, 0 0 3px #3a2c20, 0 2px 3px rgba(0,0,0,0.4); }
 .piece.glyph.b { color: #3d2f24; text-shadow: 0 1px 2px rgba(255,255,255,0.35); }
 
-/* ===== おもてなし会場 ===== */
+/* ===== Banquet venues / おもてなし会場 ===== */
 .venue {
   background: linear-gradient(135deg, #fff6e5, #ffeccc);
   border: 2px solid #f2d9a8;
@@ -143,7 +143,7 @@ html, body {
 @keyframes guest-in { from { transform: scale(0) rotate(-20deg); } to { transform: scale(1); } }
 @keyframes nibble { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3px) rotate(-12deg); } }
 
-/* ===== 馬車アニメーション ===== */
+/* ===== Carriage animation / 馬車アニメーション ===== */
 .overlay { position: absolute; inset: 0; pointer-events: none; z-index: 10; overflow: visible; }
 .carriage {
   position: absolute;
@@ -174,7 +174,7 @@ html, body {
 @keyframes bounce-ride { from { transform: translateY(0) rotate(-4deg); } to { transform: translateY(-3px) rotate(4deg); } }
 @keyframes roll { from { transform: rotate(0); } to { transform: rotate(360deg); } }
 
-/* ===== ステータスバー ===== */
+/* ===== Status bar / ステータスバー ===== */
 .status-bar {
   background: var(--card); border: 2px solid #eadfce; border-radius: var(--radius);
   padding: 10px 16px; font-size: 1.05rem; font-weight: bold;
@@ -182,7 +182,7 @@ html, body {
 }
 .status-bar .thinking { color: #b0854f; }
 
-/* ===== パネル ===== */
+/* ===== Panels / パネル ===== */
 .panel {
   background: var(--card);
   border: 2px solid #eadfce;
@@ -191,7 +191,7 @@ html, body {
   width: 100%;
   box-shadow: 0 6px 18px rgba(120, 90, 60, 0.12);
 }
-/* 右上カードは対局の棋譜を広く見せる */
+/* Give the upper-right card more room for the game record. / 右上カードは対局の棋譜を広く見せる */
 .card-kifu { flex: 1 1 auto; }
 .movelist-wrap.tall .movelist { max-height: min(38vh, 360px); }
 .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
@@ -238,7 +238,7 @@ html, body {
 .movelist li .no { color: #b3a08c; font-size: 0.75rem; margin-right: 4px; }
 .movelist li.current { background: var(--select); }
 
-/* パズル */
+/* Puzzles / パズル */
 .puzzle-info { background: #f3f9ff; border: 2px solid #cfe4f7; border-radius: var(--radius); padding: 10px 14px; margin-bottom: 10px; }
 .puzzle-title { font-weight: bold; font-size: 1rem; }
 .puzzle-goal { font-size: 0.88rem; color: #4d7ba6; margin-top: 3px; }
@@ -265,7 +265,7 @@ html, body {
 .puzzle-item .done { margin-left: auto; }
 .puz-idea { font-size: 0.82rem; color: #4d7ba6; font-weight: normal; }
 
-/* 棋譜 */
+/* Move list / 棋譜 */
 .hint-text { font-size: 0.8rem; color: #a08c7a; margin-bottom: 6px; }
 #pgn-input {
   width: 100%; border: 2px solid #eadfce; border-radius: 10px; padding: 8px;
@@ -276,7 +276,7 @@ html, body {
 .replay-counter { font-weight: bold; font-size: 0.9rem; padding: 0 6px; }
 .hidden { display: none !important; }
 
-/* トースト */
+/* Toasts / トースト */
 .toast-area {
   position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -291,7 +291,7 @@ html, body {
 @keyframes toast-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 .toast.out { opacity: 0; transition: opacity 0.4s; }
 
-/* モーダル */
+/* Modals / モーダル */
 .modal {
   position: fixed; inset: 0; background: rgba(70, 50, 35, 0.45);
   display: flex; align-items: center; justify-content: center; z-index: 50;
@@ -313,7 +313,7 @@ html, body {
 .promo-choices button:hover { transform: scale(1.12); background: #fdf3dd; }
 .gameover-emoji { font-size: 2.6rem; margin-bottom: 8px; letter-spacing: 6px; }
 
-/* 紙吹雪 */
+/* Confetti / 紙吹雪 */
 .confetti {
   position: fixed; top: -40px; z-index: 200; pointer-events: none;
   font-size: 1.6rem;
@@ -323,7 +323,7 @@ html, body {
   to { transform: translateY(110vh) rotate(720deg); }
 }
 
-/* 盤の揺れ(不正解) */
+/* Board shake (incorrect answer). / 盤の揺れ(不正解) */
 .board.shake { animation: shake 0.4s ease; }
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
@@ -332,7 +332,7 @@ html, body {
   75% { transform: translateX(-5px); }
 }
 
-/* ===== コマ種類バッジ ===== */
+/* ===== Piece-type badges / コマ種類バッジ ===== */
 .type-badge {
   position: absolute; top: 1px; right: 1px;
   width: 16px; height: 16px; line-height: 16px;
@@ -343,8 +343,8 @@ html, body {
 .type-badge.w { background: rgba(255, 253, 245, 0.95); color: #3d2f24; box-shadow: 0 0 0 1px #c8b28a; }
 .type-badge.b { background: rgba(70, 56, 46, 0.95); color: #fff6e0; box-shadow: 0 0 0 1px #2c211a; }
 
-/* ===== 3Dモード: 傾斜盤 ===== */
-/* 上の余白を下(盤の縦つぶしで空く 0.02×盤サイズ)と揃えて左右対称にする */
+/* ===== 3D mode: tilted board / 3Dモード: 傾斜盤 ===== */
+/* Match the upper margin to the lower gap (0.02 × board size) for symmetry. / 上の余白を下(盤の縦つぶしで空く 0.02×盤サイズ)と揃えて左右対称にする */
 .board-wrap.mode-3d { padding-top: calc(var(--board-size) * 0.02); }
 .mode-3d .board {
   transform: scaleY(0.85);
@@ -360,7 +360,7 @@ html, body {
   pointer-events: none;
 }
 
-/* 3Dピース(縦つぶれを打ち消して直立) */
+/* 3D pieces (counteract vertical compression so they stand upright). / 3Dピース(縦つぶれを打ち消して直立) */
 .p3d {
   position: absolute; left: 50%; bottom: 3%;
   transform: translateX(-50%) scaleY(1.1765);
@@ -388,7 +388,7 @@ html, body {
 .mode-3d .square.selected .p3d canvas { animation: hop3d 0.5s ease-in-out infinite; }
 @keyframes hop3d { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16%); } }
 
-/* ===== 3D宴会会場 ===== */
+/* ===== 3D banquet venues / 3D宴会会場 ===== */
 .venue.v3d { background: linear-gradient(#f8e2b8, #eac98e); border-color: #d8b070; }
 .venue.v3d .venue-guests {
   display: block; position: relative; height: 64px; overflow: hidden;
@@ -433,7 +433,7 @@ html, body {
   50% { transform: translateY(-4px) rotate(-14deg); }
 }
 
-/* ===== 3D馬車 ===== */
+/* ===== 3D carriage / 3D馬車 ===== */
 .carriage3d {
   position: absolute;
   transition: transform 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
@@ -442,7 +442,7 @@ html, body {
 }
 .carriage3d canvas { display: block; width: 128px; image-rendering: pixelated; }
 
-/* 3Dプロモーション選択 */
+/* 3D promotion selection / 3Dプロモーション選択 */
 .promo-choices canvas { width: 44px; height: auto; image-rendering: pixelated; }
 
 .check-line {
@@ -451,13 +451,13 @@ html, body {
 }
 .check-line input { width: 16px; height: 16px; accent-color: var(--accent); }
 
-/* ===== 学習・棋譜再生パネル(盤の下) ===== */
+/* ===== Learn and replay panel (below the board) / 学習・棋譜再生パネル(盤の下) ===== */
 .study-panel {
   width: 100%; box-sizing: border-box;
   background: #fbf6ec; border: 2px solid #e6d8bf; border-radius: var(--radius);
   padding: 10px 14px;
 }
-/* 解説文が長いときは枠内スクロールにして、盤や他のカードを押し出さない */
+/* Scroll long annotations inside the panel so they do not push out the board or other cards. / 解説文が長いときは枠内スクロールにして、盤や他のカードを押し出さない */
 .study-note { max-height: 40vh; overflow-y: auto; }
 .study-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .study-title { font-weight: bold; font-size: 1rem; color: #7a5a2e; }
@@ -477,7 +477,7 @@ html, body {
 .study-nav .btn.primary { margin-left: auto; }
 .movelist.study-moves { max-height: 128px; margin: 0; }
 
-/* ===== まなぶ・名局リスト ===== */
+/* ===== Learn and famous-game lists / まなぶ・名局リスト ===== */
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .chip {
   padding: 6px 12px; font-size: 0.85rem; font-weight: bold; font-family: inherit;
@@ -485,7 +485,7 @@ html, body {
   cursor: pointer;
 }
 .chip.active { background: var(--accent); color: #fff; border-color: var(--accent-dark); }
-/* 難易度チップ(詰み手数)はテーマのチップと見分けがつくよう色を変える */
+/* Use a different color for difficulty chips (mate length) so they are distinct from theme chips. / 難易度チップ(詰み手数)はテーマのチップと見分けがつくよう色を変える */
 .chip.lv { background: #eaf1e2; color: #6d8a58; border-color: #cfe0be; }
 .chip.lv.active { background: #7fb069; color: #fff; border-color: #6d9b58; }
 .study-list { display: flex; flex-direction: column; gap: 6px; max-height: 320px; overflow-y: auto; }
@@ -503,6 +503,6 @@ html, body {
   :root { --board-size: min(94vw, 660px, 58vh); }
   .layout { flex-direction: column; align-items: center; }
   .side-col { width: var(--board-size); }
-  /* スマホ等の縦積みでは盤を画面上部に固定し、解説だけ下でスクロールできるようにする */
+  /* On narrow stacked layouts, keep the board near the top and let only annotations scroll below. / スマホ等の縦積みでは盤を画面上部に固定し、解説だけ下でスクロールできるようにする */
   .board-col { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-bottom: 4px; }
 }

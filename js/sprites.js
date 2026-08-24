@@ -1,9 +1,9 @@
-// 3Dモード用スプライト描画エンジン
-// SPRITE_DATA(sprite_data.js)のドット絵をcanvasに描く。
+// Sprite renderer for 3D mode. / 3Dモード用スプライト描画エンジン。
+// Draws the pixel art from SPRITE_DATA (sprite_data.js) on canvas. / SPRITE_DATA（sprite_data.js）のドット絵をcanvasに描く。
 const Sprites = (() => {
-  const TINT = [64, 68, 96];   // 黒チームの色調(寒色寄せ)
+  const TINT = [64, 68, 96];   // Dark-team cool tint. / 黒チームの寒色寄りの色調。
   const TINT_K = 0.25;
-  const cache = {};            // key -> 描画済みcanvas
+  const cache = {};            // key -> rendered canvas / key -> 描画済みcanvas
 
   const CW = SPRITE_DATA.meta.width;
   const CH = SPRITE_DATA.meta.height;
@@ -15,7 +15,7 @@ const Sprites = (() => {
     return rgb.map((c, i) => Math.round(c * (1 - TINT_K) + TINT[i] * TINT_K));
   }
 
-  // artをcanvasに描く(汎用)
+  // Draw art on canvas. / artをcanvasに描く（汎用）。
   function drawArt(ctx, art, pal, opts = {}) {
     const { ox = 0, oy = 0, team = null, tinted = false, blink = false, blinkChar = 'f', scale = 1 } = opts;
     const p = Object.assign({}, pal);
@@ -42,7 +42,7 @@ const Sprites = (() => {
     return c;
   }
 
-  // キャラのキャッシュ済みcanvas(open/closed)
+  // Cached character canvas (open/closed eyes). / キャラクターのキャッシュ済みcanvas（目を開く・閉じる）。
   function charCanvas(type, team, blink = false) {
     const key = `${type}|${team}|${blink ? 'c' : 'o'}`;
     if (cache[key]) return cache[key];
@@ -66,7 +66,7 @@ const Sprites = (() => {
     return c;
   }
 
-  // 盤面・宴会用: ピースcanvasを生成(まばたき差し替え可能)
+  // Create a piece canvas for the board or banquet; blinking can replace it. / 盤面・宴会用のピースcanvasを生成し、まばたきで差し替え可能にする。
   function makePiece(type, team) {
     const c = makeCanvas(CW, CH);
     c.dataset.type = type;
@@ -80,7 +80,7 @@ const Sprites = (() => {
     ctx.drawImage(charCanvas(c.dataset.type, c.dataset.team, blink), 0, 0);
   }
 
-  // 馬車(乗客つき): frame 0/1
+  // Carriage with passenger: frame 0/1. / 乗客付きの馬車: frame 0/1。
   function drawCarriage(c, frame, riderType, riderTeam, faceLeft) {
     const art = SPRITE_DATA.carriage.frames[frame % SPRITE_DATA.carriage.frames.length];
     const W = art[0].length, H = art.length;
@@ -90,7 +90,7 @@ const Sprites = (() => {
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.save();
     if (faceLeft) { ctx.translate(c.width, 0); ctx.scale(-1, 1); }
-    // 乗客(荷台の上・下半身は荷台で隠れる)
+    // Passenger on the cart; the lower body is hidden by the cart. / 荷台の上の乗客。下半身は荷台で隠れる。
     if (riderType) {
       ctx.drawImage(charCanvas(riderType, riderTeam, false), 2, 0, 15, 20);
     }

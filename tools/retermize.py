@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-"""将棋由来の用語をチェスの一般的なカタカナ表記に統一する一括置換スクリプト。
+"""Bulk-replace shogi-derived terms with standard katakana chess terminology.
+将棋由来の用語をチェスの一般的なカタカナ表記に統一する一括置換スクリプト。
 
-  玉・王 → キング / 王手 → チェック / 両王手 → ダブルチェック など
+  玉・王 → キング / 王手 → チェック / 両王手 → ダブルチェック, and so on. / 玉・王 → キング / 王手 → チェック / 両王手 → ダブルチェック など
 
-駒ではない「王」(王座・王者・王道・大王・女王)は置換してはいけないので、
-先にプレースホルダへ退避し、最後に戻す。順序も重要(長い語から処理する)。
+Non-piece uses of 「王」 (王座・王者・王道・大王・女王) must not be replaced,
+so they are moved to placeholders first and restored at the end. Order also matters (longer terms first). / 駒ではない「王」(王座・王者・王道・大王・女王)は置換してはいけないので、先にプレースホルダへ退避し、最後に戻す。順序も重要(長い語から処理する)。
 
-対象は「手で書いたファイル」だけ: 生成物 js/{lessons,games,puzzles}.js は
-各 *_gen.py を直したうえで再生成すること。
+Only hand-written files are targets: regenerate generated js/{lessons,games,puzzles}.js
+after editing the corresponding *_gen.py files. / 対象は「手で書いたファイル」だけ: 生成物 js/{lessons,games,puzzles}.js は各 *_gen.py を直したうえで再生成すること。
 """
 import io
 import sys
@@ -20,15 +21,15 @@ TARGETS = [
     "README.md",
 ]
 
-# 1) 駒ではない「王」を退避(置換対象から守る)
+# 1) Protect non-piece uses of 「王」 from replacement. / 駒ではない「王」を退避(置換対象から守る)
 PROTECT = ["王座", "王者", "王道", "大王", "女王"]
 
-# 2) 長い複合語から順に置換する
+# 2) Replace longer compounds first. / 長い複合語から順に置換する
 RULES = [
     ("両王手", "ダブルチェック"),
     ("発見王手", "ディスカバードチェック"),
     ("王手", "チェック"),
-    # 玉の複合語(先に処理しないと「自キング」のような不自然な語になる)
+    # Compound terms containing 玉; process them first to avoid unnatural forms such as 「自キング」. / 玉の複合語(先に処理しないと「自キング」のような不自然な語になる)
     ("自玉", "自分のキング"),
     ("相手玉", "相手のキング"),
     ("白玉", "白のキング"),
@@ -41,7 +42,7 @@ RULES = [
     ("王", "キング"),
 ]
 
-# 3) 置換後に整えたい表現(重複・不自然さの解消)
+# 3) Normalize expressions after replacement (remove duplicates and awkward wording). / 置換後に整えたい表現(重複・不自然さの解消)
 POLISH = [
     ("チェックでチェックメイト", "チェックメイト"),
     ("チェックをかけてチェックメイト", "チェックメイト"),
@@ -49,7 +50,7 @@ POLISH = [
     ("のキングの", "のキングの"),
 ]
 
-# 4) タイトルは「カタカナ(和訳)」の語順に統一する
+# 4) Standardize titles as 「katakana (Japanese translation)」. / タイトルは「カタカナ(和訳)」の語順に統一する
 TITLE_FIXES = [
     ("ナイトの二股(フォーク)", "フォーク(ナイトの二股)"),
     ("串刺し(スキュア)", "スキュア(串刺し)"),
@@ -61,7 +62,7 @@ TITLE_FIXES = [
     ("四角形の法則(ポーンを追いつけるか)", "スクエアルール(四角形の法則)"),
     ("二枚のルークで階段メイト", "ラダーメイト(二枚のルークの階段)"),
     ("【きほん】タダの駒を見のがさない", "【きほん】ハンギングピース(タダの駒)"),
-    # ダブルチェックのタイトルは(和訳)側を日本語のまま残すのが狙いなので復元する
+    # Restore double-check titles so the Japanese translation remains Japanese. / ダブルチェックのタイトルは(和訳)側を日本語のまま残すのが狙いなので復元する
     ("ダブルチェック(ダブルチェック)", "ダブルチェック(両王手)"),
 ]
 

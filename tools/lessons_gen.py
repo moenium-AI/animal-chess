@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-"""学習教材を python-chess で検証し js/lessons.js を生成する。
+"""Validate lessons with python-chess and generate js/lessons.js.
+学習教材を python-chess で検証し js/lessons.js を生成する。
 
-- fen=None のレッスンは通常の初期配置から。
-- 各手が合法かを検証し、"#" 付きの最終手は本当に詰みかを確認する。
-- 解説はすべて独自に書き下ろし。
+- Lessons with fen=None start from the standard initial position. / fen=None のレッスンは通常の初期配置から。
+- Validate every move and verify that a final move marked with "#" is really mate. / 各手が合法かを検証し、"#" 付きの最終手は本当に詰みかを確認する。
+- All annotations are original. / 解説はすべて独自に書き下ろし。
 """
 import chess
 import json
@@ -16,7 +17,7 @@ except ImportError:
     EN = {}
 
 LESSONS = [
-  # ============ オープニング ============
+  # ============ Openings / オープニング ============
   {
     "id": "op_italian", "cat": "opening", "title": "イタリアン・ゲーム", "fen": None,
     "intro": "最も古く分かりやすい出だしの一つ。『中央を取る・軽い駒を素早く出す・キングを早く囲う』という開幕の三原則を自然に学べます。",
@@ -120,7 +121,7 @@ LESSONS = [
     ],
   },
 
-  # ============ コンビネーション(戦術) ============
+  # ============ Combinations (tactics) / コンビネーション(戦術) ============
   {
     "id": "cb_fork", "cat": "combo", "title": "フォーク(ナイトの二股)",
     "fen": "6k1/8/2q5/3N4/8/8/8/6K1 w - - 0 1",
@@ -173,7 +174,7 @@ LESSONS = [
     ],
   },
 
-  # ============ エンドゲーム ============
+  # ============ Endgames / エンドゲーム ============
   {
     "id": "eg_rook", "cat": "endgame", "title": "ルークでのメイト(基本形)",
     "fen": "4k3/8/4K3/8/8/8/8/R7 w - - 0 1",
@@ -211,7 +212,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん:オープニング ============
+  # ============ Additional set: openings / 追加ぶん:オープニング ============
   {
     "id": "op_scotch", "cat": "opening", "title": "スコッチ・ゲーム", "fen": None,
     "intro": "3手目でいきなり中央をぶつけて開く、はっきりした戦い方。難しい駆け引きより『中央を開いて素早く駒を働かせる』を体感できる、初心者に優しい攻めの定跡です。",
@@ -283,7 +284,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん:コンビネーション ============
+  # ============ Additional set: combinations / 追加ぶん:コンビネーション ============
   {
     "id": "cb_smother", "cat": "combo", "title": "スマザー・メイト(窒息の詰み)", "fen": "5r1k/pp4pp/8/4N3/8/1Q6/PP4PP/6K1 w - - 0 1",
     "intro": "自分の駒に囲まれて逃げ道のないキングを、ナイト一枚で仕留める華麗な決め技。クイーンをあえて捨てて相手のルークを呼び込み、ナイトの一撃で詰ます有名な手順です。",
@@ -309,7 +310,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん:エンドゲーム ============
+  # ============ Additional set: endgames / 追加ぶん:エンドゲーム ============
   {
     "id": "eg_opposition", "cat": "endgame", "title": "オポジションでポーンを昇格させる", "fen": "4k3/8/4K3/4P3/8/8/8/8 w - - 0 1",
     "intro": "ポーン1個の終盤は、キングの使い方がすべて。ポーンより前にキングを進め、『オポジション(キングが1マス空けて正面で向かい合う)』で相手のキングを押し下げれば、ポーンを安全に昇格させられます。",
@@ -327,7 +328,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん2:コンビネーション ============
+  # ============ Additional set 2: combinations / 追加ぶん2:コンビネーション ============
   {
     "id": "cb_doublecheck", "cat": "combo", "title": "ダブルチェック(両王手)", "fen": "2k3r1/pp6/2N5/8/8/8/8/2R4K w - - 0 1",
     "intro": "二枚の駒で同時にチェックをかける『ダブルチェック』。合い駒もできず、チェックしている駒を取ることもできない——キングはただ動くしかありません。守り駒がいくら多くても関係ない、最強のチェックです。",
@@ -355,7 +356,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん2:エンドゲーム ============
+  # ============ Additional set 2: endgames / 追加ぶん2:エンドゲーム ============
   {
     "id": "eg_breakthrough", "cat": "endgame", "title": "ブレイクスルー(ポーンの突破)", "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
     "intro": "3対3で向かい合ったポーンでも、正しい順番で突けば一枚だけ通過ポーンを作って昇格できることがあります。数が同じでも『突破口』を作る、終盤の代表的な手筋です。",
@@ -387,7 +388,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん3:オープニング ============
+  # ============ Additional set 3: openings / 追加ぶん3:オープニング ============
   {
     "id": "op_kingsgambit", "cat": "opening", "title": "キングス・ギャンビット", "fen": None,
     "intro": "2手目でポーンを1つ差し出して中央を開き、一気に攻めをめざす古き良き積極策。ここでは無理に取らずに受ける『拒否形』で、落ち着いた駒組みを学びます。",
@@ -440,7 +441,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん3:コンビネーション ============
+  # ============ Additional set 3: combinations / 追加ぶん3:コンビネーション ============
   {
     "id": "cb_boden", "cat": "combo", "title": "ボーデン・メイト(二枚のビショップ)", "fen": "2kr4/3p4/8/8/2B2B2/8/8/6K1 w - - 0 1",
     "intro": "二枚のビショップが、交差する斜めのラインからキングを挟み撃ちにする華麗な詰み。片方が正面からチェックし、もう片方が横の逃げ道を封じます。クイーンサイドに囲ったキングが引っかかりやすい形です。",
@@ -462,7 +463,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん3:エンドゲーム ============
+  # ============ Additional set 3: endgames / 追加ぶん3:エンドゲーム ============
   {
     "id": "eg_underpromo", "cat": "endgame", "title": "アンダープロモーション(ナイトへの昇格)", "fen": "8/4P1k1/3q4/8/8/8/8/6K1 w - - 0 1",
     "intro": "昇格は必ずクイーンが得とは限りません。ときには『ナイトに昇格』した方が、チェックやフォークが決まって一気に勝てることがあります。形にとらわれない発想を学びましょう。",
@@ -486,7 +487,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん4:コンビネーション(きほん→上級) ============
+  # ============ Additional set 4: combinations (basic → advanced) / 追加ぶん4:コンビネーション(きほん→上級) ============
   {
     "id": "cb_hanging", "cat": "combo", "title": "【きほん】ハンギングピース(タダの駒)", "fen": "6k1/5ppp/8/r7/8/8/5PPP/Q5K1 w - - 0 1",
     "intro": "戦術のいちばんの基本は『相手の駒が守られているか』を見ること。誰にも守られていない駒(ハンギング・ピース)は、ただで頂けます。まずはこれを毎回チェックする習慣をつけましょう。",
@@ -524,7 +525,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん4:エンドゲーム(きほん→上級) ============
+  # ============ Additional set 4: endgames (basic → advanced) / 追加ぶん4:エンドゲーム(きほん→上級) ============
   {
     "id": "eg_stalemate", "cat": "endgame", "title": "【きほん】ステイルメイトに注意", "fen": "7k/5K2/8/8/8/8/8/6Q1 w - - 0 1",
     "intro": "大優勢なのに引き分けにしてしまう最大の落とし穴が『ステイルメイト』。相手がチェックされていないのに動ける手がまったく無いと、勝ちではなく引き分けになります。詰ませるときこそ慎重に。",
@@ -572,7 +573,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん5:コンビネーション(中〜上級) ============
+  # ============ Additional set 5: combinations (intermediate → advanced) / 追加ぶん5:コンビネーション(中〜上級) ============
   {
     "id": "cb_zwischenzug", "cat": "combo", "title": "ツヴィッシェンツーク(中間手)", "fen": "6k1/5ppp/3b1n2/3N4/4P3/8/5PPP/6K1 b - - 0 1",
     "intro": "取られたらすぐ取り返す——それが当たり前とは限りません。取り返す前に『もっと強い手』をはさむのがツヴィッシェンツーク(中間手)。相手が対応せざるを得ないチェックなどをはさむと、まるまる得をします。",
@@ -597,7 +598,7 @@ LESSONS = [
     ],
   },
 
-  # ============ 追加ぶん5:エンドゲーム(中〜上級) ============
+  # ============ Additional set 5: endgames (intermediate → advanced) / 追加ぶん5:エンドゲーム(中〜上級) ============
   {
     "id": "eg_wrongbishop", "cat": "endgame", "title": "まちがった色のビショップ(引き分け)", "fen": "7k/8/5K1P/8/8/8/8/3B4 w - - 0 1",
     "intro": "ビショップとポーンがあっても勝てないことがあります。端(ルーク)のポーンで、昇格マスの色を自分のビショップが利かせられないとき——これが『まちがった色のビショップ』。相手のキングが隅に居座るだけで引き分けです。",
@@ -649,9 +650,9 @@ def verify_and_build():
                 bad = "ply %d '%s': %s" % (i + 1, san, e)
                 break
             board.push(mv)
-            # python-chessのparse_sanは、チェック記号の付け間違いを
-            # 常にエラーにするわけではない。教材では解説と棋譜表示が
-            # 一致することが重要なので、+/#と実際の局面を照合する。
+            # python-chess's parse_san does not always reject an incorrect check marker. / python-chessのparse_sanは、チェック記号の付け間違いを
+            # For lessons, displayed SAN and annotations must match the actual position, / 常にエラーにするわけではない。教材では解説と棋譜表示が
+            # so compare +/# with the resulting position. / 一致することが重要なので、+/#と実際の局面を照合する。
             if san.endswith("#"):
                 if not board.is_checkmate():
                     bad = "ply %d '%s': # なのにチェックメイトではありません" % (i + 1, san)
@@ -702,8 +703,8 @@ def verify_and_build():
 def main():
     lessons, ok = verify_and_build()
     path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "..", "js", "lessons.js")
-    body = "// 自動生成: tools/lessons_gen.py (python-chessで検証済み)\n"
-    body += "// 解説はすべて独自に書き下ろし。\n"
+    body = "// Generated by tools/lessons_gen.py; validated with python-chess. / tools/lessons_gen.pyで自動生成し、python-chessで検証済み。\n"
+    body += "// All annotations are original. / 解説はすべて独自に書き下ろし。\n"
     body += "const LESSONS = " + json.dumps(lessons, ensure_ascii=False, indent=1) + ";\n"
     with open(path, "w", encoding="utf-8") as f:
         f.write(body)

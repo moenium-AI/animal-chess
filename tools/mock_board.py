@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""3Dモードの盤面表示をブラウザと同じ比率で再現して目視確認する"""
+"""Reproduce the 3D board at the browser's proportions for visual inspection. / 3Dモードの盤面表示をブラウザと同じ比率で再現して目視確認する"""
 import json, os, re, zlib, struct
 from render_sprites import load_data, hex2rgb, tint, write_png
 
@@ -11,7 +11,7 @@ OUT = os.path.join(os.path.dirname(__file__), "board_mock.png")
 
 LIGHT = hex2rgb("#fdf3dd")
 DARK = hex2rgb("#bcd9a0")
-EDGE_MIX = 0.16  # タイル下端の陰
+EDGE_MIX = 0.16  # Tile lower-edge shadow. / タイル下端の陰
 
 START = [
     "rnbqkbnr",
@@ -35,7 +35,7 @@ def main():
         if 0 <= x < W and 0 <= y < H:
             canvas[(x, y)] = rgb
 
-    # 盤(市松+下端の陰)
+    # Board: checkerboard plus lower-edge shadow. / 盤(市松+下端の陰)
     for r in range(8):
         for c in range(8):
             base = LIGHT if (r + c) % 2 == 0 else DARK
@@ -45,7 +45,7 @@ def main():
                 for dx in range(SQ_W):
                     put(c * SQ_W + dx, MARGIN_TOP + r * SQ_H + dy, rgb)
 
-    # スプライト(奥の列から描く)
+    # Sprites, drawn from the back row forward. / スプライト(奥の列から描く)
     scale = None  # per-sprite
     for r in range(8):
         for c in range(8):
@@ -63,7 +63,7 @@ def main():
             spr_h = int(len(art) * sc)
             x0 = c * SQ_W + (SQ_W - SPR_W) // 2
             y0 = MARGIN_TOP + r * SQ_H + SQ_H - 2 - spr_h
-            # 影
+            # Shadow. / 影
             cx, cy = c * SQ_W + SQ_W // 2, MARGIN_TOP + r * SQ_H + SQ_H - 4
             for dy in range(-4, 5):
                 for dx in range(-20, 21):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""sprite_data.js のドット絵を目視確認用PNGに描き出す(依存ライブラリなし)"""
+"""Render sprite_data.js pixel art to a PNG for visual inspection (no dependencies). / sprite_data.js のドット絵を目視確認用PNGに描き出す(依存ライブラリなし)"""
 import json, os, re, sys, zlib, struct
 
 SRC = os.path.join(os.path.dirname(__file__), "..", "js", "sprite_data.js")
@@ -19,7 +19,8 @@ def tint(rgb, k=0.25):
     return tuple(int(c * (1 - k) + t * k) for c, t in zip(rgb, TINT))
 
 def render_art(art, pal, team=None, teams=None, tinted=False):
-    """artを (w,h,pixels dict) に。palはchar->hex。team指定でA/a差し替え+暗色チーム tint"""
+    """Convert art to (w, h, pixel dict); pal maps chars to hex colors. / artを (w,h,pixels dict) に。palはchar->hex。
+    With team set, replace A/a and apply the dark-team tint. / team指定でA/a差し替え+暗色チーム tint"""
     w = max(len(r) for r in art)
     for i, r in enumerate(art):
         if len(r) != w:
@@ -62,7 +63,7 @@ def main():
     SCALE = 6
     PAD = 8
     sprites = []  # (w, h, px)
-    # キャラ: 白チーム/黒チームを並べる
+    # Characters: arrange the light and dark teams side by side. / キャラ: 白チーム/黒チームを並べる
     for key in ["k", "q", "r", "b", "n", "p"]:
         c = data["chars"][key]
         sprites.append(render_art(c["art"], c["pal"], "w", teams, tinted=False))
@@ -79,13 +80,13 @@ def main():
     row_hs = [max(s[1] for s in r) * SCALE + PAD * 2 for r in rows]
     W = max(row_ws)
     H = sum(row_hs)
-    # 背景: 薄い市松模様(透明部分が見えるように)
+    # Background: a light checkerboard so transparent areas remain visible. / 背景: 薄い市松模様(透明部分が見えるように)
     canvas = {}
     y0 = 0
     for r, rh in zip(rows, row_hs):
         x0 = PAD
         for (sw, sh, px) in r:
-            base_y = y0 + rh - PAD - sh * SCALE  # 下揃え
+            base_y = y0 + rh - PAD - sh * SCALE  # Align to the bottom. / 下揃え
             for (x, y), rgb in px.items():
                 for dy in range(SCALE):
                     for dx in range(SCALE):

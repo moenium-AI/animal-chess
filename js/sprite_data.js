@@ -1,6 +1,6 @@
-// 3Dモード用ドット絵データ(擬人化どうぶつ・宴会アイテム・馬車)
-// 26x34px・陰影3階調(光源は左上)・チーム色は teams で差し替え
-// 注意: この定義は末尾の ; を除いて厳密なJSON。tools/render_sprites.py がパースする。
+// Pixel-art data for 3D mode: animal characters, banquet items, and carriage. / 3Dモード用ドット絵データ（擬人化どうぶつ・宴会アイテム・馬車）。
+// 26x34 px, three shading levels, light from the upper left; team colors are replaced through teams. / 26x34px、陰影3階調、光源は左上。チーム色はteamsで差し替える。
+// Important: except for the trailing semicolon, this definition is strict JSON and is parsed by tools/render_sprites.py. / 注意: 末尾のセミコロンを除き厳密なJSONで、tools/render_sprites.pyが解析する。
 const SPRITE_DATA = {
   "meta": { "width": 26, "height": 34, "baseline": 30 },
   "teams": {

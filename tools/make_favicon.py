@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-"""3Dモードのキング(ライオン)の顔から favicon.svg / favicon.png を生成する。
+"""Generate favicon.svg and favicon.png from the 3D-mode king (lion) face.
+3Dモードのキング(ライオン)の顔から favicon.svg / favicon.png を生成する。
 
-favicon は正方形が前提なので、ライオンの頭(王冠〜たてがみ)を切り出して使う。
-SVG はどのサイズでもドットがぼやけない(crispEdges)ので主アイコン、
-PNG は SVG 非対応ブラウザ向けの控え。
+The favicon is square, so crop the lion's head (crown to mane).
+SVG is the primary icon because crispEdges keeps pixels sharp at any size;
+PNG is the fallback for browsers without SVG support. / favicon は正方形が前提なので、ライオンの頭(王冠〜たてがみ)を切り出して使う。
+SVG はどのサイズでもドットがぼやけない(crispEdges)ので主アイコン、PNG は SVG 非対応ブラウザ向けの控え。
 """
 import os
 import re
@@ -17,10 +19,10 @@ OUT_SVG = os.path.join(HERE, "..", "favicon.svg")
 OUT_PNG = os.path.join(HERE, "..", "favicon.png")
 PREVIEW = os.path.join(HERE, "favicon_preview.png")
 
-# どのコマの顔を使うか(k=ライオン/q=ねこ/r=くま/b=ふくろう/n=うま/p=ひよこ)
-CHAR = "q"           # クイーン(ねこ)
-ROW0, ROW1 = 2, 16   # 耳の先〜あごの下(横の範囲は自動で計算する)
-TEAM = "w"           # しろチーム(赤い衣装)の配色
+# Select the piece face: k=lion, q=cat, r=bear, b=owl, n=horse, p=chick. / どのコマの顔を使うか(k=ライオン/q=ねこ/r=くま/b=ふくろう/n=うま/p=ひよこ)
+CHAR = "q"           # Queen (cat). / クイーン(ねこ)
+ROW0, ROW1 = 2, 16   # From ear tips to below the chin; horizontal bounds are automatic. / 耳の先〜あごの下(横の範囲は自動で計算する)
+TEAM = "w"           # Light-team colors (red outfit). / しろチーム(赤い衣装)の配色
 
 
 def load_data():
@@ -35,7 +37,8 @@ def hex2rgb(h):
 
 
 def build_pixels():
-    """切り出した領域を正方形の中央に配置して {(x, y): (r, g, b)} で返す。
+    """Center the cropped region in a square and return {(x, y): (r, g, b)}.
+    切り出した領域を正方形の中央に配置して {(x, y): (r, g, b)} で返す。
 
     favicon は正方形が前提なので、切り出しが横長・縦長でも
     余白を均等に足して正方形にする(余白は透明のまま)。
@@ -46,7 +49,7 @@ def build_pixels():
     pal.update(data["teams"][TEAM])
     rows = ch_def["art"][ROW0:ROW1 + 1]
 
-    # 横の範囲は実際に絵がある位置から自動で求める(切り取りミス防止)
+    # Derive the horizontal bounds from non-empty artwork to avoid cropping mistakes. / 横の範囲は実際に絵がある位置から自動で求める(切り取りミス防止)
     col0, col1 = None, None
     for row in rows:
         for x, c in enumerate(row):
@@ -76,7 +79,7 @@ def build_pixels():
 
 
 def write_svg(px, w, h):
-    """同じ色が横に続く部分は1つの矩形にまとめて出力する。"""
+    """Combine consecutive pixels of the same color into one rectangle. / 同じ色が横に続く部分は1つの矩形にまとめて出力する。"""
     parts = [
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" '
         'shape-rendering="crispEdges">' % (w, h)
@@ -105,7 +108,7 @@ def write_svg(px, w, h):
 def write_png_rgba(path, w, h, get_rgba):
     raw = bytearray()
     for y in range(h):
-        raw.append(0)  # フィルタなし
+        raw.append(0)  # No filter. / フィルタなし
         for x in range(w):
             raw += bytes(get_rgba(x, y))
 
@@ -125,7 +128,7 @@ def main():
     n = write_svg(px, w, h)
     print("wrote %s (%dx%d dots, %d bytes)" % (OUT_SVG, w, h, n))
 
-    # PNG は4倍(ニアレストネイバー)で出力。ドットが潰れないように整数倍にする。
+    # Write the PNG at 4× nearest-neighbor scale so the pixels stay crisp. / PNG は4倍(ニアレストネイバー)で出力。ドットが潰れないように整数倍にする。
     scale = 4
     def get(x, y):
         c = px.get((x // scale, y // scale))
@@ -133,7 +136,7 @@ def main():
     write_png_rgba(OUT_PNG, w * scale, h * scale, get)
     print("wrote %s (%dx%d)" % (OUT_PNG, w * scale, h * scale))
 
-    # 目視確認用: 実際のタブ表示サイズ(16px)と拡大版を市松模様の上に並べる
+    # Visual check: place the actual tab size (16 px) and enlarged version on a checkerboard. / 目視確認用: 実際のタブ表示サイズ(16px)と拡大版を市松模様の上に並べる
     pad = 6
     cells = [(1, "16px相当"), (2, "32px相当"), (8, "拡大")]
     total_w = sum(w * s for s, _ in cells) + pad * (len(cells) + 1)

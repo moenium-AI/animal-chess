@@ -1,20 +1,20 @@
-// やさしいBGM(Web Audioで生成・外部ファイルなし)
-// 全10曲。オート時は数回ループごとに次の曲へ。曲を指定するとその曲をずっとリピート。
+// Gentle BGM generated with Web Audio; no external files. / Web Audioで生成するやさしいBGM。外部ファイルなし。
+// Ten songs. Auto mode advances after several loops; selecting a song loops it continuously. / 全10曲。オート時は数回ループごとに次の曲へ。曲を指定するとその曲を繰り返す。
 const BGM = (() => {
   let ctx = null, master = null, delayIn = null;
   let timer = null, playing = false, scheduledUntil = 0;
   let songIdx = 0, loopsLeft = 0;
-  let mode = 'auto';        // 'auto' か 曲番号(0〜)
-  let active = [];          // 予約済みオシレーター(曲切替時に止める)
+  let mode = 'auto';        // 'auto' or a song index (0+). / 'auto' か曲番号(0〜)。
+  let active = [];          // Scheduled oscillators stopped on song changes. / 曲切替時に止める予約済みオシレーター。
 
-  const GAP = 1.6;          // 曲間の休み(秒)
-  const MASTER_VOL = 0.3;   // 全体音量(控えめ)
+  const GAP = 1.6;          // Break between songs, in seconds. / 曲間の休み(秒)。
+  const MASTER_VOL = 0.3;   // Master volume, kept modest. / 全体音量(控えめ)。
 
   const freq = (m) => 440 * Math.pow(2, (m - 69) / 12);
 
-  // 曲データ: mel/bass = [位置(8分), MIDI, 長さ(8分)] / pad = [位置, [MIDI...], 長さ]
+  // Song data: mel/bass = [position in eighth notes, MIDI, length in eighth notes]; pad = [position, [MIDI...], length]. / 曲データ: mel/bass = [位置(8分), MIDI, 長さ(8分)]; pad = [位置, [MIDI...], 長さ]
   const SONGS = [
-    { // 1. はらっぱのうた (Cメジャーペンタ・のんびり)
+    { // 1. Meadow Song (C-major pentatonic, relaxed). / 1. はらっぱのうた（Cメジャーペンタ・のんびり）
       name: 'はらっぱのうた', tempo: 84, loop: 64, repeat: 3,
       melType: 'triangle', melVol: 0.085, bassVol: 0.07, padVol: 0.022, echo: 0.6,
       mel: [
@@ -33,7 +33,7 @@ const BGM = (() => {
         [32, [60, 67], 8], [40, [57, 64], 8], [48, [53, 60], 8], [56, [55, 62], 8],
       ],
     },
-    { // 2. おさんぽワルツ (Gメジャーペンタ・3拍子)
+    { // 2. Strolling Waltz (G-major pentatonic, 3/4). / 2. おさんぽワルツ（Gメジャーペンタ・3拍子）
       name: 'おさんぽワルツ', tempo: 92, loop: 48, repeat: 3,
       melType: 'triangle', melVol: 0.08, bassVol: 0.07, padVol: 0.024, echo: 0.5,
       mel: [
@@ -54,7 +54,7 @@ const BGM = (() => {
         [38, [50, 57], 2], [40, [50, 57], 2], [44, [50, 57], 2], [46, [55, 62], 2],
       ],
     },
-    { // 3. おひるねのうた (Amペンタ・ゆったり子守唄)
+    { // 3. Naptime Song (A-minor pentatonic, gentle lullaby). / 3. おひるねのうた（Amペンタ・ゆったり子守唄）
       name: 'おひるねのうた', tempo: 72, loop: 64, repeat: 2,
       melType: 'sine', melVol: 0.08, bassVol: 0.065, padVol: 0.02, echo: 0.7,
       mel: [
@@ -73,7 +73,7 @@ const BGM = (() => {
         [32, [57, 64], 8], [40, [53, 60], 8], [48, [60, 67], 8], [56, [57, 64], 8],
       ],
     },
-    { // 4. ごちそうポルカ (Fメジャーペンタ・はずむ)
+    { // 4. Feast Polka (F-major pentatonic, bouncy). / 4. ごちそうポルカ（Fメジャーペンタ・はずむ）
       name: 'ごちそうポルカ', tempo: 100, loop: 64, repeat: 3,
       melType: 'triangle', melVol: 0.08, bassVol: 0.075, padVol: 0.022, echo: 0.35,
       mel: [
@@ -99,7 +99,7 @@ const BGM = (() => {
         [50, [60, 64], 1], [54, [60, 64], 1], [58, [57, 60], 1], [62, [57, 60], 1],
       ],
     },
-    { // 5. ほしぞらオルゴール (Dメジャーペンタ・高音オルゴール)
+    { // 5. Starlit Music Box (D-major pentatonic, high music-box tone). / 5. ほしぞらオルゴール（Dメジャーペンタ・高音オルゴール）
       name: 'ほしぞらオルゴール', tempo: 76, loop: 64, repeat: 2,
       melType: 'sine', melVol: 0.065, bassVol: 0.055, padVol: 0.016, echo: 0.85,
       mel: [
@@ -118,7 +118,7 @@ const BGM = (() => {
         [32, [62, 66], 8], [40, [59, 62], 8], [48, [55, 59], 8], [56, [57, 61], 8],
       ],
     },
-    { // 6. あまやどりのうた (Emペンタ・しっとり雨宿り)
+    { // 6. Rainy-Day Song (E-minor pentatonic, quiet shelter from rain). / 6. あまやどりのうた（Emペンタ・しっとり雨宿り）
       name: 'あまやどりのうた', tempo: 68, loop: 64, repeat: 2,
       melType: 'sine', melVol: 0.075, bassVol: 0.06, padVol: 0.02, echo: 0.8,
       mel: [
@@ -137,7 +137,7 @@ const BGM = (() => {
         [32, [55, 59], 8], [40, [52, 55], 8], [48, [50, 55], 8], [56, [54, 57], 8],
       ],
     },
-    { // 7. たんけんマーチ (Cメジャー・行進曲)
+    { // 7. Exploration March (C major, march). / 7. たんけんマーチ（Cメジャー・行進曲）
       name: 'たんけんマーチ', tempo: 108, loop: 64, repeat: 3,
       melType: 'triangle', melVol: 0.08, bassVol: 0.075, padVol: 0.022, echo: 0.3,
       mel: [
@@ -161,7 +161,7 @@ const BGM = (() => {
         [32, [60, 64], 8], [40, [64, 67], 8], [48, [65, 69], 8], [56, [60, 64], 8],
       ],
     },
-    { // 8. こもれびのうた (Aメジャーペンタ・きらきら明るい)
+    { // 8. Dappled Sunlight Song (A-major pentatonic, bright and sparkling). / 8. こもれびのうた（Aメジャーペンタ・きらきら明るい）
       name: 'こもれびのうた', tempo: 88, loop: 64, repeat: 3,
       melType: 'triangle', melVol: 0.08, bassVol: 0.07, padVol: 0.022, echo: 0.55,
       mel: [
@@ -180,7 +180,7 @@ const BGM = (() => {
         [32, [61, 64], 8], [40, [57, 61], 8], [48, [57, 62], 8], [56, [59, 64], 8],
       ],
     },
-    { // 9. ゆうやけのうた (Fメジャーペンタ・あたたかい夕暮れ)
+    { // 9. Sunset Song (F-major pentatonic, warm sunset). / 9. ゆうやけのうた（Fメジャーペンタ・あたたかい夕暮れ）
       name: 'ゆうやけのうた', tempo: 66, loop: 64, repeat: 2,
       melType: 'sine', melVol: 0.075, bassVol: 0.06, padVol: 0.02, echo: 0.75,
       mel: [
@@ -199,7 +199,7 @@ const BGM = (() => {
         [32, [60, 65], 8], [40, [57, 62], 8], [48, [58, 62], 8], [56, [60, 65], 8],
       ],
     },
-    { // 10. なかよしダンス (Gメジャーペンタ・やわらかく穏やか)
+    { // 10. Friendship Dance (G-major pentatonic, soft and calm). / 10. なかよしダンス（Gメジャーペンタ・やわらかく穏やか）
       name: 'なかよしダンス', tempo: 104, loop: 64, repeat: 3,
       melType: 'sine', melVol: 0.068, bassVol: 0.055, padVol: 0.02, echo: 0.75,
       mel: [
@@ -229,7 +229,7 @@ const BGM = (() => {
     master = ctx.createGain();
     master.gain.value = MASTER_VOL;
     master.connect(ctx.destination);
-    // 柔らかい残響(ディレイ)
+    // Soft delay tail. / 柔らかい残響（ディレイ）。
     const delay = ctx.createDelay(1);
     delay.delayTime.value = 0.28;
     const fb = ctx.createGain(); fb.gain.value = 0.22;
@@ -262,7 +262,7 @@ const BGM = (() => {
     };
   }
 
-  // 予約済みの音を止める(曲を切り替えるとき用)
+  // Stop scheduled sounds when changing songs. / 曲を切り替えるときに予約済みの音を止める。
   function killScheduled() {
     for (const o of active) { try { o.stop(); } catch (e) {} }
     active = [];
@@ -287,12 +287,12 @@ const BGM = (() => {
         if (loopsLeft <= 0) {
           songIdx = (songIdx + 1) % SONGS.length;
           loopsLeft = SONGS[songIdx].repeat;
-          scheduledUntil += dur + GAP;   // 次の曲へ(少し間をあける)
+          scheduledUntil += dur + GAP;   // Move to the next song after a short gap. / 少し間をあけて次の曲へ。
         } else {
           scheduledUntil += dur;
         }
       } else {
-        scheduledUntil += dur;           // 指定した曲をずっとリピート
+          scheduledUntil += dur;           // Keep looping the selected song. / 指定した曲を繰り返す。
       }
     }
   }
@@ -317,7 +317,7 @@ const BGM = (() => {
     if (ctx) ctx.suspend();
   }
 
-  // 'auto' か 曲番号(0〜)。再生中なら即座に切り替える。
+  // Accept 'auto' or a song index (0+); switch immediately if playback is active. / 'auto' または曲番号（0〜）を受け取り、再生中ならすぐ切り替える。
   function setMode(m) {
     if (m === 'auto' || m === null || m === undefined || m === '') {
       mode = 'auto';

@@ -1,4 +1,4 @@
-// ピースセット定義
+// Piece-set definitions. / ピースセット定義。
 const PIECE_SETS = {
   classic: {
     id: 'classic', name: 'クラシック', nameEn: 'Classic', emoji: false,
@@ -32,13 +32,13 @@ const PIECE_SETS = {
   },
 };
 
-// おもてなしの食べ物
+// Banquet food for captured pieces. / 取ったコマをもてなす食べ物。
 const FOODS = ['🍰', '🧁', '🍩', '🍪', '🍎', '🍓', '🍇', '🍯', '🥕', '🍵', '🍮', '🥧', '🍒', '🫐'];
 
-// 駒種の日本語名(クラシック用・メッセージ用)
+// Japanese piece names for Classic mode and messages. / クラシック用・メッセージ用の駒種日本語名。
 const PIECE_JA = { k: 'キング', q: 'クイーン', r: 'ルーク', b: 'ビショップ', n: 'ナイト', p: 'ポーン' };
 
-// 決め打ちで安定した食べ物を返す(待った・再描画でも変わらないように)
+// Return deterministic food so undo and redraw do not change it. / 待ったや再描画でも変わらないよう、食べ物を決め打ちで返す。
 function foodFor(captureIndex, pieceType) {
   return FOODS[(captureIndex * 5 + pieceType.charCodeAt(0)) % FOODS.length];
 }

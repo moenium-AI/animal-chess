@@ -1,14 +1,13 @@
-// シンプルなチェスAIエンジン(アルファベータ探索 + 反復深化)
-// レベル1〜10の強さ調整、オープニングブック、終盤の寄せ評価、
-// ヒント探索、パズル用メイトソルバーを提供する。
+// Lightweight chess AI engine (alpha-beta search + iterative deepening). / シンプルなチェスAIエンジン（アルファベータ探索＋反復深化）。
+// Provides strength levels 1–10, an opening book, endgame evaluation, hint search, and a mate solver for puzzles. / レベル1〜10、オープニングブック、終盤評価、ヒント探索、パズル用メイトソルバーを提供する。
 const Engine = (() => {
   const VAL = { p: 100, n: 320, b: 330, r: 500, q: 900, k: 0 };
   const MATE = 100000;
   const INF = 1000000;
   const TIMEOUT = { timeout: true };
 
-  // Piece-Square Tables("Simplified Evaluation Function" 由来)
-  // 先頭行が8ランク目(a8..h8)。白はそのまま、黒はミラーして参照する。
+  // Piece-Square Tables, based on the "Simplified Evaluation Function". / "Simplified Evaluation Function"由来の駒位置テーブル。
+  // The first row is rank 8 (a8..h8); White uses it directly and Black uses a mirrored view. / 先頭行は8段目（a8..h8）。白はそのまま、黒は反転して参照する。
   const PST = {
     p: [
        0,  0,  0,  0,  0,  0,  0,  0,
@@ -70,7 +69,7 @@ const Engine = (() => {
        20, 20,  0,  0,  0,  0, 20, 20,
        20, 30, 10,  0,  0, 10, 30, 20,
     ],
-    // 終盤用キングテーブル(駒が少ないとき中央に出る)
+    // Endgame king table: the king should move toward the center when few pieces remain. / 終盤用キングテーブル。駒が少ないときはキングを中央へ出す。
     kEnd: [
       -50,-40,-30,-20,-20,-30,-40,-50,
       -30,-20,-10,  0,  0,-10,-20,-30,
@@ -83,14 +82,14 @@ const Engine = (() => {
     ],
   };
 
-  // 中盤の王の安全性: 玉の前のポーンの盾が欠けていたり、玉が中央に居ると危険。
-  // 返り値は「危険度(大きいほど危ない)」。露出した玉で無謀に戦って自滅するのを抑える。
+  // Middlegame king safety: missing pawn cover or a king in the center is dangerous. / 中盤のキングの安全性。ポーンの盾が欠けたり中央にいるキングは危険。
+  // Return danger (larger means more dangerous) to discourage reckless attacks with an exposed king. / 危険度（大きいほど危険）を返し、露出したキングでの無謀な攻めを抑える。
   function kingDanger(board, kr, kc, color) {
-    const dir = color === 'w' ? -1 : 1; // 前方向(白は上=行が減る)
+    const dir = color === 'w' ? -1 : 1; // Forward direction: White moves toward lower rows. / 前方向。白は上（行が減る）。
     let danger = 0;
     for (let dc = -1; dc <= 1; dc++) {
       const c = kc + dc;
-      if (c < 0 || c > 7) { danger += 8; continue; } // 盤端は盾が作れない
+      if (c < 0 || c > 7) { danger += 8; continue; } // No pawn shield can be built on the board edge. / 盤端では盾を作れない。
       let shield = false;
       for (let step = 1; step <= 2; step++) {
         const r = kr + dir * step;
@@ -98,13 +97,13 @@ const Engine = (() => {
         const pc = board[r][c];
         if (pc && pc.type === 'p' && pc.color === color) { shield = true; break; }
       }
-      if (!shield) danger += 16; // 盾ポーンがない列
+      if (!shield) danger += 16; // No shield pawn on this file. / この列に盾ポーンがない。
     }
-    if (kc >= 2 && kc <= 5) danger += 14; // 中央に留まった玉は危険
+    if (kc >= 2 && kc <= 5) danger += 14; // A king staying in the center is dangerous. / 中央に留まるキングは危険。
     return danger;
   }
 
-  // 白から見た評価値(センチポーン)
+  // Evaluation from White's perspective, in centipawns. / 白から見た評価値（センチポーン）。
   function evaluate(game) {
     const board = game.board();
     let score = 0;
@@ -120,7 +119,7 @@ const Engine = (() => {
         if (pc.color === 'w') wMat += VAL[pc.type]; else bMat += VAL[pc.type];
       }
     }
-    const endgame = material < 2600; // クイーン+ルーク数枚以下なら終盤扱い
+    const endgame = material < 2600; // Treat queen plus a few rooks or less as an endgame. / クイーン＋ルーク数枚以下なら終盤扱い。
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
         const pc = board[r][c];
@@ -129,10 +128,9 @@ const Engine = (() => {
         const table = pc.type === 'k' && endgame ? PST.kEnd : PST[pc.type];
         const v = VAL[pc.type] + table[idx];
         score += pc.color === 'w' ? v : -v;
-        // 高価な駒(N/B/R/Q)が敵ポーンに狙われている位置は危険。静的に減点して、
-        // 探索で見切れない「ポーンに追われて捕まるクイーン」等へ自ら飛び込むのを抑える。
+        // A valuable piece (N/B/R/Q) attacked by an enemy pawn is dangerous. Penalize it statically to avoid blunders that search may miss, such as a queen being chased and trapped. / 高価な駒が敵ポーンに狙われる位置を静的に減点し、探索で見落としやすいクイーンの追い込みなどを防ぐ。
         if (pc.type === 'n' || pc.type === 'b' || pc.type === 'r' || pc.type === 'q') {
-          const pr = pc.color === 'w' ? r - 1 : r + 1; // 敵ポーンが居れば取ってくる段
+          const pr = pc.color === 'w' ? r - 1 : r + 1; // Rank from which the enemy pawn could capture. / 敵ポーンが取ってくる段。
           if (pr >= 0 && pr <= 7) {
             const foe = pc.color === 'w' ? 'b' : 'w';
             let attacked = false;
@@ -150,19 +148,18 @@ const Engine = (() => {
         }
       }
     }
-    // 終盤の寄せ知識: 大きく駒得している側は、相手の玉を盤の隅へ追い、
-    // 自分の玉を近づけると詰ませやすい。これを評価に加えて終盤を『勝ち切れる』ようにする。
+    // Endgame knowledge: when far ahead, drive the enemy king to a corner and bring your own king closer to make mate easier. / 終盤の寄せ。大きく駒得した側は相手キングを隅へ追い、自分のキングを近づけると詰ませやすい。
     if (endgame && kings.w && kings.b && Math.abs(wMat - bMat) >= 400) {
       const winner = wMat > bMat ? 'w' : 'b';
-      const lk = winner === 'w' ? kings.b : kings.w;   // 負けている側の玉
-      const wk = winner === 'w' ? kings.w : kings.b;   // 勝っている側の玉
+      const lk = winner === 'w' ? kings.b : kings.w;   // Losing side's king. / 負けている側のキング。
+      const wk = winner === 'w' ? kings.w : kings.b;   // Winning side's king. / 勝っている側のキング。
       const cmd = Math.min(Math.abs(lk[0] - 3), Math.abs(lk[0] - 4)) +
-                  Math.min(Math.abs(lk[1] - 3), Math.abs(lk[1] - 4)); // 中央からの距離(0中央〜6隅)
-      const md = Math.abs(wk[0] - lk[0]) + Math.abs(wk[1] - lk[1]);   // 両玉間の距離
-      const bonus = 8 * cmd + 3 * (14 - md);  // 相手玉を隅へ+自玉を近づける
+                  Math.min(Math.abs(lk[1] - 3), Math.abs(lk[1] - 4)); // Distance from center (0 center to 6 corner). / 中央からの距離（0が中央、6が隅）。
+      const md = Math.abs(wk[0] - lk[0]) + Math.abs(wk[1] - lk[1]);   // Distance between the kings. / 両キング間の距離。
+      const bonus = 8 * cmd + 3 * (14 - md);  // Drive the enemy king to a corner and bring up your own king. / 相手キングを隅へ追い、自分のキングを近づける。
       score += winner === 'w' ? bonus : -bonus;
     }
-    // 中盤は玉の安全を評価に反映(露出した玉での無謀な攻めを避ける)
+    // Apply king safety in the middlegame to avoid reckless attacks with an exposed king. / 中盤はキングの安全性を評価し、露出したキングでの無謀な攻めを避ける。
     if (!endgame && kings.w && kings.b) {
       score -= kingDanger(board, kings.w[0], kings.w[1], 'w');
       score += kingDanger(board, kings.b[0], kings.b[1], 'b');
@@ -179,8 +176,8 @@ const Engine = (() => {
     return !!a && !!b && a.from === b.from && a.to === b.to && a.promotion === b.promotion;
   }
 
-  // 手の並べ替え: 置換表の手 → 取り(MVV-LVA) → 成り → キラー手 → 履歴ヒューリスティック
-  // 良い手を先に読むほど枝刈りが効き、同じ時間でより深く読める(=強くなる)。
+  // Move ordering: transposition-table move → capture (MVV-LVA) → promotion → killer move → history heuristic. / 手の並べ替え。
+  // Searching good moves first improves pruning and makes the engine stronger at the same time limit. / 良い手を先に読むほど枝刈りが効き、同じ時間で深く読める。
   function orderMoves(moves, ttMove, killers, history) {
     for (const m of moves) {
       let s;
@@ -196,21 +193,20 @@ const Engine = (() => {
     return moves;
   }
 
-  // 静止探索(取り合い・成りだけ延長して水平線効果を軽減)
-  // これを全レベルで使うことで「取られる寸前の駒」を正しく損と評価し、
-  // クイーン突撃のようなタダ捨てで自滅するのを防ぐ。
-  const QMAX = 4; // 静止探索の最大延長段数(取り合いの暴走を防いで時間内に収める)
+  // Quiescence search extends captures and promotions to reduce the horizon effect. / 静止探索で取り合いと成りだけを延長し、水平線効果を軽減する。
+  // It is used at every level so pieces about to be captured are valued correctly and queen blunders are avoided. / 全レベルで使い、取られる寸前のコマやクイーンの無駄捨てを正しく評価する。
+  const QMAX = 4; // Maximum quiescence extension to keep exchanges within the time budget. / 静止探索の最大延長段数。
   function quiesce(game, alpha, beta, deadline, ctx, qply) {
     if ((ctx.nodes++ & 2047) === 0 && Date.now() > deadline) throw TIMEOUT;
     const stand = sideEval(game);
     if (stand >= beta) return stand;
     if (stand > alpha) alpha = stand;
-    if (qply >= QMAX) return stand; // これ以上は延長しない
+    if (qply >= QMAX) return stand; // Do not extend further. / これ以上は延長しない。
     let best = stand;
     const caps = game.fast_moves().filter((m) => m.captured || m.promotion);
     orderMoves(caps, null, null, ctx.history);
     for (const m of caps) {
-      // デルタ枝刈り: この取りで挽回できないほど劣勢なら読まない
+      // Delta pruning: skip a capture that cannot recover enough material. / デルタ枝刈り。取り返せないほど劣勢なら読まない。
       const gain = VAL[m.captured || 'p'] + (m.promotion ? VAL[m.promotion] : 0);
       if (stand + gain + 200 < alpha) continue;
       game.move(m);
@@ -225,9 +221,8 @@ const Engine = (() => {
 
   function search(game, depth, alpha, beta, ply, deadline, ctx) {
     if ((ctx.nodes++ & 1023) === 0 && Date.now() > deadline) throw TIMEOUT;
-    // 駒不足による引き分けは0と評価。※ chess.js の in_draw()/in_threefold_repetition() は
-    // 毎ノードで全履歴を再生してFENを作る超重量級処理なので絶対に呼ばない(探索が数百倍遅くなる)。
-    // 千日手の検出は探索経路上の局面キー(ctx.rep)で軽量に行う。
+    // Score insufficient-material draws as 0. Avoid chess.js repetition helpers because replaying the full history at every node is extremely expensive. / 駒不足の引き分けは0と評価し、毎ノード履歴を再生するchess.jsの重い検出は使わない。
+    // Detect repetitions cheaply with the position key on the current search path (ctx.rep). / 千日手は探索経路上の局面キー（ctx.rep）で軽量に検出する。
     if (ply > 0 && game.insufficient_material()) return 0;
     if (ply >= 60) return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx, 0) : sideEval(game);
 
@@ -257,13 +252,13 @@ const Engine = (() => {
     let best = -INF, bestMv = null, first = true;
     for (const m of moves) {
       game.move(m);
-      // 王手には延長(1手先を読む)。詰み・受けの見落としを防ぎ強くなる。
+      // Extend checks by one ply to avoid missing mates and defenses. / 王手では1手延長し、詰みや受けの見落としを防ぐ。
       const ext = game.in_check() && ply < 40 ? 1 : 0;
       let s;
       if (first) {
         s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
       } else {
-        // PVS: 2手目以降はまずヌルウィンドウで確認し、超えたら本探索
+        // PVS: verify later moves with a null window, then re-search if they exceed it. / PVS。2手目以降をヌルウィンドウで確認し、超えたら本探索する。
         s = -search(game, depth - 1 + ext, -alpha - 1, -alpha, ply + 1, deadline, ctx);
         if (s > alpha && s < beta) s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
       }
@@ -272,7 +267,7 @@ const Engine = (() => {
       if (s > best) { best = s; bestMv = m; }
       if (best > alpha) alpha = best;
       if (alpha >= beta) {
-        // 静かな手でのカットはキラー手・履歴として記憶し次回の並べ替えに活かす
+        // Remember quiet cutoffs as killer/history moves for future ordering. / 静かな手のカットをキラー手・履歴として次回の並べ替えに使う。
         if (!m.captured && !m.promotion) {
           if (!sameMove(m, killers[0])) { killers[1] = killers[0]; killers[0] = { from: m.from, to: m.to, promotion: m.promotion }; }
           ctx.history[m.from + m.to] = (ctx.history[m.from + m.to] || 0) + depth * depth;
@@ -289,9 +284,8 @@ const Engine = (() => {
     return best;
   }
 
-  // ルート探索: 各手のスコアつきリストを返す(反復深化・時間打ち切りつき)。
-  // refineMargin>0 なら、最善手から margin 以内の候補だけを最後に全幅で読み直し、
-  // 正確なスコアにする(弱いレベルの候補選別で自滅手を確実に除外するため)。
+  // Root search: return scored moves using iterative deepening with a time limit. / ルート探索。反復深化と時間制限付きで各手のスコアを返す。
+  // If refineMargin>0, re-search only moves within margin of the best move with a full window for accurate scores. / refineMargin>0なら最善手からmargin以内の候補を全幅で読み直し、弱いレベルの自滅手を除外する。
   function analyzeRoot(fen, maxDepth, timeMs, useQuiesce, refineMargin) {
     const game = new Chess(fen);
     const rootMoves = game.fast_moves();
@@ -306,8 +300,8 @@ const Engine = (() => {
       let alpha = -INF, timedOut = false;
       for (let k = 0; k < ordered.length; k++) {
         const m = ordered[k];
-        // 最初の1手だけは時間無制限で必ず読み切り、最低限の指し手を確保する。
-        // 残りは締切で打ち切り、読めたぶんは活かす(部分結果を捨てない)。
+        // Always finish searching the first move without a time limit to guarantee a usable result. / 最初の1手は時間無制限で読み切り、最低限の手を確保する。
+        // Stop the remaining moves at the deadline and keep partial results. / 残りは締切で打ち切り、読めた結果を活かす。
         const dl = (d === 1 && k === 0) ? Infinity : deadline;
         game.move(m);
         let s;
@@ -315,7 +309,7 @@ const Engine = (() => {
           if (k === 0) {
             s = -search(game, d - 1, -INF, -alpha, 1, dl, ctx);
           } else {
-            // PVS: まずヌルウィンドウで確認し、超えたら本探索(高速)
+            // PVS: check with a null window first, then perform a full search if needed. / PVS。まずヌルウィンドウで確認し、必要なら本探索する。
             s = -search(game, d - 1, -alpha - 1, -alpha, 1, dl, ctx);
             if (s > alpha) s = -search(game, d - 1, -INF, -alpha, 1, dl, ctx);
           }
@@ -329,27 +323,25 @@ const Engine = (() => {
         if (s > alpha) alpha = s;
       }
       if (cur.length > 0) {
-        // 読めた手 + 未読の手(下位に置く)をまとめて更新。部分的な深さでも順位を活かす。
+        // Merge searched moves with unread moves placed below them; preserve useful partial ordering. / 読めた手と未読の手をまとめ、部分的な深さでも順位を活かす。
         const done = new Set(cur.map((x) => x.move));
         for (const r of results) if (!done.has(r.move)) cur.push({ move: r.move, score: -INF });
         cur.sort((a, b) => b.score - a.score);
         results = cur;
-        completedDepth = d; // 部分的でもこの深さのスコアがあるので精密化に使える
+        completedDepth = d; // A partial score at this depth is still useful for refinement. / 部分的でもこの深さのスコアを精密化に使える。
       }
       if (timedOut) break;
-      if (results[0].score > MATE - 100) break; // メイト発見なら十分
+      if (results[0].score > MATE - 100) break; // A found mate is sufficient. / メイト発見なら十分。
       if (Date.now() > deadline) break;
     }
-    // 弱いレベル用の精密化: PVSのスカウト窓では負け筋の手に甘い『上限値』しか付かず、
-    // クイーン捨てのような大損の手が「最善に近い手」に化けて候補に紛れ込む。
-    // 最善から margin 以内に『見える』手だけを全幅(-INF,INF)で読み直して正確なスコアにし、
-    // 本当の大損手を候補から確実に外す。候補は通常少数なので高速。
+    // Weak-level refinement: a PVS scout window can give losing moves only a loose upper bound, allowing a queen blunder to look competitive. / 弱いレベルではPVSの上限値により大損手が候補へ紛れ込むことがある。
+    // Re-search only moves that appear within margin of the best with a full window, then remove genuine blunders. / 最善からmargin以内に見える手を全幅で読み直し、本当の大損手を除外する。
     if (refineMargin > 0 && results.length > 1 && completedDepth >= 1) {
       const best = results[0].score;
-      const threshold = best - refineMargin; // これ未満の手はプールに入れない
-      const verified = [results[0]];         // 最善手は常に採用
-      // PVSのスカウトで付いた『上限値』が threshold 未満なら真値も未満なので確実に除外できる。
-      // 上限値が threshold 以上の手だけが「候補(=本物 or 化けた大損)」なので、これらを検証する。
+      const threshold = best - refineMargin; // Do not enter the pool below this threshold. / これ未満の手は候補に入れない。
+      const verified = [results[0]];         // Always keep the best move. / 最善手は常に採用する。
+      // If a scout upper bound is below threshold, the true score is also below it, so the move can be discarded safely. / 上限値がthreshold未満なら真値も未満なので除外できる。
+      // Only moves at or above threshold are candidates (real or disguised blunders), so verify them. / threshold以上の候補（本物または大損手）を検証する。
       const boundPass = results.slice(1).filter((r) => r.score >= threshold).slice(0, 8);
       const excluded = results.slice(1).filter((r) => r.score < threshold);
       const refineDeadline = Date.now() + 350;
@@ -360,14 +352,14 @@ const Engine = (() => {
         game.move(r.move);
         let s;
         try {
-          // threshold 周りのヌルウィンドウ検証(全深さ・高速)。真値が threshold 以上かを判定。
+          // Fast full-depth null-window verification around threshold. / threshold周辺を全深さのヌルウィンドウで高速検証する。
           s = -search(game, completedDepth - 1, -threshold, -(threshold - 1), 1, refineDeadline, ctx);
         } catch (e) { if (e !== TIMEOUT) throw e; game.undo(); break; }
         game.undo();
         r.score = s;
         if (s >= threshold) verified.push(r); else excluded.push(r);
       }
-      // 時間切れで未検証の候補は、上限値を信用せず安全側に倒して除外する
+      // Exclude candidates left unverified at timeout rather than trusting their upper bounds. / 時間切れで未検証の候補は上限値を信用せず除外する。
       for (; i < boundPass.length; i++) { boundPass[i].score = threshold - 100000; excluded.push(boundPass[i]); }
       results = verified.concat(excluded);
       results.sort((a, b) => b.score - a.score);
@@ -375,12 +367,11 @@ const Engine = (() => {
     return results;
   }
 
-  // margin: 最善手からこの点数以内の手だけを候補にする(単位センチポーン)。
-  // ノイズや気まぐれ(blunder)もこの範囲内でしか起きないので、駒のタダ捨てのような
-  // 自滅手は常に候補から外れる。弱いレベルは「小さな緩手」で弱さを表現する。
-  // quiesce は全レベルで維持。margin は最大でもポーン1.2枚程度に抑えるので自滅には戻らない。
-  // ※ fast_moves 化で探索が約8倍高速になったため、探索深さ・時間を実効的な値に再調整している。
-  //   depth は上限で、実際は timeMs 側で頭打ちになることが多い。
+  // margin: include only moves within this centipawn distance of the best move. / 最善手からこの点数以内の手だけを候補にする。
+  // Allow small inaccuracies but exclude outright piece drops; weak levels express weakness through small inaccuracies. / 小さな緩手は許すが、駒の無駄捨ては除外し、弱さは小さなミスで表現する。
+  // Keep quiescence search at every level and cap margin around 1.2 pawns. / 静止探索は全レベルで維持し、marginもポーン約1.2枚までに抑える。
+  // fast_moves made search about eight times faster, so depth and time were retuned to practical values. / fast_moves化で約8倍高速になったため、探索深さと時間を実用値に調整している。
+  // depth is an upper bound; timeMs often becomes the effective limit. / depthは上限で、実際はtimeMsが制限になることが多い。
   const LEVELS = {
     1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: false },
     2:  { depth: 1, timeMs: 220,  margin: 170, noise: 140, blunder: 0.45, quiesce: true, book: true },
@@ -394,9 +385,9 @@ const Engine = (() => {
     10: { depth: 5, timeMs: 1650, margin: 13,  noise: 4,   blunder: 0,    quiesce: true, book: true },
   };
 
-  // ===== オープニングブック(定跡の知識) =====
-  // まなぶ教材の定跡ラインと、よくある基本ラインから「局面→次の手」を覚える。
-  // 序盤で自然な手を指せるようにして、少しだけ強く・人間らしくする。
+  // ===== Opening book / オープニングブック（定跡の知識） =====
+  // Learn position → next-move patterns from lessons and common opening lines. / まなぶ教材と基本ラインから「局面→次の手」を覚える。
+  // This makes the opening natural and slightly more human. / 序盤で自然な手を指せるようにし、少しだけ人間らしくする。
   const EXTRA_LINES = [
     'e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O Be7 Re1 b5 Bb3 d6 c3 O-O',
     'e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 d6 O-O O-O',
@@ -416,7 +407,7 @@ const Engine = (() => {
   ];
 
   let BOOK = null;
-  // 駒配置・手番・キャスリング権だけで局面を識別する(アンパッサン欄の表記差に強くする)
+  // Identify positions by piece placement, side to move, and castling rights. / 駒配置・手番・キャスリング権で局面を識別する。
   function posKey(fen) { return fen.split(' ').slice(0, 3).join(' '); }
   function addLine(sans) {
     const g = new Chess();
@@ -434,7 +425,7 @@ const Engine = (() => {
     if (BOOK) return;
     BOOK = {};
     for (const line of EXTRA_LINES) addLine(line.split(/\s+/));
-    // まなぶ教材のオープニングラインも取り込む
+    // Include opening lines from the lessons. / まなぶ教材のオープニングラインも取り込む。
     if (typeof LESSONS !== 'undefined') {
       for (const L of LESSONS) {
         if (L.cat === 'opening' && !L.fen) addLine(L.moves.map((m) => m.san));
@@ -448,11 +439,11 @@ const Engine = (() => {
     return list[Math.floor(Math.random() * list.length)];
   }
 
-  // CPUの指し手を選ぶ(非同期: UI描画を待ってから計算開始)
+  // Choose a CPU move asynchronously after allowing the UI to render. / UI描画を待ってから非同期でCPUの手を選ぶ。
   function chooseMove(fen, level, cb) {
     setTimeout(() => {
       const cfg = LEVELS[level] || LEVELS[5];
-      // 序盤は定跡ブックから指す(自然な立ち上がりで少しだけ強く)
+      // Use the opening book early for natural play. / 序盤は定跡ブックから自然な手を指す。
       if (cfg.book) {
         const bm = bookMove(fen);
         if (bm) { cb(bm); return; }
@@ -460,8 +451,7 @@ const Engine = (() => {
       const results = analyzeRoot(fen, cfg.depth, cfg.timeMs, cfg.quiesce, cfg.margin || 0);
       if (results.length === 0) { cb(null); return; }
       const best = results[0].score;
-      // 最善手から margin 点以内の手だけを候補にする。これより悪い手(=駒損などの
-      // 自滅手)は弱いレベルでも選ばれない。劣勢でも「一番粘れる手」の中から指す。
+      // Keep only moves within margin of the best; even weak levels avoid suicidal piece losses. / 最善手からmargin以内の手だけを候補にし、弱いレベルでも駒損の自滅手は避ける。
       const margin = cfg.margin || 0;
       let pool = results.filter((r) => r.score >= best - margin);
       if (pool.length === 0) pool = [results[0]];
@@ -479,7 +469,7 @@ const Engine = (() => {
     }, 50);
   }
 
-  // ヒント(常に強めの設定で読む)
+  // Hints always use a stronger search setting. / ヒントは常に強めの設定で読む。
   function bestMove(fen, cb) {
     setTimeout(() => {
       const results = analyzeRoot(fen, 7, 3000, true, 0);
@@ -487,7 +477,7 @@ const Engine = (() => {
     }, 50);
   }
 
-  // n手以内の強制メイトになる手をすべて返す(パズル判定用)
+  // Return all moves that force mate within n moves for puzzle validation. / n手以内の強制メイトになる手をすべて返し、パズル判定に使う。
   function mateMoves(game, n) {
     const out = [];
     const moves = game.moves({ verbose: true });

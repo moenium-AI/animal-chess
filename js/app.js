@@ -1,19 +1,19 @@
-// どうぶつチェス メインアプリ
+// Animal Chess main application. / どうぶつチェスのメインアプリ。
 (() => {
 'use strict';
 
-// ===== 状態 =====
+// ===== State / 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
 let settings = { set: 'farm', opponent: 'cpu', level: 4, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true, language: 'ja' };
-let orient = 'w';            // 盤の下側の色
-let selected = null;         // 選択中マス
-let legalTargets = [];       // 選択中の合法手
+let orient = 'w';            // Board-side color. / 盤の下側の色。
+let selected = null;         // Selected square. / 選択中のマス。
+let legalTargets = [];       // Legal moves from the selected square. / 選択中マスからの合法手。
 let lastMove = null;         // {from,to}
 let hintSquares = [];
 let cpuThinking = false;
 let hintThinking = false;
-let pendingGuests = 0;       // 馬車で移動中(まだ会場に表示しない)の数
+let pendingGuests = 0;       // Pieces in transit by carriage, not yet shown at the venue. / 馬車で移動中で、まだ会場に表示しないコマの数。
 let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
 let solvedPuzzles = new Set();
@@ -24,7 +24,7 @@ const boardEl = $('board');
 const overlayEl = $('overlay');
 const statusEl = $('status-bar');
 
-// ===== 保存・読み込み =====
+// ===== Persistence / 保存・読み込み =====
 function saveSettings() {
   try { localStorage.setItem('animalchess_settings', JSON.stringify(settings)); } catch (e) {}
 }
@@ -54,7 +54,7 @@ const bgmSongName = (index) => I18N.language === 'en' ? (BGM_NAMES_EN[index] || 
 function lessonText(lesson) { return I18N.language === 'en' && lesson.en ? lesson.en : lesson; }
 function gameText(game) { return I18N.language === 'en' && game.en ? game.en : game; }
 
-// ===== サウンド =====
+// ===== Sound / サウンド =====
 let audioCtx = null;
 function beep(freqs, dur = 0.08, type = 'triangle', gap = 0.06) {
   if (!settings.sound) return;
@@ -80,7 +80,7 @@ const sWin = () => beep([523, 659, 784, 1047], 0.14, 'triangle', 0.11);
 const sBad = () => beep([330, 262], 0.12, 'sine', 0.1);
 const sCarriage = () => beep([392, 494, 587], 0.09, 'sine', 0.09);
 
-// ===== トースト =====
+// ===== Toasts / トースト =====
 function toast(msg, ms = 2600) {
   const area = $('toast-area');
   const el = document.createElement('div');
@@ -90,7 +90,7 @@ function toast(msg, ms = 2600) {
   setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 450); }, ms);
 }
 
-// ===== 盤面 =====
+// ===== Board / 盤面 =====
 const FILES = 'abcdefgh';
 function squareName(dispR, dispC) {
   if (orient === 'w') return FILES[dispC] + (8 - dispR);
@@ -107,7 +107,7 @@ function buildBoard() {
       const div = document.createElement('div');
       div.className = 'square ' + ((f + rank) % 2 === 0 ? 'light' : 'dark');
       div.dataset.square = sq;
-      div.style.zIndex = r + 1; // 3Dモードで手前の列が上に重なるように
+      div.style.zIndex = r + 1; // Stack front rows above back rows in 3D mode. / 3Dモードで手前の列が上に重なるように。
       if (r === 7) { const s = document.createElement('span'); s.className = 'coord file'; s.textContent = sq[0]; div.appendChild(s); }
       if (c === 0) { const s = document.createElement('span'); s.className = 'coord rank'; s.textContent = sq[1]; div.appendChild(s); }
       div.addEventListener('click', () => onSquareClick(sq));
@@ -120,13 +120,13 @@ function pieceHtml(type, color) {
   const cls = set.emoji ? 'piece emoji ' + color : 'piece glyph ' + color;
   return `<span class="${cls}">${set.glyphs[type]}</span>`;
 }
-// 盤面用ピース要素(モード別)
+// Board piece elements by mode. / モード別の盤面用ピース要素。
 function createPieceEl(type, color, sq) {
   if (is3D()) {
     const wrap = document.createElement('div');
     wrap.className = 'p3d';
     const cv = Sprites.makePiece(type, color);
-    // ゆれの位相はマスごとに固定(再描画でリズムが変わらないように)
+    // Keep the sway phase fixed per square so redraws do not change the rhythm. / 再描画でリズムが変わらないよう、揺れの位相をマスごとに固定する。
     const f = FILES.indexOf(sq[0]);
     const rank = parseInt(sq[1], 10);
     cv.style.animationDelay = '-' + (((f * 7 + rank * 13) % 9) / 10).toFixed(1) + 's';
@@ -158,7 +158,7 @@ function renderPosition() {
     const f = FILES.indexOf(sq[0]);
     const r8 = 8 - parseInt(sq[1], 10);
     const pc = board[r8][f];
-    // 既存のピース・ドットを消す(座標ラベルは残す)
+    // Remove existing pieces and dots, but keep coordinate labels. / 既存のコマとドットを消し、座標ラベルは残す。
     for (const child of [...div.children]) {
       if (!child.classList.contains('coord')) child.remove();
     }
@@ -180,8 +180,8 @@ function renderPosition() {
   }
 }
 
-// ===== おもてなし会場 =====
-function venueOf(color) { // color 側チームの会場(取ったコマをもてなす場所)
+// ===== Banquet venues / おもてなし会場 =====
+function venueOf(color) { // Venue for the given team to host captured pieces. / color側チームが取ったコマをもてなす会場。
   return color === orient ? $('venue-bottom') : $('venue-top');
 }
 function colorJa(c) { return tr(c === 'w' ? 'color.white' : 'color.black'); }
@@ -216,7 +216,7 @@ function renderVenues() {
       banquetSync(color, area, visible);
       continue;
     }
-    // シンプルモード: バンケットDOMが残っていたら破棄
+    // Simple mode: remove any leftover banquet DOM. / シンプルモードでは残った宴会DOMを破棄する。
     if (area.dataset.bq) { area.innerHTML = ''; delete area.dataset.bq; delete banquets[color]; }
     title.textContent = animal
       ? tr('venue.hosting', { color: colorJa(color) })
@@ -244,7 +244,7 @@ function renderVenues() {
 }
 let lastCapturer = null;
 
-// ===== 3D宴会会場 =====
+// ===== 3D banquet venues / 3D宴会会場 =====
 let banquets = {}; // color -> { area, guests: [{el, spr, itemEl, type, team, state, until, x}] }
 
 function banquetSync(color, area, list) {
@@ -252,7 +252,7 @@ function banquetSync(color, area, list) {
   if (!bq || bq.area !== area) {
     area.innerHTML = '';
     area.dataset.bq = '1';
-    // テーブルとごちそう
+    // Table and food. / テーブルとごちそう。
     const table = document.createElement('canvas');
     table.className = 'bq-table';
     const t = Sprites.itemCanvas('table');
@@ -272,7 +272,7 @@ function banquetSync(color, area, list) {
     }
     bq = banquets[color] = { area, guests: [] };
   }
-  // 型が合わない場合(待ったなど)は作り直し
+  // Rebuild if the type does not match, for example after undo. / 待ったなどで型が合わない場合は作り直す。
   const mismatch = bq.guests.some((g, i) => !list[i] || g.type !== list[i].type || g.team !== list[i].victim);
   if (mismatch) {
     for (const g of bq.guests) g.el.remove();
@@ -328,7 +328,7 @@ function setGuestState(g, s) {
     g.until = now + 2500 + Math.random() * 3500;
   } else if (s === 'sleep') {
     g.el.classList.add('sleeping');
-    Sprites.redrawPiece(g.spr, true); // おめめを閉じる
+    Sprites.redrawPiece(g.spr, true); // Close the eyes. / おめめを閉じる。
     g.until = now + 4000 + Math.random() * 5000;
   } else {
     g.until = now + 1000 + Math.random() * 2200;
@@ -358,7 +358,7 @@ setInterval(() => {
   }
 }, 600);
 
-// 盤上ピースのまばたき(3Dモード)
+// Blinking board pieces in 3D mode. / 3Dモードの盤上コマのまばたき。
 setInterval(() => {
   if (!is3D()) return;
   const canvases = boardEl.querySelectorAll('.p3d canvas');
@@ -368,7 +368,7 @@ setInterval(() => {
   setTimeout(() => { if (cv.isConnected) Sprites.redrawPiece(cv, false); }, 160);
 }, 1100);
 
-// 馬車アニメーション
+// Carriage animation. / 馬車アニメーション。
 function carriageRide(move) {
   const animal = isAnimal();
   const capturedType = move.captured;
@@ -385,7 +385,7 @@ function carriageRide(move) {
   const sqRect = sqEl.getBoundingClientRect();
   const startX = sqRect.left - wrapRect.left;
   const startY = sqRect.top - wrapRect.top;
-  // 会場は capturer 側: 下の会場なら下へ、上の会場なら上へ
+  // Move toward the capturer's venue: downward for the lower venue, upward for the upper venue. / capturer側の会場へ。下の会場なら下へ、上の会場なら上へ。
   const goingDown = venueOf(capturer) === $('venue-bottom');
   const endX = goingDown ? wrapRect.width - 150 : 10;
   const endY = goingDown ? wrapRect.height + 8 : -62;
@@ -410,7 +410,7 @@ function carriageRide(move) {
   }
   el.style.transform = `translate(${startX}px, ${startY}px)`;
   overlayEl.appendChild(el);
-  // 反映後にゴールへ
+  // Move to the destination after applying the captured piece. / 反映後にゴールへ移動する。
   requestAnimationFrame(() => requestAnimationFrame(() => {
     el.style.transform = `translate(${endX}px, ${endY}px)`;
   }));
@@ -430,7 +430,7 @@ function carriageRide(move) {
   }, rideMs + 100);
 }
 
-// ===== ステータス =====
+// ===== Status / ステータス =====
 function turnBadge() {
   const set = SET();
   const c = game.turn();
@@ -502,7 +502,7 @@ function showGameOver() {
   else sBad();
 }
 
-// ===== 棋譜リスト =====
+// ===== Move list / 棋譜リスト =====
 function renderMovelist() {
   const ol = $('movelist');
   ol.innerHTML = '';
@@ -515,7 +515,7 @@ function renderMovelist() {
   ol.scrollTop = ol.scrollHeight;
 }
 
-// ===== 手の適用(共通) =====
+// ===== Apply a move (shared path) / 手の適用（共通） =====
 function applyMove(moveArg, opts = {}) {
   const m = game.move(moveArg);
   if (!m) return null;
@@ -544,7 +544,7 @@ function maybeCpuMove() {
   });
 }
 
-// ===== クリック操作 =====
+// ===== Click interaction / クリック操作 =====
 function playerCanMoveNow() {
   if (cpuThinking || puzzle.busy) return false;
   if (mode === 'replay') return false;
@@ -554,7 +554,7 @@ function playerCanMoveNow() {
     return !!p && game.turn() === p.turn;
   }
   if (settings.opponent === 'cpu') return game.turn() === settings.playerColor;
-  return true; // ふたりで遊ぶ
+  return true; // Two-player mode. / ふたりで遊ぶ。
 }
 function onSquareClick(sq) {
   if (!playerCanMoveNow()) return;
@@ -581,7 +581,7 @@ function tryPlayerMove(moveArg) {
   applyMove(moveArg);
 }
 
-// プロモーション
+// Promotion. / プロモーション。
 function showPromotion(from, to) {
   const modal = $('promo-modal');
   const box = $('promo-choices');
@@ -604,7 +604,7 @@ function showPromotion(from, to) {
   modal.classList.remove('hidden');
 }
 
-// ===== ヒント =====
+// ===== Hints / ヒント =====
 function requestHint() {
   if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking) return;
   if (mode === 'play' && settings.opponent === 'cpu' && game.turn() !== settings.playerColor) return;
@@ -637,9 +637,9 @@ function requestHint() {
   });
 }
 
-// 取り合いの結果を計算する(静的交換評価/SEE)。
-// そのマスで取り返しが続いた場合、最終的に何点得するかを返す。
-// これを見ないと「守られている駒」まで『ただで取れる』と誤って案内してしまう。
+// Calculate capture sequences with static exchange evaluation (SEE). / 静的交換評価（SEE）で取り合いの結果を計算する。
+// Return the final material gain if captures continue on that square. / そのマスで取り返しが続いた場合の最終的な得点を返す。
+// Without this, the hint could incorrectly call a defended piece free to take. / これがないと、守られたコマまで「ただで取れる」と誤って案内してしまう。
 function evalCaptureExchange(fenBefore, m) {
   const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
   const g = new Chess(fenBefore);
@@ -647,11 +647,11 @@ function evalCaptureExchange(fenBefore, m) {
   if (!mv || !mv.captured) return { see: 0, recapture: false };
   const target = mv.to;
   const gains = [VAL[mv.captured]];
-  let occupant = VAL[mv.promotion || mv.piece]; // いまそのマスに立っている駒の価値
+  let occupant = VAL[mv.promotion || mv.piece]; // Value of the piece currently on that square. / そのマスにあるコマの価値。
   let recapture = false;
   let d = 0;
   while (d < 12) {
-    // そのマスを取り返せる手のうち、いちばん安い駒で取る
+    // Choose the cheapest available recapturing piece. / 取り返せるコマのうち最も安いものを選ぶ。
     const list = (typeof g.fast_moves === 'function' ? g.fast_moves() : g.moves({ verbose: true }))
       .filter((x) => x.to === target && x.captured);
     if (list.length === 0) break;
@@ -663,12 +663,12 @@ function evalCaptureExchange(fenBefore, m) {
     occupant = VAL[r.promotion || r.piece];
     g.move({ from: r.from, to: r.to, promotion: r.promotion });
   }
-  // 途中でやめる選択もできるので、後ろから畳んで最終的な損得を出す
+  // A side may stop the exchange, so fold the result backward. / 途中でやめる選択もあるため、後ろから畳んで損得を出す。
   for (let i = d; i > 0; i--) gains[i - 1] = -Math.max(-gains[i - 1], gains[i]);
   return { see: gains[0], recapture };
 }
 
-// ヒントの「なぜその手か」を推奨手の特徴から独自に説明する
+// Explain why the suggested move is useful from its characteristics. / 推奨手の特徴から「なぜその手か」を独自に説明する。
 function explainHintMove(fenBefore, m) {
   const VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
   const g = new Chess(fenBefore);
@@ -676,25 +676,25 @@ function explainHintMove(fenBefore, m) {
   if (!mv) return tr('hint.good');
   const reasons = [];
   if (g.in_checkmate()) return tr('hint.mate');
-  // 駒を取る
+  // Capture. / 駒を取る。
   if (mv.captured) {
     const cap = pieceName(mv.captured);
-    // 取り返しまで読んでから言葉を選ぶ(守られている駒を『ただ』と言わない)
+    // Read through the recapture before choosing words; do not call a defended piece free. / 取り返しまで読んでから、守られたコマを「ただ」と言わない。
     const ex = evalCaptureExchange(fenBefore, m);
     if (!ex.recapture) reasons.push(tr('hint.freeCapture', { piece: cap }));
     else if (ex.see > 0) reasons.push(tr('hint.captureGain', { piece: cap }));
     else if (ex.see === 0) reasons.push(tr('hint.exchange', { piece: cap }));
     else reasons.push(tr('hint.capture', { piece: cap }));
   }
-  // 成り
+  // Promotion. / 成り。
   if (mv.promotion) reasons.push(tr('hint.promotion'));
-  // チェック
+  // Check. / チェック。
   if (g.in_check()) reasons.push(tr('hint.check'));
-  // キャスリング
+  // Castling. / キャスリング。
   if (mv.flags.includes('k') || mv.flags.includes('q')) reasons.push(tr('hint.castle'));
-  // 中央のポーン前進
+  // Central pawn advance. / 中央のポーン前進。
   if (mv.piece === 'p' && ['d4', 'e4', 'd5', 'e5'].includes(mv.to)) reasons.push(tr('hint.center'));
-  // 軽い駒の展開(初期段からの発展)
+  // Minor-piece development from the starting rank. / 初期段からの軽いコマの展開。
   if ((mv.piece === 'n' || mv.piece === 'b')) {
     const backRank = mv.color === 'w' ? '1' : '8';
     if (mv.from[1] === backRank) reasons.push(tr('hint.develop'));
@@ -703,7 +703,7 @@ function explainHintMove(fenBefore, m) {
   return '👉 ' + reasons.slice(0, 2).join('。') + '。';
 }
 
-// ===== 新しいゲーム =====
+// ===== New game / 新しいゲーム =====
 function newGame() {
   game = new Chess();
   mode = 'play';
@@ -719,7 +719,7 @@ function newGame() {
   maybeCpuMove();
 }
 
-// ===== 待った =====
+// ===== Undo / 待った =====
 function undoMove() {
   if (mode !== 'play' || cpuThinking || game.history().length === 0) return;
   if (settings.opponent === 'cpu') {
@@ -737,8 +737,8 @@ function undoMove() {
   toast(tr('toast.undo'));
 }
 
-// ===== パズル =====
-// チェス用語は一般に使われるカタカナを主に、意味が伝わりにくいものは(かっこ)で補う
+// ===== Puzzles / パズル =====
+// Prefer common Japanese katakana chess terms; add parentheses where the meaning may be unclear. / 一般的なカタカナのチェス用語を使い、意味が伝わりにくいものは括弧で補う。
 const PUZZLE_THEME_JA = {
   backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイト/フォーク',
   diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルーク',
@@ -751,21 +751,21 @@ const PUZZLE_THEME_EN = {
   queen: 'Queen finish', support: 'Supported attack',
 };
 let puzzleTheme = 'all';
-let puzzleLevel = 'all';   // 難易度(詰み手数)での絞り込み
+let puzzleLevel = 'all';   // Filter by mate length. / 詰み手数で絞り込む。
 
 function puzzleText(p) {
   const en = I18N.language === 'en' && typeof PUZZLE_EN !== 'undefined' ? PUZZLE_EN[PUZZLES.indexOf(p)] : null;
   return en ? { title: en[0], idea: en[1] } : p;
 }
 function puzzleThemeLabel(t) { return (I18N.language === 'en' ? PUZZLE_THEME_EN[t] : PUZZLE_THEME_JA[t]) || (I18N.language === 'en' ? 'Basics' : 'きほん'); }
-// 難易度ラベル(詰み手数 → やさしさの目安)
+// Difficulty labels based on mate length. / 詰み手数を目安にした難易度ラベル。
 const PUZZLE_LEVEL_JA = { 1: '⭐ 1手詰め', 2: '⭐⭐ 2手詰め', 3: '⭐⭐⭐ 3手詰め' };
 
 function renderPuzzleCats() {
   const wrap = $('puzzle-cats');
   if (!wrap) return;
   wrap.innerHTML = '';
-  // 1行目: 難易度(詰み手数)で選ぶ
+  // First row: filter by difficulty (mate length). / 1行目: 難易度（詰み手数）で選ぶ。
   const levels = ['all'].concat([...new Set(PUZZLES.map((p) => p.mateIn))].sort((a, b) => a - b));
   for (const lv of levels) {
     const b = document.createElement('button');
@@ -774,7 +774,7 @@ function renderPuzzleCats() {
     b.addEventListener('click', () => { puzzleLevel = lv; renderPuzzleCats(); renderPuzzleList(); });
     wrap.appendChild(b);
   }
-  // 2行目: テーマで選ぶ
+  // Second row: filter by theme. / 2行目: テーマで選ぶ。
   const themes = ['all'].concat([...new Set(PUZZLES.map((p) => p.theme))]);
   for (const t of themes) {
     const b = document.createElement('button');
@@ -825,7 +825,7 @@ function puzzleTryMove(moveArg) {
   const hit = cands.find((m) => m.from === moveArg.from && m.to === moveArg.to
     && (!m.promotion || m.promotion === (moveArg.promotion || 'q')));
   if (!hit) {
-    // 合法手だけどメイトにつながらない → 不正解
+    // Legal move, but it does not lead to mate → incorrect. / 合法手だがメイトにつながらない → 不正解。
     sBad();
     boardEl.classList.add('shake');
     setTimeout(() => boardEl.classList.remove('shake'), 450);
@@ -842,7 +842,7 @@ function puzzleTryMove(moveArg) {
   puzzle.movesLeft--;
   puzzle.busy = true;
   renderStatus();
-  // 相手はいちばんねばる手で応じる
+  // Let the opponent choose the most resilient reply. / 相手はいちばん粘る手で応じる。
   setTimeout(() => {
     const replies = game.moves({ verbose: true });
     let best = null, bestCount = Infinity;
@@ -869,8 +869,8 @@ function puzzleSolved() {
   }, 300);
 }
 
-// ===== 棋譜(PGN) =====
-// study = { baseFen, sans[], notes[], meta:{title, sub, intro, takeaway} } を再生モードで開く
+// ===== PGN records / 棋譜（PGN） =====
+// Open study = { baseFen, sans[], notes[], meta:{title, sub, intro, takeaway} } in replay mode. / studyを再生モードで開く。
 function enterStudy(study) {
   replay.baseFen = study.baseFen || null;
   replay.sans = study.sans;
@@ -908,7 +908,7 @@ function loadPgnText(text) {
   toast(tr('toast.pgnLoaded', { moves: sans.length }));
 }
 
-// 名局・レッスンの共通データ({fen, moves:[{san,note}]}) をstudyに変換して開く
+// Convert shared famous-game and lesson data ({fen, moves:[{san,note}]}) into study data. / 名局・レッスンの共通データをstudyに変換して開く。
 function loadAnnotated(data, meta) {
   const text = data && data.moves && data.en ? gameText(data) : lessonText(data);
   const localizedMeta = meta ? {
@@ -982,7 +982,7 @@ function replayToPlay() {
   maybeCpuMove();
 }
 
-// ===== まなぶ(レッスン) =====
+// ===== Learn lessons / まなぶ（レッスン） =====
 const LEARN_CATS = [
   { key: 'opening', labelKey: 'learn.opening' },
   { key: 'combo', labelKey: 'learn.combo' },
@@ -1083,7 +1083,7 @@ const SAMPLE_PGN = `[Event "オペラ座のゲーム"]
 8. Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7 12. O-O-O Rd8 13. Rxd7 Rxd7
 14. Rd1 Qe6 15. Bxd7+ Nxd7 16. Qb8+ Nxb8 17. Rd8# 1-0`;
 
-// ===== タブ(グループごとに独立して切り替え) =====
+// ===== Tabs, independent within each group / グループごとに独立したタブ =====
 function switchTab(name) {
   const clicked = document.querySelector(`.tab[data-tab="${name}"]`);
   const group = clicked ? clicked.dataset.group : null;
@@ -1092,7 +1092,7 @@ function switchTab(name) {
   document.querySelectorAll(`.tab-page[data-group="${group}"]`).forEach((p) => p.classList.toggle('active', p.id === 'tab-' + name));
 }
 
-// ===== 全体描画 =====
+// ===== Full render / 全体描画 =====
 function renderAll() {
   renderPosition();
   renderVenues();
@@ -1100,7 +1100,7 @@ function renderAll() {
   renderMovelist();
 }
 
-// ===== イベント =====
+// ===== Events / イベント =====
 function setupUI() {
   I18N.applyStatic();
   const selLanguage = $('sel-language');
@@ -1111,7 +1111,7 @@ function setupUI() {
     I18N.setLanguage(settings.language);
     refreshLanguage();
   });
-  // ピースセット選択肢
+  // Piece-set options. / ピースセットの選択肢。
   const selSet = $('sel-set');
   for (const key of Object.keys(PIECE_SETS)) {
     const opt = document.createElement('option');
@@ -1134,7 +1134,7 @@ function setupUI() {
   $('sel-view').addEventListener('change', (e) => {
     settings.viewMode = e.target.value; saveSettings();
     $('row-set').style.display = is3D() ? 'none' : '';
-    // 会場を作り直す
+    // Rebuild the venue. / 会場を作り直す。
     for (const color of ['w', 'b']) {
       const area = venueOf(color).querySelector('.venue-guests');
       area.innerHTML = ''; delete area.dataset.bq;
@@ -1170,7 +1170,7 @@ function setupUI() {
     $('btn-sound').textContent = settings.sound ? '🔊' : '🔇';
     if (settings.sound) sMove();
   });
-  // BGM: ブラウザの自動再生制限があるため、最初の操作をきっかけに開始する
+  // BGM starts after the first user action because of browser autoplay restrictions. / ブラウザの自動再生制限のため、最初の操作をきっかけにBGMを開始する。
   $('btn-bgm').classList.toggle('muted', !settings.bgm);
   $('btn-bgm').addEventListener('click', () => {
     settings.bgm = !settings.bgm; saveSettings();
@@ -1180,7 +1180,7 @@ function setupUI() {
   });
   document.addEventListener('pointerdown', () => { if (settings.bgm) BGM.start(); }, { once: true });
 
-  // BGMの曲選び(オート=全曲順番に / 個別=その曲をずっと)
+  // BGM selection: Auto cycles through all songs; an individual choice loops one song. / BGMの選択。オートは全曲順番に、個別指定はその曲を繰り返す。
   const selBgm = $('sel-bgm');
   const optAuto = document.createElement('option');
   optAuto.value = 'auto';
@@ -1218,11 +1218,11 @@ function setupUI() {
     t.addEventListener('click', () => switchTab(t.dataset.tab));
   });
 
-  // パズル
+  // Puzzles. / パズル。
   $('btn-puzzle-retry').addEventListener('click', () => { if (puzzle.idx >= 0) loadPuzzle(puzzle.idx); });
   $('btn-puzzle-hint').addEventListener('click', requestHint);
 
-  // 棋譜
+  // PGN records. / 棋譜。
   $('btn-load-pgn').addEventListener('click', () => loadPgnText($('pgn-input').value));
   $('pgn-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -1240,12 +1240,12 @@ function setupUI() {
   $('btn-replay-play').addEventListener('click', replayToPlay);
   $('btn-study-close').addEventListener('click', closeStudy);
 
-  // まなぶ・名局
+  // Lessons and famous games. / まなぶ・名局。
   renderLearnCats();
   renderLearnList();
   renderGamesList();
 
-  // モーダル
+  // Modal dialogs. / モーダル。
   $('promo-modal').addEventListener('click', (e) => {
     if (e.target === $('promo-modal')) { $('promo-modal').classList.add('hidden'); selected = null; legalTargets = []; renderPosition(); }
   });
@@ -1258,7 +1258,7 @@ function setupUI() {
   $('puzzle-goal').textContent = tr('puzzle.filterHelp');
 }
 
-// ===== 起動 =====
+// ===== Startup / 起動 =====
 loadSaved();
 I18N.setLanguage(settings.language, false);
 setupUI();
