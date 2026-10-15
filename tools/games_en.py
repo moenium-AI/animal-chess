@@ -146,8 +146,8 @@ EN = {
   ),
   "reti_tartakower": E(
     "A Queen Sacrifice in One Flash", "Richard Réti", "Savielly Tartakower", "Caro-Kann-style setup",
-    "In only eleven moves, White turns a central skirmish into a queen sacrifice that drags the black king into the open and finishes with two bishops. It is a compact lesson in forcing combinations.",
-    "When the enemy king is stranded in the center, a sacrifice can draw it onto a vulnerable square where the minor pieces can coordinate a mate.",
+    "In only eleven moves, White turns a central skirmish into a queen sacrifice that drags the black king into the open and finishes with the bishop on d8 and rook on d1. It is a compact lesson in forcing combinations.",
+    "When the enemy king is stranded in the center, a sacrifice can draw it onto a vulnerable square where a bishop and rook can coordinate a mate.",
     "Takes central space.",
     "The Caro-Kann setup prepares ...d5 to challenge e4.",
     "Expands in the center.", "Black challenges the center as planned.",
@@ -166,7 +166,7 @@ EN = {
     "Black accepts in the selected line and the king is pulled to d8.",
     "The bishop checks and limits the king's escape squares.",
     "The king moves in the selected variation.",
-    "The bishop returns to d8 and mates. White has given up the queen to finish with two bishops.",
+    "The bishop returns to d8 and mates. White has given up the queen to finish with the bishop on d8 and rook on d1.",
   ),
   "lasker_thomas": E(
     "The King Hunt", "Edward Lasker", "George Thomas", "Dutch Defense",
@@ -224,7 +224,7 @@ EN = {
   ),
   "canal": E(
     "The Peruvian Immortal", "Esteban Canal", "Anonymous (NN)", "Scandinavian Defense",
-    "Known as the Peruvian Immortal, this attacking game ends with White sacrificing both rooks and the queen before mating with a single bishop. It also shows why an early castle is not automatically safe when the attacking lines point toward it.",
+    "Known as the Peruvian Immortal, this attacking game ends with White sacrificing both rooks and the queen before mating with the bishops on a6 and f4 working together. It also shows why an early castle is not automatically safe when the attacking lines point toward it.",
     "A castled king can still become a target. When a diagonal opens, a chain of sacrifices may suddenly make a mating attack possible.",
     "Takes central space.", "The Scandinavian immediately challenges e4.",
     "White captures in the center.", "Black recaptures with the queen, developing it early but also making it a target.",
@@ -244,7 +244,7 @@ EN = {
     "Black takes the second rook, but the captured rooks cannot return to defend the king.",
     "White sacrifices the queen with check. If Black accepts, the bishop's final check becomes decisive.",
     "Black accepts in this line, leaving the king's front completely open.",
-    "The bishop mates on a6. White has given up both rooks and the queen to finish with one bishop.",
+    "The bishop mates on a6. White has given up both rooks and the queen to finish with the bishops on a6 and f4 working together.",
   ),
   "levitsky_marshall": E(
     "The Gold Coins Game", "Stepan Levitsky", "Frank Marshall", "French-style central battle",

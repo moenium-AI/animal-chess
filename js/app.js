@@ -17,6 +17,7 @@ let pendingGuests = 0;       // Pieces in transit by carriage, not yet shown at 
 let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
 let solvedPuzzles = new Set();
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // ===== DOM =====
 const $ = (id) => document.getElementById(id);
@@ -98,19 +99,36 @@ function squareName(dispR, dispC) {
 }
 function buildBoard() {
   boardEl.innerHTML = '';
+  boardEl.setAttribute('role', 'group');
+  boardEl.setAttribute('aria-label', tr('board.label'));
   $('board-wrap').classList.toggle('mode-3d', is3D());
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
       const sq = squareName(r, c);
       const f = FILES.indexOf(sq[0]);
       const rank = parseInt(sq[1], 10);
-      const div = document.createElement('div');
+      const div = document.createElement('button');
+      div.type = 'button';
+      div.tabIndex = r === 0 && c === 0 ? 0 : -1;
       div.className = 'square ' + ((f + rank) % 2 === 0 ? 'light' : 'dark');
       div.dataset.square = sq;
       div.style.zIndex = r + 1; // Stack front rows above back rows in 3D mode. / 3Dモードで手前の列が上に重なるように。
       if (r === 7) { const s = document.createElement('span'); s.className = 'coord file'; s.textContent = sq[0]; div.appendChild(s); }
       if (c === 0) { const s = document.createElement('span'); s.className = 'coord rank'; s.textContent = sq[1]; div.appendChild(s); }
       div.addEventListener('click', () => onSquareClick(sq));
+      div.addEventListener('focus', () => {
+        for (const cell of boardEl.children) cell.tabIndex = cell === div ? 0 : -1;
+      });
+      div.addEventListener('keydown', event => {
+        const delta = { ArrowLeft: [0, -1], ArrowRight: [0, 1], ArrowUp: [-1, 0], ArrowDown: [1, 0] }[event.key];
+        if (delta) {
+          event.preventDefault();
+          const row = r + delta[0], col = c + delta[1];
+          if (row >= 0 && row < 8 && col >= 0 && col < 8) boardEl.children[row * 8 + col].focus();
+        } else if (event.key === 'Escape') {
+          selected = null; legalTargets = []; hintSquares = []; renderPosition();
+        }
+      });
       boardEl.appendChild(div);
     }
   }
@@ -158,6 +176,9 @@ function renderPosition() {
     const f = FILES.indexOf(sq[0]);
     const r8 = 8 - parseInt(sq[1], 10);
     const pc = board[r8][f];
+    const role = pc ? tr('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[pc.type])) : tr('board.empty');
+    div.setAttribute('aria-label', `${sq} ${pc ? colorJa(pc.color) + ' ' : ''}${role}${legalTargets.some(m => m.to === sq) ? ' ' + tr('board.destination') : ''}`);
+    div.setAttribute('aria-pressed', String(selected === sq));
     // Remove existing pieces and dots, but keep coordinate labels. / 既存のコマとドットを消し、座標ラベルは残す。
     for (const child of [...div.children]) {
       if (!child.classList.contains('coord')) child.remove();
@@ -346,6 +367,7 @@ function pickGuestState() {
 }
 
 setInterval(() => {
+  if (reducedMotion.matches) return;
   const now = Date.now();
   for (const color in banquets) {
     for (const g of banquets[color].guests) {
@@ -360,7 +382,7 @@ setInterval(() => {
 
 // Blinking board pieces in 3D mode. / 3Dモードの盤上コマのまばたき。
 setInterval(() => {
-  if (!is3D()) return;
+  if (!is3D() || reducedMotion.matches) return;
   const canvases = boardEl.querySelectorAll('.p3d canvas');
   if (canvases.length === 0) return;
   const cv = canvases[Math.floor(Math.random() * canvases.length)];
@@ -374,7 +396,7 @@ function carriageRide(move) {
   const capturedType = move.captured;
   const capturer = move.color;
   const victim = capturer === 'w' ? 'b' : 'w';
-  if (!animal) { renderVenues(); sCapture(); return; }
+  if (!animal || reducedMotion.matches) { renderVenues(); sCapture(); return; }
 
   sCarriage();
   lastCapturer = capturer;
@@ -439,14 +461,14 @@ function turnBadge() {
 }
 function renderStatus() {
   if (mode === 'replay') {
-    statusEl.innerHTML = tr('status.replay', { current: replay.idx, total: replay.sans.length });
+    statusEl.innerHTML = tr('status.replay', { current: replay.idx, total: replay.sans.length }) + ' · ' + turnBadge();
     return;
   }
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
     if (!p) { statusEl.textContent = tr('status.choosePuzzle'); return; }
     if (game.in_checkmate()) { statusEl.innerHTML = tr('status.checkmate'); return; }
-    statusEl.innerHTML = tr('status.puzzleTurn', { color: colorJa(p.turn), moves: puzzle.movesLeft });
+    statusEl.innerHTML = puzzle.busy ? tr('status.puzzleReply', { color: colorJa(game.turn()) }) : tr('status.puzzleTurn', { color: colorJa(game.turn()), moves: puzzle.movesLeft });
     return;
   }
   if (game.game_over()) {
@@ -480,6 +502,7 @@ function gameOverText() {
 }
 
 function confetti() {
+  if (reducedMotion.matches) return;
   const emojis = ['🎉', '✨', '🌸', '⭐', '🎊', '💮', '🍀'];
   for (let i = 0; i < 26; i++) {
     const el = document.createElement('span');
@@ -509,7 +532,7 @@ function renderMovelist() {
   const hist = game.history();
   for (let i = 0; i < hist.length; i++) {
     const li = document.createElement('li');
-    li.innerHTML = `<span class="no">${Math.floor(i / 2) + 1}${i % 2 === 0 ? '.' : '…'}</span>${hist[i]}`;
+    li.innerHTML = `<span class="no">${Learning.moveLabel(game.header().FEN, i)}</span>${hist[i]}`;
     ol.appendChild(li);
   }
   ol.scrollTop = ol.scrollHeight;
@@ -537,9 +560,11 @@ function maybeCpuMove() {
   if (game.turn() === settings.playerColor) return;
   cpuThinking = true;
   renderStatus();
-  Engine.chooseMove(game.fen(), settings.level, (mv) => {
+  const position = game, fen = game.fen();
+  Engine.chooseMove(fen, settings.level, (mv) => {
+    if (mode !== 'play' || game !== position || game.fen() !== fen) return;
     cpuThinking = false;
-    if (!mv || mode !== 'play') { renderStatus(); return; }
+    if (!mv) { renderStatus(); return; }
     applyMove({ from: mv.from, to: mv.to, promotion: mv.promotion });
   });
 }
@@ -606,7 +631,7 @@ function showPromotion(from, to) {
 
 // ===== Hints / ヒント =====
 function requestHint() {
-  if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking) return;
+  if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking || puzzle.busy) return;
   if (mode === 'play' && settings.opponent === 'cpu' && game.turn() !== settings.playerColor) return;
   const advisor = I18N.language === 'en'
     ? (is3D() ? '🐱 Cat Coach' : '🧙 Coach')
@@ -614,7 +639,14 @@ function requestHint() {
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
     if (!p || game.turn() !== p.turn) return;
-    const cands = Engine.mateMoves(game, puzzle.movesLeft);
+    if (!puzzle.hintShown) {
+      puzzle.hintShown = true;
+      renderPuzzleGoal();
+      toast(puzzleText(p).idea, 6000);
+      return;
+    }
+    const cands = puzzleCandidates();
+    if (!cands) return;
     if (cands.length > 0) {
       const m = cands[0];
       hintSquares = [m.from, m.to];
@@ -625,8 +657,12 @@ function requestHint() {
   }
   hintThinking = true;
   renderStatus();
-  const fenBefore = game.fen();
+  const position = game, fenBefore = game.fen();
   Engine.bestMove(fenBefore, (m) => {
+    if (mode !== 'play' || game !== position || game.fen() !== fenBefore) {
+      if (game === position) { hintThinking = false; renderStatus(); }
+      return;
+    }
     hintThinking = false;
     renderStatus();
     if (!m) return;
@@ -705,6 +741,8 @@ function explainHintMove(fenBefore, m) {
 
 // ===== New game / 新しいゲーム =====
 function newGame() {
+  puzzle.busy = false;
+  hintThinking = false;
   game = new Chess();
   mode = 'play';
   replay.annotation = null;
@@ -806,7 +844,8 @@ function loadPuzzle(i) {
   game = new Chess(p.fen);
   mode = 'puzzle';
   replay.annotation = null;
-  puzzle = { idx: i, movesLeft: p.mateIn, busy: false };
+  puzzle = { idx: i, movesLeft: p.mateIn, busy: false, hintShown: false };
+  hintThinking = false;
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
   overlayEl.innerHTML = '';
@@ -817,11 +856,27 @@ function loadPuzzle(i) {
   renderPuzzleList();
   const text = puzzleText(p);
   $('puzzle-title').innerHTML = `${text.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
-  $('puzzle-goal').innerHTML = tr('puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: text.idea });
+  renderPuzzleGoal();
   toast(tr('toast.puzzleStart', { title: text.title }));
 }
+function renderPuzzleGoal() {
+  const p = PUZZLES[puzzle.idx];
+  if (!p) return;
+  $('puzzle-goal').innerHTML = tr('puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: puzzle.hintShown ? puzzleText(p).idea : tr('puzzle.hintHelp') });
+}
+function puzzleCandidates(position = game, remaining = puzzle.movesLeft) {
+  try { return Learning.puzzleMoves(PUZZLES[puzzle.idx], position, remaining); }
+  catch (error) {
+    // Never replace missing data with a blocking search or label it a wrong move.
+    console.error(error);
+    toast(tr('toast.puzzleDataError'));
+    return null;
+  }
+}
 function puzzleTryMove(moveArg) {
-  const cands = Engine.mateMoves(game, puzzle.movesLeft);
+  if (!playerCanMoveNow()) return;
+  const cands = puzzleCandidates();
+  if (!cands) return;
   const hit = cands.find((m) => m.from === moveArg.from && m.to === moveArg.to
     && (!m.promotion || m.promotion === (moveArg.promotion || 'q')));
   if (!hit) {
@@ -842,14 +897,18 @@ function puzzleTryMove(moveArg) {
   puzzle.movesLeft--;
   puzzle.busy = true;
   renderStatus();
-  // Let the opponent choose the most resilient reply. / 相手はいちばん粘る手で応じる。
+  const activePuzzle = puzzle, position = game, fen = game.fen();
+  // Prefer a reply with fewer winning continuations. This is not a distance-to-mate ranking.
   setTimeout(() => {
+    if (mode !== 'puzzle' || puzzle !== activePuzzle || game !== position || game.fen() !== fen) return;
     const replies = game.moves({ verbose: true });
     let best = null, bestCount = Infinity;
     for (const r of replies) {
       game.move(r);
-      const count = Engine.mateMoves(game, puzzle.movesLeft).length;
+      const choices = puzzleCandidates();
       game.undo();
+      if (!choices) { puzzle.busy = false; renderStatus(); return; }
+      const count = choices.length;
       if (count < bestCount) { bestCount = count; best = r; }
     }
     if (best) applyMove({ from: best.from, to: best.to, promotion: best.promotion });
@@ -858,20 +917,26 @@ function puzzleTryMove(moveArg) {
   }, 700);
 }
 function puzzleSolved() {
+  const activePuzzle = puzzle;
   solvedPuzzles.add(puzzle.idx);
   saveSolved();
   renderPuzzleList();
   sWin(); confetti();
   const next = PUZZLES.findIndex((p, i) => !solvedPuzzles.has(i));
   setTimeout(() => {
+    if (mode !== 'puzzle' || puzzle !== activePuzzle) return;
     toast(tr('toast.puzzleSolved'), 3200);
-    if (next >= 0) setTimeout(() => toast(tr('toast.nextPuzzle', { title: puzzleText(PUZZLES[next]).title })), 1500);
+    if (next >= 0) setTimeout(() => {
+      if (mode === 'puzzle' && puzzle === activePuzzle) toast(tr('toast.nextPuzzle', { title: puzzleText(PUZZLES[next]).title }));
+    }, 1500);
   }, 300);
 }
 
 // ===== PGN records / 棋譜（PGN） =====
 // Open study = { baseFen, sans[], notes[], meta:{title, sub, intro, takeaway} } in replay mode. / studyを再生モードで開く。
 function enterStudy(study) {
+  puzzle.busy = false;
+  hintThinking = false;
   replay.baseFen = study.baseFen || null;
   replay.sans = study.sans;
   replay.notes = study.notes || [];
@@ -918,6 +983,7 @@ function loadAnnotated(data, meta) {
     intro: text.intro || meta.intro,
     takeaway: text.takeaway || meta.takeaway,
   } : null;
+  if (localizedMeta && data.cat) localizedMeta.sub += ' · ' + tr('learn.demonstration');
   enterStudy({
     baseFen: data.fen || null,
     sans: text.moves.map((m) => m.san),
@@ -954,7 +1020,7 @@ function renderReplayMovelist() {
   ol.innerHTML = '';
   replay.sans.forEach((san, i) => {
     const li = document.createElement('li');
-    li.innerHTML = `<span class="no">${Math.floor(i / 2) + 1}${i % 2 === 0 ? '.' : '…'}</span>${san}`;
+    li.innerHTML = `<span class="no">${Learning.moveLabel(replay.baseFen, i)}</span>${san}`;
     if (i === replay.idx - 1) li.classList.add('current');
     li.style.cursor = 'pointer';
     li.addEventListener('click', () => replayGoTo(i + 1));
@@ -1042,6 +1108,7 @@ function renderGamesList() {
 
 function refreshLanguage() {
   I18N.applyStatic();
+  boardEl.setAttribute('aria-label', tr('board.label'));
   const selSet = $('sel-set');
   if (selSet) [...selSet.options].forEach((opt) => {
     const set = PIECE_SETS[opt.value];
@@ -1054,13 +1121,16 @@ function refreshLanguage() {
   }
   renderLearnCats(); renderLearnList(); renderGamesList(); renderPuzzleCats(); renderPuzzleList();
   renderAll();
-  if (puzzle.idx >= 0 && mode === 'puzzle') {
+  if (puzzle.idx >= 0) {
     const p = PUZZLES[puzzle.idx];
     if (p) {
       const text = puzzleText(p);
       $('puzzle-title').innerHTML = `${text.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
-      $('puzzle-goal').innerHTML = tr('puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: text.idea });
+      renderPuzzleGoal();
     }
+  } else {
+    $('puzzle-title').textContent = tr('puzzle.select');
+    $('puzzle-goal').textContent = tr('puzzle.filterHelp');
   }
   if (replay.annotation) {
     const idx = replay.idx;

@@ -10,27 +10,81 @@ import chess
 import io
 import json
 import sys
+from functools import lru_cache
+from pathlib import Path
+from generated_output import atomic_write
 
 
 def mate_moves(board, n):
+    return [chess.Move.from_uci(uci) for uci in winning_moves(board.fen(), n)]
+
+
+@lru_cache(maxsize=200000)
+def winning_moves(fen, n):
+    board = chess.Board(fen)
     result = []
     for mv in list(board.legal_moves):
         board.push(mv)
         if board.is_checkmate():
-            result.append(mv)
+            result.append(mv.uci())
         elif n > 1 and not board.is_game_over():
             ok = True
             for reply in list(board.legal_moves):
                 board.push(reply)
-                sub = mate_moves(board, n - 1)
+                sub = has_mate(board.fen(), n - 1)
                 board.pop()
                 if not sub:
                     ok = False
                     break
             if ok:
-                result.append(mv)
+                result.append(mv.uci())
         board.pop()
-    return result
+    return tuple(result)
+
+
+@lru_cache(maxsize=200000)
+def has_mate(fen, n):
+    board = chess.Board(fen)
+    for move in list(board.legal_moves):
+        board.push(move)
+        wins = board.is_checkmate()
+        if not wins and n > 1 and not board.is_game_over():
+            wins = True
+            for reply in list(board.legal_moves):
+                board.push(reply)
+                child = has_mate(board.fen(), n - 1)
+                board.pop()
+                if not child:
+                    wins = False
+                    break
+        board.pop()
+        if wins:
+            return True
+    return False
+
+
+def continuations(fen, n):
+    """All winning alternatives and every legal defense, not a single PV."""
+    states = {}
+    def visit(board, remaining):
+        key = board.fen() + '|' + str(remaining)
+        if key in states:
+            return
+        moves = mate_moves(board, remaining)
+        if not moves:
+            raise ValueError('Missing forced mate at ' + key)
+        states[key] = [board.san(move) for move in moves]
+        for move in moves:
+            board.push(move)
+            if not board.is_checkmate():
+                assert remaining > 1 and not board.is_game_over()
+                for reply in list(board.legal_moves):
+                    board.push(reply)
+                    visit(board, remaining - 1)
+                    board.pop()
+            board.pop()
+    visit(chess.Board(fen), n)
+    return states
 
 
 def classify(fen, max_n=3):
@@ -49,9 +103,9 @@ def classify(fen, max_n=3):
 CANDIDATES = [
     # ---- Basics (back rank and fundamental mates) / きほん(バックランク・基本の詰み) ----
     (1, "backrank", "うらぐちからこんにちは", "6k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
-     "相手のキングの前のポーンが逃げ道をふさいでいる。一段目(バックランク)にルークを飛び込ませよう!"),
+     "相手のキングの前のポーンが逃げ道をふさいでいる。相手の最終段（ここでは8段目）にルークを飛び込ませよう!"),
     (1, "backrank", "ろうかのつきあたり", "6k1/5ppp/8/8/8/8/8/1R4K1 w - - 0 1",
-     "自分のポーンで塞がれたキングは一段目が弱点。ルークを送り込めば一発で詰む。"),
+     "黒キングは味方のポーンで逃げ道をふさがれ、8段目からの攻撃に弱い。白ルークを送り込めば一発で詰む。"),
     (1, "opening", "がくしゃのメイト", "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
      "定跡の落とし穴『4手詰め(スカラーズ・メイト)』。f7はキングしか守っていない最大の弱点。"),
     (1, "opening", "さいそくのメイト", "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2",
@@ -107,11 +161,11 @@ CANDIDATES = [
     # ============ Additional set / 追加ぶん ============
     # ---- Back rank (with different major pieces) / バックランク(いろいろな大駒で) ----
     (1, "backrank", "とじたドア", "6k1/5ppp/8/8/8/8/8/3Q2K1 w - - 0 1",
-     "クイーンも一段目の詰めに使える。ポーンで塞がれたキングへ横から飛び込む。"),
+     "クイーンも相手の最終段（ここでは8段目）の詰めに使える。ポーンで塞がれたキングへ横から飛び込む。"),
     (1, "backrank", "よこどりメイト", "3r2k1/5ppp/8/8/8/8/8/3R2K1 w - - 0 1",
-     "守りのルークと向かい合ったら取ってしまおう。取った瞬間に一段目が詰む。"),
+     "守りのルークと向かい合ったら取ってしまおう。取った瞬間に相手の最終段（ここでは8段目）が詰む。"),
     (1, "backrank", "はんたいがわの扉", "7k/6pp/8/8/8/8/8/R5K1 w - - 0 1",
-     "キングが右端に寄っていても考え方は同じ。逃げ道のない一段目にルークを回す。"),
+     "キングが右端に寄っていても考え方は同じ。逃げ道のない相手の最終段（ここでは8段目）にルークを回す。"),
     # ---- Queen mating net (supported by a friendly piece) / クイーンの寄せ(味方で支える) ----
     (1, "support", "そらのてっぺんから", "6k1/8/7P/8/8/8/1Q6/7K w - - 0 1",
      "味方のポーンで支えれば、クイーンをキングの隣に置いても取られない。支えのあるチェックが決め手。"),
@@ -125,7 +179,7 @@ CANDIDATES = [
 
     # ---- Additional set 2 / 追加ぶん2 ----
     (1, "backrank", "すみのいちげき", "7k/5ppp/8/8/8/8/8/1Q5K w - - 0 1",
-     "キングが隅にいても一段目は弱点。逃げ道がポーンでふさがれていれば、クイーンを横から送り込んで詰み。"),
+     "キングが隅にいても相手の最終段（ここでは8段目）は弱点。逃げ道がポーンでふさがれていれば、クイーンを横から送り込んで詰み。"),
     (1, "smother", "かこまれナイト", "6rk/5ppp/8/6N1/8/8/8/6K1 w - - 0 1",
      "キングのまわりが味方のルークとポーンでびっしり。ナイトが飛び込めば逃げ場ゼロで詰む(窒息メイト)。"),
     (1, "support", "ナイトとクイーン", "7k/8/5N2/8/8/8/8/6QK w - - 0 1",
@@ -136,8 +190,8 @@ CANDIDATES = [
      "クイーンとキングの連係。まず逃げ道を消してから、支えのある一撃でとどめを刺す。"),
     (2, "ladder", "かいだんをつくる", "6k1/8/8/8/8/R7/1R6/7K w - - 0 1",
      "二枚のルークの階段。まず一枚で段を封鎖し、もう一枚を最終列へ回す二手の型。"),
-    (2, "endgame", "たまをちかづけて", "6k1/8/5K2/8/8/8/8/R7 w - - 0 1",
-     "ルークだけでは詰まない。まず自分のキングを近づけて逃げ道を消してから、ルークで最終列を封じる。"),
+    (2, "endgame", "ルークのまちて", "6k1/8/5K2/8/8/8/8/R7 w - - 0 1",
+     "キングはすでに逃げ道を押さえている。ルークの待機手で相手キングに動いてもらい、次に最終段から詰ませる。"),
 
     # ---- Increased difficulty: three-move mates (practice calculating carefully) / 難易度アップ: 3手詰め(じっくり読む練習) ----
     (3, "endgame", "ルークでしとめる", "6k1/8/4K3/8/8/8/8/R7 w - - 0 1",
@@ -172,21 +226,22 @@ def main():
             })
     print("=" * 72)
     print("verified: %d / %d  (NG: %d)" % (len(verified), len(CANDIDATES), ng))
+    if ng:
+        print("!!! 検証失敗。既存の配布ファイルは変更しません。")
+        sys.exit(1)
 
     verified.sort(key=lambda p: (p["mateIn"], p["theme"]))
+    for puzzle in verified:
+        puzzle['continuations'] = continuations(puzzle['fen'], puzzle['mateIn'])
     out = io.StringIO()
     out.write("// Generated by tools/verify_puzzles.py; every puzzle was validated with python-chess. / tools/verify_puzzles.pyで自動生成し、python-chessで全問検証済み。\n")
     out.write("// theme=learning topic; idea=original explanation of the tactic. / theme=まなぶの要素、idea=狙いの解説（すべて独自に記述）。\n")
     out.write("const PUZZLES = ")
     out.write(json.dumps(verified, ensure_ascii=False, indent=1))
     out.write(";\n")
-    path = sys.argv[1] if len(sys.argv) > 1 else "puzzles.js"
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(out.getvalue())
+    path = sys.argv[1] if len(sys.argv) > 1 else Path(__file__).resolve().parents[1] / 'js/puzzles.js'
+    atomic_write(path, out.getvalue())
     print("wrote %s" % path)
-    if ng:
-        print("!!! NGのパズルがあります。修正してください。")
-        sys.exit(1)
 
 
 if __name__ == "__main__":

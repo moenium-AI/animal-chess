@@ -132,7 +132,7 @@ const LESSONS = [
    },
    {
     "san": "Ba4",
-    "note": "ピンを保ったまま退く。まだ交換しない。"
+    "note": "ナイトへの圧力を保ったまま退く。d7にポーンがあるのでキングへのピンではない。"
    },
    {
     "san": "Nf6",
@@ -178,7 +178,7 @@ const LESSONS = [
     },
     {
      "san": "Ba4",
-     "note": "The bishop retreats while keeping the pressure on the knight."
+     "note": "Retreat while maintaining pressure on the knight. The pawn on d7 prevents a pin to the king."
     },
     {
      "san": "Nf6",
@@ -392,7 +392,7 @@ const LESSONS = [
  {
   "id": "op_qgd",
   "cat": "opening",
-  "title": "クイーンズ・ギャンビット(断らない形)",
+  "title": "クイーンズ・ギャンビット・ディクラインド（拒否形）",
   "fen": null,
   "intro": "e4ではなくd4から始める代表的な戦型。c4のポーンは『ギャンビット』と呼ばれますが本当のタダ捨てではなく、中央の主導権と引き換えの誘いです。",
   "takeaway": "サイドのポーンを餌に中央を広げる。取っても取らなくても、狙いは常に『中央の支配』。",
@@ -601,7 +601,7 @@ const LESSONS = [
    },
    {
     "san": "Nxc6",
-    "note": "クイーンを頂いて大戦果。これがナイトのフォークの威力。"
+    "note": "クイーンを取れた。ただし残るのはキング＋ナイト対キングなので、この局面は引き分け。駒得と勝利は同じではない。"
    }
   ],
   "en": {
@@ -619,7 +619,7 @@ const LESSONS = [
     },
     {
      "san": "Nxc6",
-     "note": "White wins the queen. This is the power of a knight fork."
+     "note": "The fork wins the queen, but king and knight versus king is drawn. Winning material is not always winning the game."
     }
    ]
   }
@@ -958,7 +958,7 @@ const LESSONS = [
   "cat": "opening",
   "title": "スカンジナビアン・ディフェンス",
   "fen": null,
-  "intro": "黒が2手目でいきなり中央のポーンをぶつけて交換してしまう、分かりやすい受け方。早くにクイーンが出てくるので、『クイーンを早く動かしすぎない』という原則を逆に学べます。",
+  "intro": "白の初手e4に黒がすぐd5と応じ、中央のポーンを交換する、分かりやすい受け方。早くにクイーンが出てくるので、『クイーンを早く動かしすぎない』という原則を逆に学べます。",
   "takeaway": "早すぎるクイーンの出撃は相手に手を稼がれる。黒はそれを承知で、駒得を避けつつ手堅く駒を組む。",
   "moves": [
    {
@@ -1004,7 +1004,7 @@ const LESSONS = [
   ],
   "en": {
    "title": "Scandinavian Defense",
-   "intro": "Black challenges and exchanges the central pawn immediately on move two. The early queen move is a useful way to learn why moving the queen too often can cost tempi.",
+   "intro": "Black challenges and exchanges the central pawn with 1...d5 on its first move. The early queen move is a useful way to learn why moving the queen too often can cost tempi.",
    "takeaway": "An early queen sortie can let the opponent gain tempi. Black accepts that trade-off for a clear, solid structure.",
    "moves": [
     {
@@ -1173,7 +1173,7 @@ const LESSONS = [
   "moves": [
    {
     "san": "c4",
-    "note": "横から中央のd5・e4に圧力をかけるイングリッシュ。"
+    "note": "c4のポーンはb5とd5に利く。側面から中央のd5に圧力をかける。"
    },
    {
     "san": "e5",
@@ -1219,7 +1219,7 @@ const LESSONS = [
    "moves": [
     {
      "san": "c4",
-     "note": "The English pressures d5 and e4 from the side."
+     "note": "The pawn on c4 attacks b5 and d5, pressuring the center from the flank."
     },
     {
      "san": "e5",
@@ -1265,7 +1265,7 @@ const LESSONS = [
   "cat": "combo",
   "title": "スマザー・メイト(窒息の詰み)",
   "fen": "5r1k/pp4pp/8/4N3/8/1Q6/PP4PP/6K1 w - - 0 1",
-  "intro": "自分の駒に囲まれて逃げ道のないキングを、ナイト一枚で仕留める華麗な決め技。クイーンをあえて捨てて相手のルークを呼び込み、ナイトの一撃で詰ます有名な手順です。",
+  "intro": "型の実演です。初手の後にはRxf7という別応手があり、全手順が強制されるわけではありません。",
   "takeaway": "逃げ道が味方でふさがれたキングはナイトに弱い。ダブルチェックでキングを隅へ追い込み、クイーンを捨ててでも詰みの形を作る。",
   "moves": [
    {
@@ -1299,12 +1299,12 @@ const LESSONS = [
   ],
   "en": {
    "title": "Smothered Mate",
-   "intro": "A king surrounded by its own pieces can be finished by a knight. This famous pattern sacrifices the queen to force the defending rook into the square needed for the final knight move.",
+   "intro": "Pattern demonstration: Rxf7 after the first move avoids this sequence, so the entire line is not forced.",
    "takeaway": "A king boxed in by its own pieces is vulnerable to a knight. Sometimes a queen sacrifice is justified if it creates a forced smothered mate.",
    "moves": [
     {
      "san": "Nf7+",
-     "note": "The knight checks. The king cannot return to h8 and moves to g8 in this line."
+     "note": "The knight checks. This demonstration follows Kg8; Rxf7 is also legal and avoids the displayed smothered-mate sequence."
     },
     {
      "san": "Kg8",
@@ -1648,8 +1648,8 @@ const LESSONS = [
   "cat": "endgame",
   "title": "スクエアルール(四角形の法則)",
   "fen": "8/8/8/5k2/P7/8/8/7K w - - 0 1",
-  "intro": "通過ポーンを相手のキングが止められるかは、頭の中に『四角形』を描けば一目で分かります。ポーンの昇格マスを角にした正方形の中に相手のキングがいれば追いつける、外なら昇格、という便利な法則です。",
-  "takeaway": "ポーンと昇格マスを一辺とする正方形を思い浮かべる。相手のキングがその四角の外にいれば、まっすぐ走らせるだけで昇格できる。",
+  "intro": "通過ポーンと昇格マスを一辺とする四角形で、相手キングが追いつけるかを考えます。相手番なら、その一手で四角に入れるかも確認します。進路が空いており、他の駒の利きに妨げられない場合の目安です。",
+  "takeaway": "手番を含めて四角形を判定する。初期位置のポーンは2歩進めることがあるため、その分を数え直す。キングや他の駒の妨害・支援があれば、実際の手を読む。",
   "moves": [
    {
     "san": "a5",
@@ -1682,8 +1682,8 @@ const LESSONS = [
   ],
   "en": {
    "title": "The Rule of the Square",
-   "intro": "You can often tell whether a king can catch a passed pawn by imagining a square from the pawn to its promotion rank. A king inside the square can catch it; a king outside cannot, assuming no other tactics intervene.",
-   "takeaway": "Visualize the pawn's square. If the opposing king is outside it, the pawn may promote by running straight ahead.",
+   "intro": "Imagine a square with the pawn and its promotion square as one side. If the defender is to move, check whether it can enter the square on that turn. This shortcut assumes an unobstructed pawn route and no interfering attacks.",
+   "takeaway": "Include the side to move. Account for a possible initial two-square pawn advance, and calculate concrete moves when other pieces or the attacking king intervene.",
    "moves": [
     {
      "san": "a5",
@@ -2037,8 +2037,8 @@ const LESSONS = [
   "cat": "combo",
   "title": "デコイ(おびき出し)",
   "fen": "3q1rk1/6pp/8/4N3/8/8/2B5/6K1 w - - 0 1",
-  "intro": "相手のキングを、こちらの都合のいいマスへ『おびき出す』戦術。チェックでキングを狙いのマスへ追い込み、そこでナイトのフォークを炸裂させてクイーンを頂きます。",
-  "takeaway": "『あの1マスにキングがいればフォークで勝てる』を先に見つける。チェックでキングをそのマスへ誘導してから、狙いの一撃を放つ。",
+  "intro": "相手が誤った応手を選ぶ例です。Nf7+にはRxf7でナイトを取れるため、このフォークを強制する手順ではありません。",
+  "takeaway": "おびき出すマスだけでなく、フォークする駒を相手が取れないか確認する。チェックだから成功するとは限らない。",
   "moves": [
    {
     "san": "Bb3+",
@@ -2054,7 +2054,7 @@ const LESSONS = [
    },
    {
     "san": "Kg8",
-    "note": "ここではキングをg8へ戻す変化を見る。ルークでナイトを取る応手もあるので、フォークは相手の応手を読んで使う。"
+    "note": "Kg8はここでは誤り。Rxf7ならナイトを取って、このフォークによるクイーン取りを防げる。"
    },
    {
     "san": "Nxd8+",
@@ -2063,8 +2063,8 @@ const LESSONS = [
   ],
   "en": {
    "title": "Decoy",
-   "intro": "A decoy lures an enemy piece, often the king, onto a square where a tactic works. This example uses a check to invite the king toward a knight fork.",
-   "takeaway": "Find the square where the fork works first. Then look for a forcing check that encourages the king to go there. The opponent may have alternatives, so calculate them.",
+   "intro": "This example relies on an error: Rxf7 answers Nf7+ by taking the knight. The fork is not forced.",
+   "takeaway": "Check whether the forking piece can be captured, not just whether the king reaches the target square. A check does not guarantee success.",
    "moves": [
     {
      "san": "Bb3+",
@@ -2080,7 +2080,7 @@ const LESSONS = [
     },
     {
      "san": "Kg8",
-     "note": "This line follows Kg8. Black can also try Rxf7, so the fork depends on the opponent's reply."
+     "note": "Kg8 is an error here. Rxf7 captures the knight and prevents this fork from winning the queen."
     },
     {
      "san": "Nxd8+",
@@ -2094,8 +2094,8 @@ const LESSONS = [
   "cat": "endgame",
   "title": "アンダープロモーション(ナイトへの昇格)",
   "fen": "8/4P1k1/3q4/8/8/8/8/6K1 w - - 0 1",
-  "intro": "昇格は必ずクイーンが得とは限りません。ときには『ナイトに昇格』した方が、チェックやフォークが決まって一気に勝てることがあります。形にとらわれない発想を学びましょう。",
-  "takeaway": "昇格のとき、クイーン以外の駒が『チェック』や『フォーク』になるなら、そちらが正解のこともある。目的は最強の駒より『一番効く駒』。",
+  "intro": "ナイトへの昇格はチェックとフォークを同時に狙えます。この例ではクイーンを取ったあとキング＋ナイト対キングとなり、勝ちではなく引き分けを確保します。クイーン昇格も最善同士なら引き分けです。",
+  "takeaway": "昇格先は駒の強さだけでなく、その後の結果で選ぶ。この例はナイト昇格のフォークの実演で、ナイトだけが勝つ局面ではありません。",
   "moves": [
    {
     "san": "e8=N+",
@@ -2107,13 +2107,13 @@ const LESSONS = [
    },
    {
     "san": "Nxd6+",
-    "note": "そのままクイーンを頂く。クイーンに昇格していたら、この一撃はなかった。"
+    "note": "クイーンを取ってキング＋ナイト対キング。どの合法手順でもメイトできないため引き分け。"
    }
   ],
   "en": {
    "title": "Underpromotion to a Knight",
-   "intro": "A queen is not always the best promotion. Promoting to a knight can give check and create a fork that a queen would miss.",
-   "takeaway": "When promoting, compare every legal piece. The goal is the piece that solves the position, not automatically the strongest piece.",
+   "intro": "Knight promotion can check and fork at once. Here it captures the queen and reaches king and knight versus king: a draw, not a win. Queen promotion also draws with best play.",
+   "takeaway": "Compare the resulting positions, not just the promoted piece values. This demonstrates a knight fork; it is not a position where only knight promotion wins.",
    "moves": [
     {
      "san": "e8=N+",
@@ -2125,7 +2125,7 @@ const LESSONS = [
     },
     {
      "san": "Nxd6+",
-     "note": "The new knight captures the queen. A queen promotion would not create this fork."
+     "note": "Capture the queen, leaving king and knight versus king. Checkmate is impossible, so the game is drawn."
     }
    ]
   }
@@ -2258,7 +2258,7 @@ const LESSONS = [
   "cat": "combo",
   "title": "【上級】ウィンドミル(風車)",
   "fen": "5r1k/1pp3Rp/8/q7/8/8/1B6/6K1 w - - 0 1",
-  "intro": "ルークとビショップが組んで、チェックと駒取りを風車のようにぐるぐる繰り返す豪快な技。ルークが動くたびに後ろのビショップのチェックが『発見』されるので、相手は逃げるだけで何もできません。",
+  "intro": "選んだ応手に対する風車の実演です。黒にはキング移動以外のチェック対応もあり、全手順を強制できるという意味ではありません。",
   "takeaway": "大駒の前に自分の駒があるとき、それを動かせばディスカバードチェックになる。チェック→駒取り→またチェックを繰り返し、相手の駒を刈り取っていく。",
   "moves": [
    {
@@ -2308,7 +2308,7 @@ const LESSONS = [
   ],
   "en": {
    "title": "Windmill",
-   "intro": "A windmill repeats discovered checks and captures in a cycle. The rook moves out of the bishop's line, checks are answered, and the rook returns to take another piece.",
+   "intro": "This illustrates a windmill against selected replies. Black can also answer some checks without moving the king; the entire sequence is not forced.",
    "takeaway": "When a piece blocks a bishop or rook, consider a discovered check. Repeat check, capture, and check when the position allows it; do not assume every reply is forced.",
    "moves": [
     {
@@ -2387,119 +2387,135 @@ const LESSONS = [
   "id": "eg_lucena",
   "cat": "endgame",
   "title": "【上級】ルセナ(橋を架ける)",
-  "fen": "4K3/4P1k1/8/8/8/8/r7/5R2 w - - 0 1",
-  "intro": "ルーク+ポーン対ルークの終盤で、最も重要な勝ち方が『ルセナのポジション』。相手のルークの連続チェックを、自分のルークで受け止める『橋』を架けて、ポーンを昇格させます。",
-  "takeaway": "まず自分のルークを4段目に置いておくのがカギ。キングがチェックされたら、その4段目のルークをキングの前に差し出して『橋』にすれば、チェックが止まって昇格できる。",
+  "fen": "4K3/4P2k/8/8/8/8/r7/5R2 w - - 0 1",
+  "intro": "橋を架けて連続チェックを止める、ルーク＋ポーン対ルークの勝ち方。ここでは黒キングをh7まで遠ざけた配置から始めます。白はポーンを守りながらキングを出し、4段目のルークでチェックを遮ります。",
+  "takeaway": "橋の準備だけでなく、ポーンを守る経路と相手キングの距離を確かめる。表示は連続チェックへの一例で、黒の応手はこれだけではありません。最後は昇格して勝勢ですが、まだメイトではありません。",
   "moves": [
    {
     "san": "Rf4",
-    "note": "橋の準備。ルークをあらかじめ4段目に置くのがルセナの要点。"
+    "note": "ルークを4段目へ。後でキングの前へ移す橋を準備する。"
    },
    {
     "san": "Ra1",
-    "note": "黒は様子を見る。"
+    "note": "黒は後方からのチェックを準備する。"
    },
    {
     "san": "Kd7",
-    "note": "キングがポーンの前から出て、昇格の道を空けにいく。"
+    "note": "キングがd7へ出る。e7のポーンを守り、昇格マスを空ける。"
    },
    {
     "san": "Rd1+",
-    "note": "黒は連続チェックで邪魔をする。"
+    "note": "後方からチェック。"
    },
    {
     "san": "Ke6",
-    "note": "キングは前進しながらチェックをかわす。"
+    "note": "e6でもe7のポーンを守っている。"
    },
    {
     "san": "Re1+",
-    "note": "またチェック。"
+    "note": "黒はe筋からチェック。"
    },
    {
-    "san": "Kd5",
-    "note": "ここで d5 に出るのがミソ。4段目のルーク(f4)をキングが守れる位置になる。"
+    "san": "Kd6",
+    "note": "d6へ。e7のポーンを守り続ける。ここでKd5?ならRxe7で引き分けになる。"
    },
    {
     "san": "Rd1+",
-    "note": "しつこくチェック。"
+    "note": "黒はd筋からチェックする。"
    },
    {
-    "san": "Rd4",
-    "note": "橋を架ける!ルークをキングの前に差し出す。d5のキングが守っているので、これでチェックが止まる。"
+    "san": "Kc5",
+    "note": "c5へ進む。今は黒ルークがd筋にいるので、e7をすぐには取れない。"
    },
    {
-    "san": "Rxd4+",
-    "note": "取っても…"
+    "san": "Rc1+",
+    "note": "黒はc筋からチェック。"
    },
    {
-    "san": "Kxd4",
-    "note": "キングが取り返して、じゃまなルークが消えた。"
+    "san": "Rc4",
+    "note": "c4に橋を架ける。c5のキングがルークを守り、チェックを止める。"
    },
    {
-    "san": "Kf7",
-    "note": "黒のキングが急いで戻るが間に合わない。"
+    "san": "Rxc4+",
+    "note": "この例では黒がルークを交換する。"
+   },
+   {
+    "san": "Kxc4",
+    "note": "取り返す。黒キングはh7なのでポーンに間に合わない。"
+   },
+   {
+    "san": "Kg6",
+    "note": "黒キングが近づいてもg6まで。"
    },
    {
     "san": "e8=Q+",
-    "note": "昇格成功!『橋を架ける』手筋で、ルーク終盤の基本形を勝ち切った。"
+    "note": "昇格成功。g6の黒キングはe8を取れない。残るクイーン対キングは白勝ちの終盤。"
    }
   ],
   "en": {
    "title": "Lucena Position: Building a Bridge",
-   "intro": "The Lucena position is a key winning method in rook-and-pawn versus rook endings. Use your rook as a bridge to shelter the king from checks and promote the pawn.",
-   "takeaway": "Prepare the rook on the fourth rank. When checks arrive, place that rook in front of your king as a protected bridge, then promote.",
+   "intro": "Build a bridge to stop checks in a rook-and-pawn versus rook ending. This position starts with the black king already driven away to h7. Protect the pawn while bringing the king out, then interpose the fourth-rank rook.",
+   "takeaway": "Check the pawn protection and the enemy king distance as well as the bridge. This is one checking line, not every black reply. Promotion reaches a winning ending, not immediate checkmate.",
    "moves": [
     {
      "san": "Rf4",
-     "note": "The rook goes to the fourth rank to prepare the bridge."
+     "note": "Prepare the bridge on the fourth rank."
     },
     {
      "san": "Ra1",
-     "note": "Black waits."
+     "note": "Black prepares checks from behind."
     },
     {
      "san": "Kd7",
-     "note": "The king steps away from the pawn and clears the promotion route."
+     "note": "The king clears e8 while protecting the pawn on e7."
     },
     {
      "san": "Rd1+",
-     "note": "Black starts checking from behind."
+     "note": "Black checks from behind."
     },
     {
      "san": "Ke6",
-     "note": "The king advances while avoiding the check."
+     "note": "The king on e6 still protects e7."
     },
     {
      "san": "Re1+",
-     "note": "Another check."
+     "note": "Black checks on the e-file."
     },
     {
-     "san": "Kd5",
-     "note": "The king reaches d5, where it protects the rook on f4."
+     "san": "Kd6",
+     "note": "Kd6 keeps e7 protected. Kd5? instead allows Rxe7 and a draw."
     },
     {
      "san": "Rd1+",
-     "note": "Black checks again."
+     "note": "Black checks on the d-file."
     },
     {
-     "san": "Rd4",
-     "note": "The rook builds the bridge on d4. The king on d5 protects it, so the check can be stopped."
+     "san": "Kc5",
+     "note": "The king reaches c5. The rook on d1 cannot immediately capture e7."
     },
     {
-     "san": "Rxd4+",
-     "note": "Black captures the bridge."
+     "san": "Rc1+",
+     "note": "Black checks on the c-file."
     },
     {
-     "san": "Kxd4",
-     "note": "The king recaptures and removes the checking rook."
+     "san": "Rc4",
+     "note": "Build the bridge on c4, protected by the king on c5."
     },
     {
-     "san": "Kf7",
-     "note": "Black's king hurries back, but it is too late."
+     "san": "Rxc4+",
+     "note": "This line exchanges the rooks."
+    },
+    {
+     "san": "Kxc4",
+     "note": "White recaptures. The black king on h7 is too far away."
+    },
+    {
+     "san": "Kg6",
+     "note": "The black king can only reach g6."
     },
     {
      "san": "e8=Q+",
-     "note": "The pawn promotes with check. The bridge has converted the Lucena position."
+     "note": "Promote safely: the king on g6 cannot capture e8. Queen versus king is winning."
     }
    ]
   }
@@ -2508,103 +2524,103 @@ const LESSONS = [
   "id": "eg_philidor",
   "cat": "endgame",
   "title": "【上級】フィリドール(引き分けの受け)",
-  "fen": "8/4k3/8/4PK2/8/8/r7/7R b - - 0 1",
-  "intro": "ルーク終盤で負けそうなときの命綱が『フィリドールのポジション』。自分のルークを3段目(相手から見て6段目)に置いて相手のキングの前進を止め、ポーンが出てきたら後ろに回って連続チェックで引き分けに持ち込みます。",
-  "takeaway": "劣勢のルーク終盤は『ルークを3段目に置く→ポーンが進んだら後ろからチェック』。これを知っていれば、負け筋の局面をきっちり引き分けにできる。",
+  "fen": "8/4k3/8/4PK2/8/7R/r7/8 b - - 0 1",
+  "intro": "ポーンが一枚少なくても守れるフィリドールの配置。黒キングを昇格路の前に置き、ルークで6段目を押さえます。白のポーンが6段目へ進んだら、後方からチェックします。白ルークはh3にあり、1段目の黒ルークを横から取れません。",
+  "takeaway": "まずキングの前進を6段目で止め、ポーンが進んだら後ろからチェックする。初期局面から表示する全局面は最善同士で引き分け。最終図もまだ対局中なので、その後も正確な守備が必要です。",
   "moves": [
    {
     "san": "Ra6",
-    "note": "まずルークを6段目に。白のキングの正面からの前進を止め、ポーンを進めさせて後ろからチェックする形へ誘う。"
+    "note": "6段目を押さえ、白キングの前進を止める。"
    },
    {
     "san": "e6",
-    "note": "白はやむなくポーンを進めるが…"
+    "note": "白はこの例でe6を選ぶ。ポーンを進める義務はない。"
    },
    {
     "san": "Ra1",
-    "note": "ポーンが出た瞬間、ルークを一気に後ろへ。ここから連続チェックが始まる。"
+    "note": "6段目がポーンでふさがったので後方へ回る。"
    },
    {
     "san": "Kg6",
-    "note": "白のキングが前に出ようとすると…"
+    "note": "白キングが前進を試す。"
    },
    {
     "san": "Rg1+",
-    "note": "後ろからチェック。"
+    "note": "後方からチェック。h3の白ルークはg1を取れない。"
    },
    {
     "san": "Kf5",
-    "note": "逃げても…"
+    "note": "白はf5へ逃げる。"
    },
    {
     "san": "Rf1+",
-    "note": "またチェック。"
+    "note": "f筋からチェック。"
    },
    {
     "san": "Ke5",
-    "note": "どこへ逃げても…"
+    "note": "白はe5へ。"
    },
    {
     "san": "Re1+",
-    "note": "チェックが続く。"
+    "note": "e筋からチェック。"
    },
    {
     "san": "Kd5",
-    "note": "白のキングに隠れる場所はない。"
+    "note": "白はd5へ逃げる。"
    },
    {
     "san": "Rd1+",
-    "note": "延々とチェックが続き、白は前進できないまま引き分けに。負け局面を守り切る、覚えておくべき受けの技術。"
+    "note": "d筋からチェック。引き分けを維持する局面であり、この時点で自動的に対局終了するわけではない。"
    }
   ],
   "en": {
    "title": "Philidor Position: The Drawing Defense",
-   "intro": "The Philidor position is a vital drawing method in rook endings. The defending rook controls the rank in front of the enemy king, then checks from behind once the pawn advances.",
-   "takeaway": "Keep the rook on the checking rank while the king is in front. When the pawn advances, move behind it and give checks from a distance.",
+   "intro": "The Philidor position draws despite a pawn deficit. Keep the king in front of the pawn and use the rook to bar the sixth rank. Once the pawn advances there, check from behind. The white rook is on h3 and cannot capture a checking rook along the first rank.",
+   "takeaway": "Bar the sixth rank, then check from behind when the pawn advances. Every displayed position is drawn with best play. The final position is still a live game and requires continued accurate defense.",
    "moves": [
     {
      "san": "Ra6",
-     "note": "The rook reaches the sixth rank. It prevents the white king from making a direct advance and invites the pawn to move."
+     "note": "Bar the sixth rank against the white king."
     },
     {
      "san": "e6",
-     "note": "White advances the pawn, but this helps the defensive plan."
+     "note": "White chooses e6 in this example; advancing the pawn is not forced."
     },
     {
      "san": "Ra1",
-     "note": "The rook moves behind the pawn. The checking sequence begins."
+     "note": "The pawn now blocks the sixth rank, so the rook goes behind it."
     },
     {
      "san": "Kg6",
-     "note": "The white king tries to advance."
+     "note": "White tries to advance."
     },
     {
      "san": "Rg1+",
-     "note": "The rook checks from behind."
+     "note": "Check from behind. The rook on h3 cannot capture g1."
     },
     {
      "san": "Kf5",
-     "note": "The king steps away, but the checks continue."
+     "note": "The king retreats to f5."
     },
     {
      "san": "Rf1+",
-     "note": "Another check."
+     "note": "Check on the f-file."
     },
     {
      "san": "Ke5",
-     "note": "The king tries another route."
+     "note": "The king goes to e5."
     },
     {
      "san": "Re1+",
-     "note": "The checking rook shifts again."
+     "note": "Check on the e-file."
     },
     {
      "san": "Kd5",
-     "note": "The king has no shelter that ends the checks."
+     "note": "The king retreats to d5."
     },
     {
      "san": "Rd1+",
-     "note": "The rook keeps checking, so White cannot make progress. The lost position is held to a draw."
+     "note": "Check on the d-file preserves the draw. The game has not automatically ended."
     }
    ]
   }
@@ -2613,47 +2629,39 @@ const LESSONS = [
   "id": "cb_zwischenzug",
   "cat": "combo",
   "title": "ツヴィッシェンツーク(中間手)",
-  "fen": "6k1/5ppp/3b1n2/3N4/4P3/8/5PPP/6K1 b - - 0 1",
-  "intro": "取られたらすぐ取り返す——それが当たり前とは限りません。取り返す前に『もっと強い手』をはさむのがツヴィッシェンツーク(中間手)。相手が対応せざるを得ないチェックなどをはさむと、まるまる得をします。",
-  "takeaway": "取り返す前に一呼吸。『先にチェックや大きな脅威をはさめないか?』を必ず考える。順番を変えるだけで得が増える。",
+  "fen": "r2Q4/6k1/3b4/8/6n1/8/6PP/6K1 b - - 0 1",
+  "intro": "d8の白クイーンを取る前に、黒はBxh2+を挟めます。g4のナイトがh2のビショップを守るのでKxh2は不可能。チェックに対応させてからクイーンを取ると、h2のポーンを余分に取れます。",
+  "takeaway": "中間チェックの前に、犠牲にする駒が取り返されないか確認する。この配置では即Rxd8なら白は2ポーン、Bxh2+を挟むと1ポーン。黒のルーク・ビショップ・ナイトはどちらでも残ります。",
   "moves": [
    {
     "san": "Bxh2+",
-    "note": "すぐNxd5と取り返すのではなく、先にチェックをはさむ!これが中間手。相手はまずチェックに対応しなければならない。"
+    "note": "先にh2をチェックで取る。g4のナイトがh2を守っており、Kxh2は違法。"
    },
    {
-    "san": "Kxh2",
-    "note": "ここでは自然にビショップを取り返す変化を見る。Kh1やKf1など、別のチェック対応も合法。"
+    "san": "Kh1",
+    "note": "白の合法な応手はKh1とKf1。どちらでも黒は次にRxd8でクイーンを取れる。"
    },
    {
-    "san": "Nxd5",
-    "note": "ここで改めてナイトを取り返す。中間手のおかげで、h2のポーンがまるまる余分に得られた。"
-   },
-   {
-    "san": "exd5",
-    "note": "白も取り返して駒数は互角だが、黒はポーン1つ得している。順番を変えただけの差。"
+    "san": "Rxd8",
+    "note": "クイーンを取る。黒はルーク・ビショップ・ナイトを残したまま、即Rxd8よりポーン1枚を余分に得た。"
    }
   ],
   "en": {
    "title": "Zwischenzug (In-Between Move)",
-   "intro": "Capturing back immediately is not always best. A zwischenzug inserts a stronger move first, often a check, before making the expected recapture.",
-   "takeaway": "Pause before recapturing. Ask whether a check or major threat can come first; changing the order can win an extra pawn.",
+   "intro": "Before capturing the queen on d8, Black can insert Bxh2+. The knight on g4 protects h2, so Kxh2 is illegal. Answering the check leaves White no time to save the queen.",
+   "takeaway": "Check that the checking piece cannot be captured. Immediate Rxd8 leaves White two pawns; inserting Bxh2+ leaves White one. Black retains the rook, bishop and knight in either line.",
    "moves": [
     {
      "san": "Bxh2+",
-     "note": "Instead of immediately playing Nxd5, Black inserts a check with Bxh2+. The opponent must answer the check first."
+     "note": "Insert Bxh2+ before taking the queen. The knight on g4 protects h2, making Kxh2 illegal."
     },
     {
-     "san": "Kxh2",
-     "note": "This line naturally recaptures the bishop with Kxh2; Kh1 and Kf1 are also legal responses."
+     "san": "Kh1",
+     "note": "White can only play Kh1 or Kf1. Either allows Rxd8 next."
     },
     {
-     "san": "Nxd5",
-     "note": "Black now recaptures on d5. The in-between check has won the h2 pawn as an extra."
-    },
-    {
-     "san": "exd5",
-     "note": "White recaptures as well. The pieces are balanced, but Black has won one extra pawn by changing the order."
+     "san": "Rxd8",
+     "note": "Capture the queen. Black keeps the rook, bishop and knight, and has taken one more pawn than immediate Rxd8."
     }
    ]
   }
@@ -2663,7 +2671,7 @@ const LESSONS = [
   "cat": "combo",
   "title": "インターフェアレンス(利きの遮断)",
   "fen": "6k1/r3b1pp/2PP4/8/8/8/8/6K1 w - - 0 1",
-  "intro": "守っている駒と守られている駒の『あいだ』に駒を置いて、利きを断ち切る戦術。守り駒はそこにいるのに、線をふさがれて仕事ができなくなります。",
+  "intro": "遮断の型の実演です。c7にはBxd6という別応手もあり、表示するRxc7以降の手順は強制ではありません。",
   "takeaway": "『どの線を通って守っているか』を見る。その線の途中に駒を置ければ、守り駒はいても守れない。",
   "moves": [
    {
@@ -2672,7 +2680,7 @@ const LESSONS = [
    },
    {
     "san": "Rxc7",
-    "note": "ここではルークで遮断したポーンを取る変化を見る。"
+    "note": "この実演ではRxc7を選ぶ。Bxd6など別の応手も読んでから、遮断が有効か判断する。"
    },
    {
     "san": "dxc7",
@@ -2689,7 +2697,7 @@ const LESSONS = [
   ],
   "en": {
    "title": "Interference",
-   "intro": "Interference places a piece between a defender and its target, cutting the line of protection. The defender remains on the board but can no longer do its job.",
+   "intro": "Pattern demonstration: Bxd6 is another reply to c7. The displayed Rxc7 line is not forced.",
    "takeaway": "Trace the exact line by which a piece is defended. If you can occupy a square on that line, the target may become vulnerable.",
    "moves": [
     {
@@ -2698,7 +2706,7 @@ const LESSONS = [
     },
     {
      "san": "Rxc7",
-     "note": "This line follows Rxc7, capturing the interfering pawn."
+     "note": "This demonstration chooses Rxc7. Calculate alternatives such as Bxd6 before judging the interference."
     },
     {
      "san": "dxc7",
@@ -2776,103 +2784,135 @@ const LESSONS = [
   "id": "eg_triangulation",
   "cat": "endgame",
   "title": "【上級】トライアンギュレーション(三角法)",
-  "fen": "8/4k3/8/3KP3/8/8/8/8 w - - 0 1",
-  "intro": "『同じ形で相手に手番を渡せたら勝ち』という局面があります。キングを三角形に動かして1手だけ余分に使えば、同じような形を相手の手番で作れることがあります。これが三角法(トライアンギュレーション)です。",
-  "takeaway": "キングは3手で三角形に動くと元の位置に戻れる。相手のキングが2マスしか往復できないなら、この1手のズレで手番を押しつけられる(ツークツワンク)。",
+  "fen": "8/1p1k4/1P6/2PK4/8/8/8/8 w - - 0 1",
+  "intro": "白キングd5、白ポーンb6・c5、黒キングd7、黒ポーンb7の例です。すぐc6+ではKc8で引き分け。キングをd5→e5→d4→d5と動かし、ポーンを動かさず黒に手番を渡す勝ち方を見ます。",
+  "takeaway": "同じ配置に黒番で戻すと侵入できる。黒が途中で別の応手を選べば白も手順を変える必要があります。三角形を描くだけでは勝てず、この配置ではポーンが黒キングの活動を制限していることが重要です。",
   "moves": [
    {
-    "san": "Kc4",
-    "note": "三角形の一歩目。あえて遠回りする。"
+    "san": "Ke5",
+    "note": "e5へ。すぐc6+と押すとKc8で引き分けになるので、キングで手番を調整する。"
    },
    {
-    "san": "Kd7",
-    "note": "ここでは黒のキングをd7へ戻す変化を選ぶ。黒にはKe6やKf7など別の応手もあり、三角法は相手の応手を読んで使う。"
+    "san": "Kc6",
+    "note": "黒はc6からc5を狙う。この応手の変化を追う。"
    },
    {
     "san": "Kd4",
-    "note": "三角形の二歩目。"
+    "note": "d4へ戻りc5を守る。"
    },
    {
-    "san": "Ke7",
-    "note": "黒のキングも戻る。"
+    "san": "Kd7",
+    "note": "黒はd7へ戻って侵入を防ぐ。"
    },
    {
     "san": "Kd5",
-    "note": "三角形を一周して元の位置へ。主要な駒の配置は最初と同じだが、今度は黒の手番。これがツークツワンクの狙い。"
+    "note": "d5へ戻る。開始時と駒配置は同じで、今度は黒番。"
    },
    {
-    "san": "Kf7",
-    "note": "黒はどこかへ動くしかなく、d6のマスから目を離してしまう。"
+    "san": "Kc8",
+    "note": "黒がc8へ退く変化。"
+   },
+   {
+    "san": "Ke6",
+    "note": "斜めのオポジションを取り、次の侵入を準備する。"
+   },
+   {
+    "san": "Kd8",
+    "note": "黒はd8へ。"
    },
    {
     "san": "Kd6",
-    "note": "待っていた侵入!キングがポーンの前に出て、昇格の道を作った。"
+    "note": "d6へ進み、正面から向かい合う。"
    },
    {
-    "san": "Kf8",
-    "note": "黒はもう止められない。"
+    "san": "Kc8",
+    "note": "黒はc8へ退く。"
    },
    {
-    "san": "e6",
-    "note": "キングに守られてポーンが前進。"
+    "san": "Ke7",
+    "note": "e7に侵入する。"
    },
    {
-    "san": "Ke8",
-    "note": "黒のキングは必死に前へ。"
+    "san": "Kb8",
+    "note": "黒はb8へ。"
    },
    {
-    "san": "e7",
-    "note": "さらに前進。三角法の1手が勝敗を分けた。"
+    "san": "Kd7",
+    "note": "d7へ進み、c6の前進を支える。"
+   },
+   {
+    "san": "Ka8",
+    "note": "黒はa8へ。"
+   },
+   {
+    "san": "c6",
+    "note": "キングに守られてc6へ。bxc6ならKc7でbポーンの昇格を支える。白勝ちの局面だが、まだメイトではない。"
    }
   ],
   "en": {
    "title": "Triangulation",
-   "intro": "Sometimes the winning idea is to give the opponent the move in the same position. A king can spend one extra tempo by walking a triangle and return with the move transferred.",
-   "takeaway": "A three-move triangle returns the king to its starting square. That spare tempo can create zugzwang when the opposing king has no useful waiting move.",
+   "intro": "White has Kd5 and pawns b6/c5; Black has Kd7 and a pawn b7. The immediate c6+ allows Kc8 and a draw. Instead, use d5-e5-d4-d5 to transfer the move without moving a pawn.",
+   "takeaway": "The same placement with Black to move permits invasion. White must adapt if Black chooses another reply. Drawing a triangle is not enough by itself: the pawns restrict the defending king in this position.",
    "moves": [
     {
-     "san": "Kc4",
-     "note": "The first step of the triangle deliberately takes the long way around."
+     "san": "Ke5",
+     "note": "Ke5 starts the triangle. Immediate c6+ allows Kc8 and a draw."
     },
     {
-     "san": "Kd7",
-     "note": "This line returns Black's king to d7; Black also has alternatives such as ...Ke6 and ...Kf7, so calculate the opponent's best defense."
+     "san": "Kc6",
+     "note": "This line follows Kc6, attacking c5."
     },
     {
      "san": "Kd4",
-     "note": "The second triangle step."
+     "note": "Kd4 protects c5."
     },
     {
-     "san": "Ke7",
-     "note": "Black's king returns."
+     "san": "Kd7",
+     "note": "Black returns to d7 to resist invasion."
     },
     {
      "san": "Kd5",
-     "note": "The white king completes the triangle. The main piece placement is restored, but it is now Black to move: the zugzwang idea."
+     "note": "The original placement returns, now with Black to move."
     },
     {
-     "san": "Kf7",
-     "note": "Black must move and leaves d6 uncovered."
+     "san": "Kc8",
+     "note": "This line retreats to c8."
+    },
+    {
+     "san": "Ke6",
+     "note": "Take diagonal opposition and prepare to enter."
+    },
+    {
+     "san": "Kd8",
+     "note": "Black goes to d8."
     },
     {
      "san": "Kd6",
-     "note": "The white king enters through the opening and clears the promotion route."
+     "note": "Take direct opposition on d6."
     },
     {
-     "san": "Kf8",
-     "note": "Black cannot catch the pawn."
+     "san": "Kc8",
+     "note": "Black retreats to c8."
     },
     {
-     "san": "e6",
-     "note": "The pawn advances under the king's protection."
+     "san": "Ke7",
+     "note": "The king enters on e7."
     },
     {
-     "san": "Ke8",
-     "note": "Black's king rushes forward."
+     "san": "Kb8",
+     "note": "Black goes to b8."
     },
     {
-     "san": "e7",
-     "note": "The pawn advances again; the extra tempo decides the ending."
+     "san": "Kd7",
+     "note": "Kd7 supports the c-pawn advance."
+    },
+    {
+     "san": "Ka8",
+     "note": "Black goes to a8."
+    },
+    {
+     "san": "c6",
+     "note": "Advance with king support. After bxc6, Kc7 supports promotion of the b-pawn. White is winning, but has not yet checkmated."
     }
    ]
   }

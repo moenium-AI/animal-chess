@@ -22,7 +22,7 @@
 html, body {
   background: linear-gradient(160deg, #fdf8ef 0%, #f3ecdd 60%, #e8f2dc 100%);
   color: var(--ink);
-  font-family: "Segoe UI", "Hiragino Maru Gothic ProN", "Yu Gothic UI", Meiryo, sans-serif;
+  font-family: "Segoe UI", "Hiragino Maru Gothic ProN", Meiryo, sans-serif;
   min-height: 100vh;
 }
 
@@ -73,6 +73,7 @@ html, body {
   user-select: none;
 }
 .square {
+  border: 0; border-radius: 0; padding: 0; font: inherit; color: inherit;
   position: relative;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
@@ -80,6 +81,7 @@ html, body {
 }
 .square.light { background: var(--light-sq); }
 .square.dark  { background: var(--dark-sq); }
+.square:focus-visible { outline: 3px solid #28625a; outline-offset: -3px; }
 .square.selected { background: var(--select) !important; }
 .square.lastmove::before {
   content: ""; position: absolute; inset: 0; background: var(--lastmove);
@@ -99,7 +101,7 @@ html, body {
   border: 4px dashed rgba(220, 90, 60, 0.65);
 }
 .square .coord {
-  position: absolute; font-size: 0.55rem; color: rgba(90, 70, 50, 0.55);
+  position: absolute; font-size: 0.7rem; color: #493827; z-index: 21;
   pointer-events: none; font-weight: bold;
 }
 .square .coord.file { right: 3px; bottom: 2px; }
@@ -335,8 +337,8 @@ html, body {
 /* ===== Piece-type badges / コマ種類バッジ ===== */
 .type-badge {
   position: absolute; top: 1px; right: 1px;
-  width: 16px; height: 16px; line-height: 16px;
-  font-size: 12px; text-align: center;
+  width: 18px; height: 18px; line-height: 18px;
+  font-size: 14px; text-align: center;
   border-radius: 50%;
   pointer-events: none; z-index: 20;
 }
@@ -505,4 +507,8 @@ html, body {
   .side-col { width: var(--board-size); }
   /* On narrow stacked layouts, keep the board near the top and let only annotations scroll below. / スマホ等の縦積みでは盤を画面上部に固定し、解説だけ下でスクロールできるようにする */
   .board-col { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-bottom: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

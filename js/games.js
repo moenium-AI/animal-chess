@@ -1082,8 +1082,8 @@ const FAMOUS_GAMES = [
   "event": "ウィーン",
   "result": "1-0",
   "opening": "カロ・カン風の展開",
-  "intro": "わずか11手。中央での小競り合いから、白は突然クイーンを捨てて相手のキングを引きずり出し、二枚のビショップだけで詰ませます。短手数コンビネーションの傑作。",
-  "takeaway": "相手のキングが中央に取り残されているときは、犠牲で釣り出して軽い駒の連携で仕留められることがある。",
+  "intro": "わずか11手。中央での小競り合いから、白は突然クイーンを捨てて相手のキングを引きずり出し、d8のビショップとd1のルークの連携で詰ませます。短手数コンビネーションの傑作。",
+  "takeaway": "相手のキングが中央に取り残されているときは、犠牲で釣り出してビショップとルークの連携で仕留められることがある。",
   "moves": [
    {
     "san": "e4",
@@ -1167,7 +1167,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bd8#",
-    "note": "ビショップがd8に戻ってチェックメイト。クイーンを捨てて二枚のビショップだけで詰ませた鮮烈な幕切れ。"
+    "note": "ビショップがd8に戻ってチェックメイト。クイーンを捨ててd8のビショップとd1のルークの連携で詰ませた鮮烈な幕切れ。"
    }
   ],
   "en": {
@@ -1175,8 +1175,8 @@ const FAMOUS_GAMES = [
    "white": "Richard Réti",
    "black": "Savielly Tartakower",
    "opening": "Caro-Kann-style setup",
-   "intro": "In only eleven moves, White turns a central skirmish into a queen sacrifice that drags the black king into the open and finishes with two bishops. It is a compact lesson in forcing combinations.",
-   "takeaway": "When the enemy king is stranded in the center, a sacrifice can draw it onto a vulnerable square where the minor pieces can coordinate a mate.",
+   "intro": "In only eleven moves, White turns a central skirmish into a queen sacrifice that drags the black king into the open and finishes with the bishop on d8 and rook on d1. It is a compact lesson in forcing combinations.",
+   "takeaway": "When the enemy king is stranded in the center, a sacrifice can draw it onto a vulnerable square where a bishop and rook can coordinate a mate.",
    "moves": [
     {
      "san": "e4",
@@ -1260,7 +1260,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bd8#",
-     "note": "The bishop returns to d8 and mates. White has given up the queen to finish with two bishops."
+     "note": "The bishop returns to d8 and mates. White has given up the queen to finish with the bishop on d8 and rook on d1."
     }
    ]
   }
@@ -1579,7 +1579,7 @@ const FAMOUS_GAMES = [
   "result": "1-0",
   "opening": "イタリアン風",
   "intro": "『ルガールのメイト』として教材で必ず登場する古典。クイーンを取らせてでもナイトとビショップで詰ませる、ピンを逆用した罠の原型です。",
-  "takeaway": "ピンは万能ではない。詰みが見えているなら、ピンされた駒を動かしてでも軽い駒の連携で仕留められる。",
+  "takeaway": "ピンは万能ではない。詰みが見えているなら、ピンされた駒を動かしてでもナイトとビショップの連携で仕留められる。",
   "moves": [
    {
     "san": "e4",
@@ -1722,8 +1722,8 @@ const FAMOUS_GAMES = [
   "event": "ブダペスト(公開対局)",
   "result": "1-0",
   "opening": "スカンジナビア・ディフェンス",
-  "intro": "『ペルーのインモータル』と呼ばれる公開対局。白は両ルークを捨て、クイーンまで捨てて、最後はビショップ一枚で詰ませます。早いキャスリングが必ずしも安全でないことも教えてくれます。",
-  "takeaway": "相手のキングサイドのキャスリングが逆に的になることもある。斜めのラインが開くと、犠牲の連鎖で一気に詰むことがある。",
+  "intro": "『ペルーのインモータル』と呼ばれる公開対局。白は両ルークを捨て、クイーンまで捨てて、最後はa6とf4の二枚のビショップの連携で詰ませます。早いキャスリングが必ずしも安全でないことも教えてくれます。",
+  "takeaway": "この対局では相手がクイーンサイドへキャスリングしたキングを攻める。斜めのラインが開くと、犠牲の連鎖で一気に詰むことがある。",
   "moves": [
    {
     "san": "e4",
@@ -1831,7 +1831,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ba6#",
-    "note": "ビショップがa6に入りチェックメイト。両ルークとクイーンを捨て、ビショップ一枚で締めくくる圧巻の幕切れ。"
+    "note": "ビショップがa6に入りチェックメイト。両ルークとクイーンを捨て、a6とf4のビショップの連携で締めくくる圧巻の幕切れ。"
    }
   ],
   "en": {
@@ -1839,7 +1839,7 @@ const FAMOUS_GAMES = [
    "white": "Esteban Canal",
    "black": "Anonymous (NN)",
    "opening": "Scandinavian Defense",
-   "intro": "Known as the Peruvian Immortal, this attacking game ends with White sacrificing both rooks and the queen before mating with a single bishop. It also shows why an early castle is not automatically safe when the attacking lines point toward it.",
+   "intro": "Known as the Peruvian Immortal, this attacking game ends with White sacrificing both rooks and the queen before mating with the bishops on a6 and f4 working together. It also shows why an early castle is not automatically safe when the attacking lines point toward it.",
    "takeaway": "A castled king can still become a target. When a diagonal opens, a chain of sacrifices may suddenly make a mating attack possible.",
    "moves": [
     {
@@ -1948,7 +1948,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ba6#",
-     "note": "The bishop mates on a6. White has given up both rooks and the queen to finish with one bishop."
+     "note": "The bishop mates on a6. White has given up both rooks and the queen to finish with the bishops on a6 and f4 working together."
     }
    ]
   }

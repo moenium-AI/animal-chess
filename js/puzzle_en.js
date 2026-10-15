@@ -28,7 +28,7 @@ const PUZZLE_EN = [
   ['Rook Support', 'The seventh-rank rook protects g7. Confirm the support before sending the queen next to the king.'],
   ['Knight and Queen', 'The knight watches h7 and g8, supporting the queen. Use the supported check to finish the cornered king.'],
   ['The King Helps', 'A king-and-rook finish. Bring your king close first and drive the enemy king onto an edge square.'],
-  ['Bring Up the King', 'A rook cannot mate alone. Bring your king close, remove the escapes, and then seal the last rank with the rook.'],
+  ['A Waiting Rook Move', 'Your king already controls the escapes. Make a waiting rook move, let the enemy king move, then mate along the back rank.'],
   ['Climb the Ladder', 'Use two rooks to drive the king up one rank at a time: seal a rank, then alternate checks.'],
   ['Twin-Tower Plan', 'Even from far apart, two rooks can build a ladder and drive the king to the edge.'],
   ['Build a Ladder', 'The two-rook ladder: seal one rank with one rook, then bring the other to the last rank.'],
