@@ -1,0 +1,354 @@
+{
+  "issues": [],
+  "limits": [
+    "Legal lines do not establish optimal defence, teaching accuracy, or historical authenticity.",
+    "FEN validity is python-chess structural validity, not a proof of reachability from the start."
+  ],
+  "LESSONS": {
+    "items": 44,
+    "plies": 266,
+    "final_positions": {
+      "ongoing": 31,
+      "insufficient": 2,
+      "mate": 10,
+      "stalemate": 1
+    }
+  },
+  "FAMOUS_GAMES": {
+    "items": 15,
+    "plies": 695,
+    "final_positions": {
+      "mate": 8,
+      "ongoing": 7
+    }
+  },
+  "PUZZLES": {
+    "items": 38,
+    "results": [
+      {
+        "index": 0,
+        "title": "うらぐちからこんにちは",
+        "mateIn": 1,
+        "solutions": [
+          "Re8#"
+        ]
+      },
+      {
+        "index": 1,
+        "title": "ろうかのつきあたり",
+        "mateIn": 1,
+        "solutions": [
+          "Rb8#"
+        ]
+      },
+      {
+        "index": 2,
+        "title": "とじたドア",
+        "mateIn": 1,
+        "solutions": [
+          "Qd8#"
+        ]
+      },
+      {
+        "index": 3,
+        "title": "よこどりメイト",
+        "mateIn": 1,
+        "solutions": [
+          "Rxd8#"
+        ]
+      },
+      {
+        "index": 4,
+        "title": "はんたいがわの扉",
+        "mateIn": 1,
+        "solutions": [
+          "Ra8#"
+        ]
+      },
+      {
+        "index": 5,
+        "title": "すみのいちげき",
+        "mateIn": 1,
+        "solutions": [
+          "Qb8#"
+        ]
+      },
+      {
+        "index": 6,
+        "title": "ななめのすきま",
+        "mateIn": 1,
+        "solutions": [
+          "Qg7#"
+        ]
+      },
+      {
+        "index": 7,
+        "title": "ななめラインのひみつ",
+        "mateIn": 1,
+        "solutions": [
+          "Qc4#",
+          "Qd8#"
+        ]
+      },
+      {
+        "index": 8,
+        "title": "りょうそでのキング",
+        "mateIn": 1,
+        "solutions": [
+          "Qd6#"
+        ]
+      },
+      {
+        "index": 9,
+        "title": "すみっこでつかまえた",
+        "mateIn": 1,
+        "solutions": [
+          "Ra8#"
+        ]
+      },
+      {
+        "index": 10,
+        "title": "はしっこのキング",
+        "mateIn": 1,
+        "solutions": [
+          "Rh8#"
+        ]
+      },
+      {
+        "index": 11,
+        "title": "クイーンのごあいさつ",
+        "mateIn": 1,
+        "solutions": [
+          "Qg7#"
+        ]
+      },
+      {
+        "index": 12,
+        "title": "おしろのうえのクイーン",
+        "mateIn": 1,
+        "solutions": [
+          "Qg8#"
+        ]
+      },
+      {
+        "index": 13,
+        "title": "とおくからのおうて",
+        "mateIn": 1,
+        "solutions": [
+          "Qd8#"
+        ]
+      },
+      {
+        "index": 14,
+        "title": "もぐりこみメイト",
+        "mateIn": 1,
+        "solutions": [
+          "Nf7#"
+        ]
+      },
+      {
+        "index": 15,
+        "title": "アラビアのわな",
+        "mateIn": 1,
+        "solutions": [
+          "Rh7#"
+        ]
+      },
+      {
+        "index": 16,
+        "title": "ローラーさくせん",
+        "mateIn": 1,
+        "solutions": [
+          "Rb8#"
+        ]
+      },
+      {
+        "index": 17,
+        "title": "2だんロケット",
+        "mateIn": 1,
+        "solutions": [
+          "Rb8#"
+        ]
+      },
+      {
+        "index": 18,
+        "title": "かいだんのてっぺん",
+        "mateIn": 1,
+        "solutions": [
+          "Ra8#"
+        ]
+      },
+      {
+        "index": 19,
+        "title": "がくしゃのメイト",
+        "mateIn": 1,
+        "solutions": [
+          "Qxf7#"
+        ]
+      },
+      {
+        "index": 20,
+        "title": "さいそくのメイト",
+        "mateIn": 1,
+        "solutions": [
+          "Qh4#"
+        ]
+      },
+      {
+        "index": 21,
+        "title": "コーナーのおうさま",
+        "mateIn": 1,
+        "solutions": [
+          "Qa8#",
+          "Qb8#",
+          "Qg7#",
+          "Qh7#"
+        ]
+      },
+      {
+        "index": 22,
+        "title": "いきどまりのナイト",
+        "mateIn": 1,
+        "solutions": [
+          "Nf7#"
+        ]
+      },
+      {
+        "index": 23,
+        "title": "かこまれナイト",
+        "mateIn": 1,
+        "solutions": [
+          "Nxf7#"
+        ]
+      },
+      {
+        "index": 24,
+        "title": "そらのてっぺんから",
+        "mateIn": 1,
+        "solutions": [
+          "Qg7#"
+        ]
+      },
+      {
+        "index": 25,
+        "title": "ルークの支え",
+        "mateIn": 1,
+        "solutions": [
+          "Qb8#",
+          "Qe8#",
+          "Qg7#"
+        ]
+      },
+      {
+        "index": 26,
+        "title": "ナイトとクイーン",
+        "mateIn": 1,
+        "solutions": [
+          "Qg8#"
+        ]
+      },
+      {
+        "index": 27,
+        "title": "おうさまのおてつだい",
+        "mateIn": 2,
+        "solutions": [
+          "Kf7",
+          "Kg6"
+        ]
+      },
+      {
+        "index": 28,
+        "title": "たまをちかづけて",
+        "mateIn": 2,
+        "solutions": [
+          "Rh1"
+        ]
+      },
+      {
+        "index": 29,
+        "title": "はしごをのぼって",
+        "mateIn": 2,
+        "solutions": [
+          "Ra7",
+          "Rb7"
+        ]
+      },
+      {
+        "index": 30,
+        "title": "ツインタワーさくせん",
+        "mateIn": 2,
+        "solutions": [
+          "Ra7",
+          "Rb7",
+          "Rg1"
+        ]
+      },
+      {
+        "index": 31,
+        "title": "かいだんをつくる",
+        "mateIn": 2,
+        "solutions": [
+          "Ra7",
+          "Rb7"
+        ]
+      },
+      {
+        "index": 32,
+        "title": "はしへおいこめ",
+        "mateIn": 2,
+        "solutions": [
+          "Kf7+",
+          "Kg6+",
+          "Qa7",
+          "Qg1"
+        ]
+      },
+      {
+        "index": 33,
+        "title": "クイーンのプレゼント",
+        "mateIn": 2,
+        "solutions": [
+          "Qe8+"
+        ]
+      },
+      {
+        "index": 34,
+        "title": "ルークでしとめる",
+        "mateIn": 3,
+        "solutions": [
+          "Kf6"
+        ]
+      },
+      {
+        "index": 35,
+        "title": "とおいかいだん",
+        "mateIn": 3,
+        "solutions": [
+          "Ra7",
+          "Rb7"
+        ]
+      },
+      {
+        "index": 36,
+        "title": "クイーンのつめ",
+        "mateIn": 3,
+        "solutions": [
+          "Kf6",
+          "Qa7",
+          "Qd4",
+          "Qg1+"
+        ]
+      },
+      {
+        "index": 37,
+        "title": "すみへのみちすじ",
+        "mateIn": 3,
+        "solutions": [
+          "Kf6",
+          "Qb7",
+          "Qg1"
+        ]
+      }
+    ]
+  }
+}

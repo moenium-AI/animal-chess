@@ -1,0 +1,52 @@
+[
+  {
+    "id": "eg_opposition",
+    "ply": 0,
+    "fen": "4k3/8/4K3/4P3/8/8/8/8 w - - 0 1"
+  },
+  {
+    "id": "eg_opposition",
+    "ply": 1,
+    "fen": "4k3/8/3K4/4P3/8/8/8/8 b - - 1 1"
+  },
+  {
+    "id": "eg_underpromo",
+    "ply": 0,
+    "fen": "8/4P1k1/3q4/8/8/8/8/6K1 w - - 0 1"
+  },
+  {
+    "id": "eg_underpromo",
+    "ply": 1,
+    "fen": "4N3/6k1/3q4/8/8/8/8/6K1 b - - 0 1"
+  },
+  {
+    "id": "eg_lucena",
+    "ply": 0,
+    "fen": "4K3/4P1k1/8/8/8/8/r7/5R2 w - - 0 1"
+  },
+  {
+    "id": "eg_lucena",
+    "ply": 1,
+    "fen": "4K3/4P1k1/8/8/5R2/8/r7/8 b - - 1 1"
+  },
+  {
+    "id": "eg_philidor",
+    "ply": 0,
+    "fen": "8/4k3/8/4PK2/8/8/r7/7R b - - 0 1"
+  },
+  {
+    "id": "eg_philidor",
+    "ply": 1,
+    "fen": "8/4k3/r7/4PK2/8/8/8/7R w - - 1 2"
+  },
+  {
+    "id": "eg_triangulation",
+    "ply": 0,
+    "fen": "8/4k3/8/3KP3/8/8/8/8 w - - 0 1"
+  },
+  {
+    "id": "eg_triangulation",
+    "ply": 1,
+    "fen": "8/4k3/8/4P3/2K5/8/8/8 b - - 1 1"
+  }
+]

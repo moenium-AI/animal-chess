@@ -1,0 +1,255 @@
+[
+  {
+    "id": "eg_lucena",
+    "afterPly": 13,
+    "before": "4Q3/5k2/8/8/3K4/8/8/8 b - - 0 7",
+    "alternative": "Kxe8",
+    "after": "4k3/8/8/8/3K4/8/8/8 w - - 0 8",
+    "material": {
+      "white": {
+        "pawn": 0,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 0,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      }
+    },
+    "insufficient": true,
+    "mate": false
+  },
+  {
+    "id": "eg_philidor",
+    "afterPly": 5,
+    "before": "8/4k3/4P1K1/8/8/8/8/6rR w - - 3 4",
+    "alternative": "Rxg1",
+    "after": "8/4k3/4P1K1/8/8/8/8/6R1 b - - 0 4",
+    "material": {
+      "white": {
+        "pawn": 1,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 1,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 0,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      }
+    },
+    "insufficient": false,
+    "mate": false
+  },
+  {
+    "id": "eg_triangulation",
+    "afterPly": 5,
+    "before": "8/4k3/8/3KP3/8/8/8/8 b - - 5 3",
+    "alternative": "Kd7",
+    "after": "8/3k4/8/3KP3/8/8/8/8 w - - 6 4",
+    "material": {
+      "white": {
+        "pawn": 1,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 0,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      }
+    },
+    "insufficient": false,
+    "mate": false
+  },
+  {
+    "id": "cb_discovered",
+    "afterPly": 1,
+    "before": "3qk2r/ppp2ppp/2N5/8/8/8/PPP2PPP/4R1K1 b - - 1 1",
+    "alternative": "Qe7",
+    "after": "4k2r/ppp1qppp/2N5/8/8/8/PPP2PPP/4R1K1 w - - 2 2",
+    "material": {
+      "white": {
+        "pawn": 6,
+        "knight": 1,
+        "bishop": 0,
+        "rook": 1,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 6,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 1,
+        "queen": 1
+      }
+    },
+    "insufficient": false,
+    "mate": false
+  },
+  {
+    "id": "cb_smother",
+    "afterPly": 1,
+    "before": "5r1k/pp3Npp/8/8/8/1Q6/PP4PP/6K1 b - - 1 1",
+    "alternative": "Rxf7",
+    "after": "7k/pp3rpp/8/8/8/1Q6/PP4PP/6K1 w - - 0 2",
+    "material": {
+      "white": {
+        "pawn": 4,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 1
+      },
+      "black": {
+        "pawn": 4,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 1,
+        "queen": 0
+      }
+    },
+    "insufficient": false,
+    "mate": false
+  },
+  {
+    "id": "cb_decoy",
+    "afterPly": 3,
+    "before": "3q1r1k/5Npp/8/8/8/1B6/8/6K1 b - - 3 2",
+    "alternative": "Rxf7",
+    "after": "3q3k/5rpp/8/8/8/1B6/8/6K1 w - - 0 3",
+    "material": {
+      "white": {
+        "pawn": 0,
+        "knight": 0,
+        "bishop": 1,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 2,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 1,
+        "queen": 1
+      }
+    },
+    "insufficient": false,
+    "mate": false
+  },
+  {
+    "id": "cb_interference",
+    "afterPly": 1,
+    "before": "6k1/r1P1b1pp/3P4/8/8/8/8/6K1 b - - 0 1",
+    "alternative": "Bxd6",
+    "after": "6k1/r1P3pp/3b4/8/8/8/8/6K1 w - - 0 2",
+    "material": {
+      "white": {
+        "pawn": 1,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 2,
+        "knight": 0,
+        "bishop": 1,
+        "rook": 1,
+        "queen": 0
+      }
+    },
+    "insufficient": false,
+    "mate": false
+  },
+  {
+    "id": "cb_zwischenzug",
+    "line": [
+      "Nxd5",
+      "exd5"
+    ],
+    "after": "6k1/5ppp/3b4/3P4/8/8/5PPP/6K1 b - - 0 2",
+    "material": {
+      "white": {
+        "pawn": 4,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 3,
+        "knight": 0,
+        "bishop": 1,
+        "rook": 0,
+        "queen": 0
+      }
+    },
+    "insufficient": false
+  },
+  {
+    "id": "cb_zwischenzug",
+    "line": [
+      "Bxh2+",
+      "Kxh2",
+      "Nxd5",
+      "exd5"
+    ],
+    "after": "6k1/5ppp/8/3P4/8/8/5PPK/8 b - - 0 3",
+    "material": {
+      "white": {
+        "pawn": 3,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 3,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      }
+    },
+    "insufficient": false
+  },
+  {
+    "id": "eg_underpromo",
+    "line": [
+      "e8=N+",
+      "Kf7",
+      "Nxd6+"
+    ],
+    "after": "8/5k2/3N4/8/8/8/8/6K1 b - - 0 2",
+    "material": {
+      "white": {
+        "pawn": 0,
+        "knight": 1,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      },
+      "black": {
+        "pawn": 0,
+        "knight": 0,
+        "bishop": 0,
+        "rook": 0,
+        "queen": 0
+      }
+    },
+    "insufficient": true
+  }
+]
