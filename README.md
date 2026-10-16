@@ -10,9 +10,10 @@ Open the link and start playing. It works on both phones and desktop computers.
 
 ## ✨ Features
 
-- **Miniature mode** — Detailed animal figurines on square cells. Crowns, ears, and bases stay inside each cell, including when selected. Red/ivory and navy/walnut distinguish the teams.
+- **Miniature mode** — Detailed animal figurines on a maple/walnut board, with timber dining rooms, miniature furniture, food, and a wooden carriage. Crowns, ears, and bases stay inside each square, including when selected. Red/ivory and navy/walnut distinguish the teams.
   - 🐤 Pawn = chick / 🐴 Knight = horse / 🦉 Bishop = owl / 🐻 Rook = bear / 🐱 Queen = cat / 🦁 King = lion
-  - Captured pieces ride a pixel-art carriage to the opposing team's **banquet hall**, where they eat 🍖, drink 🍺, and relax 💤 in real time.
+  - Captured pieces ride a carriage to the opposing team's **banquet hall**, where they eat 🍖, drink 🍺, and relax 💤 in real time.
+- **3D mode (pixel art)** — The original animal characters, furniture, food, and carriage remain available alongside Miniature mode. Change graphics during a game without losing the position or move history.
 - **Simple mode** — Switch to emoji-based pieces, including the classic set and four animal sets.
 - **Piece badges** — Show ♟♞♝♜♛♚ in the corner of each piece so its type is always clear. Toggle them on or off.
 - **🎵 BGM** — Ten gentle original songs. Play them in order with Auto mode or loop one favorite song. Toggle BGM on or off.
@@ -43,9 +44,10 @@ The game makes no external network requests. Settings and puzzle progress are st
 
 ## ✨ 機能
 
-- **ミニチュアモード** — 精細な動物の駒を正方形のマスに表示。選択中も王冠・耳・台座がマス内に収まります。赤とアイボリー、紺と濃い木色でチームを区別できます。
+- **ミニチュアモード** — 精細な動物の駒と、メープル・ウォールナット調の盤。木造の食堂、家具、ごちそう、木製の馬車で雰囲気を揃えています。選択中も王冠・耳・台座がマス内に収まります。赤とアイボリー、紺と濃い木色でチームを区別できます。
   - 🐤 ポーン＝ひよこ / 🐴 ナイト＝うま / 🦉 ビショップ＝ふくろう / 🐻 ルーク＝くま / 🐱 クイーン＝ねこ / 🦁 キング＝ライオン
-  - 取られたコマはドット絵の馬車で相手チームの**宴会会場**へ移動し、食べたり🍖、飲んだり🍺、寝転んだり💤しながらリアルタイムで過ごします。
+  - 取られたコマは馬車で相手チームの**宴会会場**へ移動し、食べたり🍖、飲んだり🍺、寝転んだり💤しながらリアルタイムで過ごします。
+- **3Dモード（ドット絵）** — 以前の動物の駒・家具・ごちそう・馬車も選べます。対局中にグラフィックを変えても、局面と棋譜は保持されます。
 - **シンプルモード** — 絵文字ベースのコマに切り替えます。クラシックセットと動物セット4種類を収録しています。
 - **コマ種類バッジ** — コマの隅に♟♞♝♜♛♚を表示し、種類をいつでも確認できます。表示・非表示を切り替えられます。
 - **🎵 BGM** — やさしいオリジナル曲を全10曲収録。「オート」で順番に流すか、好きな1曲をループできます。ON/OFF切り替えにも対応しています。

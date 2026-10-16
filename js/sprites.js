@@ -79,8 +79,8 @@ const Sprites = (() => {
   }
 
   // Cached character canvas (open/closed eyes). / キャラクターのキャッシュ済みcanvas（目を開く・閉じる）。
-  function charCanvas(type, team, blink = false) {
-    if (detailed) return detailed[`${type}|${team}`];
+  function charCanvas(type, team, blink = false, style = 'miniature') {
+    if (style === 'miniature' && detailed) return detailed[`${type}|${team}`];
     const key = `${type}|${team}|${blink ? 'c' : 'o'}`;
     if (cache[key]) return cache[key];
     const def = SPRITE_DATA.chars[type];
@@ -92,7 +92,8 @@ const Sprites = (() => {
     return c;
   }
 
-  function itemCanvas(name) {
+  function itemCanvas(name, style = '3d') {
+    if (style === 'miniature') return MiniatureScene.itemCanvas(name);
     const key = `item|${name}`;
     if (cache[key]) return cache[key];
     const def = SPRITE_DATA.items[name];
@@ -104,43 +105,48 @@ const Sprites = (() => {
   }
 
   // Create a piece canvas for the board or banquet; blinking can replace it. / 盤面・宴会用のピースcanvasを生成し、まばたきで差し替え可能にする。
-  function makePiece(type, team) {
+  function makePiece(type, team, style = 'miniature') {
     const c = makeCanvas(CW, CH);
     c.dataset.type = type;
     c.dataset.team = team;
+    c.dataset.style = style;
     redrawPiece(c, false);
     return c;
   }
   function redrawPiece(c, blink) {
-    const source = charCanvas(c.dataset.type, c.dataset.team, blink);
+    const source = charCanvas(c.dataset.type, c.dataset.team, blink, c.dataset.style);
     if (c.width !== source.width || c.height !== source.height) {
       c.width = source.width; c.height = source.height;
     }
-    c.dataset.render = detailed ? 'miniature' : 'pixel';
+    c.dataset.render = c.dataset.style === 'miniature' && detailed ? 'miniature' : 'pixel';
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.drawImage(source, 0, 0);
   }
 
   // Carriage with passenger: frame 0/1. / 乗客付きの馬車: frame 0/1。
-  function drawCarriage(c, frame, riderType, riderTeam, faceLeft) {
+  function drawCarriage(c, frame, riderType, riderTeam, faceLeft, style = 'miniature') {
+    if (style === 'miniature') {
+      MiniatureScene.drawCarriage(c, frame, riderType ? charCanvas(riderType, riderTeam, false, style) : null, faceLeft);
+      c.dataset.render = 'miniature';
+      return;
+    }
     const art = SPRITE_DATA.carriage.frames[frame % SPRITE_DATA.carriage.frames.length];
     const W = art[0].length, H = art.length;
     const PAD_TOP = 12;
-    const scale = 4;
-    if (c.width !== W * scale) { c.width = W * scale; c.height = (H + PAD_TOP) * scale; }
+    if (c.width !== W || c.height !== H + PAD_TOP) { c.width = W; c.height = H + PAD_TOP; }
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.save();
-    ctx.scale(scale, scale);
     if (faceLeft) { ctx.translate(W, 0); ctx.scale(-1, 1); }
     // Passenger on the cart; the lower body is hidden by the cart. / 荷台の上の乗客。下半身は荷台で隠れる。
     if (riderType) {
-      const source = charCanvas(riderType, riderTeam, false);
-      ctx.drawImage(source, 2, 0, detailed ? 20 : 15, 20);
+      const source = charCanvas(riderType, riderTeam, false, style);
+      ctx.drawImage(source, 2, 0, 15, 20);
     }
     drawArt(ctx, art, SPRITE_DATA.carriage.pal, { oy: PAD_TOP });
     ctx.restore();
+    c.dataset.render = 'pixel';
   }
 
   const charName = (type) => SPRITE_DATA.chars[type].name;

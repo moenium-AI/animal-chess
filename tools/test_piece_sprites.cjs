@@ -28,12 +28,18 @@ async function check(failure) {
     canvas.getContext = () => ctx;
     return canvas;
   }};
-  const context = vm.createContext({ document, Image:TestImage, console:{warn(){}} });
+  let miniatureRides = 0;
+  const scene = { drawCarriage(canvas, frame, passenger) {
+    assert.ok(passenger.width > 0);
+    miniatureRides++;
+  }};
+  const context = vm.createContext({ document, Image:TestImage, MiniatureScene:scene, console:{warn(){}} });
   for (const file of ['sprite_data', 'piece_atlas', 'sprites']) {
     vm.runInContext(fs.readFileSync(path.join(__dirname, '../js', file + '.js'), 'utf8'), context);
   }
   const sprites = vm.runInContext('Sprites', context);
   const existing = sprites.makePiece('k', 'w');
+  const legacy = sprites.makePiece('k', 'w', '3d');
   assert.equal(existing.dataset.render, 'pixel');
   const first = sprites.loadDetailed(), second = sprites.loadDetailed();
   assert.equal(first, second);
@@ -45,15 +51,27 @@ async function check(failure) {
     assert.equal(piece.width, failure ? 26 : 256);
     sprites.redrawPiece(piece, true);
     assert.equal(piece.dataset.render, failure ? 'pixel' : 'miniature');
+    const pixel = sprites.makePiece(type, team, '3d');
+    assert.equal(pixel.dataset.render, 'pixel', '3D mode must retain original art after atlas decode');
+    assert.equal(pixel.width, 26);
+    sprites.redrawPiece(pixel, true);
+    assert.equal(pixel.dataset.render, 'pixel');
   }
+  sprites.redrawPiece(legacy, false);
+  assert.equal(legacy.dataset.render, 'pixel');
+  assert.equal(legacy.width, 26, 'existing legacy canvases must never upgrade');
   sprites.redrawPiece(existing, false);
   assert.equal(existing.width, failure ? 26 : 256);
   if (!failure) assert.equal(atlasDraws, 12, 'reuse decoded frames');
   const carriage = document.createElement('canvas');
   sprites.drawCarriage(carriage, 0, 'p', 'b', false);
   sprites.drawCarriage(carriage, 1, 'p', 'b', true);
+  assert.equal(miniatureRides, 2);
+  sprites.drawCarriage(carriage, 0, 'p', 'b', false, '3d');
+  assert.equal(carriage.dataset.render, 'pixel');
+  assert.equal(miniatureRides, 2, 'legacy carriage must not use miniature scenery');
 }
 (async () => {
   for (const failure of [null, 'decode', 'size', 'draw']) await check(failure);
-  console.log('PASS: 12 bounded frames, cached decode, existing canvas upgrade, atomic fallback, carriage');
+  console.log('PASS: 12 bounded frames, cached decode, mode-specific canvas upgrade, atomic fallback, both carriages');
 })().catch(error => { console.error(error); process.exitCode = 1; });

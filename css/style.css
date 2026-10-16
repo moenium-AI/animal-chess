@@ -422,6 +422,56 @@ html, body {
   z-index: 30;
 }
 .carriage3d canvas { display: block; width: 128px; image-rendering: auto; }
+.carriage3d canvas[data-render="pixel"] { image-rendering: pixelated; }
+
+/* Miniature maple/walnut board and timber dining rooms. / ミニチュア専用の木製盤と食堂。 */
+.mode-miniature {
+  --light-sq: #e8d5ae;
+  --dark-sq: #a18360;
+  --lastmove: rgba(245, 198, 93, .48);
+  --select: #efc979;
+}
+.mode-miniature .board {
+  border: 8px solid #735438;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #b99a63, 0 3px 0 2px #473727, 0 10px 24px #49372730;
+}
+.mode-miniature .square {
+  /* The texture is quiet and does not cover move/focus indicators. / 木目は操作表示を覆わない。 */
+  background-image: repeating-linear-gradient(4deg, #fff3cf0d 0 1px, transparent 1px 5px),
+    linear-gradient(110deg, #fff5d11a, transparent 48%, #59422a0d);
+  box-shadow: inset 0 0 0 .5px #62492e26;
+}
+.mode-miniature .square.dark .coord { color: #fff4dc; text-shadow: 0 1px 1px #4c352a; }
+.mode-miniature .square.light .coord { color: #60472e; }
+.mode-miniature .square .dot { background: #392d2873; }
+.mode-miniature .square.cap-target .dot { background: none; border-color: #a93f36; }
+.mode-miniature .square.selected { box-shadow: inset 0 0 0 3px #825a30; }
+.mode-miniature .square:focus-visible { outline-color: #1d5458; }
+.venue.vmini {
+  padding: 6px 8px 8px;
+  background: linear-gradient(#f4e7ca, #dac3a0);
+  border: 2px solid #b4976a;
+  box-shadow: inset 0 1px 0 #fff5de, 0 2px 3px #61452c1a;
+}
+.venue.vmini .venue-title {
+  color: #624a32; font-size: .75rem; letter-spacing: .02em;
+  margin: 0 4px 4px; line-height: 1.4;
+}
+.venue.vmini .venue-guests {
+  min-height: 104px; height: 104px;
+  background: #bd9c70 url('../assets/scenery/banquet-room.svg') center top / cover no-repeat;
+  border: 1px solid #7b5d3e; border-radius: 9px;
+  box-shadow: inset 0 2px 6px #49362430;
+}
+.venue.vmini .venue-guests::before, .venue.vmini .venue-guests::after { content: none; }
+.vmini .bq-table { width: 180px; bottom: 3px; image-rendering: auto; }
+.vmini .bq-deco { bottom: 35px; image-rendering: auto; }
+.vmini .bq-guest { bottom: 3px; }
+.vmini .bq-guest canvas.spr { width: 52px; image-rendering: auto; animation: none; }
+.vmini .bq-guest canvas.item { right: -8px; bottom: 8px; image-rendering: auto; }
+.vmini .bq-guest.sleeping canvas.spr { transform: rotate(68deg) translateY(-5px); }
+.vmini .bq-zzz { top: -6px; right: 0; }
 
 /* 3D promotion selection / 3Dプロモーション選択 */
 .promo-choices canvas { width: 44px; height: auto; image-rendering: pixelated; }
@@ -485,8 +535,8 @@ html, body {
   :root { --board-size: min(94vw, 660px, 58vh); }
   .layout { flex-direction: column; align-items: center; }
   .side-col { width: var(--board-size); }
-  /* On narrow stacked layouts, keep the board near the top and let only annotations scroll below. / スマホ等の縦積みでは盤を画面上部に固定し、解説だけ下でスクロールできるようにする */
-  .board-col { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-bottom: 4px; }
+  /* Let tall banquet/board groups scroll so they cannot cover the settings. / 背の高い盤と会場が設定を覆わないよう全体をスクロールする。 */
+  .board-col { position: static; background: var(--bg); padding-bottom: 4px; }
 }
 
 @media (max-width: 600px) {

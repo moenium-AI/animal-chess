@@ -1,5 +1,9 @@
 # Detailed miniature pieces / 精細なミニチュア駒
 
+Later on 2026-10-16, the original `3d` mode was restored and `miniature` became a separate mode, with matching scenery. See [graphics modes](graphics-modes-2026-10-16.md) for the current behavior. The implementation description below records the earlier replacement.
+
+同日、従来の `3d` を復活させ、`miniature` を独立したモードとして追加した。盤面と宴会会場も更新済み。現在の動作は[表示モードの記録](graphics-modes-2026-10-16.md)を参照。以下は先行した置き換え実装の記録。
+
 Implemented on 2026-10-16. The Miniature Kingdom direction is now the default detailed renderer, replacing the old pixel characters in the existing `3d` setting. Saved preferences remain compatible.
 
 2026-10-16に実装。Miniature Kingdom案を採用し、既存の `3d` 設定の駒を精細な画像へ置き換えた。保存済みの設定との互換性は維持している。

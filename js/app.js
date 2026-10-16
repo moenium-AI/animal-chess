@@ -5,7 +5,7 @@
 // ===== State / 状態 =====
 let game = new Chess();
 let mode = 'play'; // 'play' | 'puzzle' | 'replay'
-let settings = { set: 'farm', opponent: 'cpu', level: 4, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: '3d', badges: true, language: 'ja' };
+let settings = { set: 'farm', opponent: 'cpu', level: 4, playerColor: 'w', sound: true, bgm: true, bgmSong: 'auto', viewMode: 'miniature', badges: true, language: 'ja' };
 let orient = 'w';            // Board-side color. / 盤の下側の色。
 let selected = null;         // Selected square. / 選択中のマス。
 let legalTargets = [];       // Legal moves from the selected square. / 選択中マスからの合法手。
@@ -14,8 +14,10 @@ let hintSquares = [];
 let cpuThinking = false;
 let hintThinking = false;
 let pendingGuests = 0;       // Pieces in transit by carriage, not yet shown at the venue. / 馬車で移動中で、まだ会場に表示しないコマの数。
+let graphicsRevision = 0;    // Cancel obsolete carriage callbacks when graphics change. / 表示切替前の馬車コールバックを無効化。
 let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
+let pendingPromotion = null;
 let solvedPuzzles = new Set();
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -33,6 +35,7 @@ function loadSaved() {
   try {
     const s = JSON.parse(localStorage.getItem('animalchess_settings'));
     if (s) Object.assign(settings, s);
+    if (!['3d', 'miniature', 'simple'].includes(settings.viewMode)) settings.viewMode = 'miniature';
     const sv = JSON.parse(localStorage.getItem('animalchess_solved'));
     if (Array.isArray(sv)) solvedPuzzles = new Set(sv);
   } catch (e) {}
@@ -42,13 +45,14 @@ function saveSolved() {
 }
 
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
-const is3D = () => settings.viewMode === '3d';
-const isAnimal = () => is3D() || !!SET().emoji;
+const isMiniature = () => settings.viewMode === 'miniature';
+const isIllustrated = () => isMiniature() || settings.viewMode === '3d';
+const isAnimal = () => isIllustrated() || !!SET().emoji;
 const pieceName = (type) => I18N.language === 'en'
-  ? (is3D() ? ({ k: 'lion', q: 'cat', r: 'bear', b: 'owl', n: 'horse', p: 'chick' }[type]) : ((SET().namesEn && SET().namesEn[type]) || I18N.t('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[type]))))
-  : (is3D() ? Sprites.charName(type) + 'さん' : (SET().names[type] || PIECE_JA[type]));
+  ? (isIllustrated() ? ({ k: 'lion', q: 'cat', r: 'bear', b: 'owl', n: 'horse', p: 'chick' }[type]) : ((SET().namesEn && SET().namesEn[type]) || I18N.t('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[type]))))
+  : (isIllustrated() ? Sprites.charName(type) + 'さん' : (SET().names[type] || PIECE_JA[type]));
 const BADGE_GLYPHS = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
-const badgesOn = () => settings.badges && (is3D() || SET().emoji);
+const badgesOn = () => settings.badges && (isIllustrated() || SET().emoji);
 const tr = (key, vars) => I18N.t(key, vars);
 const BGM_NAMES_EN = ['Meadow Song', 'Strolling Waltz', 'Naptime Song', 'Feast Polka', 'Starlit Music Box', 'Rainy-Day Song', 'Exploration March', 'Dappled Sunlight Song', 'Sunset Song', 'Friendship Dance'];
 const bgmSongName = (index) => I18N.language === 'en' ? (BGM_NAMES_EN[index] || BGM.songNames()[index]) : BGM.songNames()[index];
@@ -101,7 +105,8 @@ function buildBoard() {
   boardEl.innerHTML = '';
   boardEl.setAttribute('role', 'group');
   boardEl.setAttribute('aria-label', tr('board.label'));
-  $('board-wrap').classList.toggle('mode-3d', is3D());
+  $('board-wrap').classList.toggle('mode-3d', isIllustrated());
+  $('board-wrap').classList.toggle('mode-miniature', isMiniature());
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
       const sq = squareName(r, c);
@@ -139,10 +144,10 @@ function pieceHtml(type, color) {
 }
 // Board piece elements by mode. / モード別の盤面用ピース要素。
 function createPieceEl(type, color, sq) {
-  if (is3D()) {
+  if (isIllustrated()) {
     const wrap = document.createElement('div');
     wrap.className = 'p3d';
-    const cv = Sprites.makePiece(type, color);
+    const cv = Sprites.makePiece(type, color, settings.viewMode);
     wrap.appendChild(cv);
     return wrap;
   }
@@ -215,12 +220,13 @@ function computeGuests() {
 }
 
 function renderVenues() {
-  const v3d = is3D();
+  const v3d = isIllustrated();
   const animal = isAnimal();
   const guests = computeGuests();
   for (const color of ['w', 'b']) {
     const v = venueOf(color);
     v.classList.toggle('v3d', v3d);
+    v.classList.toggle('vmini', isMiniature());
     const title = v.querySelector('.venue-title');
     const area = v.querySelector('.venue-guests');
     const list = guests[color];
@@ -260,6 +266,12 @@ function renderVenues() {
 }
 let lastCapturer = null;
 
+function clearCarriages() {
+  graphicsRevision++;
+  pendingGuests = 0;
+  overlayEl.innerHTML = '';
+}
+
 // ===== 3D banquet venues / 3D宴会会場 =====
 let banquets = {}; // color -> { area, guests: [{el, spr, itemEl, type, team, state, until, x}] }
 
@@ -271,7 +283,7 @@ function banquetSync(color, area, list) {
     // Table and food. / テーブルとごちそう。
     const table = document.createElement('canvas');
     table.className = 'bq-table';
-    const t = Sprites.itemCanvas('table');
+    const t = Sprites.itemCanvas('table', settings.viewMode);
     table.width = t.width; table.height = t.height;
     table.getContext('2d').drawImage(t, 0, 0);
     area.appendChild(table);
@@ -279,11 +291,11 @@ function banquetSync(color, area, list) {
     for (const [name, left] of deco) {
       const d = document.createElement('canvas');
       d.className = 'bq-deco';
-      const src = Sprites.itemCanvas(name);
+      const src = Sprites.itemCanvas(name, settings.viewMode);
       d.width = src.width; d.height = src.height;
       d.getContext('2d').drawImage(src, 0, 0);
       d.style.left = left;
-      d.style.width = (src.width * 2) + 'px';
+      d.style.width = (isMiniature() ? src.width / 2 : src.width * 2) + 'px';
       area.appendChild(d);
     }
     bq = banquets[color] = { area, guests: [] };
@@ -300,10 +312,17 @@ function banquetSync(color, area, list) {
   }
 }
 
+// Percentage-based positions follow viewport resizing without clipping guests. / 画面幅が変わっても参加者が会場内に収まる相対位置。
+function guestLeft(fraction) {
+  const margin = isMiniature() ? 24 : 8;
+  const reserve = isMiniature() ? 100 : 60;
+  return `calc(${(fraction * 100).toFixed(3)}% + ${(margin - fraction * reserve).toFixed(2)}px)`;
+}
+
 function spawnGuest(bq, info) {
   const el = document.createElement('div');
   el.className = 'bq-guest';
-  const spr = Sprites.makePiece(info.type, info.victim);
+  const spr = Sprites.makePiece(info.type, info.victim, settings.viewMode);
   spr.className = 'spr';
   spr.style.animationDelay = '-' + (Math.random() * 0.8).toFixed(2) + 's';
   const itemEl = document.createElement('canvas');
@@ -312,9 +331,8 @@ function spawnGuest(bq, info) {
   zzz.className = 'bq-zzz';
   zzz.textContent = '💤';
   el.appendChild(spr); el.appendChild(itemEl); el.appendChild(zzz);
-  const W = Math.max(120, bq.area.clientWidth);
-  const x = 8 + Math.random() * (W - 60);
-  el.style.left = x + 'px';
+  const x = Math.random();
+  el.style.left = guestLeft(x);
   bq.area.appendChild(el);
   const g = { el, spr, itemEl, type: info.type, team: info.victim, state: 'idle', until: Date.now() + 600 + Math.random() * 1500, x };
   return g;
@@ -326,20 +344,20 @@ function setGuestState(g, s) {
   g.state = s;
   if (s === 'stroll') {
     const W = Math.max(120, g.el.parentElement.clientWidth);
-    const nx = 8 + Math.random() * (W - 60);
-    const dist = Math.abs(nx - g.x);
+    const nx = Math.random();
+    const dist = Math.abs(nx - g.x) * Math.max(0, W - (isMiniature() ? 100 : 60));
     const dur = Math.max(0.5, dist / 30);
     g.el.style.transitionDuration = dur.toFixed(2) + 's';
     g.el.classList.toggle('flip', nx < g.x);
-    g.el.style.left = nx + 'px';
+    g.el.style.left = guestLeft(nx);
     g.x = nx;
     g.until = now + dur * 1000 + 300;
   } else if (s === 'eat' || s === 'drink') {
     const name = s === 'eat' ? ['meat', 'cake', 'apple'][Math.floor(Math.random() * 3)] : 'mug';
-    const src = Sprites.itemCanvas(name);
+    const src = Sprites.itemCanvas(name, settings.viewMode);
     g.itemEl.width = src.width; g.itemEl.height = src.height;
     g.itemEl.getContext('2d').drawImage(src, 0, 0);
-    g.itemEl.style.width = (src.width * 2) + 'px';
+    g.itemEl.style.width = (isMiniature() ? src.width / 2 : src.width * 2) + 'px';
     g.el.classList.add(s === 'eat' ? 'eating' : 'drinking');
     g.until = now + 2500 + Math.random() * 3500;
   } else if (s === 'sleep') {
@@ -366,7 +384,7 @@ setInterval(() => {
   const now = Date.now();
   for (const color in banquets) {
     for (const g of banquets[color].guests) {
-      if (g.state !== 'sleeping' && Math.random() < 0.07) {
+      if (g.state !== 'sleep' && g.spr.dataset.render === 'pixel' && Math.random() < 0.07) {
         Sprites.redrawPiece(g.spr, true);
         setTimeout(() => Sprites.redrawPiece(g.spr, false), 150);
       }
@@ -377,7 +395,7 @@ setInterval(() => {
 
 // Blinking board pieces in 3D mode. / 3Dモードの盤上コマのまばたき。
 setInterval(() => {
-  if (!is3D() || reducedMotion.matches) return;
+  if (!isIllustrated() || reducedMotion.matches) return;
   const canvases = boardEl.querySelectorAll('.p3d canvas[data-render="pixel"]');
   if (canvases.length === 0) return;
   const cv = canvases[Math.floor(Math.random() * canvases.length)];
@@ -406,20 +424,23 @@ function carriageRide(move) {
   const goingDown = venueOf(capturer) === $('venue-bottom');
   const endX = goingDown ? wrapRect.width - 150 : 10;
   const endY = goingDown ? wrapRect.height + 8 : -62;
-  const rideMs = is3D() ? 2200 : 1800;
+  const rideMs = isIllustrated() ? 2200 : 1800;
+  const rideStyle = settings.viewMode;
+  const revision = graphicsRevision;
 
   const el = document.createElement('div');
   let spin = null;
-  if (is3D()) {
+  if (isIllustrated()) {
     el.className = 'carriage3d';
     const cv = document.createElement('canvas');
     el.appendChild(cv);
     const faceLeft = endX < startX;
     let frame = 0;
-    Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft);
+    Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft, rideStyle);
     spin = setInterval(() => {
+      if (revision !== graphicsRevision || !el.isConnected) { clearInterval(spin); return; }
       frame ^= 1;
-      Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft);
+      Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft, rideStyle);
     }, 160);
   } else {
     el.className = 'carriage';
@@ -429,19 +450,21 @@ function carriageRide(move) {
   overlayEl.appendChild(el);
   // Move to the destination after applying the captured piece. / 反映後にゴールへ移動する。
   requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (revision !== graphicsRevision) return;
     el.style.transform = `translate(${endX}px, ${endY}px)`;
   }));
   const name = pieceName(capturedType);
-  toast(tr('venue.arriving', { name, color: colorJa(capturer), place: is3D() ? tr('venue.banquetPlace') : tr('venue.hostPlace') }));
+  toast(tr('venue.arriving', { name, color: colorJa(capturer), place: isIllustrated() ? tr('venue.banquetPlace') : tr('venue.hostPlace') }));
   setTimeout(() => {
     if (spin) clearInterval(spin);
     el.remove();
+    if (revision !== graphicsRevision) return;
     if (pendingGuests > 0) pendingGuests--;
     renderVenues();
     const hist = game.history({ verbose: true });
     let capIdx = -1, food = FOODS[0];
     for (const m of hist) if (m.captured) { capIdx++; food = foodFor(capIdx, m.captured); }
-    toast(is3D()
+    toast(isIllustrated()
       ? tr('venue.joined', { name })
       : tr('venue.simpleHosted', { name, food }));
   }, rideMs + 100);
@@ -451,7 +474,7 @@ function carriageRide(move) {
 function turnBadge() {
   const set = SET();
   const c = game.turn();
-  const glyph = is3D() ? (c === 'w' ? '⚪' : '⚫') : (set.emoji ? set.glyphs.k : (c === 'w' ? '♔' : '♚'));
+  const glyph = isIllustrated() ? (c === 'w' ? '⚪' : '⚫') : (set.emoji ? set.glyphs.k : (c === 'w' ? '♔' : '♚'));
   return tr('venue.turn', { glyph, color: colorJa(c) });
 }
 function renderStatus() {
@@ -543,7 +566,7 @@ function applyMove(moveArg, opts = {}) {
   renderAll();
   if (game.in_check() && !game.game_over()) sCheck();
   if (mode === 'play') {
-    if (game.game_over()) { setTimeout(showGameOver, m.captured && isAnimal() ? (is3D() ? 2600 : 2100) : 500); }
+    if (game.game_over()) { setTimeout(showGameOver, m.captured && isAnimal() ? (isIllustrated() ? 2600 : 2100) : 500); }
     else if (!opts.noCpu) maybeCpuMove();
   }
   return m;
@@ -603,20 +626,22 @@ function tryPlayerMove(moveArg) {
 
 // Promotion. / プロモーション。
 function showPromotion(from, to) {
+  pendingPromotion = { from, to };
   const modal = $('promo-modal');
   const box = $('promo-choices');
   box.innerHTML = '';
   const color = game.turn();
   for (const t of ['q', 'r', 'b', 'n']) {
     const btn = document.createElement('button');
-    if (is3D()) {
-      btn.appendChild(Sprites.makePiece(t, color));
+    if (isIllustrated()) {
+      btn.appendChild(Sprites.makePiece(t, color, settings.viewMode));
     } else {
       btn.innerHTML = SET().emoji ? SET().glyphs[t] : `<span class="piece glyph ${color}" style="font-size:2.2rem">${SET().glyphs[t]}</span>`;
     }
     btn.title = pieceName(t);
     btn.addEventListener('click', () => {
       modal.classList.add('hidden');
+      pendingPromotion = null;
       tryPlayerMove({ from, to, promotion: t });
     });
     box.appendChild(btn);
@@ -629,8 +654,8 @@ function requestHint() {
   if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking || puzzle.busy) return;
   if (mode === 'play' && settings.opponent === 'cpu' && game.turn() !== settings.playerColor) return;
   const advisor = I18N.language === 'en'
-    ? (is3D() ? '🐱 Cat Coach' : '🧙 Coach')
-    : (is3D() ? '🐱 ねこせんせい' : (SET().emoji ? `${SET().glyphs.q} ${SET().names.q}せんせい` : '🧙 コーチ'));
+    ? (isIllustrated() ? '🐱 Cat Coach' : '🧙 Coach')
+    : (isIllustrated() ? '🐱 ねこせんせい' : (SET().emoji ? `${SET().glyphs.q} ${SET().names.q}せんせい` : '🧙 コーチ'));
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
     if (!p || game.turn() !== p.turn) return;
@@ -736,6 +761,9 @@ function explainHintMove(fenBefore, m) {
 
 // ===== New game / 新しいゲーム =====
 function newGame() {
+  clearCarriages();
+  pendingPromotion = null;
+  $('promo-modal').classList.add('hidden');
   puzzle.busy = false;
   hintThinking = false;
   game = new Chess();
@@ -743,7 +771,6 @@ function newGame() {
   replay.annotation = null;
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
-  overlayEl.innerHTML = '';
   const sp = $('study-panel'); if (sp) sp.classList.add('hidden');
   orient = settings.opponent === 'cpu' ? settings.playerColor : 'w';
   buildBoard();
@@ -761,8 +788,8 @@ function undoMove() {
   } else {
     game.undo();
   }
+  clearCarriages();
   pendingGuests = 0; lastCapturer = null;
-  overlayEl.innerHTML = '';
   const hist = game.history({ verbose: true });
   lastMove = hist.length > 0 ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
   selected = null; legalTargets = []; hintSquares = [];
@@ -843,7 +870,7 @@ function loadPuzzle(i) {
   hintThinking = false;
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
-  overlayEl.innerHTML = '';
+  clearCarriages();
   $('study-panel').classList.add('hidden');
   orient = p.turn;
   buildBoard();
@@ -941,7 +968,7 @@ function enterStudy(study) {
   mode = 'replay';
   selected = null; legalTargets = []; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
-  overlayEl.innerHTML = '';
+  clearCarriages();
   orient = 'w';
   buildBoard();
   const panel = $('study-panel');
@@ -1194,22 +1221,25 @@ function setupUI() {
   $('btn-sound').textContent = settings.sound ? '🔊' : '🔇';
   $('row-level').style.display = settings.opponent === 'cpu' ? '' : 'none';
   $('row-color').style.display = settings.opponent === 'cpu' ? '' : 'none';
-  $('row-set').style.display = is3D() ? 'none' : '';
+  $('row-set').style.display = isIllustrated() ? 'none' : '';
 
   $('sel-view').addEventListener('change', (e) => {
+    const focusedSquare = document.activeElement?.closest('#board .square')?.dataset.square;
+    clearCarriages();
     settings.viewMode = e.target.value; saveSettings();
-    $('row-set').style.display = is3D() ? 'none' : '';
+    $('row-set').style.display = isIllustrated() ? 'none' : '';
     // Rebuild the venue. / 会場を作り直す。
     for (const color of ['w', 'b']) {
       const area = venueOf(color).querySelector('.venue-guests');
       area.innerHTML = ''; delete area.dataset.bq;
     }
     banquets = {};
-    overlayEl.innerHTML = '';
-    pendingGuests = 0;
     buildBoard();
     renderAll();
-    toast(is3D() ? tr('toast.view3d') : tr('toast.viewSimple'));
+    if (focusedSquare) boardEl.querySelector(`[data-square="${focusedSquare}"]`)?.focus();
+    // A promotion dialog can be open when graphics are changed. / 昇格候補も現在のモードに合わせる。
+    if (pendingPromotion && !$('promo-modal').classList.contains('hidden')) showPromotion(pendingPromotion.from, pendingPromotion.to);
+    toast(tr(isMiniature() ? 'toast.viewMiniature' : isIllustrated() ? 'toast.view3d' : 'toast.viewSimple'));
   });
   $('chk-badges').addEventListener('change', (e) => {
     settings.badges = e.target.checked; saveSettings();
@@ -1312,7 +1342,7 @@ function setupUI() {
 
   // Modal dialogs. / モーダル。
   $('promo-modal').addEventListener('click', (e) => {
-    if (e.target === $('promo-modal')) { $('promo-modal').classList.add('hidden'); selected = null; legalTargets = []; renderPosition(); }
+    if (e.target === $('promo-modal')) { $('promo-modal').classList.add('hidden'); pendingPromotion = null; selected = null; legalTargets = []; renderPosition(); }
   });
   $('btn-gameover-close').addEventListener('click', () => $('gameover-modal').classList.add('hidden'));
   $('btn-gameover-new').addEventListener('click', newGame);

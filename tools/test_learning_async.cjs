@@ -20,7 +20,7 @@ let settings = {opponent:'cpu', playerColor:'b', level:1};
 let puzzle = {busy:false}, hintSquares = [], selected = null, legalTargets = [];
 let callback, timer, renders = 0, moves = 0, notices = 0;
 const Engine = {chooseMove:(_, __, cb) => callback = cb, bestMove:(_, cb) => callback = cb};
-const I18N = {language:'en'}, is3D = () => true;
+const I18N = {language:'en'}, isIllustrated = () => true;
 const tr = key => key, pieceName = () => 'piece', explainHintMove = () => '';
 const renderStatus = () => renders++, renderPosition = () => renders++;
 const renderAll = () => renders++, renderPuzzleGoal = () => renders++;
