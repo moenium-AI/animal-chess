@@ -45,7 +45,7 @@ const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
 const is3D = () => settings.viewMode === '3d';
 const isAnimal = () => is3D() || !!SET().emoji;
 const pieceName = (type) => I18N.language === 'en'
-  ? ((SET().namesEn && SET().namesEn[type]) || I18N.t('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[type])))
+  ? (is3D() ? ({ k: 'lion', q: 'cat', r: 'bear', b: 'owl', n: 'horse', p: 'chick' }[type]) : ((SET().namesEn && SET().namesEn[type]) || I18N.t('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[type]))))
   : (is3D() ? Sprites.charName(type) + 'さん' : (SET().names[type] || PIECE_JA[type]));
 const BADGE_GLYPHS = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
 const badgesOn = () => settings.badges && (is3D() || SET().emoji);
@@ -112,7 +112,6 @@ function buildBoard() {
       div.tabIndex = r === 0 && c === 0 ? 0 : -1;
       div.className = 'square ' + ((f + rank) % 2 === 0 ? 'light' : 'dark');
       div.dataset.square = sq;
-      div.style.zIndex = r + 1; // Stack front rows above back rows in 3D mode. / 3Dモードで手前の列が上に重なるように。
       if (r === 7) { const s = document.createElement('span'); s.className = 'coord file'; s.textContent = sq[0]; div.appendChild(s); }
       if (c === 0) { const s = document.createElement('span'); s.className = 'coord rank'; s.textContent = sq[1]; div.appendChild(s); }
       div.addEventListener('click', () => onSquareClick(sq));
@@ -144,10 +143,6 @@ function createPieceEl(type, color, sq) {
     const wrap = document.createElement('div');
     wrap.className = 'p3d';
     const cv = Sprites.makePiece(type, color);
-    // Keep the sway phase fixed per square so redraws do not change the rhythm. / 再描画でリズムが変わらないよう、揺れの位相をマスごとに固定する。
-    const f = FILES.indexOf(sq[0]);
-    const rank = parseInt(sq[1], 10);
-    cv.style.animationDelay = '-' + (((f * 7 + rank * 13) % 9) / 10).toFixed(1) + 's';
     wrap.appendChild(cv);
     return wrap;
   }
@@ -383,7 +378,7 @@ setInterval(() => {
 // Blinking board pieces in 3D mode. / 3Dモードの盤上コマのまばたき。
 setInterval(() => {
   if (!is3D() || reducedMotion.matches) return;
-  const canvases = boardEl.querySelectorAll('.p3d canvas');
+  const canvases = boardEl.querySelectorAll('.p3d canvas[data-render="pixel"]');
   if (canvases.length === 0) return;
   const cv = canvases[Math.floor(Math.random() * canvases.length)];
   Sprites.redrawPiece(cv, true);
@@ -1333,5 +1328,10 @@ loadSaved();
 I18N.setLanguage(settings.language, false);
 setupUI();
 newGame();
+Sprites.loadDetailed().then(ready => {
+  if (!ready) return;
+  // Refresh only images; preserve focus, selection and the current game. / 画像だけを更新し、フォーカス・選択・対局を保つ。
+  document.querySelectorAll('canvas[data-type][data-team]').forEach(canvas => Sprites.redrawPiece(canvas, false));
+});
 
 })();

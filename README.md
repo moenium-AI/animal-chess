@@ -10,7 +10,7 @@ Open the link and start playing. It works on both phones and desktop computers.
 
 ## ✨ Features
 
-- **3D pixel-art mode** — Anthropomorphic animal characters with idle animations.
+- **Miniature mode** — Detailed animal figurines on square cells. Crowns, ears, and bases stay inside each cell, including when selected. Red/ivory and navy/walnut distinguish the teams.
   - 🐤 Pawn = chick / 🐴 Knight = horse / 🦉 Bishop = owl / 🐻 Rook = bear / 🐱 Queen = cat / 🦁 King = lion
   - Captured pieces ride a pixel-art carriage to the opposing team's **banquet hall**, where they eat 🍖, drink 🍺, and relax 💤 in real time.
 - **Simple mode** — Switch to emoji-based pieces, including the classic set and four animal sets.
@@ -43,7 +43,7 @@ The game makes no external network requests. Settings and puzzle progress are st
 
 ## ✨ 機能
 
-- **3Dモード（ドット絵）** — 待機モーション付きの擬人化どうぶつキャラクター。
+- **ミニチュアモード** — 精細な動物の駒を正方形のマスに表示。選択中も王冠・耳・台座がマス内に収まります。赤とアイボリー、紺と濃い木色でチームを区別できます。
   - 🐤 ポーン＝ひよこ / 🐴 ナイト＝うま / 🦉 ビショップ＝ふくろう / 🐻 ルーク＝くま / 🐱 クイーン＝ねこ / 🦁 キング＝ライオン
   - 取られたコマはドット絵の馬車で相手チームの**宴会会場**へ移動し、食べたり🍖、飲んだり🍺、寝転んだり💤しながらリアルタイムで過ごします。
 - **シンプルモード** — 絵文字ベースのコマに切り替えます。クラシックセットと動物セット4種類を収録しています。

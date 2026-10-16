@@ -308,6 +308,7 @@ html, body {
 @keyframes modal-in { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .promo-choices { display: flex; gap: 10px; justify-content: center; margin-top: 14px; }
 .promo-choices button {
+  display: flex; align-items: center; justify-content: center; min-width: 0;
   font-size: 2.2rem; width: 64px; height: 64px;
   border: 2px solid #eadfce; border-radius: 14px; background: #fffdf8; cursor: pointer;
   transition: transform 0.12s;
@@ -345,50 +346,27 @@ html, body {
 .type-badge.w { background: rgba(255, 253, 245, 0.95); color: #3d2f24; box-shadow: 0 0 0 1px #c8b28a; }
 .type-badge.b { background: rgba(70, 56, 46, 0.95); color: #fff6e0; box-shadow: 0 0 0 1px #2c211a; }
 
-/* ===== 3D mode: tilted board / 3Dモード: 傾斜盤 ===== */
-/* Match the upper margin to the lower gap (0.02 × board size) for symmetry. / 上の余白を下(盤の縦つぶしで空く 0.02×盤サイズ)と揃えて左右対称にする */
-.board-wrap.mode-3d { padding-top: calc(var(--board-size) * 0.02); }
-.mode-3d .board {
-  transform: scaleY(0.85);
-  transform-origin: top center;
-  margin-bottom: calc(var(--board-size) * -0.13);
-  overflow: visible;
-  border-color: #7c6248;
-}
-.mode-3d .board .square { overflow: visible; }
-.mode-3d .square::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 12%;
-  background: rgba(90, 66, 40, 0.16);
-  pointer-events: none;
-}
-
-/* 3D pieces (counteract vertical compression so they stand upright). / 3Dピース(縦つぶれを打ち消して直立) */
+/* Square cells and contained miniatures, including selection. / 選択中も正方形のマス内に収める。 */
+.mode-3d .board { border-color: #7c6248; }
+.board .square { overflow: hidden; }
 .p3d {
-  position: absolute; left: 50%; bottom: 3%;
-  transform: translateX(-50%) scaleY(1.1765);
-  transform-origin: bottom center;
+  position: absolute; inset: 2%;
+  display: flex; align-items: center; justify-content: center;
   pointer-events: none;
   z-index: 5;
 }
-.p3d::before {
-  content: ""; position: absolute; left: 50%; bottom: -2px;
-  width: 120%; height: 10px; transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(60, 40, 20, 0.32) 0%, transparent 70%);
-}
 .p3d canvas {
-  position: relative;
   display: block;
-  width: calc(var(--cell) * 0.64);
-  height: auto;
-  image-rendering: pixelated;
-  animation: bob3d 0.9s linear infinite;
+  width: 100%; height: 100%; object-fit: contain;
+  image-rendering: auto;
+  transition: transform 0.15s ease-out;
 }
+.p3d canvas[data-render="pixel"] { width: auto; height: 84%; image-rendering: pixelated; }
+.mode-3d .square.selected .p3d canvas { transform: translateY(-2%); }
 @keyframes bob3d {
   0%, 48% { transform: translateY(0); }
   52%, 100% { transform: translateY(-4%); }
 }
-.mode-3d .square.selected .p3d canvas { animation: hop3d 0.5s ease-in-out infinite; }
-@keyframes hop3d { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16%); } }
 
 /* ===== 3D banquet venues / 3D宴会会場 ===== */
 .venue.v3d { background: linear-gradient(#f8e2b8, #eac98e); border-color: #d8b070; }
@@ -415,6 +393,7 @@ html, body {
   display: block; width: 40px; height: auto; image-rendering: pixelated;
   animation: bob3d 0.8s linear infinite;
 }
+.bq-guest canvas.spr[data-render="miniature"] { image-rendering: auto; }
 .bq-guest.flip canvas.spr { transform: scaleX(-1); }
 .bq-guest canvas.item {
   position: absolute; right: -16px; bottom: 12px;
@@ -442,10 +421,11 @@ html, body {
   filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
   z-index: 30;
 }
-.carriage3d canvas { display: block; width: 128px; image-rendering: pixelated; }
+.carriage3d canvas { display: block; width: 128px; image-rendering: auto; }
 
 /* 3D promotion selection / 3Dプロモーション選択 */
 .promo-choices canvas { width: 44px; height: auto; image-rendering: pixelated; }
+.promo-choices canvas[data-render="miniature"] { width: 100%; height: 100%; object-fit: contain; image-rendering: auto; }
 
 .check-line {
   flex-direction: row !important; align-items: center; gap: 6px !important;
@@ -507,6 +487,13 @@ html, body {
   .side-col { width: var(--board-size); }
   /* On narrow stacked layouts, keep the board near the top and let only annotations scroll below. / スマホ等の縦積みでは盤を画面上部に固定し、解説だけ下でスクロールできるようにする */
   .board-col { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-bottom: 4px; }
+}
+
+@media (max-width: 600px) {
+  .app-header { flex-wrap: wrap; gap: 8px; padding: 12px 12px 8px; }
+  .app-header h1 { flex-basis: 100%; font-size: 1.2rem; letter-spacing: 0; }
+  .app-header .sub { display: inline-block; font-size: 0.7rem; }
+  .header-btns { width: 100%; justify-content: flex-end; }
 }
 
 @media (prefers-reduced-motion: reduce) {

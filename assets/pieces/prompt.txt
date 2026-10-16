@@ -1,0 +1,13 @@
+Use case: stylized-concept. Asset type: production transparent sprite atlas for Animal Chess, a friendly chess learning game.
+Create ONE sprite atlas, portrait 3:4 aspect ratio, ideally 1536x2048 pixels, a precise grid of THREE columns and FOUR rows of equal SQUARE cells. Exactly twelve individual fully visible miniature animal chess figurines, one centered in each cell with generous fully transparent gutters. No background, no floor, no lettering, no grid lines, no labels, no watermark.
+REFERENCE: attached miniature-kingdom design is STYLE REFERENCE ONLY. Create fresh game sprites, do not reproduce the reference poster, layout or text.
+Style: beautifully detailed hand-painted carved wooden miniatures, soft warm studio light from upper left, gentle dimensional modeling, clear expressive dark eyes, compact chibi proportions. Fine carved fur and fabric detail with clear clean silhouettes readable at 40px. Same three-quarter frontal camera, faces toward viewer with slight turn to viewer's left. Whole figure including crown/ears/feet and short round base in view. No long staffs or weapons.
+Grid exact row order left-to-right:
+ROW 1: WHITE lion KING with wide orange mane and substantial gold crown; WHITE cat QUEEN with pointed ears and slender gold tiara; WHITE brown bear ROOK with squared crenellated castle hat.
+ROW 2: WHITE owl BISHOP with tall split mitre hat and large circular eyes; WHITE horse KNIGHT with long muzzle, mane, ears (no crown); WHITE yellow chick PAWN with simple red scarf and no crown.
+ROW 3: BLACK lion KING; BLACK cat QUEEN; BLACK bear ROOK, exact same animal identities, poses and scale as row 1.
+ROW 4: BLACK owl BISHOP; BLACK horse KNIGHT; BLACK chick PAWN, same identities, poses and scale as row 2.
+WHITE TEAM: every garment/cloak is rich warm brick red with ivory trim, gold tiny fasteners, light ivory wooden pedestal.
+BLACK TEAM: every garment/cloak is deep navy with slate trim, gold tiny fasteners, dark walnut charcoal wooden pedestal. Keep the faces/fur natural and equally bright in both teams, never recolor the entire animal.
+Sizing: each figurine MUST stay strictly within the central 78% width and 82% height of its square cell. Consistent base baseline at 89% down each cell; bases about 62% of cell width. Lion/queen/bishop total height about 80% cell, rook/knight 73%, chick 60%. Plenty of separation. NOTHING touches cell edges. No floating cast shadows outside figures, only subtle shading on each base.
+Deliver actual transparent alpha, not checkerboard drawing.

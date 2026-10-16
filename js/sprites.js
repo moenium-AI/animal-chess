@@ -1,9 +1,9 @@
-// Sprite renderer for 3D mode. / 3Dモード用スプライト描画エンジン。
-// Draws the pixel art from SPRITE_DATA (sprite_data.js) on canvas. / SPRITE_DATA（sprite_data.js）のドット絵をcanvasに描く。
+// Detailed characters with a pixel-art fallback. / 精細なキャラクターと読み込み失敗時のドット絵。
 const Sprites = (() => {
   const TINT = [64, 68, 96];   // Dark-team cool tint. / 黒チームの寒色寄りの色調。
   const TINT_K = 0.25;
   const cache = {};            // key -> rendered canvas / key -> 描画済みcanvas
+  let detailed = null, loading = null;
 
   const CW = SPRITE_DATA.meta.width;
   const CH = SPRITE_DATA.meta.height;
@@ -42,8 +42,45 @@ const Sprites = (() => {
     return c;
   }
 
+  // Decode once and publish all twelve frames together. / 一度だけデコードし、12駒をまとめて切り替える。
+  function loadDetailed() {
+    if (loading) return loading;
+    loading = (async () => {
+      try {
+        const image = new Image();
+        image.src = PIECE_ATLAS.url;
+        await image.decode();
+        if (image.naturalWidth !== PIECE_ATLAS.width || image.naturalHeight !== PIECE_ATLAS.height) {
+          throw new Error('Unexpected piece atlas dimensions');
+        }
+        const frames = {};
+        for (const team of ['w', 'b']) for (const type of ['k', 'q', 'r', 'b', 'n', 'p']) {
+          const [x, y, w, h] = PIECE_ATLAS.frames[team][type];
+          if (w <= 0 || h <= 0 || x < 0 || y < 0 || x + w > image.naturalWidth || y + h > image.naturalHeight) {
+            throw new Error('Invalid piece atlas rectangle');
+          }
+          const scale = Math.min(PIECE_ATLAS.maxWidth / w, PIECE_ATLAS.heights[type] / h);
+          const width = w * scale, height = h * scale;
+          const frame = makeCanvas(PIECE_ATLAS.size, PIECE_ATLAS.size);
+          const ctx = frame.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(image, x, y, w, h, (frame.width - width) / 2, PIECE_ATLAS.baseline - height, width, height);
+          frames[`${type}|${team}`] = frame;
+        }
+        detailed = frames;
+        return true;
+      } catch (error) {
+        console.warn('Detailed pieces unavailable; using pixel pieces.', error);
+        return false;
+      }
+    })();
+    return loading;
+  }
+
   // Cached character canvas (open/closed eyes). / キャラクターのキャッシュ済みcanvas（目を開く・閉じる）。
   function charCanvas(type, team, blink = false) {
+    if (detailed) return detailed[`${type}|${team}`];
     const key = `${type}|${team}|${blink ? 'c' : 'o'}`;
     if (cache[key]) return cache[key];
     const def = SPRITE_DATA.chars[type];
@@ -75,9 +112,14 @@ const Sprites = (() => {
     return c;
   }
   function redrawPiece(c, blink) {
+    const source = charCanvas(c.dataset.type, c.dataset.team, blink);
+    if (c.width !== source.width || c.height !== source.height) {
+      c.width = source.width; c.height = source.height;
+    }
+    c.dataset.render = detailed ? 'miniature' : 'pixel';
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
-    ctx.drawImage(charCanvas(c.dataset.type, c.dataset.team, blink), 0, 0);
+    ctx.drawImage(source, 0, 0);
   }
 
   // Carriage with passenger: frame 0/1. / 乗客付きの馬車: frame 0/1。
@@ -85,14 +127,17 @@ const Sprites = (() => {
     const art = SPRITE_DATA.carriage.frames[frame % SPRITE_DATA.carriage.frames.length];
     const W = art[0].length, H = art.length;
     const PAD_TOP = 12;
-    if (c.width !== W) { c.width = W; c.height = H + PAD_TOP; }
+    const scale = 4;
+    if (c.width !== W * scale) { c.width = W * scale; c.height = (H + PAD_TOP) * scale; }
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.save();
-    if (faceLeft) { ctx.translate(c.width, 0); ctx.scale(-1, 1); }
+    ctx.scale(scale, scale);
+    if (faceLeft) { ctx.translate(W, 0); ctx.scale(-1, 1); }
     // Passenger on the cart; the lower body is hidden by the cart. / 荷台の上の乗客。下半身は荷台で隠れる。
     if (riderType) {
-      ctx.drawImage(charCanvas(riderType, riderTeam, false), 2, 0, 15, 20);
+      const source = charCanvas(riderType, riderTeam, false);
+      ctx.drawImage(source, 2, 0, detailed ? 20 : 15, 20);
     }
     drawArt(ctx, art, SPRITE_DATA.carriage.pal, { oy: PAD_TOP });
     ctx.restore();
@@ -100,5 +145,5 @@ const Sprites = (() => {
 
   const charName = (type) => SPRITE_DATA.chars[type].name;
 
-  return { makePiece, redrawPiece, itemCanvas, drawCarriage, charName };
+  return { makePiece, redrawPiece, itemCanvas, drawCarriage, charName, loadDetailed };
 })();
