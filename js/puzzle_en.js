@@ -77,35 +77,35 @@ const PUZZLE_EN = {
   "The knight watches h7 and g8, supporting the queen. Use the supported check to finish the cornered king."
  ],
  "mate-pawn-promotion-mate": [
-  "Promotion Mate",
+  "Magic on the Last Square",
   "Advance the pawn to the last rank. Which promotions checkmate the cornered king?"
  ],
  "mate-bishop-corner-mate": [
-  "Bishop Corner Mate",
+  "Knock on the Diagonal Door",
   "Check along the bishop diagonal; the rook controls the escape file."
  ],
  "mate-pawn-capture-mate": [
-  "Pawn Capture Mate",
+  "A Little Bite for the Chick",
   "Capture with the pawn to give check; the knight and rook cover the exits."
  ],
  "mate-queen-knight-cover": [
-  "Knight Covers the Escape",
+  "The Pony Blocks the Way",
   "Notice which escape squares the knight controls, then find the queen mate."
  ],
  "mate-rook-bishop-wall": [
-  "Rook and Bishop Wall",
+  "A Castle with No Way Out",
   "Combine the bishop’s control with a rook check on the back rank."
  ],
  "mate-rook-knight-coordination": [
-  "Rook and Knight Teamwork",
+  "The Pony's Ambush",
   "Before checking with the rook, look at the knight and king’s coverage."
  ],
  "mate-two-bishops-king": [
-  "King Delivers the Net",
+  "A Little Room, Your Majesty",
   "Your king blocks a bishop diagonal. Move it to reveal a discovered checkmate."
  ],
  "mate-two-knights-final": [
-  "Two Knights Checkmate",
+  "The Twin Ponies",
   "The two knights cover the exits. Deliver the finishing knight check."
  ],
  "puzzle-028": [
@@ -133,19 +133,19 @@ const PUZZLE_EN = {
   "If mate is visible, a queen sacrifice can be worthwhile. Remove the defender and follow through with the mating net."
  ],
  "mate-rook-endgame-anticipate": [
-  "Rook Endgame: King Step",
+  "One More Step, Your Majesty",
   "Use your king to prepare an unavoidable rook mate on the next turn."
  ],
  "mate-bishop-rook-prep": [
-  "Bishop Prepares the Net",
+  "Lock the Diagonal Door",
   "First restrict escapes with the bishop, then mate with the rook."
  ],
  "mate-queen-knight-endgame": [
-  "Queen and Knight: Mate in Two",
+  "A Royal Pony Walk",
   "Calculate the king’s approach and the queen–knight follow-up."
  ],
  "mate-queen-rook-zug": [
-  "Queen–Rook Mate in Two",
+  "The Castle Duo",
   "Find a first move that mates against every black defense using queen and rook."
  ],
  "puzzle-035": [
@@ -161,163 +161,163 @@ const PUZZLE_EN = {
   "An extended challenge starting one move before “Drive to the Edge.” Several first moves force mate: verify every defense."
  ],
  "mate-queen-three-step": [
-  "Queen Mating Net in Three",
+  "Round and Round the King",
   "Use king and queen to force a mate in three, accounting for every black defense."
  ],
  "mate-bishop-rook-three-step": [
-  "Rook and Bishop in Three",
+  "The King's Secret Outing",
   "Approach with the king, then coordinate rook and bishop for a forced mate in three."
  ],
  "tactic-discovered-attack": [
-  "Discovered Attack with Check",
+  "From Behind the Curtain",
   "Check with the bishop while opening the e-file. The rook behind it discovers an attack on the queen on e8."
  ],
  "tactic-double-check": [
-  "Deliver Double Check",
+  "Two Voices Say Hello",
   "Move the bishop to uncover the rook on the e-file. Both bishop and rook then check the black king."
  ],
  "tactic-en-passant": [
-  "En Passant, Right Now",
+  "Catch Me as I Pass",
   "Black just pushed the d-pawn two squares from d7 to d5. Capture it en passant with the pawn on e5; the opportunity lasts one move."
  ],
  "tactic-bishop-double-attack": [
-  "Bishop Double Attack",
+  "The Diagonal Crossroads",
   "Move the bishop to g5 to attack both the queen on e7 and the rook on h4. The pawn on f4 protects the bishop."
  ],
  "tactic-knight-queen-fork": [
-  "Knight Fork: King and Queen",
+  "The Pony's Greedy Jump",
   "Play a knight check that also attacks the queen. On f7, the knight attacks the king on h8 and the queen on d8."
  ],
  "tactic-knight-rook-fork": [
-  "Knight Fork: King and Rook",
+  "The Pony's Detour",
   "Give check while attacking the rook. A knight on f6 attacks the king on h7 and the rook on d7."
  ],
  "tactic-pawn-fork": [
-  "The Pawn Fork",
+  "A Little Fork in the Road",
   "Advance the pawn to attack both rooks on d6 and f6 at once. Even a pawn can create a powerful double attack."
  ],
  "tactic-absolute-pin": [
-  "Pin to the King",
+  "Stand Still for the King",
   "Put the rook on the e-file. The knight on e7 cannot move away from the king on e8: an absolute pin."
  ],
  "tactic-relative-pin": [
-  "Pin to the Queen",
+  "Guard the Secret Behind You",
   "Place the bishop on the diagonal. Moving the knight on d5 would expose the queen on c6: a relative pin."
  ],
  "tactic-knight-underpromotion": [
-  "Knight Underpromotion Fork",
+  "The Chick Becomes a Pony",
   "Promote to a knight, not a queen. The new knight checks the king on e7 while also attacking the rook on a7."
  ],
  "tactic-promotion": [
-  "Promote with Check",
+  "The Chick Dresses Up",
   "Reach the last rank and promote the pawn to a queen. Your new queen gives check immediately."
  ],
  "tactic-rook-skewer": [
-  "Rook Skewer",
+  "Step Aside, Your Majesty",
   "Check the king with a rook and aim at the queen behind it. This is a skewer: the more valuable piece is attacked first."
  ],
  "tactic-rook-underpromotion": [
-  "Avoid Stalemate",
+  "Don't Dress Up Too Much",
   "c8=Q causes stalemate. c8=B and c8=N immediately draw due to insufficient material. Only c8=R avoids a draw and allows play to continue (Black can reply Ka6)."
  ],
  "tactic-fork-knight-queen": [
-  "Knight Fork: King and Queen",
+  "One Leap, Two Surprises",
   "Give check with a knight while attacking the queen."
  ],
  "tactic-fork-knight-rooks": [
-  "Knight Fork: Two Rooks",
+  "Which Castle Shall We Visit?",
   "Move the knight to attack both black rooks at once."
  ],
  "tactic-fork-rook-minors": [
-  "Rook Fork: Two Pieces",
+  "Two Stops, One Straight Road",
   "Use the rook on one file to attack two minor pieces."
  ],
  "tactic-fork-queen-minors": [
-  "Queen Forks Two Knights",
+  "Found You, Ponies!",
   "Use your queen to attack the knights on e7 and e1 at once. The fork works from e4 along the file or diagonally from b4 or h4."
  ],
  "tactic-fork-pawn-major": [
-  "Pawn Fork: Queen and Rook",
+  "The Little One Steps Between",
   "Advance a pawn to attack both the queen and rook."
  ],
  "tactic-fork-bishop-minors": [
-  "Bishop Fork from Afar",
+  "Hello to You Both, Far Away",
   "Use a long diagonal to attack a rook and knight together."
  ],
  "tactic-pin-queen-king": [
-  "Pin the Queen",
+  "The Queen's Narrow Path",
   "Move the rook from a5 to g5 to pin the queen on g7 to the king on g8. Your h4-pawn supports the rook."
  ],
  "tactic-pin-bishop-knight": [
-  "Bishop Absolute Pin",
+  "Wait Right There, Pony",
   "Move the bishop from h1 to e4 to pin the knight on f5 against the king on g6. The knight was not pinned initially."
  ],
  "tactic-pin-queen-knight": [
-  "Pin the Knight with a Queen",
+  "The Queen Blocks the Way",
   "The knight on c7 shields the king on c8. Align the queen on the c-file to create an absolute pin. c1, c3, and c5 are all valid."
  ],
  "tactic-pin-bishop-relative": [
-  "Relative Pin with Bishop",
+  "The Queen Behind the Castle",
   "Place the bishop so the rook sits in front of the more valuable queen on a long diagonal."
  ],
  "tactic-pin-rook-relative": [
-  "Relative Pin with Rook",
+  "Who's Behind the Owl?",
   "Line up a rook, bishop, and queen to create a relative pin."
  ],
  "tactic-skewer-bishop-king": [
-  "Bishop Skewer",
+  "Found You Behind the King",
   "Give check with your bishop, with the rook behind the king."
  ],
  "tactic-skewer-rook-queen": [
-  "Rook Skewer: Queen Behind",
+  "The King's Hidden Treasure",
   "Give check with the rook while the enemy queen sits behind the king."
  ],
  "tactic-discovery-knight-queen": [
-  "Knight Uncovers the File",
+  "The Pony Opens a Secret Path",
   "Check with the knight and uncover a rook attack on the queen."
  ],
  "tactic-discovery-pawn-bishop": [
-  "Pawn Clears a Bishop Diagonal",
+  "The Window the Chick Opened",
   "Advance the pawn to unblock a bishop attack on the rook."
  ],
  "tactic-defender-bishop": [
-  "Remove a Knight Defender",
+  "Catch the Lookout",
   "Capture the knight that defends the rook."
  ],
  "tactic-defender-pawn": [
-  "Remove the Pawn Defender",
+  "The Little Gatekeeper",
   "Capture the pawn defending the knight."
  ],
  "tactic-defender-bishop-2": [
-  "Remove the Bishop Defender",
+  "Watch Out for the Owl",
   "Capture the bishop defending the rook, opening your bishop’s diagonal attack."
  ],
  "tactic-doublecheck-knight": [
-  "Knight Double Check",
+  "Together with the Pony",
   "Uncover the rook and check with the knight at the same time."
  ],
  "tactic-promotion-capture-check": [
-  "Capture and Promote with Check",
+  "Dressing Up with a Souvenir",
   "Capture the rook with your pawn, promote to a queen, and give check."
  ],
  "tactic-castling-kingside": [
-  "Castle Kingside",
+  "The King's Moving Day",
   "Practice moving your king and rook together in kingside castling."
  ],
  "tactic-rook-capture-check": [
-  "Capture with Check",
+  "Hello at the Castle Door",
   "Use your bishop-supported rook to capture the enemy rook with check."
  ],
  "tactic-bishop-sacrifice-check": [
-  "Supported Bishop Check",
+  "The Owl Says Bon Appétit",
   "Capture the h7 pawn with a bishop supported by your knight and give check."
  ],
  "tactic-promotion-knight-majors": [
-  "Underpromotion: Two Major Pieces",
+  "A Greedy New Pony",
   "Promote to a knight to attack both the queen and rook."
  ],
  "tactic-pin-bishop-king-2": [
-  "Long Diagonal Pin",
+  "The King Behind the Castle",
   "Move the bishop from b1 to e4 to pin the rook on c6 to the king on b7. Create a new diagonal pin."
  ]
 };
