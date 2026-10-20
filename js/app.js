@@ -33,15 +33,22 @@ function saveSettings() {
 }
 function loadSaved() {
   try {
-    const s = JSON.parse(localStorage.getItem('animalchess_settings'));
-    if (s) Object.assign(settings, s);
+    const savedSettings = JSON.parse(localStorage.getItem('animalchess_settings'));
+    if (savedSettings && typeof savedSettings === 'object' && !Array.isArray(savedSettings)) {
+      Object.assign(settings, savedSettings);
+    }
     if (!['3d', 'miniature', 'simple'].includes(settings.viewMode)) settings.viewMode = 'miniature';
-    const sv = JSON.parse(localStorage.getItem('animalchess_solved'));
-    if (Array.isArray(sv)) solvedPuzzles = new Set(sv);
-  } catch (e) {}
+  } catch (error) { console.warn('Could not restore settings', error); }
+  try {
+    // This release intentionally starts fresh. Never read historical puzzle keys.
+    const stored = JSON.parse(localStorage.getItem('animalchess_solved_v4'));
+    if (!Array.isArray(stored)) return;
+    const valid = new Set(PUZZLES.map((p) => p.id));
+    solvedPuzzles = new Set(stored.filter((id) => typeof id === 'string' && valid.has(id)));
+  } catch (error) { console.warn('Could not restore puzzle progress', error); }
 }
 function saveSolved() {
-  try { localStorage.setItem('animalchess_solved', JSON.stringify([...solvedPuzzles])); } catch (e) {}
+  try { localStorage.setItem('animalchess_solved_v4', JSON.stringify([...solvedPuzzles])); } catch (error) {}
 }
 
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
@@ -485,8 +492,10 @@ function renderStatus() {
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
     if (!p) { statusEl.textContent = tr('status.choosePuzzle'); return; }
-    if (game.in_checkmate()) { statusEl.innerHTML = tr('status.checkmate'); return; }
-    statusEl.innerHTML = puzzle.busy ? tr('status.puzzleReply', { color: colorJa(game.turn()) }) : tr('status.puzzleTurn', { color: colorJa(game.turn()), moves: puzzle.movesLeft });
+    if (puzzle.complete || game.in_checkmate()) { statusEl.textContent = tr('status.puzzleComplete'); return; }
+    statusEl.innerHTML = puzzle.busy ? tr('status.puzzleReply', { color: colorJa(game.turn()) })
+      : p.objective === 'tactic' ? tr('status.tacticTurn', { color: colorJa(game.turn()) })
+      : tr('status.puzzleTurn', { color: colorJa(game.turn()), moves: puzzle.movesLeft });
     return;
   }
   if (game.game_over()) {
@@ -589,7 +598,7 @@ function maybeCpuMove() {
 
 // ===== Click interaction / クリック操作 =====
 function playerCanMoveNow() {
-  if (cpuThinking || puzzle.busy) return false;
+  if (cpuThinking || puzzle.busy || (mode === 'puzzle' && puzzle.complete)) return false;
   if (mode === 'replay') return false;
   if (game.game_over()) return false;
   if (mode === 'puzzle') {
@@ -651,7 +660,7 @@ function showPromotion(from, to) {
 
 // ===== Hints / ヒント =====
 function requestHint() {
-  if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking || puzzle.busy) return;
+  if (mode === 'replay' || game.game_over() || cpuThinking || hintThinking || puzzle.busy || (mode === 'puzzle' && puzzle.complete)) return;
   if (mode === 'play' && settings.opponent === 'cpu' && game.turn() !== settings.playerColor) return;
   const advisor = I18N.language === 'en'
     ? (isIllustrated() ? '🐱 Cat Coach' : '🧙 Coach')
@@ -776,6 +785,7 @@ function newGame() {
   buildBoard();
   renderAll();
   $('gameover-modal').classList.add('hidden');
+  updatePuzzleCompletion();
   maybeCpuMove();
 }
 
@@ -800,23 +810,32 @@ function undoMove() {
 // ===== Puzzles / パズル =====
 // Prefer common Japanese katakana chess terms; add parentheses where the meaning may be unclear. / 一般的なカタカナのチェス用語を使い、意味が伝わりにくいものは括弧で補う。
 const PUZZLE_THEME_JA = {
-  backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイト/フォーク',
+  backrank: 'バックランク', opening: '定跡の罠', knight: 'ナイトのメイト',
   diagonal: '斜めライン', endgame: 'エンドゲーム', ladder: '二枚のルーク',
   sacrifice: 'サクリファイス(犠牲)', smother: 'スマザー・メイト(窒息)',
   queen: 'クイーンの寄せ', support: '支えの一撃',
+  pattern: 'エポレット・メイト', fork: '両取り・フォーク', pin: 'ピン',
+  skewer: 'スキュア', discovery: '発見攻撃', promotion: 'ポーンの昇格',
+  doublecheck: 'ダブルチェック', enpassant: 'アンパッサン', stalemate: 'ステイルメイト回避',
+  defender: '守備駒の除去', castling: 'キャスリング', capture: '駒取りと王手',
 };
 const PUZZLE_THEME_EN = {
-  backrank: 'Back rank', opening: 'Opening traps', knight: 'Knight / fork', diagonal: 'Diagonal line',
+  backrank: 'Back rank', opening: 'Opening traps', knight: 'Knight mates', diagonal: 'Diagonal line',
   endgame: 'Endgame', ladder: 'Two rooks', sacrifice: 'Sacrifice', smother: 'Smothered mate',
   queen: 'Queen finish', support: 'Supported attack',
+  pattern: 'Epaulette mate', fork: 'Double attack / fork', pin: 'Pin',
+  skewer: 'Skewer', discovery: 'Discovered attack', promotion: 'Promotion',
+  doublecheck: 'Double check', enpassant: 'En passant', stalemate: 'Avoid stalemate',
+  defender: 'Remove the defender', castling: 'Castling', capture: 'Capture with check',
 };
 let puzzleTheme = 'all';
 let puzzleLevel = 'all';   // Filter by mate length. / 詰み手数で絞り込む。
 
 function puzzleText(p) {
-  const en = I18N.language === 'en' && typeof PUZZLE_EN !== 'undefined' ? PUZZLE_EN[PUZZLES.indexOf(p)] : null;
+  const en = I18N.language === 'en' && typeof PUZZLE_EN !== 'undefined' ? PUZZLE_EN[p.id] : null;
   return en ? { title: en[0], idea: en[1] } : p;
 }
+function puzzleSafeText(value) { return String(value).replace(/[&<>"']/g, (ch) => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[ch])); }
 function puzzleThemeLabel(t) { return (I18N.language === 'en' ? PUZZLE_THEME_EN[t] : PUZZLE_THEME_JA[t]) || (I18N.language === 'en' ? 'Basics' : 'きほん'); }
 // Difficulty labels based on mate length. / 詰み手数を目安にした難易度ラベル。
 const PUZZLE_LEVEL_JA = { 1: '⭐ 1手詰め', 2: '⭐⭐ 2手詰め', 3: '⭐⭐⭐ 3手詰め' };
@@ -826,12 +845,15 @@ function renderPuzzleCats() {
   if (!wrap) return;
   wrap.innerHTML = '';
   // First row: filter by difficulty (mate length). / 1行目: 難易度（詰み手数）で選ぶ。
-  const levels = ['all'].concat([...new Set(PUZZLES.map((p) => p.mateIn))].sort((a, b) => a - b));
+  const levels = ['all'].concat([...new Set(PUZZLES.filter((p) => p.objective !== 'tactic').map((p) => p.mateIn))].sort((a, b) => a - b));
+  if (PUZZLES.some((p) => p.objective === 'tactic')) levels.push('tactic');
   for (const lv of levels) {
     const b = document.createElement('button');
     b.className = 'chip lv' + (lv === puzzleLevel ? ' active' : '');
-    b.textContent = lv === 'all' ? tr('puzzle.allLevels') : (I18N.language === 'en' ? `⭐`.repeat(Number(lv)) + ` Mate in ${lv}` : (PUZZLE_LEVEL_JA[lv] || `${lv}手詰め`));
-    b.addEventListener('click', () => { puzzleLevel = lv; renderPuzzleCats(); renderPuzzleList(); });
+    b.textContent = lv === 'all' ? tr('puzzle.allLevels')
+      : lv === 'tactic' ? tr('puzzle.tactic')
+      : (I18N.language === 'en' ? `⭐`.repeat(Number(lv)) + ` Mate in ${lv}` : (PUZZLE_LEVEL_JA[lv] || `${lv}手詰め`));
+    b.addEventListener('click', () => { puzzleLevel = lv; renderPuzzleCats(); renderPuzzleList({ resetScroll: true }); updatePuzzleCompletion(); });
     wrap.appendChild(b);
   }
   // Second row: filter by theme. / 2行目: テーマで選ぶ。
@@ -840,25 +862,84 @@ function renderPuzzleCats() {
     const b = document.createElement('button');
     b.className = 'chip' + (t === puzzleTheme ? ' active' : '');
     b.textContent = t === 'all' ? tr('puzzle.allThemes') : puzzleThemeLabel(t);
-    b.addEventListener('click', () => { puzzleTheme = t; renderPuzzleCats(); renderPuzzleList(); });
+    b.addEventListener('click', () => { puzzleTheme = t; renderPuzzleCats(); renderPuzzleList({ resetScroll: true }); updatePuzzleCompletion(); });
     wrap.appendChild(b);
   }
 }
-function renderPuzzleList() {
+function puzzleMatchesFilter(p) {
+  if (puzzleTheme !== 'all' && p.theme !== puzzleTheme) return false;
+  if (puzzleLevel === 'tactic') return p.objective === 'tactic';
+  return puzzleLevel === 'all' || (p.objective !== 'tactic' && p.mateIn === puzzleLevel);
+}
+function renderPuzzleList({ resetScroll = false } = {}) {
   const wrap = $('puzzle-list');
+  // Rebuilding the list after a move must not jump back to its first item.
+  const scrollTop = resetScroll ? 0 : wrap.scrollTop;
   wrap.innerHTML = '';
   PUZZLES.forEach((p, i) => {
-    if (puzzleTheme !== 'all' && p.theme !== puzzleTheme) return;
-    if (puzzleLevel !== 'all' && p.mateIn !== puzzleLevel) return;
+    if (!puzzleMatchesFilter(p)) return;
     const btn = document.createElement('button');
+    btn.dataset.puzzleIndex = String(i);
     const text = puzzleText(p);
     btn.className = 'puzzle-item' + (i === puzzle.idx ? ' active' : '');
-    btn.innerHTML = `<span class="badge m${p.mateIn}">${I18N.language === 'en' ? tr('puzzle.mateIn', { moves: p.mateIn }) : `${p.mateIn}手`}</span>` +
-      `<span class="puz-name">${text.title}<span class="puz-theme">${puzzleThemeLabel(p.theme)}</span></span>` +
-      `<span class="done">${solvedPuzzles.has(i) ? '✅' : ''}</span>`;
+    btn.innerHTML = `<span class="badge m${p.mateIn}">${I18N.language === 'en' ? (p.objective === 'tactic' ? tr('puzzle.tactic') : tr('puzzle.mateIn', { moves: p.mateIn })) : `${p.objective === 'tactic' ? '1手課題' : p.mateIn + '手'}`}</span>` +
+      `<span class="puz-name">${puzzleSafeText(text.title)}<span class="puz-theme">${puzzleSafeText(puzzleThemeLabel(p.theme))}</span></span>` +
+      `<span class="done">${solvedPuzzles.has(p.id) ? '✅' : ''}</span>`;
     btn.addEventListener('click', () => loadPuzzle(i));
     wrap.appendChild(btn);
   });
+  wrap.scrollTop = scrollTop;
+}
+
+// Progress forward from the current exercise. Never wrap to the first unsolved puzzle.
+// Prefer the active filter, then continue through the remaining catalog when that ends.
+function nextPuzzleAfter(index) {
+  if (!Number.isInteger(index) || index < 0 || index >= PUZZLES.length) return null;
+  if (puzzleMatchesFilter(PUZZLES[index])) {
+    for (let i = index + 1; i < PUZZLES.length; i++) {
+      if (puzzleMatchesFilter(PUZZLES[i]) && !solvedPuzzles.has(PUZZLES[i].id)) return { index: i, outsideFilter: false };
+    }
+  }
+  for (let i = index + 1; i < PUZZLES.length; i++) {
+    if (!solvedPuzzles.has(PUZZLES[i].id)) return { index: i, outsideFilter: true };
+  }
+  return null;
+}
+function updatePuzzleCompletion() {
+  const panel = $('puzzle-completion');
+  if (mode !== 'puzzle' || !puzzle.complete || puzzle.idx < 0) {
+    panel.classList.add('hidden');
+    return;
+  }
+  const next = nextPuzzleAfter(puzzle.idx);
+  const button = $('btn-puzzle-next');
+  const caption = $('puzzle-completion-text');
+  panel.classList.remove('hidden');
+  if (next) {
+    const title = puzzleText(PUZZLES[next.index]).title;
+    caption.textContent = tr(next.outsideFilter ? 'puzzle.nextOutsideFilter' : 'puzzle.nextAfter', { title });
+    button.textContent = tr('button.nextPuzzle');
+    button.classList.remove('hidden');
+    button.disabled = false;
+  } else {
+    caption.textContent = tr(solvedPuzzles.size === PUZZLES.length ? 'puzzle.allCompleted' : 'puzzle.noMoreAfter', { count: PUZZLES.length });
+    button.classList.add('hidden');
+    button.disabled = true;
+  }
+}
+function goToNextPuzzle() {
+  if (mode !== 'puzzle' || !puzzle.complete) return;
+  const next = nextPuzzleAfter(puzzle.idx);
+  if (!next) return;
+  if (next.outsideFilter) {
+    puzzleTheme = 'all';
+    puzzleLevel = 'all';
+    renderPuzzleCats();
+    renderPuzzleList({ resetScroll: true });
+  }
+  loadPuzzle(next.index);
+  const item = $('puzzle-list').querySelector(`[data-puzzle-index="${next.index}"]`);
+  if (item) item.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 function loadPuzzle(i) {
   const p = PUZZLES[i];
@@ -866,7 +947,7 @@ function loadPuzzle(i) {
   game = new Chess(p.fen);
   mode = 'puzzle';
   replay.annotation = null;
-  puzzle = { idx: i, movesLeft: p.mateIn, busy: false, hintShown: false };
+  puzzle = { idx: i, movesLeft: p.mateIn, busy: false, hintShown: false, complete: false };
   hintThinking = false;
   selected = null; legalTargets = []; lastMove = null; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
@@ -877,14 +958,15 @@ function loadPuzzle(i) {
   renderAll();
   renderPuzzleList();
   const text = puzzleText(p);
-  $('puzzle-title').innerHTML = `${text.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
+  $('puzzle-title').innerHTML = `${puzzleSafeText(text.title)} <span class="puz-theme">${puzzleSafeText(puzzleThemeLabel(p.theme))}</span>`;
   renderPuzzleGoal();
+  updatePuzzleCompletion();
   toast(tr('toast.puzzleStart', { title: text.title }));
 }
 function renderPuzzleGoal() {
   const p = PUZZLES[puzzle.idx];
   if (!p) return;
-  $('puzzle-goal').innerHTML = tr('puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: puzzle.hintShown ? puzzleText(p).idea : tr('puzzle.hintHelp') });
+  $('puzzle-goal').innerHTML = tr(p.objective === 'tactic' ? 'puzzle.tacticGoal' : 'puzzle.goal', { color: colorJa(p.turn), moves: p.mateIn, idea: puzzleSafeText(puzzle.hintShown ? puzzleText(p).idea : tr('puzzle.hintHelp')) });
 }
 function puzzleCandidates(position = game, remaining = puzzle.movesLeft) {
   try { return Learning.puzzleMoves(PUZZLES[puzzle.idx], position, remaining); }
@@ -896,7 +978,7 @@ function puzzleCandidates(position = game, remaining = puzzle.movesLeft) {
   }
 }
 function puzzleTryMove(moveArg) {
-  if (!playerCanMoveNow()) return;
+  if (!playerCanMoveNow() || puzzle.complete) return;
   const cands = puzzleCandidates();
   if (!cands) return;
   const hit = cands.find((m) => m.from === moveArg.from && m.to === moveArg.to
@@ -908,11 +990,11 @@ function puzzleTryMove(moveArg) {
     setTimeout(() => boardEl.classList.remove('shake'), 450);
     selected = null; legalTargets = [];
     renderPosition();
-    toast(tr('toast.puzzleWrong'));
+    toast(tr(PUZZLES[puzzle.idx].objective === 'tactic' ? 'toast.tacticWrong' : 'toast.puzzleWrong'));
     return;
   }
   applyMove({ from: hit.from, to: hit.to, promotion: hit.promotion });
-  if (game.in_checkmate()) {
+  if (PUZZLES[puzzle.idx].objective === 'tactic' || game.in_checkmate()) {
     puzzleSolved();
     return;
   }
@@ -940,17 +1022,17 @@ function puzzleTryMove(moveArg) {
 }
 function puzzleSolved() {
   const activePuzzle = puzzle;
-  solvedPuzzles.add(puzzle.idx);
+  activePuzzle.complete = true;
+  solvedPuzzles.add(PUZZLES[puzzle.idx].id);
+  renderStatus();
   saveSolved();
   renderPuzzleList();
   sWin(); confetti();
-  const next = PUZZLES.findIndex((p, i) => !solvedPuzzles.has(i));
+  // Offer the next exercise in place, not a transient suggestion to the catalog's first unsolved item.
+  updatePuzzleCompletion();
   setTimeout(() => {
     if (mode !== 'puzzle' || puzzle !== activePuzzle) return;
-    toast(tr('toast.puzzleSolved'), 3200);
-    if (next >= 0) setTimeout(() => {
-      if (mode === 'puzzle' && puzzle === activePuzzle) toast(tr('toast.nextPuzzle', { title: puzzleText(PUZZLES[next]).title }));
-    }, 1500);
+    toast(tr(PUZZLES[activePuzzle.idx].objective === 'tactic' ? 'toast.tacticSolved' : 'toast.puzzleSolved'), 3200);
   }, 300);
 }
 
@@ -966,6 +1048,7 @@ function enterStudy(study) {
   replay.annotation = study.annotation || null;
   replay.idx = 0;
   mode = 'replay';
+  updatePuzzleCompletion();
   selected = null; legalTargets = []; hintSquares = [];
   cpuThinking = false; pendingGuests = 0; lastCapturer = null;
   clearCarriages();
@@ -1059,6 +1142,7 @@ function replayToPlay() {
   if (mode !== 'replay') return;
   $('study-panel').classList.add('hidden');
   mode = 'play';
+  updatePuzzleCompletion();
   settings.playerColor = game.turn();
   $('sel-color').value = settings.playerColor;
   saveSettings();
@@ -1142,12 +1226,13 @@ function refreshLanguage() {
     [...selBgm.options].slice(1).forEach((opt, index) => { opt.textContent = `${index + 1}. ${bgmSongName(index)}`; });
   }
   renderLearnCats(); renderLearnList(); renderGamesList(); renderPuzzleCats(); renderPuzzleList();
+  updatePuzzleCompletion();
   renderAll();
   if (puzzle.idx >= 0) {
     const p = PUZZLES[puzzle.idx];
     if (p) {
       const text = puzzleText(p);
-      $('puzzle-title').innerHTML = `${text.title} <span class="puz-theme">${puzzleThemeLabel(p.theme)}</span>`;
+      $('puzzle-title').innerHTML = `${puzzleSafeText(text.title)} <span class="puz-theme">${puzzleSafeText(puzzleThemeLabel(p.theme))}</span>`;
       renderPuzzleGoal();
     }
   } else {
@@ -1316,6 +1401,7 @@ function setupUI() {
   // Puzzles. / パズル。
   $('btn-puzzle-retry').addEventListener('click', () => { if (puzzle.idx >= 0) loadPuzzle(puzzle.idx); });
   $('btn-puzzle-hint').addEventListener('click', requestHint);
+  $('btn-puzzle-next').addEventListener('click', goToNextPuzzle);
 
   // PGN records. / 棋譜。
   $('btn-load-pgn').addEventListener('click', () => loadPgnText($('pgn-input').value));

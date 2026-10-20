@@ -31,7 +31,10 @@ for (const p of PUZZLES) {
     assert.equal(game.history().join(' '), history);
     for (const m of choices) {
       assert.ok(game.move(m)); edges++;
-      if (!game.in_checkmate()) {
+      if (p.objective === 'tactic') {
+        assert.equal(n, 1);
+        assert.ok(!game.in_checkmate());
+      } else if (!game.in_checkmate()) {
         assert.ok(n > 1 && !game.game_over());
         for (const reply of game.moves({verbose:true})) {
           game.move(reply); walk(game, n - 1); game.undo();

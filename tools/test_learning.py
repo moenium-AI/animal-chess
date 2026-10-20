@@ -3,6 +3,8 @@ import contextlib
 import copy
 import io
 import json
+import shutil
+import subprocess
 from pathlib import Path
 import tempfile
 import unittest
@@ -56,6 +58,18 @@ class LearningTests(unittest.TestCase):
         puzzles = audit_learning.read_data('puzzles.js', 'PUZZLES')
         states = 0
         for puzzle in puzzles:
+            if puzzle.get('objective') == 'tactic':
+                board = chess.Board(puzzle['fen'])
+                self.assertTrue(board.is_valid())
+                self.assertEqual(puzzle['mateIn'], 1)
+                self.assertEqual(puzzle['continuations'], {board.fen() + '|1': puzzle['solutions']})
+                for san in puzzle['solutions']:
+                    move = board.parse_san(san)
+                    board.push(move)
+                    self.assertFalse(board.is_checkmate())
+                    board.pop()
+                states += 1
+                continue
             tree = puzzle['continuations']; visited = set()
             def walk(board, remaining):
                 key = board.fen() + '|' + str(remaining)
@@ -86,13 +100,76 @@ class LearningTests(unittest.TestCase):
                     with self.assertRaises(SystemExit) as error: module.main()
                 self.assertEqual(error.exception.code, 1)
                 self.assertEqual(target.read_bytes(), b'keep existing data')
-        with tempfile.TemporaryDirectory() as folder:
-            target = Path(folder) / 'data.js'; target.write_bytes(b'keep existing data')
-            # A valid position with the wrong expected depth must also fail closed.
-            candidate = (3, 'test', 'bad expectation', '7k/5K2/8/8/8/8/8/6Q1 w - - 0 1', '')
-            with patch.object(verify_puzzles, 'CANDIDATES', [candidate]), patch('sys.argv', ['generator', str(target)]), contextlib.redirect_stdout(io.StringIO()):
-                with self.assertRaises(SystemExit): verify_puzzles.main()
-            self.assertEqual(target.read_bytes(), b'keep existing data')
+
+    def test_puzzle_builder_rejects_invalid_catalog_before_writing(self):
+        node = shutil.which('node')
+        if not node:
+            self.skipTest('Node.js is required to exercise the puzzle builder')
+        original = json.loads((ROOT / 'tools/puzzle_catalog.json').read_text(encoding='utf-8'))
+        cases = []
+        for field, value in [('mateIn', 4), ('solutions', [])]:
+            data = copy.deepcopy(original)
+            data['puzzles'][0][field] = value
+            cases.append(json.dumps(data))
+        duplicate = copy.deepcopy(original)
+        duplicate['puzzles'][1]['id'] = duplicate['puzzles'][0]['id']
+        cases.extend([json.dumps(duplicate), '{invalid JSON'])
+        for data in cases:
+            with self.subTest(catalog=data[:100]), tempfile.TemporaryDirectory() as folder:
+                sandbox = Path(folder)
+                (sandbox / 'tools').mkdir(); (sandbox / 'js').mkdir()
+                # Run the real builder in an isolated copy; never overwrite shipped files.
+                builder = sandbox / 'tools/build_puzzles.cjs'
+                shutil.copyfile(ROOT / 'tools/build_puzzles.cjs', builder)
+                (sandbox / 'tools/puzzle_catalog.json').write_text(data, encoding='utf-8')
+                outputs = [sandbox / 'js' / name for name in ['puzzles.js', 'puzzle_en.js']]
+                for output in outputs:
+                    output.write_bytes(b'keep existing data')
+                result = subprocess.run([node, str(builder)], capture_output=True, timeout=20)
+                self.assertNotEqual(result.returncode, 0)
+                for output in outputs:
+                    self.assertEqual(output.read_bytes(), b'keep existing data')
+                self.assertEqual(sorted(p.name for p in (sandbox / 'js').iterdir()),
+                                 ['puzzle_en.js', 'puzzles.js'])
+
+    def validate_puzzles(self, puzzles):
+        with patch.object(verify_puzzles, 'read_catalog', return_value=puzzles), contextlib.redirect_stdout(io.StringIO()):
+            verify_puzzles.main()
+
+    def test_puzzle_validator_accepts_reordered_mate_answers(self):
+        puzzle = copy.deepcopy(next(p for p in verify_puzzles.read_catalog()
+                                   if p['id'] == 'mate-queen-knight-endgame'))
+        puzzle['solutions'].reverse()
+        for answers in puzzle['continuations'].values():
+            answers.reverse()
+        self.validate_puzzles([puzzle])
+        # Order independence must not conceal a missing legal alternative.
+        answers = next(a for a in puzzle['continuations'].values() if len(a) > 1)
+        answers.pop()
+        with self.assertRaisesRegex(ValueError, 'continuation tree'):
+            self.validate_puzzles([puzzle])
+
+    def test_puzzle_validator_checks_all_tactical_alternatives(self):
+        original = next(p for p in verify_puzzles.read_catalog() if p['id'] == 'tactic-double-check')
+        puzzle = copy.deepcopy(original)
+        puzzle['solutions'].reverse()
+        self.validate_puzzles([puzzle])
+        for wrong in ['Ka9', 'Bg6', 'Bg6+']:
+            invalid = copy.deepcopy(original)
+            invalid['solutions'][1] = wrong
+            invalid['continuations'][invalid['fen'] + '|1'] = list(invalid['solutions'])
+            with self.subTest(answer=wrong), self.assertRaises(ValueError):
+                self.validate_puzzles([invalid])
+
+    def test_puzzle_validator_rejects_wrong_mate_depth_without_writes(self):
+        puzzle = copy.deepcopy(verify_puzzles.read_catalog()[0])
+        self.assertEqual(puzzle['mateIn'], 1)
+        puzzle['mateIn'] = 2
+        outputs = [ROOT / 'js' / name for name in ['puzzles.js', 'puzzle_en.js']]
+        before = [output.read_bytes() for output in outputs]
+        with self.assertRaisesRegex(ValueError, 'Incorrect shortest mate'):
+            self.validate_puzzles([puzzle])
+        self.assertEqual([output.read_bytes() for output in outputs], before)
 
     def test_atomic_replace_failure_keeps_previous_file(self):
         with tempfile.TemporaryDirectory() as folder:

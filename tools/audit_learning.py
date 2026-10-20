@@ -117,6 +117,20 @@ def audit():
         turn = "w" if board.turn else "b"
         if puzzle["turn"] != turn:
             issues.append({"id": puzzle["title"], "kind": "puzzle_turn"})
+        if puzzle.get('objective') == 'tactic':
+            for san in puzzle['solutions']:
+                try:
+                    move = board.parse_san(san)
+                    board.push(move)
+                    if board.is_checkmate():
+                        issues.append({'id': puzzle['id'], 'kind': 'tactic_is_mate'})
+                    board.pop()
+                except ValueError:
+                    issues.append({'id': puzzle['id'], 'kind': 'illegal_tactic_san'})
+            if puzzle['continuations'] != {puzzle['fen'] + '|1': puzzle['solutions']}:
+                issues.append({'id': puzzle['id'], 'kind': 'tactic_continuations'})
+            puzzle_results.append({'index': index, 'title': puzzle['title'], 'objective': 'tactic', 'solutions': puzzle['solutions']})
+            continue
         depth, solutions = None, []
         for n in range(1, puzzle["mateIn"] + 1):
             solutions = mate_starts(board, n)

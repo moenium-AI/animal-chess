@@ -24,7 +24,7 @@ Open the link and start playing. It works on both phones and desktop computers.
 - **🌐 Japanese / English** — Switch languages from the menu in the upper-right corner. The choice is saved in the browser.
 - **🏆 Famous games** — Replay historic games with original move-by-move notes. Every move is machine-checked.
 - **📜 PGN loading** — Paste or load a PGN file, click any move to replay from that point, and resume a game from the selected position.
-- **🧩 Chess puzzles** — 38 puzzles in mate-in-1, mate-in-2, and mate-in-3 formats. Filter by difficulty (⭐–⭐⭐⭐) or by learning theme such as back rank, fork, diagonal attack, two rooks, endgame, sacrifice, and opening trap. Each puzzle includes an explanation of its idea.
+- **🧩 Chess puzzles** — 80 puzzles: 42 forced-mate exercises (1–3 moves) and 38 one-move tactical/rules challenges. Filter by difficulty (⭐–⭐⭐⭐) or by learning theme such as back rank, fork, pin, skewer, discovered attack, double check, promotion, en passant, stalemate avoidance, diagonal attack, two rooks, endgame, sacrifice, and opening trap. Each puzzle includes an explanation of its idea. After clearing a puzzle, a **Next puzzle** button continues to the next unfinished puzzle in the current filter (or the following section), without jumping back to the first puzzle. The puzzle list preserves its scroll position.
 
 The game makes no external network requests. Settings and puzzle progress are stored in the browser's `localStorage`.
 
@@ -58,6 +58,23 @@ The game makes no external network requests. Settings and puzzle progress are st
 - **🌐 日本語 / English** — 画面右上の言語メニューから切り替えられます。設定はブラウザ内に保存されます。
 - **🏆 名局** — 歴史的な名勝負を独自の一手解説付きで鑑賞できます。すべての指し手を機械検証済みです。
 - **📜 棋譜（PGN）読み込み** — 貼り付け・ファイル読み込みに対応。手をクリックして任意の位置から再生し、選んだ局面から対局を再開できます。
-- **🧩 チェスパズル** — 1手詰め・2手詰め・3手詰めの全38問。難易度（⭐〜⭐⭐⭐）と、バックランク・フォーク・斜め・二枚のルーク・エンドゲーム・サクリファイス・定跡の罠などの学習テーマで絞り込めます。各問に狙いの解説があります。
+- **🧩 チェスパズル** — 1手詰め・2手詰め・3手詰めの詰み42問と、1手で完成する戦術・特殊ルール38問の合計80問。難易度（⭐〜⭐⭐⭐）と、バックランク・フォーク・斜め・二枚のルーク・エンドゲーム・サクリファイス・定跡の罠などの学習テーマで絞り込めます。各問に狙いの解説があります。クリア後は「次の問題へ」で、現在の問題より後にある未クリア問題へ進めます。絞り込みの最後なら次の分野へ移り、問題一覧のスクロール位置も維持します。
 
 外部への通信は一切ありません。設定とパズルのクリア状況はブラウザ内の `localStorage` に保存されます。
+
+### Puzzle catalog maintenance / パズルの管理
+
+Edit `tools/puzzle_catalog.json`, then run `node tools/build_puzzles.cjs` to regenerate both language files (`js/puzzles.js`, `js/puzzle_en.js`). Run `node tools/build_puzzles.cjs --check`, `node tools/test_puzzle_quality.cjs`, `node tools/test_mate_solver.cjs`, `node tools/test_extended_tactics.cjs`, and `node tools/test_learning_runtime.cjs` before shipping. To prevent false negatives for alternative correct tactics, also run `node tools/audit_alternate_tactics.cjs` and `node tools/test_puzzle_alternatives.cjs`; optional browser smoke test: `python tools/test_puzzle_alternatives_browser.py`. Puzzle navigation also has `node tools/test_puzzle_navigation.cjs` and an optional Chromium/Playwright test, `python tools/test_puzzle_navigation_browser.py`. Optional: `python tools/verify_puzzles.py` with `python-chess` installed for an independent solver implementation.
+
+パズルの正本は `tools/puzzle_catalog.json` です。問題拡張の変更内容は `docs/puzzle-expansion-2026-10-17.md`、別解の誤判定修正と検証範囲は `docs/puzzle-answer-audit-2026-10-17.md` を参照してください。旧クリア履歴との互換性はありません。既存の記録は読み込まず、今回の版のクリア状況だけを `animalchess_solved_v4` に保存します。
+
+The Python validator accepts every registered tactical alternative and compares
+mate-answer sets independently of their editorial order. Run
+`python -X utf8 tools/test_learning.py` for validator and safe-generation
+regressions. See [development notes](docs/dev-notes.md#adding-puzzles) for setup
+and cross-platform browser tests, and [integration checks](docs/puzzle-integration-2026-10-20.md) for this update.
+
+Python検証では戦術の全別解を確認し、詰みの正解集合を並び順に依存せず比較します。
+`python -X utf8 tools/test_learning.py` で検証器と不正データ時の生成物保護を検査できます。
+準備と各OSでのブラウザ検査は[開発手順](docs/dev-notes.md#パズルを追加する)、
+今回の反映記録は[統合検証](docs/puzzle-integration-2026-10-20.md)を参照してください。

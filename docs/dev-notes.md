@@ -14,7 +14,8 @@ Notes for working on the code. You do not need to read this file just to play th
 | `js/sprite_data.js` | Pixel-art data for 3D mode, shared with the Python validation tools |
 | `js/sprites.js` | Sprite renderer (canvas, team-color conversion, blinking, and carriage composition) |
 | `js/bgm.js` | BGM generator (Web Audio, ten-song rotation) |
-| `js/puzzles.js` | Puzzle data, generated after automatic validation with python-chess |
+| `tools/puzzle_catalog.json` | Canonical bilingual puzzle data, answers, and continuation trees |
+| `js/puzzles.js` | Generated puzzle data; validate with the JavaScript and independent Python checks |
 | `js/lessons.js` | Learn content (openings, combinations, and endgames), generated after validation |
 | `js/i18n.js` | Japanese/English UI switching and message catalog |
 | `js/puzzle_en.js` | English puzzle titles and ideas |
@@ -49,15 +50,46 @@ Change the hexadecimal colors in `teams` to update every character in a team.
 
 ## Adding puzzles
 
-Add a FEN and expected move sequence to `CANDIDATES` in `tools/verify_puzzles.py` and run the script.
-The python-chess solver verifies that each puzzle really mates and regenerates `js/puzzles.js`.
+Edit `tools/puzzle_catalog.json`. Keep each puzzle's ID stable and include its FEN,
+objective (`mate` or `tactic`), all accepted SAN answers, continuation tree, and
+Japanese/English explanations. One-move tactical challenges can have multiple
+correct answers; they demonstrate a pattern, rather than guaranteeing a material gain.
+
+Run these commands from the repository root. The Node builder generates both
+language files. The Python verifier independently checks legality and complete,
+shortest forced-mate trees without writing any generated files.
 
 ```bash
-cd tools
-python verify_puzzles.py ../js/puzzles.js
+node tools/build_puzzles.cjs
+node tools/build_puzzles.cjs --check
+node tools/test_puzzle_quality.cjs
+node tools/test_mate_solver.cjs
+node tools/test_extended_tactics.cjs
+node tools/audit_alternate_tactics.cjs
+node tools/test_puzzle_alternatives.cjs
+node tools/test_puzzle_navigation.cjs
+node tools/test_learning_runtime.cjs
+python -X utf8 tools/verify_puzzles.py
+python -X utf8 tools/test_learning.py
 ```
 
 Requires `python-chess`: `python -m pip install python-chess`
+
+Optional browser checks use Playwright's managed Chromium on Windows, macOS or
+Linux; no system-specific browser path is required:
+
+```bash
+python -m pip install playwright
+python -m playwright install chromium
+python -X utf8 tools/test_puzzle_navigation_browser.py
+python -X utf8 tools/test_puzzle_alternatives_browser.py
+```
+
+These browser scripts inject the local HTML/JS for grading and navigation checks.
+Also inspect the game over HTTP for asset loading and responsive appearance.
+To use an installed Chrome instead of downloading managed Chromium, set
+`ANIMAL_CHESS_BROWSER_CHANNEL=chrome` in the shell running the tests (PowerShell:
+`$env:ANIMAL_CHESS_BROWSER_CHANNEL = 'chrome'`). This affects only the test browser.
 
 ## Adding famous games and lessons
 
@@ -104,7 +136,8 @@ At 1099 px or less, the layout automatically switches to one column; the breakpo
 | `js/sprite_data.js` | 3Dモード用ドット絵データ。Python検証ツールと共有 |
 | `js/sprites.js` | スプライト描画エンジン（canvas・チーム色変換・まばたき・馬車合成） |
 | `js/bgm.js` | BGM生成（Web Audio・10曲ローテーション） |
-| `js/puzzles.js` | パズルデータ。python-chessで自動検証して生成 |
+| `tools/puzzle_catalog.json` | 日英の問題文・正解・継続手順をまとめた正本 |
+| `js/puzzles.js` | 正本から生成したパズルデータ。JSと独立したPython検証で確認 |
 | `js/lessons.js` | まなぶ教材（オープニング・コンビネーション・エンドゲーム）。検証して生成 |
 | `js/i18n.js` | UIの日英切り替えとメッセージ辞書 |
 | `js/puzzle_en.js` | パズルの英語タイトル・狙い |
@@ -139,15 +172,44 @@ python mock_board.py       # 盤に並べた見え方を board_mock.png に出�
 
 ## パズルを追加する
 
-`tools/verify_puzzles.py` の `CANDIDATES` にFENと想定手数を追記して実行します。
-python-chessのソルバーが本当に詰むかを全問検証し、`js/puzzles.js` を再生成します。
+`tools/puzzle_catalog.json` を編集します。固定ID、FEN、目的（`mate` または `tactic`）、
+正解SANの全候補、継続手順、日英の説明を揃えてください。戦術の1手課題には複数の正解を
+登録できます。戦術の形を作る練習であり、最善応手に対する駒得の保証とは区別します。
+
+リポジトリのルートで以下を実行します。Nodeの生成器が日英のJSを生成し、Pythonの検証器は
+生成物を書き換えず、合法性・最短詰み・全防御に対する継続手順を独立に検査します。
 
 ```bash
-cd tools
-python verify_puzzles.py ../js/puzzles.js
+node tools/build_puzzles.cjs
+node tools/build_puzzles.cjs --check
+node tools/test_puzzle_quality.cjs
+node tools/test_mate_solver.cjs
+node tools/test_extended_tactics.cjs
+node tools/audit_alternate_tactics.cjs
+node tools/test_puzzle_alternatives.cjs
+node tools/test_puzzle_navigation.cjs
+node tools/test_learning_runtime.cjs
+python -X utf8 tools/verify_puzzles.py
+python -X utf8 tools/test_learning.py
 ```
 
 `python-chess` が必要です: `python -m pip install python-chess`
+
+ブラウザ検査は任意です。Windows・macOS・LinuxでPlaywright管理のChromiumを使用し、
+特定のOSの実行ファイルパスには依存しません。
+
+```bash
+python -m pip install playwright
+python -m playwright install chromium
+python -X utf8 tools/test_puzzle_navigation_browser.py
+python -X utf8 tools/test_puzzle_alternatives_browser.py
+```
+
+この2本はローカルのHTML・JSを直接読み込む方式で解答判定と移動を検査します。
+画像の読み込みや画面幅ごとの表示は、HTTP配信した画面でも確認してください。
+管理版Chromiumをダウンロードせず、インストール済みのChromeを使う場合は、実行する
+シェルで `ANIMAL_CHESS_BROWSER_CHANNEL=chrome` を設定します。PowerShellでは
+`$env:ANIMAL_CHESS_BROWSER_CHANNEL = 'chrome'` です。検査用ブラウザだけに適用されます。
 
 ## 名局・まなぶ教材を追加する
 
