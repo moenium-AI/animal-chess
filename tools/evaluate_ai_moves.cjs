@@ -64,7 +64,8 @@ class Stockfish {
   });
  }
  async init(){
-  this.send('uci');await this.until(x=>x==='uciok');
+  this.send('uci');const intro=await this.until(x=>x==='uciok');
+  this.version=(intro.find(x=>x.startsWith('id name '))||'id name Unknown').slice(8);
   this.send('setoption name Threads value 1');
   this.send('setoption name Hash value 16');
   this.send('isready');await this.until(x=>x==='readyok');
@@ -142,7 +143,7 @@ async function main(){
    if((i+1)%20===0)console.error('Stockfish moves',i+1,'/',all.length);
   }
  }finally{stockfish.close()}
- const report={method:'Stockfish fixed-depth root vs restricted searchmoves; sampled legal AI moves; score is side-to-move POV; depth/horizon artifacts possible; terminal mate scores are distinct; no Elo claim.',stockfish:args.engine,depth:args.depth,sampledPositions:rows.length,perLevel:aggregate(rows),rows};
+ const report={method:'Stockfish fixed-depth root vs restricted searchmoves; sampled legal AI moves; score is side-to-move POV; depth/horizon artifacts possible; terminal mate scores are distinct; no Elo claim.',stockfish:args.engine,stockfishVersion:stockfish.version,depth:args.depth,sampledPositions:rows.length,perLevel:aggregate(rows),rows};
  if(args.out)fs.writeFileSync(args.out,JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({depth:args.depth,sampledPositions:rows.length,perLevel:report.perLevel},null,2));
 }
