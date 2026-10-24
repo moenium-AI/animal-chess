@@ -9,6 +9,9 @@ on:
       - 'js/chess.js'
       - 'tools/test_full_game_browser.py'
       - 'tools/test_engine_search.cjs'
+      - 'tools/test_ai_calibration.cjs'
+      - 'docs/ai-calibration-2026-10-24.json'
+      - 'docs/ai-calibration-pilot-2026-10-24.json'
       - 'tools/audit_ai_balance.cjs'
       - 'tools/tournament_ai_levels.cjs'
       - 'tools/summarize_ai_tournament.cjs'
@@ -25,6 +28,9 @@ on:
       - 'js/chess.js'
       - 'tools/test_full_game_browser.py'
       - 'tools/test_engine_search.cjs'
+      - 'tools/test_ai_calibration.cjs'
+      - 'docs/ai-calibration-2026-10-24.json'
+      - 'docs/ai-calibration-pilot-2026-10-24.json'
       - 'tools/audit_ai_balance.cjs'
       - 'tools/tournament_ai_levels.cjs'
       - 'tools/summarize_ai_tournament.cjs'
@@ -52,6 +58,8 @@ jobs:
           node --check js/engine.js
           node --check js/engine_worker.js
           node tools/test_engine_search.cjs
+          node tools/test_ai_calibration.cjs
+          node tools/summarize_ai_tournament.cjs docs/ai-calibration-pilot-2026-10-24.json > /dev/null
           node tools/test_tournament_ai_levels.cjs
           node tools/summarize_ai_tournament.cjs docs/ai-selfplay-results-2026-10-24.json > /dev/null
           node tools/test_learning_async.cjs

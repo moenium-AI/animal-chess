@@ -388,14 +388,16 @@ const Engine = (() => {
   const LEVELS = {
     // Progression uses both search budget and decreasing random variation.
     // Ratings are intentionally not given Elo labels without match evidence.
+    // The middle levels reduce candidate-score variance without increasing CPU budgets;
+    // calibrated on paired historical middlegame comparisons, not inferred Elo.
     1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: false },
     2:  { depth: 1, timeMs: 220,  margin: 170, noise: 140, blunder: 0.45, quiesce: true, book: true },
     3:  { depth: 2, timeMs: 320,  margin: 110, noise: 90,  blunder: 0.30, quiesce: true, book: true },
     4:  { depth: 2, timeMs: 420,  margin: 90,  noise: 65,  blunder: 0.20, quiesce: true, book: true },
-    5:  { depth: 3, timeMs: 520,  margin: 70,  noise: 46,  blunder: 0.12, quiesce: true, book: true },
-    6:  { depth: 3, timeMs: 650,  margin: 55,  noise: 32,  blunder: 0.07, quiesce: true, book: true },
-    7:  { depth: 4, timeMs: 980,  margin: 34,  noise: 17,  blunder: 0.025,quiesce: true, book: true },
-    8:  { depth: 4, timeMs: 1160, margin: 24,  noise: 10,  blunder: 0.012,quiesce: true, book: true },
+    5:  { depth: 3, timeMs: 520,  margin: 45,  noise: 25,  blunder: 0.055,quiesce: true, book: true },
+    6:  { depth: 3, timeMs: 650,  margin: 38,  noise: 22,  blunder: 0.040,quiesce: true, book: true },
+    7:  { depth: 4, timeMs: 980,  margin: 24,  noise: 11,  blunder: 0.010,quiesce: true, book: true },
+    8:  { depth: 4, timeMs: 1160, margin: 20,  noise: 9,   blunder: 0.006,quiesce: true, book: true },
     9:  { depth: 4, timeMs: 1300, margin: 15,  noise: 5,   blunder: 0,    quiesce: true, book: true },
     10: { depth: 5, timeMs: 1650, margin: 0,   noise: 0,   blunder: 0,    quiesce: true, book: true },
   };
@@ -469,7 +471,7 @@ const Engine = (() => {
       return;
     }
     let worker;
-    try { worker = new Worker('js/engine_worker.js?v=2'); }
+    try { worker = new Worker('js/engine_worker.js?v=3'); }
     catch (_) { fallback(cb); return; }
     let done = false;
     const job = {
