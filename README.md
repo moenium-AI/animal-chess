@@ -89,3 +89,10 @@ See [Stockfish audit guide](docs/puzzle-stockfish-audit-2026-10-24.md).
 2026-10-24: Stockfish-verified puzzle quality revisions and scoring diagnostics are recorded in
 [docs/puzzle-stockfish-corrections-2026-10-24.md](docs/puzzle-stockfish-corrections-2026-10-24.md).
 Winning thematic alternatives are retained and annotated as notes rather than automatically rejected solely for being slower than a forced mate.
+
+## Game reliability & level-balance review (2026-10-24)
+
+- Full-game audit and ten-level Stockfish sampling: [report](docs/full-game-audit-and-balance-2026-10-24.md); [measurements](docs/balance-raw-2026-10-24.json).
+- CPU and hint computation use a cancellable Web Worker; on restricted browsers the original main-thread fallback remains.
+- Full-game UI/keyboard/storage test: `python tools/test_full_game_browser.py` (Playwright + Chromium). The GitHub Actions workflow runs the test over local HTTP with `ANIMAL_CHESS_USE_HTTP=1`.
+- Reproducible CPU quality sample: `node tools/audit_ai_balance.cjs --midgame --stockfish /path/to/stockfish --output balance.json` (Stockfish 16). This is not a game Elo estimate; level strength was **not** strictly monotonic in this small test.

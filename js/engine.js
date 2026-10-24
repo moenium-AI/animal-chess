@@ -439,8 +439,44 @@ const Engine = (() => {
     return list[Math.floor(Math.random() * list.length)];
   }
 
+  // Worker isolates the CPU-heavy search from board rendering and user input.
+  // One Worker per request makes cancellation immediate even during synchronous search.
+  const pending = new Set();
+  function cancelPending() {
+    for (const job of pending) job.cancel();
+    pending.clear();
+  }
+  function dispatch(kind, fen, level, cb, fallback) {
+    if (typeof Worker === 'undefined' || typeof document === 'undefined') { // Node tests or inside the worker
+      const job = { cancel: () => { job.cancelled = true; } };
+      pending.add(job);
+      fallback(value => { pending.delete(job); if (!job.cancelled) cb(value); });
+      return;
+    }
+    let worker;
+    try { worker = new Worker('js/engine_worker.js'); }
+    catch (_) { fallback(cb); return; }
+    let done = false;
+    const job = {
+      cancel() { if (done) return; done = true; worker.terminate(); pending.delete(job); }
+    };
+    pending.add(job);
+    const finish = (value, error) => {
+      if (done) return;
+      job.cancel();
+      if (error) fallback(cb);
+      else cb(value);
+    };
+    worker.onmessage = event => {
+      const data = event.data;
+      if (!data || data.id !== 1) return;
+      finish(data.move || null, !!data.error);
+    };
+    worker.onerror = event => { event.preventDefault(); finish(null, true); };
+    worker.postMessage({ id: 1, kind, fen, level });
+  }
   // Choose a CPU move asynchronously after allowing the UI to render. / UI描画を待ってから非同期でCPUの手を選ぶ。
-  function chooseMove(fen, level, cb) {
+  function chooseMoveLocal(fen, level, cb) {
     setTimeout(() => {
       const cfg = LEVELS[level] || LEVELS[5];
       // Use the opening book early for natural play. / 序盤は定跡ブックから自然な手を指す。
@@ -470,11 +506,18 @@ const Engine = (() => {
   }
 
   // Hints always use a stronger search setting. / ヒントは常に強めの設定で読む。
-  function bestMove(fen, cb) {
+  function bestMoveLocal(fen, cb) {
     setTimeout(() => {
       const results = analyzeRoot(fen, 7, 3000, true, 0);
       cb(results.length > 0 ? results[0].move : null);
     }, 50);
+  }
+
+  function chooseMove(fen, level, cb) {
+    dispatch('choose', fen, level, cb, done => chooseMoveLocal(fen, level, done));
+  }
+  function bestMove(fen, cb) {
+    dispatch('hint', fen, null, cb, done => bestMoveLocal(fen, done));
   }
 
   // Return all moves that force mate within n moves for puzzle validation. / n手以内の強制メイトになる手をすべて返し、パズル判定に使う。
@@ -501,5 +544,5 @@ const Engine = (() => {
     return out;
   }
 
-  return { chooseMove, bestMove, mateMoves, LEVELS };
+  return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS };
 })();

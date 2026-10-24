@@ -1,0 +1,664 @@
+{
+  "sampleMethod": "5 historical midgames shared by all levels; Stockfish depth 8, deterministic seed but separate engine runs for 1-3,4-6,7-10; NOT Elo",
+  "positions": [
+    "historic_evergreen",
+    "historic_immortal",
+    "historic_lasker_thomas",
+    "historic_levitsky_marshall",
+    "historic_opera"
+  ],
+  "sharedSummary": [
+    {
+      "level": 1,
+      "samples": 5,
+      "meanLossCp": 138,
+      "medianLossCp": 170,
+      "maxLossCp": 240,
+      "meanMoveMs": 142,
+      "blundersOver250": 0
+    },
+    {
+      "level": 2,
+      "samples": 5,
+      "meanLossCp": 170,
+      "medianLossCp": 98,
+      "maxLossCp": 387,
+      "meanMoveMs": 143,
+      "blundersOver250": 1
+    },
+    {
+      "level": 3,
+      "samples": 5,
+      "meanLossCp": 171,
+      "medianLossCp": 102,
+      "maxLossCp": 486,
+      "meanMoveMs": 480,
+      "blundersOver250": 1
+    },
+    {
+      "level": 4,
+      "samples": 5,
+      "meanLossCp": 121,
+      "medianLossCp": 88,
+      "maxLossCp": 209,
+      "meanMoveMs": 508,
+      "blundersOver250": 0
+    },
+    {
+      "level": 5,
+      "samples": 5,
+      "meanLossCp": 122,
+      "medianLossCp": 104,
+      "maxLossCp": 250,
+      "meanMoveMs": 816,
+      "blundersOver250": 0
+    },
+    {
+      "level": 6,
+      "samples": 5,
+      "meanLossCp": 124,
+      "medianLossCp": 77,
+      "maxLossCp": 281,
+      "meanMoveMs": 1212,
+      "blundersOver250": 1
+    },
+    {
+      "level": 7,
+      "samples": 5,
+      "meanLossCp": 134,
+      "medianLossCp": 76,
+      "maxLossCp": 289,
+      "meanMoveMs": 1297,
+      "blundersOver250": 1
+    },
+    {
+      "level": 8,
+      "samples": 5,
+      "meanLossCp": 100,
+      "medianLossCp": 104,
+      "maxLossCp": 207,
+      "meanMoveMs": 1418,
+      "blundersOver250": 0
+    },
+    {
+      "level": 9,
+      "samples": 5,
+      "meanLossCp": 73,
+      "medianLossCp": 77,
+      "maxLossCp": 112,
+      "meanMoveMs": 1716,
+      "blundersOver250": 0
+    },
+    {
+      "level": 10,
+      "samples": 5,
+      "meanLossCp": 188,
+      "medianLossCp": 89,
+      "maxLossCp": 533,
+      "meanMoveMs": 2103,
+      "blundersOver250": 1
+    }
+  ],
+  "rows": [
+    {
+      "level": 1,
+      "label": "historic_opera",
+      "move": "Rb1",
+      "ms": 126,
+      "lossCp": 170
+    },
+    {
+      "level": 2,
+      "label": "historic_opera",
+      "move": "Bg5",
+      "ms": 164,
+      "lossCp": 76
+    },
+    {
+      "level": 3,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 351,
+      "lossCp": 88
+    },
+    {
+      "level": 1,
+      "label": "historic_immortal",
+      "move": "Nc6",
+      "ms": 104,
+      "lossCp": 182
+    },
+    {
+      "level": 2,
+      "label": "historic_immortal",
+      "move": "Nc6",
+      "ms": 98,
+      "lossCp": 225
+    },
+    {
+      "level": 3,
+      "label": "historic_immortal",
+      "move": "Nc6",
+      "ms": 476,
+      "lossCp": 178
+    },
+    {
+      "level": 1,
+      "label": "historic_evergreen",
+      "move": "Nbd2",
+      "ms": 124,
+      "lossCp": 98
+    },
+    {
+      "level": 2,
+      "label": "historic_evergreen",
+      "move": "Nbd2",
+      "ms": 118,
+      "lossCp": 98
+    },
+    {
+      "level": 3,
+      "label": "historic_evergreen",
+      "move": "Nbd2",
+      "ms": 635,
+      "lossCp": 102
+    },
+    {
+      "level": 1,
+      "label": "historic_lasker_thomas",
+      "move": "Qe7",
+      "ms": 187,
+      "lossCp": 240
+    },
+    {
+      "level": 2,
+      "label": "historic_lasker_thomas",
+      "move": "Bxe5",
+      "ms": 187,
+      "lossCp": 62
+    },
+    {
+      "level": 3,
+      "label": "historic_lasker_thomas",
+      "move": "b5",
+      "ms": 578,
+      "lossCp": 486
+    },
+    {
+      "level": 1,
+      "label": "historic_levitsky_marshall",
+      "move": "Nxe6",
+      "ms": 167,
+      "lossCp": 0
+    },
+    {
+      "level": 2,
+      "label": "historic_levitsky_marshall",
+      "move": "Nxd5",
+      "ms": 146,
+      "lossCp": 387
+    },
+    {
+      "level": 3,
+      "label": "historic_levitsky_marshall",
+      "move": "Nxe6",
+      "ms": 359,
+      "lossCp": 0
+    },
+    {
+      "level": 1,
+      "label": "historic_byrne_fischer",
+      "move": "h6",
+      "ms": 196,
+      "lossCp": 58
+    },
+    {
+      "level": 2,
+      "label": "historic_byrne_fischer",
+      "move": "Qd6",
+      "ms": 196,
+      "lossCp": 53
+    },
+    {
+      "level": 3,
+      "label": "historic_byrne_fischer",
+      "move": "Nbd7",
+      "ms": 690,
+      "lossCp": 87
+    },
+    {
+      "level": 1,
+      "label": "historic_deepblue_kasparov",
+      "move": "Qd3",
+      "ms": 86,
+      "lossCp": 0
+    },
+    {
+      "level": 2,
+      "label": "historic_deepblue_kasparov",
+      "move": "Re1",
+      "ms": 84,
+      "lossCp": 0
+    },
+    {
+      "level": 3,
+      "label": "historic_deepblue_kasparov",
+      "move": "a4",
+      "ms": 248,
+      "lossCp": 0
+    },
+    {
+      "level": 1,
+      "label": "historic_kasparov_topalov",
+      "move": "O-O-O",
+      "ms": 155,
+      "lossCp": 0
+    },
+    {
+      "level": 2,
+      "label": "historic_kasparov_topalov",
+      "move": "O-O-O",
+      "ms": 150,
+      "lossCp": 0
+    },
+    {
+      "level": 3,
+      "label": "historic_kasparov_topalov",
+      "move": "O-O-O",
+      "ms": 547,
+      "lossCp": 0
+    },
+    {
+      "level": 1,
+      "label": "historic_paulsen_morphy",
+      "move": "Qb3",
+      "ms": 129,
+      "lossCp": 113
+    },
+    {
+      "level": 2,
+      "label": "historic_paulsen_morphy",
+      "move": "b4",
+      "ms": 139,
+      "lossCp": 0
+    },
+    {
+      "level": 3,
+      "label": "historic_paulsen_morphy",
+      "move": "Qb3",
+      "ms": 570,
+      "lossCp": 197
+    },
+    {
+      "level": 1,
+      "label": "historic_steinitz_bardeleben",
+      "move": "Nxe7",
+      "ms": 73,
+      "lossCp": 50
+    },
+    {
+      "level": 2,
+      "label": "historic_steinitz_bardeleben",
+      "move": "Nxe7",
+      "ms": 72,
+      "lossCp": 13
+    },
+    {
+      "level": 3,
+      "label": "historic_steinitz_bardeleben",
+      "move": "Nxe7",
+      "ms": 193,
+      "lossCp": 8
+    },
+    {
+      "level": 4,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 538,
+      "lossCp": 76
+    },
+    {
+      "level": 5,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 1075,
+      "lossCp": 104
+    },
+    {
+      "level": 6,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 1180,
+      "lossCp": 77
+    },
+    {
+      "level": 4,
+      "label": "historic_immortal",
+      "move": "a5",
+      "ms": 530,
+      "lossCp": 204
+    },
+    {
+      "level": 5,
+      "label": "historic_immortal",
+      "move": "Nc6",
+      "ms": 848,
+      "lossCp": 158
+    },
+    {
+      "level": 6,
+      "label": "historic_immortal",
+      "move": "Qg6",
+      "ms": 1590,
+      "lossCp": 281
+    },
+    {
+      "level": 4,
+      "label": "historic_evergreen",
+      "move": "Bg5",
+      "ms": 604,
+      "lossCp": 88
+    },
+    {
+      "level": 5,
+      "label": "historic_evergreen",
+      "move": "Bg5",
+      "ms": 775,
+      "lossCp": 88
+    },
+    {
+      "level": 6,
+      "label": "historic_evergreen",
+      "move": "Rd1",
+      "ms": 1461,
+      "lossCp": 8
+    },
+    {
+      "level": 4,
+      "label": "historic_lasker_thomas",
+      "move": "Bxe4",
+      "ms": 523,
+      "lossCp": 209
+    },
+    {
+      "level": 5,
+      "label": "historic_lasker_thomas",
+      "move": "Bxe4",
+      "ms": 693,
+      "lossCp": 250
+    },
+    {
+      "level": 6,
+      "label": "historic_lasker_thomas",
+      "move": "Bxe4",
+      "ms": 1092,
+      "lossCp": 250
+    },
+    {
+      "level": 4,
+      "label": "historic_levitsky_marshall",
+      "move": "Nxe6",
+      "ms": 345,
+      "lossCp": 28
+    },
+    {
+      "level": 5,
+      "label": "historic_levitsky_marshall",
+      "move": "Nxe6",
+      "ms": 688,
+      "lossCp": 10
+    },
+    {
+      "level": 6,
+      "label": "historic_levitsky_marshall",
+      "move": "Nxe6",
+      "ms": 735,
+      "lossCp": 5
+    },
+    {
+      "level": 4,
+      "label": "historic_byrne_fischer",
+      "move": "h6",
+      "ms": 654,
+      "lossCp": 63
+    },
+    {
+      "level": 5,
+      "label": "historic_byrne_fischer",
+      "move": "Bxf3",
+      "ms": 746,
+      "lossCp": 28
+    },
+    {
+      "level": 6,
+      "label": "historic_byrne_fischer",
+      "move": "Nbd7",
+      "ms": 1281,
+      "lossCp": 67
+    },
+    {
+      "level": 4,
+      "label": "historic_deepblue_kasparov",
+      "move": "Be5",
+      "ms": 264,
+      "lossCp": 166
+    },
+    {
+      "level": 5,
+      "label": "historic_deepblue_kasparov",
+      "move": "Be5",
+      "ms": 1149,
+      "lossCp": 153
+    },
+    {
+      "level": 6,
+      "label": "historic_deepblue_kasparov",
+      "move": "Be5",
+      "ms": 1143,
+      "lossCp": 106
+    },
+    {
+      "level": 4,
+      "label": "historic_kasparov_topalov",
+      "move": "O-O-O",
+      "ms": 562,
+      "lossCp": 29
+    },
+    {
+      "level": 5,
+      "label": "historic_kasparov_topalov",
+      "move": "Rf8",
+      "ms": 779,
+      "lossCp": 53
+    },
+    {
+      "level": 6,
+      "label": "historic_kasparov_topalov",
+      "move": "Rd8",
+      "ms": 1260,
+      "lossCp": 60
+    },
+    {
+      "level": 4,
+      "label": "historic_paulsen_morphy",
+      "move": "Qb3",
+      "ms": 580,
+      "lossCp": 182
+    },
+    {
+      "level": 5,
+      "label": "historic_paulsen_morphy",
+      "move": "a4",
+      "ms": 777,
+      "lossCp": 124
+    },
+    {
+      "level": 6,
+      "label": "historic_paulsen_morphy",
+      "move": "b4",
+      "ms": 1718,
+      "lossCp": 22
+    },
+    {
+      "level": 4,
+      "label": "historic_steinitz_bardeleben",
+      "move": "Nxe7",
+      "ms": 194,
+      "lossCp": 29
+    },
+    {
+      "level": 5,
+      "label": "historic_steinitz_bardeleben",
+      "move": "Nxe7",
+      "ms": 664,
+      "lossCp": 45
+    },
+    {
+      "level": 6,
+      "label": "historic_steinitz_bardeleben",
+      "move": "Kxe7",
+      "ms": 1138,
+      "lossCp": 27
+    },
+    {
+      "level": 7,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 1368,
+      "lossCp": 76
+    },
+    {
+      "level": 8,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 1440,
+      "lossCp": 104
+    },
+    {
+      "level": 9,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 1886,
+      "lossCp": 77
+    },
+    {
+      "level": 10,
+      "label": "historic_opera",
+      "move": "O-O",
+      "ms": 1943,
+      "lossCp": 80
+    },
+    {
+      "level": 7,
+      "label": "historic_immortal",
+      "move": "Qg6",
+      "ms": 1695,
+      "lossCp": 223
+    },
+    {
+      "level": 8,
+      "label": "historic_immortal",
+      "move": "Qg6",
+      "ms": 1639,
+      "lossCp": 207
+    },
+    {
+      "level": 9,
+      "label": "historic_immortal",
+      "move": "Nc6",
+      "ms": 2027,
+      "lossCp": 82
+    },
+    {
+      "level": 10,
+      "label": "historic_immortal",
+      "move": "Nc6",
+      "ms": 2165,
+      "lossCp": 89
+    },
+    {
+      "level": 7,
+      "label": "historic_evergreen",
+      "move": "Rd1",
+      "ms": 1389,
+      "lossCp": 35
+    },
+    {
+      "level": 8,
+      "label": "historic_evergreen",
+      "move": "Rd1",
+      "ms": 1370,
+      "lossCp": 35
+    },
+    {
+      "level": 9,
+      "label": "historic_evergreen",
+      "move": "Rd1",
+      "ms": 1709,
+      "lossCp": 35
+    },
+    {
+      "level": 10,
+      "label": "historic_evergreen",
+      "move": "Qb5",
+      "ms": 2196,
+      "lossCp": 170
+    },
+    {
+      "level": 7,
+      "label": "historic_lasker_thomas",
+      "move": "Bxe4",
+      "ms": 1039,
+      "lossCp": 289
+    },
+    {
+      "level": 8,
+      "label": "historic_lasker_thomas",
+      "move": "g6",
+      "ms": 1323,
+      "lossCp": 108
+    },
+    {
+      "level": 9,
+      "label": "historic_lasker_thomas",
+      "move": "g6",
+      "ms": 1482,
+      "lossCp": 112
+    },
+    {
+      "level": 10,
+      "label": "historic_lasker_thomas",
+      "move": "Nc6",
+      "ms": 1943,
+      "lossCp": 533
+    },
+    {
+      "level": 7,
+      "label": "historic_levitsky_marshall",
+      "move": "Nb3",
+      "ms": 996,
+      "lossCp": 47
+    },
+    {
+      "level": 8,
+      "label": "historic_levitsky_marshall",
+      "move": "Ndb5",
+      "ms": 1316,
+      "lossCp": 46
+    },
+    {
+      "level": 9,
+      "label": "historic_levitsky_marshall",
+      "move": "Ndb5",
+      "ms": 1476,
+      "lossCp": 58
+    },
+    {
+      "level": 10,
+      "label": "historic_levitsky_marshall",
+      "move": "Ndb5",
+      "ms": 2266,
+      "lossCp": 68
+    }
+  ]
+}

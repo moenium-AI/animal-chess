@@ -18,6 +18,58 @@ let graphicsRevision = 0;    // Cancel obsolete carriage callbacks when graphics
 let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
 let pendingPromotion = null;
+let gameGeneration = 0;
+let gameOverTimer = null;
+let modalReturnFocus = null;
+function cancelGameOver() {
+  if (gameOverTimer !== null) { clearTimeout(gameOverTimer); gameOverTimer = null; }
+}
+function scheduleGameOver(delay) {
+  cancelGameOver();
+  const position = game, generation = gameGeneration, fen = game.fen();
+  gameOverTimer = setTimeout(() => {
+    gameOverTimer = null;
+    if (generation !== gameGeneration || game !== position || game.fen() !== fen || mode !== 'play' || !game.game_over()) return;
+    showGameOver();
+  }, delay);
+}
+function focusableIn(modal) { return Array.from(modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter(el => !el.hidden); }
+function openModal(modal, keepReturnFocus = false) {
+  if (!keepReturnFocus || !modalReturnFocus) modalReturnFocus = document.activeElement;
+  modal.classList.remove('hidden');
+  focusableIn(modal)[0]?.focus();
+}
+function closeModal(modal, restore = true) {
+  modal.classList.add('hidden');
+  if (restore) {
+    const target = modalReturnFocus;
+    modalReturnFocus = null;
+    if (target && target.isConnected) target.focus();
+    else boardEl.querySelector('.square[tabindex="0"]')?.focus();
+  }
+}
+function trapModalKey(event) {
+  const modal = event.currentTarget;
+  if (modal.classList.contains('hidden')) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    if (modal.id === 'promo-modal') cancelPromotion();
+    else closeModal(modal);
+    return;
+  }
+  if (event.key !== 'Tab') return;
+  const focusable = focusableIn(modal);
+  if (!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length-1];
+  if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { event.preventDefault(); last.focus(); }
+  else if (!event.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) { event.preventDefault(); first.focus(); }
+}
+function cancelPromotion() {
+  pendingPromotion = null; selected = null; legalTargets = [];
+  closeModal($('promo-modal'));
+  renderPosition();
+}
+
 let solvedPuzzles = new Set();
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -35,9 +87,20 @@ function loadSaved() {
   try {
     const savedSettings = JSON.parse(localStorage.getItem('animalchess_settings'));
     if (savedSettings && typeof savedSettings === 'object' && !Array.isArray(savedSettings)) {
-      Object.assign(settings, savedSettings);
+      const choose = (name, values) => {
+        if (typeof savedSettings[name] === 'string' && values.includes(savedSettings[name])) settings[name] = savedSettings[name];
+      };
+      choose('set', Object.keys(PIECE_SETS));
+      choose('opponent', ['cpu', 'human']);
+      choose('playerColor', ['w', 'b']);
+      choose('viewMode', ['3d', 'miniature', 'simple']);
+      choose('language', ['ja', 'en']);
+      choose('bgmSong', ['auto', ...Array.from({length: BGM.songNames().length}, (_, i) => String(i))]);
+      if (Number.isInteger(savedSettings.level) && savedSettings.level >= 1 && savedSettings.level <= 10) settings.level = savedSettings.level;
+      for (const field of ['sound', 'bgm', 'badges']) {
+        if (typeof savedSettings[field] === 'boolean') settings[field] = savedSettings[field];
+      }
     }
-    if (!['3d', 'miniature', 'simple'].includes(settings.viewMode)) settings.viewMode = 'miniature';
   } catch (error) { console.warn('Could not restore settings', error); }
   try {
     // This release intentionally starts fresh. Never read historical puzzle keys.
@@ -547,7 +610,7 @@ function showGameOver() {
   const info = gameOverText();
   $('gameover-emoji').textContent = info.emoji;
   $('gameover-text').textContent = info.text;
-  $('gameover-modal').classList.remove('hidden');
+  openModal($('gameover-modal'));
   if (info.emoji.includes('🎉') || info.emoji.includes('🏆')) { sWin(); confetti(); }
   else sBad();
 }
@@ -575,7 +638,7 @@ function applyMove(moveArg, opts = {}) {
   renderAll();
   if (game.in_check() && !game.game_over()) sCheck();
   if (mode === 'play') {
-    if (game.game_over()) { setTimeout(showGameOver, m.captured && isAnimal() ? (isIllustrated() ? 2600 : 2100) : 500); }
+    if (game.game_over()) { scheduleGameOver(m.captured && isAnimal() ? (isIllustrated() ? 2600 : 2100) : 500); }
     else if (!opts.noCpu) maybeCpuMove();
   }
   return m;
@@ -649,13 +712,13 @@ function showPromotion(from, to) {
     }
     btn.title = pieceName(t);
     btn.addEventListener('click', () => {
-      modal.classList.add('hidden');
       pendingPromotion = null;
+      closeModal(modal);
       tryPlayerMove({ from, to, promotion: t });
     });
     box.appendChild(btn);
   }
-  modal.classList.remove('hidden');
+  openModal(modal, !modal.classList.contains('hidden'));
 }
 
 // ===== Hints / ヒント =====
@@ -770,9 +833,12 @@ function explainHintMove(fenBefore, m) {
 
 // ===== New game / 新しいゲーム =====
 function newGame() {
+  gameGeneration++;
+  cancelGameOver();
+  Engine.cancelPending();
   clearCarriages();
   pendingPromotion = null;
-  $('promo-modal').classList.add('hidden');
+  closeModal($('promo-modal'), false);
   puzzle.busy = false;
   hintThinking = false;
   game = new Chess();
@@ -784,7 +850,8 @@ function newGame() {
   orient = settings.opponent === 'cpu' ? settings.playerColor : 'w';
   buildBoard();
   renderAll();
-  $('gameover-modal').classList.add('hidden');
+  closeModal($('gameover-modal'), false);
+  modalReturnFocus = null;
   updatePuzzleCompletion();
   maybeCpuMove();
 }
@@ -792,6 +859,8 @@ function newGame() {
 // ===== Undo / 待った =====
 function undoMove() {
   if (mode !== 'play' || cpuThinking || game.history().length === 0) return;
+  cancelGameOver();
+  closeModal($('gameover-modal'), false);
   if (settings.opponent === 'cpu') {
     if (game.history().length < 2) return;
     game.undo(); game.undo();
@@ -944,6 +1013,10 @@ function goToNextPuzzle() {
 function loadPuzzle(i) {
   const p = PUZZLES[i];
   if (!p) return;
+  gameGeneration++;
+  cancelGameOver();
+  Engine.cancelPending();
+  closeModal($('gameover-modal'), false);
   game = new Chess(p.fen);
   mode = 'puzzle';
   replay.annotation = null;
@@ -1039,6 +1112,10 @@ function puzzleSolved() {
 // ===== PGN records / 棋譜（PGN） =====
 // Open study = { baseFen, sans[], notes[], meta:{title, sub, intro, takeaway} } in replay mode. / studyを再生モードで開く。
 function enterStudy(study) {
+  gameGeneration++;
+  cancelGameOver();
+  Engine.cancelPending();
+  closeModal($('gameover-modal'), false);
   puzzle.busy = false;
   hintThinking = false;
   replay.baseFen = study.baseFen || null;
@@ -1428,9 +1505,11 @@ function setupUI() {
 
   // Modal dialogs. / モーダル。
   $('promo-modal').addEventListener('click', (e) => {
-    if (e.target === $('promo-modal')) { $('promo-modal').classList.add('hidden'); pendingPromotion = null; selected = null; legalTargets = []; renderPosition(); }
+    if (e.target === $('promo-modal')) cancelPromotion();
   });
-  $('btn-gameover-close').addEventListener('click', () => $('gameover-modal').classList.add('hidden'));
+  $('promo-modal').addEventListener('keydown', trapModalKey);
+  $('gameover-modal').addEventListener('keydown', trapModalKey);
+  $('btn-gameover-close').addEventListener('click', () => closeModal($('gameover-modal')));
   $('btn-gameover-new').addEventListener('click', newGame);
 
   renderPuzzleCats();
