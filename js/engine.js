@@ -193,26 +193,66 @@ const Engine = (() => {
     return moves;
   }
 
-  // Quiescence search extends captures and promotions to reduce the horizon effect. / 静止探索で取り合いと成りだけを延長し、水平線効果を軽減する。
-  // It is used at every level so pieces about to be captured are valued correctly and queen blunders are avoided. / 全レベルで使い、取られる寸前のコマやクイーンの無駄捨てを正しく評価する。
-  const QMAX = 4; // Maximum quiescence extension to keep exchanges within the time budget. / 静止探索の最大延長段数。
+  // Repetition is path-dependent, unlike an ordinary transposition score.
+  // Keep the piece placement, turn, castling and en-passant fields, but not clocks.
+  function repetitionKey(game) { return game.fen().split(' ').slice(0, 4).join(' '); }
+  function halfmoveDraw(game) { return Number(game.fen().split(' ')[4]) >= 100; }
+  function pushRepetition(game, ctx) {
+    const key = repetitionKey(game);
+    ctx.rep.set(key, (ctx.rep.get(key) || 0) + 1);
+    return key;
+  }
+  function popRepetition(key, ctx) {
+    const n = ctx.rep.get(key);
+    if (n <= 1) ctx.rep.delete(key); else ctx.rep.set(key, n - 1);
+  }
+
+  // Quiescence: standing pat is forbidden while the side to move is in check.
+  // Search *all* legal evasions, including quiet king moves and interpositions.
+  // At the extension limit still examine one legal evasion, never evaluate a
+  // checkmated position as an ordinary static position.
+  const QMAX = 4, QCHECKMAX = 8;
   function quiesce(game, alpha, beta, deadline, ctx, qply) {
-    if ((ctx.nodes++ & 2047) === 0 && Date.now() > deadline) throw TIMEOUT;
+    if ((ctx.nodes++ & 1023) === 0 && Date.now() > deadline) throw TIMEOUT;
+    if ((ctx.rep.get(repetitionKey(game)) || 0) >= 3) return 0;
+    const inCheck = game.in_check();
     const stand = sideEval(game);
-    if (stand >= beta) return stand;
-    if (stand > alpha) alpha = stand;
-    if (qply >= QMAX) return stand; // Do not extend further. / これ以上は延長しない。
-    let best = stand;
-    const caps = game.fast_moves().filter((m) => m.captured || m.promotion);
-    orderMoves(caps, null, null, ctx.history);
-    for (const m of caps) {
-      // Delta pruning: skip a capture that cannot recover enough material. / デルタ枝刈り。取り返せないほど劣勢なら読まない。
-      const gain = VAL[m.captured || 'p'] + (m.promotion ? VAL[m.promotion] : 0);
-      if (stand + gain + 200 < alpha) continue;
+    if (game.insufficient_material()) return 0;
+    const clockDraw = halfmoveDraw(game);
+    if (!inCheck && clockDraw) return 0;
+    if (!inCheck && qply >= QMAX) return game.fast_moves().length ? stand : 0;
+    const moves = game.fast_moves();
+    if (moves.length === 0) return inCheck ? -MATE + ctx.ply + qply : 0;
+    if (!inCheck) {
+      if (stand >= beta) return stand;
+      if (stand > alpha) alpha = stand;
+    }
+    if (clockDraw) return 0; // No mating move overrides the 50-move claim.
+    if (inCheck && qply >= QCHECKMAX) {
+      // Bound extraordinary checking sequences, but require a legal escape.
+      let best = -INF;
+      for (const m of moves) {
+        game.move(m);
+        const s = -sideEval(game);
+        game.undo();
+        if (s > best) best = s;
+      }
+      return best;
+    }
+    const candidates = inCheck ? moves : moves.filter(m => m.captured || m.promotion);
+    orderMoves(candidates, null, null, ctx.history);
+    let best = inCheck ? -INF : stand;
+    for (const m of candidates) {
+      if (!inCheck) {
+        const gain = (m.captured ? VAL[m.captured] : 0) + (m.promotion ? VAL[m.promotion] : 0);
+        if (stand + gain + 200 < alpha) continue;
+      }
       game.move(m);
-      const s = -quiesce(game, -beta, -alpha, deadline, ctx, qply + 1);
-      game.undo();
-      if (s > best) best = s;
+      const key = pushRepetition(game, ctx);
+      let score;
+      try { score = -quiesce(game, -beta, -alpha, deadline, ctx, qply + 1); }
+      finally { popRepetition(key, ctx); game.undo(); }
+      if (score > best) best = score;
       if (best > alpha) alpha = best;
       if (alpha >= beta) break;
     }
@@ -221,148 +261,121 @@ const Engine = (() => {
 
   function search(game, depth, alpha, beta, ply, deadline, ctx) {
     if ((ctx.nodes++ & 1023) === 0 && Date.now() > deadline) throw TIMEOUT;
-    // Score insufficient-material draws as 0. Avoid chess.js repetition helpers because replaying the full history at every node is extremely expensive. / 駒不足の引き分けは0と評価し、毎ノード履歴を再生するchess.jsの重い検出は使わない。
-    // Detect repetitions cheaply with the position key on the current search path (ctx.rep). / 千日手は探索経路上の局面キー（ctx.rep）で軽量に検出する。
-    if (ply > 0 && game.insufficient_material()) return 0;
-    if (ply >= 60) return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx, 0) : sideEval(game);
-
-    const alphaOrig = alpha, betaOrig = beta;
-    const key = game.fen();
-    const entry = ctx.tt.get(key);
-    let ttMove = null;
-    if (entry) {
-      ttMove = entry.move;
-      if (entry.depth >= depth && Math.abs(entry.score) < MATE - 1000) {
-        if (entry.flag === EXACT) return entry.score;
-        if (entry.flag === LOWER && entry.score > alpha) alpha = entry.score;
-        else if (entry.flag === UPPER && entry.score < beta) beta = entry.score;
-        if (alpha >= beta) return entry.score;
+    const repetition = pushRepetition(game, ctx);
+    try {
+      if (ctx.rep.get(repetition) >= 3) return 0;
+      if (game.insufficient_material()) return 0;
+      const alphaOrig = alpha, betaOrig = beta;
+      const inCheck = game.in_check();
+      const clockDraw = halfmoveDraw(game);
+      // Move-generation precedes draw adjudication: checkmate wins even on move 100.
+      if (clockDraw) {
+        if (inCheck && game.fast_moves().length === 0) return -MATE + ply;
+        return 0;
       }
-    }
-
-    const moves = game.fast_moves();
-    if (moves.length === 0) return game.in_check() ? -MATE + ply : 0;
-    if (depth <= 0) {
-      return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx, 0) : sideEval(game);
-    }
-
-    const killers = ctx.killers[ply] || (ctx.killers[ply] = [null, null]);
-    orderMoves(moves, ttMove, killers, ctx.history);
-
-    let best = -INF, bestMv = null, first = true;
-    for (const m of moves) {
-      game.move(m);
-      // Extend checks by one ply to avoid missing mates and defenses. / 王手では1手延長し、詰みや受けの見落としを防ぐ。
-      const ext = game.in_check() && ply < 40 ? 1 : 0;
-      let s;
-      if (first) {
-        s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
-      } else {
-        // PVS: verify later moves with a null window, then re-search if they exceed it. / PVS。2手目以降をヌルウィンドウで確認し、超えたら本探索する。
-        s = -search(game, depth - 1 + ext, -alpha - 1, -alpha, ply + 1, deadline, ctx);
-        if (s > alpha && s < beta) s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
+      if (ply >= 60) {
+        ctx.ply = ply;
+        return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx, 0) : sideEval(game);
       }
-      game.undo();
-      first = false;
-      if (s > best) { best = s; bestMv = m; }
-      if (best > alpha) alpha = best;
-      if (alpha >= beta) {
-        // Remember quiet cutoffs as killer/history moves for future ordering. / 静かな手のカットをキラー手・履歴として次回の並べ替えに使う。
-        if (!m.captured && !m.promotion) {
-          if (!sameMove(m, killers[0])) { killers[1] = killers[0]; killers[0] = { from: m.from, to: m.to, promotion: m.promotion }; }
-          ctx.history[m.from + m.to] = (ctx.history[m.from + m.to] || 0) + depth * depth;
+      // The same board can evaluate differently with a different repetition
+      // history. Do not reuse transposition bounds on repeated paths.
+      const key = game.fen().split(' ').slice(0, 5).join(' ');
+      const entry = ctx.rep.get(repetition) === 1 ? ctx.tt.get(key) : null;
+      let ttMove = null;
+      if (entry) {
+        ttMove = entry.move;
+        if (entry.depth >= depth && Math.abs(entry.score) < MATE - 1000) {
+          if (entry.flag === EXACT) return entry.score;
+          if (entry.flag === LOWER && entry.score > alpha) alpha = entry.score;
+          else if (entry.flag === UPPER && entry.score < beta) beta = entry.score;
+          if (alpha >= beta) return entry.score;
         }
-        break;
       }
-    }
-
-    let flag = EXACT;
-    if (best <= alphaOrig) flag = UPPER;
-    else if (best >= betaOrig) flag = LOWER;
-    const storeMv = bestMv ? { from: bestMv.from, to: bestMv.to, promotion: bestMv.promotion } : ttMove;
-    if (ctx.tt.size < 250000) ctx.tt.set(key, { depth, score: best, flag, move: storeMv });
-    return best;
-  }
-
-  // Root search: return scored moves using iterative deepening with a time limit. / ルート探索。反復深化と時間制限付きで各手のスコアを返す。
-  // If refineMargin>0, re-search only moves within margin of the best move with a full window for accurate scores. / refineMargin>0なら最善手からmargin以内の候補を全幅で読み直し、弱いレベルの自滅手を除外する。
-  function analyzeRoot(fen, maxDepth, timeMs, useQuiesce, refineMargin) {
-    const game = new Chess(fen);
-    const rootMoves = game.fast_moves();
-    if (rootMoves.length === 0) return [];
-    const deadline = Date.now() + timeMs;
-    const ctx = { tt: new Map(), killers: [], history: {}, nodes: 0, useQuiesce };
-    let results = rootMoves.map((m) => ({ move: m, score: 0 }));
-    let completedDepth = 0;
-    for (let d = 1; d <= maxDepth; d++) {
-      const ordered = results.map((r) => r.move);
-      const cur = [];
-      let alpha = -INF, timedOut = false;
-      for (let k = 0; k < ordered.length; k++) {
-        const m = ordered[k];
-        // Always finish searching the first move without a time limit to guarantee a usable result. / 最初の1手は時間無制限で読み切り、最低限の手を確保する。
-        // Stop the remaining moves at the deadline and keep partial results. / 残りは締切で打ち切り、読めた結果を活かす。
-        const dl = (d === 1 && k === 0) ? Infinity : deadline;
+      const moves = game.fast_moves();
+      if (moves.length === 0) return inCheck ? -MATE + ply : 0;
+      if (depth <= 0) {
+        ctx.ply = ply;
+        return ctx.useQuiesce ? quiesce(game, alpha, beta, deadline, ctx, 0) : sideEval(game);
+      }
+      const killers = ctx.killers[ply] || (ctx.killers[ply] = [null, null]);
+      orderMoves(moves, ttMove, killers, ctx.history);
+      let best = -INF, bestMv = null, first = true;
+      for (const m of moves) {
         game.move(m);
         let s;
         try {
-          if (k === 0) {
-            s = -search(game, d - 1, -INF, -alpha, 1, dl, ctx);
-          } else {
-            // PVS: check with a null window first, then perform a full search if needed. / PVS。まずヌルウィンドウで確認し、必要なら本探索する。
-            s = -search(game, d - 1, -alpha - 1, -alpha, 1, dl, ctx);
-            if (s > alpha) s = -search(game, d - 1, -INF, -alpha, 1, dl, ctx);
+          const ext = game.in_check() && depth > 1 && ply < 8 ? 1 : 0;
+          if (first) s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
+          else {
+            s = -search(game, depth - 1 + ext, -alpha - 1, -alpha, ply + 1, deadline, ctx);
+            if (s > alpha && s < beta)
+              s = -search(game, depth - 1 + ext, -beta, -alpha, ply + 1, deadline, ctx);
           }
-        } catch (e) {
-          game.undo();
-          if (e === TIMEOUT) { timedOut = true; break; }
-          throw e;
+        } finally { game.undo(); }
+        first = false;
+        if (s > best) { best = s; bestMv = m; }
+        if (best > alpha) alpha = best;
+        if (alpha >= beta) {
+          if (!m.captured && !m.promotion) {
+            if (!sameMove(m, killers[0])) {
+              killers[1] = killers[0]; killers[0] = {from:m.from,to:m.to,promotion:m.promotion};
+            }
+            ctx.history[m.from + m.to] = (ctx.history[m.from + m.to] || 0) + depth * depth;
+          }
+          break;
         }
-        game.undo();
-        cur.push({ move: m, score: s });
-        if (s > alpha) alpha = s;
       }
-      if (cur.length > 0) {
-        // Merge searched moves with unread moves placed below them; preserve useful partial ordering. / 読めた手と未読の手をまとめ、部分的な深さでも順位を活かす。
-        const done = new Set(cur.map((x) => x.move));
-        for (const r of results) if (!done.has(r.move)) cur.push({ move: r.move, score: -INF });
-        cur.sort((a, b) => b.score - a.score);
-        results = cur;
-        completedDepth = d; // A partial score at this depth is still useful for refinement. / 部分的でもこの深さのスコアを精密化に使える。
+      let flag = EXACT;
+      if (best <= alphaOrig) flag = UPPER;
+      else if (best >= betaOrig) flag = LOWER;
+      const storeMv = bestMv ? {from:bestMv.from,to:bestMv.to,promotion:bestMv.promotion} : ttMove;
+      if (ctx.rep.get(repetition) === 1 && ctx.tt.size < 250000)
+        ctx.tt.set(key, {depth,score:best,flag,move:storeMv});
+      return best;
+    } finally { popRepetition(repetition, ctx); }
+  }
+
+  // Every root move gets a full-window score; a PVS null-window result is
+  // only a bound and cannot be compared fairly with a completed root score.
+  // Only fully finished depths may replace the previous completed iteration.
+  function analyzeRoot(fen, maxDepth, timeMs, useQuiesce, _refineMargin) {
+    const game = new Chess(fen);
+    const rootMoves = game.fast_moves();
+    if (!rootMoves.length || game.game_over()) return [];
+    const deadline = Date.now() + timeMs;
+    const ctx = {tt:new Map(),killers:[],history:{},rep:new Map([[repetitionKey(game),1]]),nodes:0,useQuiesce,ply:0};
+    // One-ply static fallback is always available. Never disable the deadline:
+    // even a single quiescence tree can be extremely large in checking lines.
+    let results = rootMoves.map(m=>{
+      game.move(m);
+      const score = -sideEval(game);
+      game.undo();
+      return {move:m,score};
+    }).sort((a,b)=>b.score-a.score);
+    let completedDepth = 0;
+    for (let depth = 1; depth <= maxDepth; depth++) {
+      const ordered = results.map(r=>r.move);
+      const current = [];
+      let timedOut = false;
+      for (let index = 0; index < ordered.length; index++) {
+        const m = ordered[index];
+        const limit = deadline;
+        game.move(m);
+        let score;
+        try { score = -search(game, depth - 1, -INF, INF, 1, limit, ctx); }
+        catch (e) {
+          if (e !== TIMEOUT) throw e;
+          timedOut = true;
+          break;
+        } finally { game.undo(); }
+        current.push({move:m,score});
       }
-      if (timedOut) break;
-      if (results[0].score > MATE - 100) break; // A found mate is sufficient. / メイト発見なら十分。
-      if (Date.now() > deadline) break;
-    }
-    // Weak-level refinement: a PVS scout window can give losing moves only a loose upper bound, allowing a queen blunder to look competitive. / 弱いレベルではPVSの上限値により大損手が候補へ紛れ込むことがある。
-    // Re-search only moves that appear within margin of the best with a full window, then remove genuine blunders. / 最善からmargin以内に見える手を全幅で読み直し、本当の大損手を除外する。
-    if (refineMargin > 0 && results.length > 1 && completedDepth >= 1) {
-      const best = results[0].score;
-      const threshold = best - refineMargin; // Do not enter the pool below this threshold. / これ未満の手は候補に入れない。
-      const verified = [results[0]];         // Always keep the best move. / 最善手は常に採用する。
-      // If a scout upper bound is below threshold, the true score is also below it, so the move can be discarded safely. / 上限値がthreshold未満なら真値も未満なので除外できる。
-      // Only moves at or above threshold are candidates (real or disguised blunders), so verify them. / threshold以上の候補（本物または大損手）を検証する。
-      const boundPass = results.slice(1).filter((r) => r.score >= threshold).slice(0, 8);
-      const excluded = results.slice(1).filter((r) => r.score < threshold);
-      const refineDeadline = Date.now() + 350;
-      let i = 0;
-      for (; i < boundPass.length; i++) {
-        if (Date.now() > refineDeadline) break;
-        const r = boundPass[i];
-        game.move(r.move);
-        let s;
-        try {
-          // Fast full-depth null-window verification around threshold. / threshold周辺を全深さのヌルウィンドウで高速検証する。
-          s = -search(game, completedDepth - 1, -threshold, -(threshold - 1), 1, refineDeadline, ctx);
-        } catch (e) { if (e !== TIMEOUT) throw e; game.undo(); break; }
-        game.undo();
-        r.score = s;
-        if (s >= threshold) verified.push(r); else excluded.push(r);
+      if (!timedOut && current.length === ordered.length) {
+        results = current.sort((a,b)=>b.score-a.score);
+        completedDepth = depth;
       }
-      // Exclude candidates left unverified at timeout rather than trusting their upper bounds. / 時間切れで未検証の候補は上限値を信用せず除外する。
-      for (; i < boundPass.length; i++) { boundPass[i].score = threshold - 100000; excluded.push(boundPass[i]); }
-      results = verified.concat(excluded);
-      results.sort((a, b) => b.score - a.score);
+      if (timedOut || Date.now() > deadline) break;
+      if (results[0].score >= MATE - 100) break;
     }
     return results;
   }
@@ -373,16 +386,18 @@ const Engine = (() => {
   // fast_moves made search about eight times faster, so depth and time were retuned to practical values. / fast_moves化で約8倍高速になったため、探索深さと時間を実用値に調整している。
   // depth is an upper bound; timeMs often becomes the effective limit. / depthは上限で、実際はtimeMsが制限になることが多い。
   const LEVELS = {
+    // Progression uses both search budget and decreasing random variation.
+    // Ratings are intentionally not given Elo labels without match evidence.
     1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: false },
     2:  { depth: 1, timeMs: 220,  margin: 170, noise: 140, blunder: 0.45, quiesce: true, book: true },
-    3:  { depth: 2, timeMs: 320,  margin: 135, noise: 100, blunder: 0.34, quiesce: true, book: true },
-    4:  { depth: 2, timeMs: 420,  margin: 110, noise: 72,  blunder: 0.24, quiesce: true, book: true },
-    5:  { depth: 3, timeMs: 520,  margin: 85,  noise: 52,  blunder: 0.14, quiesce: true, book: true },
-    6:  { depth: 3, timeMs: 650,  margin: 66,  noise: 36,  blunder: 0.09, quiesce: true, book: true },
-    7:  { depth: 4, timeMs: 820,  margin: 48,  noise: 22,  blunder: 0.05, quiesce: true, book: true },
-    8:  { depth: 4, timeMs: 1050, margin: 34,  noise: 13,  blunder: 0.025, quiesce: true, book: true },
-    9:  { depth: 4, timeMs: 1300, margin: 22,  noise: 7,   blunder: 0.01, quiesce: true, book: true },
-    10: { depth: 5, timeMs: 1650, margin: 13,  noise: 4,   blunder: 0,    quiesce: true, book: true },
+    3:  { depth: 2, timeMs: 320,  margin: 110, noise: 90,  blunder: 0.30, quiesce: true, book: true },
+    4:  { depth: 2, timeMs: 420,  margin: 90,  noise: 65,  blunder: 0.20, quiesce: true, book: true },
+    5:  { depth: 3, timeMs: 520,  margin: 70,  noise: 46,  blunder: 0.12, quiesce: true, book: true },
+    6:  { depth: 3, timeMs: 650,  margin: 55,  noise: 32,  blunder: 0.07, quiesce: true, book: true },
+    7:  { depth: 4, timeMs: 980,  margin: 34,  noise: 17,  blunder: 0.025,quiesce: true, book: true },
+    8:  { depth: 4, timeMs: 1160, margin: 24,  noise: 10,  blunder: 0.012,quiesce: true, book: true },
+    9:  { depth: 4, timeMs: 1300, margin: 15,  noise: 5,   blunder: 0,    quiesce: true, book: true },
+    10: { depth: 5, timeMs: 1650, margin: 0,   noise: 0,   blunder: 0,    quiesce: true, book: true },
   };
 
   // ===== Opening book / オープニングブック（定跡の知識） =====
@@ -454,7 +469,7 @@ const Engine = (() => {
       return;
     }
     let worker;
-    try { worker = new Worker('js/engine_worker.js'); }
+    try { worker = new Worker('js/engine_worker.js?v=2'); }
     catch (_) { fallback(cb); return; }
     let done = false;
     const job = {

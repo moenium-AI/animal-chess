@@ -51,27 +51,40 @@ class UCI {
   this.waiting=(line)=>{lines.push(line);if(end(line)){clearTimeout(t);this.waiting=null;resolve(lines)}};
  });}
  async initialize(){this.send('uci');await this.until(s=>s==='uciok');this.send('setoption name Threads value 1');this.send('setoption name Hash value 16');this.send('isready');await this.until(s=>s==='readyok');}
- async evaluate(fen,depth=8){this.send('position fen '+fen);this.send('go depth '+depth);const lines=await this.until(s=>s.startsWith('bestmove '));let score=0,kind='cp';for(const line of lines){if(!line.startsWith('info depth '))continue;const m=line.match(/\bscore (cp|mate) (-?\d+)/);if(m){kind=m[1];score=Number(m[2]);}}return kind==='mate'?(score>0?100000:score<0?-100000:0):score;}
+ async evaluate(fen,depth=8,forcedMove=null){this.send('position fen '+fen);this.send('go depth '+depth+(forcedMove?' searchmoves '+forcedMove:''));const lines=await this.until(s=>s.startsWith('bestmove '));let score=0,kind='cp';for(const line of lines){if(!line.startsWith('info depth '))continue;const m=line.match(/\bscore (cp|mate) (-?\d+)/);if(m){kind=m[1];score=Number(m[2]);}}return kind==='mate'?(score>0?100000:score<0?-100000:0):score;}
  stop(){this.send('quit');this.child.kill();}
 }
 async function main(){
  const flags=process.argv;const quick=flags.includes('--quick');const binaryIndex=flags.indexOf('--stockfish');const stockfish=binaryIndex>=0?flags[binaryIndex+1]:process.env.STOCKFISH;
  const outIndex=flags.indexOf('--output');const out=outIndex>=0?flags[outIndex+1]:null;
+ const depthIndex=flags.indexOf('--stockfish-depth'); const sfDepth=depthIndex>=0?Number(flags[depthIndex+1]):8;
+ if(!Number.isInteger(sfDepth)||sfDepth<1||sfDepth>30)throw Error('Invalid Stockfish depth');
  const engine=stockfish?new UCI(stockfish):null;if(engine)await engine.initialize();
- const sample=quick?positions.slice(0,4):flags.includes('--midgame')?positions.slice(12):positions;
+ const namesIndex=flags.indexOf('--names');
+ const names=namesIndex>=0?new Set(flags[namesIndex+1].split(',')):null;
+ const sample=(quick?positions.slice(0,4):flags.includes('--midgame')?positions.slice(12):positions).filter(p=>!names||names.has(p[0]));
+ if (!sample.length) throw Error('No matching benchmark positions');
  const levelsArg=flags.indexOf('--levels');const [minLevel,maxLevel]=levelsArg>=0?flags[levelsArg+1].split('-').map(Number):[1,10];
- const rows=[], rootScores=new Map();
+ const rows=[], rootScores=new Map(), scoreCache=new Map();
+ async function scoreFen(fen,forcedMove=null) {
+  const key=sfDepth+":"+fen+":"+(forcedMove||"best");
+  if(!scoreCache.has(key))scoreCache.set(key,await engine.evaluate(fen,sfDepth,forcedMove));
+  return scoreCache.get(key);
+ }
  try{
   for(const [label,source] of sample){
    const fen=fenFor([label,source]);const g0=new Chess(fen);let reference=null;
-   if(engine){reference=await engine.evaluate(fen);rootScores.set(label,reference);}
+   if(engine){reference=await scoreFen(fen);rootScores.set(label,reference);}
    for(let level=minLevel;level<=maxLevel;level++){
+    // Stable PRNG per position/level, independent of batch order.
+    let hash=2166136261;for(const ch of label){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619);}
+    seed=(20261024^hash^Math.imul(level,0x9e3779b1))>>>0;
     const {move,ms}=await choose(fen,level);
     const g=new Chess(fen);const selected=g.move(move&&{from:move.from,to:move.to,promotion:move.promotion});
     if(!selected)throw Error('AI returned illegal move at '+label+' level '+level+' '+JSON.stringify(move));
     const uci=selected.from+selected.to+(selected.promotion||'');
     let loss=null,replyScore=null;
-    if(engine){replyScore=-(await engine.evaluate(g.fen()));loss=Math.max(0,reference-replyScore);}
+    if(engine){replyScore=await scoreFen(fen,uci);loss=Math.max(0,reference-replyScore);}
     const result={label,level,san:selected.san,uci,ms:Math.round(ms),lossCp:loss,rootScore:reference,replyScore};
     rows.push(result);console.log(`level=${level} sample=${label} move=${selected.san} ms=${result.ms} loss=${loss===null?'n/a':loss}cp`);
    }
@@ -81,7 +94,7 @@ async function main(){
   const items=rows.filter(r=>r.level===level);const sorted=items.map(i=>i.ms).sort((a,b)=>a-b);
   summary.push({level,samples:items.length,avgMs:Math.round(items.reduce((s,i)=>s+i.ms,0)/items.length),p95Ms:sorted[Math.ceil(sorted.length*.95)-1],avgLossCp:engine?Math.round(items.reduce((s,i)=>s+i.lossCp,0)/items.length):null,blunders250:engine?items.filter(i=>i.lossCp>250).length:null,uniqueMoves:new Set(items.map(i=>i.uci)).size});
  }
- const report={seed:20261024,source:'current source engine.js',stockfish:stockfish||null,depth:8,method:'selected opening/endgame and independently verified historical midgame snapshots; Stockfish depth-8 reference and reply scores, deterministic seed; not Elo',positions:sample.map(([label,x])=>label),summary,rows};
+ const report={seed:20261024,source:'current source engine.js',stockfish:stockfish||null,depth:sfDepth,method:'selected opening/endgame and independently verified historical midgame snapshots; Stockfish at equal root depth with searchmoves for each selected move; cached root-FEN/move scores; position/level seeded RNG; not Elo',positions:sample.map(([label,x])=>label),summary,rows};
  if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
  console.log('BALANCE',JSON.stringify(summary));
 }

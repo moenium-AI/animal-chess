@@ -8,6 +8,8 @@ on:
       - 'js/engine_worker.js'
       - 'js/chess.js'
       - 'tools/test_full_game_browser.py'
+      - 'tools/test_engine_search.cjs'
+      - 'tools/audit_ai_balance.cjs'
       - '.github/workflows/full-game-quality.yml'
   push:
     branches: [main]
@@ -18,6 +20,8 @@ on:
       - 'js/engine_worker.js'
       - 'js/chess.js'
       - 'tools/test_full_game_browser.py'
+      - 'tools/test_engine_search.cjs'
+      - 'tools/audit_ai_balance.cjs'
       - '.github/workflows/full-game-quality.yml'
   workflow_dispatch:
 permissions:
@@ -39,6 +43,7 @@ jobs:
           node --check js/app.js
           node --check js/engine.js
           node --check js/engine_worker.js
+          node tools/test_engine_search.cjs
           node tools/test_learning_async.cjs
           node tools/test_graphics_lifecycle.cjs
           node tools/test_puzzle_navigation.cjs
