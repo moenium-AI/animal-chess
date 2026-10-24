@@ -14,7 +14,10 @@
   --check: #ff8f8f;
   --hint: #9ad0ff;
   --radius: 16px;
-  --board-size: min(54vw, 660px, 84vh);
+  /* Reserve space for both banquet rooms, the status bar and header on desktop.
+     Very short windows may scroll rather than reducing tappable squares below 360px. */
+  --board-size: min(54vw, 660px, max(360px, calc(100vh - 390px)));
+  --board-size: min(54vw, 660px, max(360px, calc(100dvh - 390px)));
   --side-w: 360px;
   --cell: calc(var(--board-size) / 8);
 }
@@ -131,7 +134,7 @@ html, body {
   width: var(--board-size);
   min-height: 46px;
 }
-.venue-title { font-size: 0.75rem; font-weight: bold; color: #a97f3c; margin-bottom: 2px; }
+.venue-title { font-size: 0.625rem; font-weight: bold; color: #a97f3c; margin-bottom: 2px; line-height: 1.25; }
 .venue-guests { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: center; }
 .guest {
   display: inline-flex; align-items: center;
@@ -452,17 +455,26 @@ html, body {
 .mode-miniature .square.selected { box-shadow: inset 0 0 0 3px #825a30; }
 .mode-miniature .square:focus-visible { outline-color: #1d5458; }
 .venue.vmini {
+  position: relative;
   padding: 6px 8px 8px;
   background: linear-gradient(#f4e7ca, #dac3a0);
   border: 2px solid #b4976a;
   box-shadow: inset 0 1px 0 #fff5de, 0 2px 3px #61452c1a;
 }
 .venue.vmini .venue-title {
-  color: #624a32; font-size: .75rem; letter-spacing: .02em;
-  margin: 0 4px 4px; line-height: 1.4;
+  /* A small sign inside the room instead of a separate heading row. */
+  position: absolute; z-index: 7;
+  top: 10px; left: 12px;
+  max-width: calc(100% - 24px);
+  margin: 0; padding: 2px 6px;
+  border: 1px solid #ad9572; border-radius: 4px;
+  color: #624a32; background: rgba(250, 239, 216, 0.94);
+  font-size: 10px; line-height: 1.2; letter-spacing: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  pointer-events: none;
 }
 .venue.vmini .venue-guests {
-  min-height: 104px; height: 104px;
+  min-height: 94px; height: 94px;
   background: #bd9c70 url('../assets/scenery/banquet-room.svg') center top / cover no-repeat;
   border: 1px solid #7b5d3e; border-radius: 9px;
   box-shadow: inset 0 2px 6px #49362430;

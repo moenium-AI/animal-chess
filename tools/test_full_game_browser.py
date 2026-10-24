@@ -46,6 +46,35 @@ with sync_playwright() as pw:
     page=context.new_page();page.on('pageerror',lambda e: JSERR.append(str(e)))
     load_inline(page,{'opponent':'human','sound':False,'bgm':False,'viewMode':'simple','set':'classic'})
     assert page.locator('#board .square').count()==64
+    # B-01: at ordinary desktop browser heights both banquet halls and the
+    # status must be visible without vertical scrolling. Titles are overlaid
+    # inside the miniature room instead of consuming a separate layout row.
+    for width,height in [(1503,840),(1440,900)]:
+        page.set_viewport_size({'width':width,'height':height})
+        page.locator('#sel-view').select_option('miniature')
+        boxes=page.evaluate("""() => {
+          const rect = s => document.querySelector(s).getBoundingClientRect();
+          const top = rect('#venue-top'), bottom = rect('#venue-bottom');
+          const status = rect('#status-bar'), board = rect('#board');
+          const label = rect('#venue-top .venue-title');
+          const room = rect('#venue-top .venue-guests');
+          return {
+            top: top.top, bottom: bottom.bottom, status: status.bottom,
+            boardWidth: board.width, boardHeight: board.height,
+            labelTop: label.top, labelBottom: label.bottom,
+            roomTop: room.top, roomBottom: room.bottom,
+            labelFont: parseFloat(getComputedStyle(document.querySelector('#venue-top .venue-title')).fontSize)
+          };
+        }""")
+        assert boxes['top']>=0, f'banquet top offscreen: {width}x{height} {boxes}'
+        assert boxes['status']<=height-2, f'status offscreen: {width}x{height} {boxes}'
+        assert boxes['bottom']<=height-2, f'bottom banquet offscreen: {width}x{height} {boxes}'
+        assert 360<=boxes['boardWidth']<=660, f'board size: {width}x{height} {boxes}'
+        assert abs(boxes['boardWidth']-boxes['boardHeight'])<2, f'board not square: {boxes}'
+        assert 9<=boxes['labelFont']<=10.5, f'banquet label too large: {boxes}'
+        assert boxes['roomTop']<=boxes['labelTop']<boxes['labelBottom']<=boxes['roomBottom'], f'label not overlaid: {boxes}'
+    page.set_viewport_size({'width':1280,'height':900})
+    page.locator('#sel-view').select_option('simple')
     # A-01: terminal dialog callback must not outlive the game.
     for a,b in [('f2','f3'),('e7','e5'),('g2','g4'),('d8','h4')]:move(page,a,b)
     assert page.locator('#movelist li').count()==4
