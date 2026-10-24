@@ -79,6 +79,22 @@ const boardEl = $('board');
 const overlayEl = $('overlay');
 const statusEl = $('status-bar');
 
+// Reparent the existing status element (do not duplicate it): desktop reserves
+// the whole left column for the board and banquet halls; mobile keeps the
+// turn indicator immediately below the board. Preserve all status updates.
+const desktopStatusMedia = window.matchMedia('(min-width: 1100px)');
+function placeStatusBar() {
+  if (desktopStatusMedia.matches) {
+    const sidebar = document.querySelector('.side-col');
+    if (sidebar.firstElementChild !== statusEl) sidebar.prepend(statusEl);
+  } else {
+    const boardColumn = document.querySelector('.board-col');
+    if (statusEl.parentElement !== boardColumn) boardColumn.append(statusEl);
+  }
+}
+placeStatusBar();
+desktopStatusMedia.addEventListener('change', placeStatusBar);
+
 // ===== Persistence / 保存・読み込み =====
 function saveSettings() {
   try { localStorage.setItem('animalchess_settings', JSON.stringify(settings)); } catch (e) {}

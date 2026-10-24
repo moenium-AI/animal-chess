@@ -46,9 +46,9 @@ with sync_playwright() as pw:
     page=context.new_page();page.on('pageerror',lambda e: JSERR.append(str(e)))
     load_inline(page,{'opponent':'human','sound':False,'bgm':False,'viewMode':'simple','set':'classic'})
     assert page.locator('#board .square').count()==64
-    # B-01: at ordinary desktop browser heights both banquet halls and the
-    # status must be visible without vertical scrolling. The small banquet
-    # titles sit in a dedicated strip ABOVE the illustrated rooms.
+    # B-01: desktop moves the *single* live status node to the sidebar,
+    # freeing space to enlarge the board. Both banquet titles remain ABOVE
+    # the artwork. A narrower viewport puts the status below the board again.
     for width,height in [(1503,840),(1440,900)]:
         page.set_viewport_size({'width':width,'height':height})
         page.locator('#sel-view').select_option('miniature')
@@ -56,12 +56,17 @@ with sync_playwright() as pw:
           const rect = s => document.querySelector(s).getBoundingClientRect();
           const top = rect('#venue-top'), bottom = rect('#venue-bottom');
           const status = rect('#status-bar'), board = rect('#board');
+          const side = rect('.side-col');
           const label = rect('#venue-top .venue-title');
           const room = rect('#venue-top .venue-guests');
           const lowerLabel = rect('#venue-bottom .venue-title');
           const lowerRoom = rect('#venue-bottom .venue-guests');
           return {
             top: top.top, bottom: bottom.bottom, status: status.bottom,
+            statusTop: status.top, statusLeft: status.left,
+            sidebarTop: side.top, sidebarLeft: side.left,
+            statusParent: document.querySelector('#status-bar').parentElement.className,
+            statusCount: document.querySelectorAll('#status-bar').length,
             boardWidth: board.width, boardHeight: board.height,
             labelTop: label.top, labelBottom: label.bottom,
             roomTop: room.top, roomBottom: room.bottom,
@@ -72,14 +77,40 @@ with sync_playwright() as pw:
         }""")
         assert boxes['top']>=0, f'banquet top offscreen: {width}x{height} {boxes}'
         assert boxes['status']<=height-2, f'status offscreen: {width}x{height} {boxes}'
+        assert boxes['statusParent']=='side-col', f'desktop status not in sidebar: {boxes}'
+        assert boxes['statusCount']==1, f'duplicate status node: {boxes}'
+        assert abs(boxes['statusTop']-boxes['sidebarTop'])<2, f'status not at sidebar top: {boxes}'
+        assert abs(boxes['statusLeft']-boxes['sidebarLeft'])<2, f'status not aligned to sidebar: {boxes}'
         assert boxes['bottom']<=height-2, f'bottom banquet offscreen: {width}x{height} {boxes}'
         assert 360<=boxes['boardWidth']<=660, f'board size: {width}x{height} {boxes}'
+        assert boxes['boardWidth'] >= (475 if height==840 else 535), f'board not enlarged: {width}x{height} {boxes}'
         assert abs(boxes['boardWidth']-boxes['boardHeight'])<2, f'board not square: {boxes}'
         assert 8.5<=boxes['labelFont']<=9.5, f'banquet label must be 9px: {boxes}'
         assert boxes['labelPosition']=='static', f'banquet label must not overlay graphics: {boxes}'
         assert boxes['labelBottom'] < boxes['roomTop'], f'top banquet label overlaps room: {boxes}'
         assert boxes['lowerLabelBottom'] < boxes['lowerRoomTop'], f'bottom banquet label overlaps room: {boxes}'
-    page.set_viewport_size({'width':1280,'height':900})
+    # Status must follow the board when the sidebar falls below it, and return
+    # to the desktop sidebar without duplicating or losing its live text.
+    for width,height in [(1099,840),(390,840),(1280,900)]:
+        page.set_viewport_size({'width':width,'height':height})
+        placement=page.evaluate("""() => {
+          const status = document.querySelector('#status-bar');
+          const parent = status.parentElement;
+          const venue = document.querySelector('#venue-bottom');
+          return {
+            count: document.querySelectorAll('#status-bar').length,
+            parent: parent.className,
+            statusTop: status.getBoundingClientRect().top,
+            venueBottom: venue.getBoundingClientRect().bottom,
+            text: status.textContent.trim()
+          };
+        }""")
+        assert placement['count']==1 and placement['text'], f'status lost on resize: {placement}'
+        if width<1100:
+            assert placement['parent']=='board-col', f'mobile status not after board: {placement}'
+            assert placement['statusTop']>=placement['venueBottom'], f'mobile status moved too far up: {placement}'
+        else:
+            assert placement['parent']=='side-col', f'desktop status not restored: {placement}'
     page.locator('#sel-view').select_option('simple')
     # A-01: terminal dialog callback must not outlive the game.
     for a,b in [('f2','f3'),('e7','e5'),('g2','g4'),('d8','h4')]:move(page,a,b)

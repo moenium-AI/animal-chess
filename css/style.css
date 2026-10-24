@@ -14,10 +14,10 @@
   --check: #ff8f8f;
   --hint: #9ad0ff;
   --radius: 16px;
-  /* Reserve space for both banquet rooms, the status bar and header on desktop.
-     Very short windows may scroll rather than reducing tappable squares below 360px. */
-  --board-size: min(54vw, 660px, max(360px, calc(100vh - 390px)));
-  --board-size: min(54vw, 660px, max(360px, calc(100dvh - 390px)));
+  /* Desktop: both banquet rooms fit vertically; the turn/status bar lives in
+     the right sidebar and no longer needs height below the board. */
+  --board-size: min(54vw, 660px, max(360px, calc(100vh - 352px)));
+  --board-size: min(54vw, 660px, max(360px, calc(100dvh - 352px)));
   --side-w: 360px;
   --cell: calc(var(--board-size) / 8);
 }
@@ -186,6 +186,17 @@ html, body {
   width: var(--board-size); text-align: center; min-height: 46px;
 }
 .status-bar .thinking { color: #b0854f; }
+
+/* On desktop the SAME live status element sits above the sidebar controls.
+   Small screens retain the original under-board position. */
+@media (min-width: 1100px) {
+  .side-col > .status-bar {
+    width: 100%;
+    min-height: 46px;
+    padding: 9px 12px;
+    font-size: 1rem;
+  }
+}
 
 /* ===== Panels / パネル ===== */
 .panel {
