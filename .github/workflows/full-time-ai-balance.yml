@@ -1,0 +1,55 @@
+name: Full-time AI balance tournament
+on:
+  workflow_dispatch:
+    inputs:
+      games_per_opening:
+        description: 'Mirrored repeats per opening'
+        required: true
+        default: '1'
+        type: choice
+        options: ['1', '2', '3', '4', '6', '10']
+      max_plies:
+        description: 'Maximum half-moves; cap is not a draw'
+        required: true
+        default: '240'
+        type: choice
+        options: ['160', '200', '240', '300', '400']
+permissions:
+  contents: read
+jobs:
+  tournament:
+    strategy:
+      fail-fast: false
+      matrix:
+        pair: ['4-5', '6-7', '7-8', '8-9', '9-10']
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify benchmark tools
+        run: |
+          node --check tools/summarize_full_time_ai.cjs
+          node tools/test_full_time_ai.cjs
+          node tools/test_tournament_ai_levels.cjs
+      - name: Play normal-time mirrored games
+        run: |
+          node tools/tournament_ai_levels.cjs \
+            --pair-mode adjacent --only-pair '${{ matrix.pair }}' \
+            --opening-indices 0,1,2,3,4,5,6,7,8,9,10,11 \
+            --games-per-opening '${{ inputs.games_per_opening }}' \
+            --budget-scale 1 --max-plies '${{ inputs.max_plies }}' \
+            --output 'matches-${{ matrix.pair }}.json'
+      - name: Analyze
+        run: |
+          node tools/summarize_full_time_ai.cjs 'matches-${{ matrix.pair }}.json' \
+            --require-full-time --output 'summary-${{ matrix.pair }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-time-${{ matrix.pair }}
+          path: |
+            matches-${{ matrix.pair }}.json
+            summary-${{ matrix.pair }}.json
+          retention-days: 30
