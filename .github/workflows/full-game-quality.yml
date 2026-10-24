@@ -17,6 +17,8 @@ on:
       - 'tools/summarize_ai_tournament.cjs'
       - 'tools/test_tournament_ai_levels.cjs'
       - 'tools/summarize_full_time_ai.cjs'
+      - 'tools/evaluate_ai_moves.cjs'
+      - 'tools/test_ai_move_quality.cjs'
       - 'tools/test_full_time_ai.cjs'
       - '.github/workflows/full-time-ai-balance.yml'
       - 'docs/ai-selfplay-results-2026-10-24.json'
@@ -39,6 +41,8 @@ on:
       - 'tools/summarize_ai_tournament.cjs'
       - 'tools/test_tournament_ai_levels.cjs'
       - 'tools/summarize_full_time_ai.cjs'
+      - 'tools/evaluate_ai_moves.cjs'
+      - 'tools/test_ai_move_quality.cjs'
       - 'tools/test_full_time_ai.cjs'
       - '.github/workflows/full-time-ai-balance.yml'
       - 'docs/ai-selfplay-results-2026-10-24.json'
@@ -68,6 +72,7 @@ jobs:
           node tools/summarize_ai_tournament.cjs docs/ai-calibration-pilot-2026-10-24.json > /dev/null
           node tools/test_tournament_ai_levels.cjs
           node tools/test_full_time_ai.cjs
+          node tools/test_ai_move_quality.cjs
           node tools/summarize_ai_tournament.cjs docs/ai-selfplay-results-2026-10-24.json > /dev/null
           node tools/test_learning_async.cjs
           node tools/test_graphics_lifecycle.cjs
