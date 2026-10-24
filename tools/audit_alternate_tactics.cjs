@@ -19,7 +19,7 @@ const forks={
  'tactic-fork-queen-minors':['q',['e7','e1']],
  'tactic-fork-pawn-major':['p',['c6','e6']],
  'tactic-fork-bishop-minors':['b',['d8','h8']],
- 'tactic-promotion-knight-majors':['n',['b6','c7']],
+ 'tactic-promotion-knight-majors':['n',['e7','f6']],
 };
 const pins={
  'tactic-absolute-pin':['r','e7','e8'],

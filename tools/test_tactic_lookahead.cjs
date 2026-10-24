@@ -55,8 +55,9 @@ function replay(id,...sans){const p=byId.get(id);assert.ok(p,id);const g=new Che
  assert.ok(g.move('fxe4'),'pawn recapture must prevent the rook from winning the defender');
 }
 {
- const g=replay('tactic-promotion-knight-majors','a8=N','Qb7');
- assert.ok(g.move('Bxb7'),'bishop must defend against queen attack on the promoted knight');
+ const g=replay('tactic-promotion-knight-majors','g8=N+','Kh7');
+ const capture=g.move('Nxe7');
+ assert.ok(capture && capture.captured==='q','knight fork must win the queen after the king moves');
 }
 const violations=[];
 for(const p of puzzles){

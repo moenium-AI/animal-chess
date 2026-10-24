@@ -182,7 +182,7 @@ const PUZZLE_EN = {
  ],
  "tactic-bishop-double-attack": [
   "The Diagonal Crossroads",
-  "Move the bishop to g5 to attack both the queen on e7 and the rook on h4. The pawn on f4 protects the bishop."
+  "Play Bg5 to attack the queen on e7 and rook on h4 together. The f4 pawn supports the bishop, while the queen on g2 prevents a decisive counterattack."
  ],
  "tactic-knight-queen-fork": [
   "The Pony's Greedy Jump",
@@ -206,7 +206,7 @@ const PUZZLE_EN = {
  ],
  "tactic-knight-underpromotion": [
   "The Chick Becomes a Pony",
-  "Promote to a knight, not a queen. The new knight checks the king on e7 while also attacking the rook on a7."
+  "Promote to a knight on c8, checking the king on e7 while attacking the rook on a7. Your rook on c1 supports the advancing pawn."
  ],
  "tactic-promotion": [
   "The Chick Dresses Up",
@@ -238,7 +238,7 @@ const PUZZLE_EN = {
  ],
  "tactic-fork-pawn-major": [
   "The Little One Steps Between",
-  "Push to d5, forking the queen and rook. The e4 pawn guards d5, while the f3 pawn supports e4 against counterattacks."
+  "Advance to d5 to fork the queen and rook. Your e4 pawn protects d5, the f3 pawn protects e4, and the queen and rook give White sufficient defensive resources."
  ],
  "tactic-fork-bishop-minors": [
   "Hello to You Both, Far Away",
@@ -262,7 +262,7 @@ const PUZZLE_EN = {
  ],
  "tactic-pin-rook-relative": [
   "Who's Behind the Owl?",
-  "Line up a rook, bishop, and queen to create a relative pin."
+  "Play Rf2 to pin the bishop to the queen behind it. White’s queen on d1 helps answer counterattacks."
  ],
  "tactic-skewer-bishop-king": [
   "Found You Behind the King",
@@ -274,7 +274,7 @@ const PUZZLE_EN = {
  ],
  "tactic-discovery-knight-queen": [
   "The Pony Opens a Secret Path",
-  "Check with the knight and uncover a rook attack on the queen."
+  "Move the knight with check while uncovering the rook on e1 against the queen on e8. White’s second rook adds tactical support."
  ],
  "tactic-discovery-pawn-bishop": [
   "The Window the Chick Opened",
@@ -314,7 +314,7 @@ const PUZZLE_EN = {
  ],
  "tactic-promotion-knight-majors": [
   "A Greedy New Pony",
-  "Promote to a knight to fork the queen and rook. The bishop on f3 guards the new knight against a queen counterattack."
+  "Promote to a knight on g8 with check. The knight forks the king on h6, queen on e7 and rook on f6, while the bishop on c4 protects the new knight."
  ],
  "tactic-pin-bishop-king-2": [
   "The King Behind the Castle",
