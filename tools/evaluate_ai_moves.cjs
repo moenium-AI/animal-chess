@@ -32,8 +32,27 @@ function collectSamples(games,{minPly=16,maxPerGame=6}={}) {
    });
   }
   if(board.fen()!==g.finalFen)throw Error('Recorded final FEN mismatch');
-  const n=Math.min(maxPerGame,positions.length);
-  for(let k=0;k<n;k++)rows.push(positions[Math.floor((k+.5)*positions.length/n)]);
+  // Global equidistant sampling can alias with the alternating side-to-move:
+  // e.g. four picks from a 96-ply game all land on the same color.
+  // Stratify within each side first; preserve an approximately equal sample.
+  const byColor=[
+   positions.filter(x=>x.color==='w'),
+   positions.filter(x=>x.color==='b')
+  ];
+  const quotas=[0,0],target=Math.min(maxPerGame,positions.length);
+  for(let k=0;k<target;k++){
+   const available=[0,1].filter(i=>quotas[i]<byColor[i].length);
+   const colorIndex=available.length===1?available[0]:
+    quotas[0]===quotas[1]?(gi+k)%2:
+    (quotas[0]<quotas[1]?0:1);
+   quotas[colorIndex]++;
+  }
+  for(let color=0;color<2;color++){
+   for(let k=0;k<quotas[color];k++){
+    const candidates=byColor[color];
+    rows.push(candidates[Math.floor((k+.5)*candidates.length/quotas[color])]);
+   }
+  }
  }
  return rows;
 }
