@@ -238,7 +238,7 @@ const PUZZLE_EN = {
  ],
  "tactic-fork-pawn-major": [
   "The Little One Steps Between",
-  "Advance a pawn to attack both the queen and rook."
+  "Push the pawn to fork the queen and rook. Another pawn protects it, so a queen capture can be answered."
  ],
  "tactic-fork-bishop-minors": [
   "Hello to You Both, Far Away",
@@ -282,7 +282,7 @@ const PUZZLE_EN = {
  ],
  "tactic-defender-bishop": [
   "Catch the Lookout",
-  "Capture the knight that defends the rook."
+  "Capture the knight guarding the rook. If their rook takes yours, your king can recapture."
  ],
  "tactic-defender-pawn": [
   "The Little Gatekeeper",

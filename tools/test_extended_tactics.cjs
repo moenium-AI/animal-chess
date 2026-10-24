@@ -100,7 +100,7 @@ for(const [id,[square,type,front,frontType,back,backType]] of Object.entries(ske
  assert.ok(attack(g,'e6','d8','n'));assert.ok(line(g,'d1','d8','r'));assert.ok(g.in_check());
 }
 for(const [id,defender,target,victim,friend,friendType] of [
- ['defender-bishop','e6','d8','n','d1','r'],
+ ['defender-bishop','e6','d8','n','d2','r'],
  ['defender-pawn','f5','e4','p','e2','q'],
  ['defender-bishop-2','g4','d7','b','a4','b'],
 ]){
