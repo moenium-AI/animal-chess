@@ -1,0 +1,49 @@
+name: Independent Stockfish puzzle review
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/puzzle_catalog.json'
+      - 'tools/audit_stockfish.cjs'
+      - 'tools/test_stockfish_audit.cjs'
+      - '.github/workflows/puzzle-stockfish-audit.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/puzzle_catalog.json'
+      - 'tools/audit_stockfish.cjs'
+      - 'tools/test_stockfish_audit.cjs'
+      - '.github/workflows/puzzle-stockfish-audit.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install UCI Stockfish
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y stockfish
+      - name: Verify catalog and audit parser
+        run: |
+          node tools/build_puzzles.cjs --check
+          node tools/test_stockfish_audit.cjs
+          node tools/test_mate_solver.cjs
+      - name: Analyze 80 puzzles independently
+        run: |
+          node tools/audit_stockfish.cjs \
+            --engine /usr/games/stockfish \
+            --depth 13 \
+            --timeout-ms 90000 \
+            --threshold-cp 250 \
+            --report-only \
+            --output stockfish-audit.json
+      - name: Save review report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stockfish-puzzle-audit
+          path: stockfish-audit.json
+          if-no-files-found: warn
