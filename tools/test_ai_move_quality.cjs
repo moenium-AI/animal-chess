@@ -18,6 +18,20 @@ for(const r of rows){
  assert.ok(replay.move({from:r.uci.slice(0,2),to:r.uci.slice(2,4),
   promotion:r.uci.length===5?r.uci.slice(4):undefined}));
 }
+// Regression: an unstratified 4-in-96 equidistant sample picks one color only.
+const longGame=new Chess(), longSans=[];
+for(let i=0;i<24;i++)for(const san of ['Nf3','Nf6','Ng1','Ng8']){
+ const move=longGame.move(san);
+ assert.ok(move);
+ longSans.push(move.san);
+}
+const balanced=collectSamples([{a:4,b:5,white:4,black:5,opening:'open',seed:7,
+ startingPly:0,sans:longSans,finalFen:longGame.fen(),completed:false,reason:'ply-cap-draw'}],
+ {minPly:0,maxPerGame:4});
+assert.equal(balanced.length,4);
+assert.equal(balanced.filter(x=>x.level===4).length,2);
+assert.equal(balanced.filter(x=>x.level===5).length,2);
+assert.equal(new Set(balanced.map(x=>x.ply)).size,4);
 assert.throws(()=>collectSamples([{a:4,b:5,opening:'open',startingPly:0,
  sans,finalFen:'bad'}]),/FEN/);
 const sum=aggregate([{level:4,lossCp:25},{level:4,lossCp:350},{level:5,lossCp:0}]);
