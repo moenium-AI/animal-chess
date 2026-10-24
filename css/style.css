@@ -462,16 +462,17 @@ html, body {
   box-shadow: inset 0 1px 0 #fff5de, 0 2px 3px #61452c1a;
 }
 .venue.vmini .venue-title {
-  /* A small sign inside the room instead of a separate heading row. */
-  position: absolute; z-index: 7;
-  top: 10px; left: 12px;
-  max-width: calc(100% - 24px);
-  margin: 0; padding: 2px 6px;
-  border: 1px solid #ad9572; border-radius: 4px;
-  color: #624a32; background: rgba(250, 239, 216, 0.94);
-  font-size: 10px; line-height: 1.2; letter-spacing: 0;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  pointer-events: none;
+  /* Keep the tiny title above the room: no text overlays furniture or guests. */
+  position: static;
+  display: block;
+  margin: 0 4px 3px;
+  padding: 0;
+  color: #624a32;
+  background: transparent;
+  border: 0;
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 .venue.vmini .venue-guests {
   min-height: 94px; height: 94px;
