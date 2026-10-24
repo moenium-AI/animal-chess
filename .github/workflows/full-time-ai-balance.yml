@@ -1,5 +1,10 @@
 name: Full-time AI balance tournament
 on:
+  push:
+    branches:
+      - experiment/full-time-ai-balance-20261024
+    paths:
+      - '.github/workflows/full-time-ai-balance.yml'
   workflow_dispatch:
     inputs:
       games_per_opening:
@@ -35,12 +40,15 @@ jobs:
           node tools/test_full_time_ai.cjs
           node tools/test_tournament_ai_levels.cjs
       - name: Play normal-time mirrored games
+        env:
+          GAMES_PER_OPENING: ${{ inputs.games_per_opening || '1' }}
+          MAX_PLIES: ${{ inputs.max_plies || '240' }}
         run: |
           node tools/tournament_ai_levels.cjs \
             --pair-mode adjacent --only-pair '${{ matrix.pair }}' \
             --opening-indices 0,1,2,3,4,5,6,7,8,9,10,11 \
-            --games-per-opening '${{ inputs.games_per_opening }}' \
-            --budget-scale 1 --max-plies '${{ inputs.max_plies }}' \
+            --games-per-opening "$GAMES_PER_OPENING" \
+            --budget-scale 1 --max-plies "$MAX_PLIES" \
             --output 'matches-${{ matrix.pair }}.json'
       - name: Analyze
         run: |
