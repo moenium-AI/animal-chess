@@ -1,0 +1,54 @@
+name: Full-game reliability
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'js/app.js'
+      - 'js/engine.js'
+      - 'js/engine_worker.js'
+      - 'js/chess.js'
+      - 'tools/test_full_game_browser.py'
+      - '.github/workflows/full-game-quality.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'js/app.js'
+      - 'js/engine.js'
+      - 'js/engine_worker.js'
+      - 'js/chess.js'
+      - 'tools/test_full_game_browser.py'
+      - '.github/workflows/full-game-quality.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify JavaScript and game regressions
+        run: |
+          node --check js/app.js
+          node --check js/engine.js
+          node --check js/engine_worker.js
+          node tools/test_learning_async.cjs
+          node tools/test_graphics_lifecycle.cjs
+          node tools/test_puzzle_navigation.cjs
+          node tools/test_learning_runtime.cjs
+          node tools/audit_runtime.cjs
+      - name: Install browser tests
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Test real HTTP-served game and Web Worker
+        env:
+          ANIMAL_CHESS_USE_HTTP: '1'
+        run: python tools/test_full_game_browser.py
