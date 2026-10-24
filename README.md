@@ -64,43 +64,25 @@ The game makes no external network requests. Settings and puzzle progress are st
 
 ### Puzzle catalog maintenance / パズルの管理
 
-Edit `tools/puzzle_catalog.json`, then run `node tools/build_puzzles.cjs` to regenerate both language files (`js/puzzles.js`, `js/puzzle_en.js`). Run `node tools/build_puzzles.cjs --check`, `node tools/test_puzzle_quality.cjs`, `node tools/test_mate_solver.cjs`, `node tools/test_extended_tactics.cjs`, `node tools/test_tactic_counterplay.cjs`, `node tools/test_tactic_lookahead.cjs`, and `node tools/test_learning_runtime.cjs` before shipping. To prevent false negatives for alternative correct tactics, also run `node tools/audit_alternate_tactics.cjs` and `node tools/test_puzzle_alternatives.cjs`; optional browser smoke test: `python tools/test_puzzle_alternatives_browser.py`. Puzzle navigation also has `node tools/test_puzzle_navigation.cjs` and an optional Chromium/Playwright test, `python tools/test_puzzle_navigation_browser.py`. Optional: `python tools/verify_puzzles.py` with `python-chess` installed for an independent solver implementation.
+Edit `tools/puzzle_catalog.json`, then run `node tools/build_puzzles.cjs` to regenerate both language files (`js/puzzles.js`, `js/puzzle_en.js`). Run `node tools/build_puzzles.cjs --check`, `node tools/test_puzzle_quality.cjs`, `node tools/test_mate_solver.cjs`, `node tools/test_extended_tactics.cjs`, and `node tools/test_learning_runtime.cjs` before shipping. To prevent false negatives for alternative correct tactics, also run `node tools/audit_alternate_tactics.cjs` and `node tools/test_puzzle_alternatives.cjs`; optional browser smoke test: `python tools/test_puzzle_alternatives_browser.py`. Puzzle navigation also has `node tools/test_puzzle_navigation.cjs` and an optional Chromium/Playwright test, `python tools/test_puzzle_navigation_browser.py`. Optional: `python tools/verify_puzzles.py` with `python-chess` installed for an independent solver implementation.
 
 パズルの正本は `tools/puzzle_catalog.json` です。問題拡張の変更内容は `docs/puzzle-expansion-2026-10-17.md`、別解の誤判定修正と検証範囲は `docs/puzzle-answer-audit-2026-10-17.md` を参照してください。旧クリア履歴との互換性はありません。既存の記録は読み込まず、今回の版のクリア状況だけを `animalchess_solved_v4` に保存します。
 
-The Python validator accepts every registered tactical alternative and compares
-mate-answer sets independently of their editorial order. Run
-`python -X utf8 tools/test_learning.py` for validator and safe-generation
-regressions. See [development notes](docs/dev-notes.md#adding-puzzles) for setup
-and cross-platform browser tests, and [integration checks](docs/puzzle-integration-2026-10-20.md) for this update.
+### パズルの題名更新（1017_007）
 
-Python検証では戦術の全別解を確認し、詰みの正解集合を並び順に依存せず比較します。
-`python -X utf8 tools/test_learning.py` で検証器と不正データ時の生成物保護を検査できます。
-準備と各OSでのブラウザ検査は[開発手順](docs/dev-notes.md#パズルを追加する)、
-今回の反映記録は[統合検証](docs/puzzle-integration-2026-10-20.md)を参照してください。
+追加問題を中心に55問の日本語・英語タイトルを物語風に整えました。問題内容や採点処理は変更していません。詳細は `docs/puzzle-title-polish-2026-10-17.md`、題名の検証は `node tools/test_puzzle_titles.cjs` を参照してください。
 
-Stockfish audit (optional, offline UCI engine): `node tools/test_stockfish_audit.cjs` and
-`node tools/audit_stockfish.cjs --engine /path/to/stockfish --depth 13 --output stockfish-audit.json --report-only`.
-Pull requests and pushes to main also run the independent audit through GitHub Actions;
-inspect the downloadable `stockfish-puzzle-audit` artifact for flagged positions.
-This is an engine-assisted *review*, not proof that all moves are uniquely optimal.
-See [Stockfish audit guide](docs/puzzle-stockfish-audit-2026-10-24.md).
+## AI search reliability and balance (2026-10-24)
 
-2026-10-24: Stockfish-verified puzzle quality revisions and scoring diagnostics are recorded in
-[docs/puzzle-stockfish-corrections-2026-10-24.md](docs/puzzle-stockfish-corrections-2026-10-24.md).
-Winning thematic alternatives are retained and annotated as notes rather than automatically rejected solely for being slower than a forced mate.
+The engine now validates checked quiescence leaves, searches 3-fold repetitions and the
+50-move condition, uses full-window scores at the root, and never disables its deadline.
+The 10 level knobs have been conservatively retuned; small-sample play remains non-monotonic.
+See [analysis and limitations](docs/engine-search-and-balance-2026-10-24.md) and
+[5-position Stockfish 16 review](docs/ai-balance-recheck-2026-10-24.json).
+Run `node tools/test_engine_search.cjs` to check new search edge cases.
 
-## Game reliability & level-balance review (2026-10-24)
+## Mirrored AI self-play tournament (2026-10-24)
 
-- Full-game audit and ten-level Stockfish sampling: [report](docs/full-game-audit-and-balance-2026-10-24.md); [measurements](docs/balance-raw-2026-10-24.json).
-- CPU and hint computation use a cancellable Web Worker; on restricted browsers the original main-thread fallback remains.
-- Full-game UI/keyboard/storage test: `python tools/test_full_game_browser.py` (Playwright + Chromium). The GitHub Actions workflow runs the test over local HTTP with `ANIMAL_CHESS_USE_HTTP=1`.
-- Reproducible CPU quality sample: `node tools/audit_ai_balance.cjs --midgame --stockfish /path/to/stockfish --output balance.json` (Stockfish 16). This is not a game Elo estimate; level strength was **not** strictly monotonic in this small test.
+Use `node tools/tournament_ai_levels.cjs --pair-mode adjacent --opening-indices 0,2,4,6,8,10 --budget-scale 0.12 --max-plies 96 --output matches.json` to reproduce a **short-budget** paired-color tournament. Runs can be restricted with `--only-pair 8-9`; cross-tier tests use `--pair-mode cross`. Group games by the opening/seed pair for uncertainty estimates with `node tools/summarize_ai_tournament.cjs matches.json`.
 
-## AI engine correctness and retuned levels (2026-10-24)
-
-- Correct in-check quiescence (all evasions), repeated-position and 50-move detection, exact completed-depth root comparisons, and a bounded search deadline with a legal fallback.
-- Calibrate ten strength settings conservatively and audit five common historical middle-game positions with Stockfish 16.
-- Run `node tools/test_engine_search.cjs` for search-boundary regressions.
-- [Detailed findings](docs/engine-search-and-balance-2026-10-24.md) and [raw benchmark](docs/ai-balance-recheck-2026-10-24.json).
-- Small-sample score loss is not an Elo estimate and does not prove that strength increases at every adjacent level.
+This diagnostic has a strict ply cap and shortened search budgets. Resulting Elo-like differences are **not ratings at normal game settings**. Any games reaching the limit remain explicitly marked as unfinished and are scored as draws only under this particular tournament rule. See [the self-play results](docs/ai-selfplay-2026-10-24.md). The original difficulty settings were retained because the confidence intervals do not justify a forced recalibration.
