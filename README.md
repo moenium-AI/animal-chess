@@ -96,3 +96,11 @@ Winning thematic alternatives are retained and annotated as notes rather than au
 - CPU and hint computation use a cancellable Web Worker; on restricted browsers the original main-thread fallback remains.
 - Full-game UI/keyboard/storage test: `python tools/test_full_game_browser.py` (Playwright + Chromium). The GitHub Actions workflow runs the test over local HTTP with `ANIMAL_CHESS_USE_HTTP=1`.
 - Reproducible CPU quality sample: `node tools/audit_ai_balance.cjs --midgame --stockfish /path/to/stockfish --output balance.json` (Stockfish 16). This is not a game Elo estimate; level strength was **not** strictly monotonic in this small test.
+
+## AI engine correctness and retuned levels (2026-10-24)
+
+- Correct in-check quiescence (all evasions), repeated-position and 50-move detection, exact completed-depth root comparisons, and a bounded search deadline with a legal fallback.
+- Calibrate ten strength settings conservatively and audit five common historical middle-game positions with Stockfish 16.
+- Run `node tools/test_engine_search.cjs` for search-boundary regressions.
+- [Detailed findings](docs/engine-search-and-balance-2026-10-24.md) and [raw benchmark](docs/ai-balance-recheck-2026-10-24.json).
+- Small-sample score loss is not an Elo estimate and does not prove that strength increases at every adjacent level.

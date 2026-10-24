@@ -1,0 +1,595 @@
+{
+  "method": "5 historical midgame snapshots; independent Stockfish 16, depth 6 root comparison using UCI searchmoves; independent per-position RNG seeds; non-Elo; scores not comparable numerically with prior depth-8 baseline",
+  "commitBaseline": "5299d58b1d3d6cfa568062dbfade011957b57c32",
+  "positions": [
+    "historic_opera",
+    "historic_immortal",
+    "historic_evergreen",
+    "historic_lasker_thomas",
+    "historic_levitsky_marshall"
+  ],
+  "summary": [
+    {
+      "level": 1,
+      "samples": 5,
+      "avgLossCp": 136,
+      "maxLossCp": 282,
+      "avgMs": 361,
+      "blundersOver250": 1
+    },
+    {
+      "level": 2,
+      "samples": 5,
+      "avgLossCp": 122,
+      "maxLossCp": 220,
+      "avgMs": 384,
+      "blundersOver250": 0
+    },
+    {
+      "level": 3,
+      "samples": 5,
+      "avgLossCp": 65,
+      "maxLossCp": 127,
+      "avgMs": 449,
+      "blundersOver250": 0
+    },
+    {
+      "level": 4,
+      "samples": 5,
+      "avgLossCp": 75,
+      "maxLossCp": 127,
+      "avgMs": 613,
+      "blundersOver250": 0
+    },
+    {
+      "level": 5,
+      "samples": 5,
+      "avgLossCp": 73,
+      "maxLossCp": 127,
+      "avgMs": 762,
+      "blundersOver250": 0
+    },
+    {
+      "level": 6,
+      "samples": 5,
+      "avgLossCp": 104,
+      "maxLossCp": 189,
+      "avgMs": 805,
+      "blundersOver250": 0
+    },
+    {
+      "level": 7,
+      "samples": 5,
+      "avgLossCp": 101,
+      "maxLossCp": 189,
+      "avgMs": 1178,
+      "blundersOver250": 0
+    },
+    {
+      "level": 8,
+      "samples": 5,
+      "avgLossCp": 101,
+      "maxLossCp": 189,
+      "avgMs": 1484,
+      "blundersOver250": 0
+    },
+    {
+      "level": 9,
+      "samples": 5,
+      "avgLossCp": 101,
+      "maxLossCp": 189,
+      "avgMs": 1571,
+      "blundersOver250": 0
+    },
+    {
+      "level": 10,
+      "samples": 5,
+      "avgLossCp": 101,
+      "maxLossCp": 189,
+      "avgMs": 1937,
+      "blundersOver250": 0
+    }
+  ],
+  "rows": [
+    {
+      "label": "historic_opera",
+      "level": 1,
+      "san": "Bd2",
+      "uci": "c1d2",
+      "ms": 240,
+      "lossCp": 77,
+      "rootScore": 188,
+      "replyScore": 111
+    },
+    {
+      "label": "historic_opera",
+      "level": 2,
+      "san": "Qa3",
+      "uci": "b3a3",
+      "ms": 255,
+      "lossCp": 220,
+      "rootScore": 188,
+      "replyScore": -32
+    },
+    {
+      "label": "historic_opera",
+      "level": 3,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 444,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 4,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 478,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 5,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 743,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 6,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 764,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 7,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 1137,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 8,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 1370,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 9,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 1579,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_opera",
+      "level": 10,
+      "san": "O-O",
+      "uci": "e1g1",
+      "ms": 1913,
+      "lossCp": 75,
+      "rootScore": 188,
+      "replyScore": 113
+    },
+    {
+      "label": "historic_immortal",
+      "level": 1,
+      "san": "f6",
+      "uci": "f7f6",
+      "ms": 318,
+      "lossCp": 282,
+      "rootScore": 154,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_immortal",
+      "level": 2,
+      "san": "Bb7",
+      "uci": "c8b7",
+      "ms": 333,
+      "lossCp": 76,
+      "rootScore": 154,
+      "replyScore": 78
+    },
+    {
+      "label": "historic_immortal",
+      "level": 3,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 454,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 4,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 785,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 5,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 776,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 6,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 781,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 7,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 1170,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 8,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 1494,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 9,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 1624,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_immortal",
+      "level": 10,
+      "san": "Nc6",
+      "uci": "b8c6",
+      "ms": 2045,
+      "lossCp": 127,
+      "rootScore": 154,
+      "replyScore": 27
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 1,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 337,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 2,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 359,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 3,
+      "san": "h3",
+      "uci": "h2h3",
+      "ms": 486,
+      "lossCp": 8,
+      "rootScore": 84,
+      "replyScore": 76
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 4,
+      "san": "Be3",
+      "uci": "c1e3",
+      "ms": 801,
+      "lossCp": 46,
+      "rootScore": 84,
+      "replyScore": 38
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 5,
+      "san": "Be3",
+      "uci": "c1e3",
+      "ms": 774,
+      "lossCp": 46,
+      "rootScore": 84,
+      "replyScore": 38
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 6,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 778,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 7,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 1155,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 8,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 1513,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 9,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 1615,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_evergreen",
+      "level": 10,
+      "san": "Nbd2",
+      "uci": "b1d2",
+      "ms": 1856,
+      "lossCp": 189,
+      "rootScore": 84,
+      "replyScore": -105
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 1,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 380,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 2,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 443,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 3,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 386,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 4,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 496,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 5,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 839,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 6,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 846,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 7,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 1210,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 8,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 1509,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 9,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 1498,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_lasker_thomas",
+      "level": 10,
+      "san": "Bxe5",
+      "uci": "f6e5",
+      "ms": 1943,
+      "lossCp": 78,
+      "rootScore": -50,
+      "replyScore": -128
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 1,
+      "san": "Nxc6",
+      "uci": "d4c6",
+      "ms": 531,
+      "lossCp": 52,
+      "rootScore": 10,
+      "replyScore": -42
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 2,
+      "san": "Bxf6",
+      "uci": "g5f6",
+      "ms": 532,
+      "lossCp": 49,
+      "rootScore": 10,
+      "replyScore": -39
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 3,
+      "san": "Nxe6",
+      "uci": "d4e6",
+      "ms": 476,
+      "lossCp": 38,
+      "rootScore": 10,
+      "replyScore": -28
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 4,
+      "san": "Bxf6",
+      "uci": "g5f6",
+      "ms": 503,
+      "lossCp": 49,
+      "rootScore": 10,
+      "replyScore": -39
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 5,
+      "san": "Nxe6",
+      "uci": "d4e6",
+      "ms": 679,
+      "lossCp": 38,
+      "rootScore": 10,
+      "replyScore": -28
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 6,
+      "san": "Bxf6",
+      "uci": "g5f6",
+      "ms": 855,
+      "lossCp": 49,
+      "rootScore": 10,
+      "replyScore": -39
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 7,
+      "san": "Nxe6",
+      "uci": "d4e6",
+      "ms": 1219,
+      "lossCp": 38,
+      "rootScore": 10,
+      "replyScore": -28
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 8,
+      "san": "Nxe6",
+      "uci": "d4e6",
+      "ms": 1534,
+      "lossCp": 38,
+      "rootScore": 10,
+      "replyScore": -28
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 9,
+      "san": "Nxe6",
+      "uci": "d4e6",
+      "ms": 1540,
+      "lossCp": 38,
+      "rootScore": 10,
+      "replyScore": -28
+    },
+    {
+      "label": "historic_levitsky_marshall",
+      "level": 10,
+      "san": "Nxe6",
+      "uci": "d4e6",
+      "ms": 1927,
+      "lossCp": 38,
+      "rootScore": 10,
+      "replyScore": -28
+    }
+  ]
+}
