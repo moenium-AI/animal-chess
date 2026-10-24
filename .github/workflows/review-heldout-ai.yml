@@ -7,6 +7,12 @@ on:
     types: [completed]
     branches:
       - experiment/heldout-ai-balance-20261024
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: 'Completed tournament Actions run ID to review'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -14,7 +20,7 @@ permissions:
 
 jobs:
   summarize:
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -24,7 +30,7 @@ jobs:
           node-version: '22'
       - uses: actions/download-artifact@v4
         with:
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ github.event_name == 'workflow_dispatch' && inputs.source_run_id || github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: full-time-*
           merge-multiple: true
@@ -38,7 +44,7 @@ jobs:
           path: combined-tournament.json
           retention-days: 30
   stockfish:
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -57,7 +63,7 @@ jobs:
           /usr/games/stockfish --help >/dev/null 2>&1 || true
       - uses: actions/download-artifact@v4
         with:
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ github.event_name == 'workflow_dispatch' && inputs.source_run_id || github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           name: full-time-${{ matrix.pair }}
       - name: Evaluate representative moves from real games
