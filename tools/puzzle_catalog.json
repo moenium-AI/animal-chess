@@ -1857,22 +1857,22 @@
       "id": "tactic-fork-pawn-major",
       "title": "ちいさなこがまんなかへ",
       "theme": "fork",
-      "idea": "ポーンを一歩進め、クイーンとルークを同時に攻撃しよう。",
-      "fen": "7k/8/2q1r3/8/3P4/8/8/K7 w - - 0 1",
+      "idea": "味方のポーンに守られた一歩で、クイーンとルークを同時にねらおう。クイーンがポーンを取っても取り返せるぞ。",
+      "fen": "7k/8/2q1r3/8/3PP3/8/8/K7 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "d5"
       ],
       "continuations": {
-        "7k/8/2q1r3/8/3P4/8/8/K7 w - - 0 1|1": [
+        "7k/8/2q1r3/8/3PP3/8/8/K7 w - - 0 1|1": [
           "d5"
         ]
       },
       "objective": "tactic",
       "en": {
         "title": "The Little One Steps Between",
-        "idea": "Advance a pawn to attack both the queen and rook."
+        "idea": "Push the pawn to fork the queen and rook. Another pawn protects it, so a queen capture can be answered."
       }
     },
     {
@@ -2105,22 +2105,22 @@
       "id": "tactic-defender-bishop",
       "title": "みはりばんをつかまえろ",
       "theme": "defender",
-      "idea": "相手ルークを守るナイトをビショップで取り、守りを崩そう。",
-      "fen": "3r3k/8/4n3/8/2B5/8/8/K2R4 w - - 0 1",
+      "idea": "ルークを守るナイトをビショップで取ろう。もし相手のルークがこちらのルークを取っても、キングで取り返せるぞ。",
+      "fen": "3r3k/8/4n3/8/2B5/8/3R4/2K5 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "Bxe6"
       ],
       "continuations": {
-        "3r3k/8/4n3/8/2B5/8/8/K2R4 w - - 0 1|1": [
+        "3r3k/8/4n3/8/2B5/8/3R4/2K5 w - - 0 1|1": [
           "Bxe6"
         ]
       },
       "objective": "tactic",
       "en": {
         "title": "Catch the Lookout",
-        "idea": "Capture the knight that defends the rook."
+        "idea": "Capture the knight guarding the rook. If their rook takes yours, your king can recapture."
       }
     },
     {
