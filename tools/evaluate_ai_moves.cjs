@@ -43,6 +43,7 @@ class Stockfish {
   this.pending=null;this.queue=[];this.exited=false;
   this.stderr='';
   this.proc.stderr.on('data',b=>{this.stderr=(this.stderr+b.toString()).slice(-1000)});
+  this.proc.stdin.on('error',e=>this.fail(e));
   this.proc.on('error',e=>this.fail(e));
   this.proc.on('exit',(code)=>this.fail(Error('Stockfish exited: '+code+' '+this.stderr)));
   const rl=readline.createInterface({input:this.proc.stdout});
@@ -88,7 +89,13 @@ class Stockfish {
   const cp=latest.kind==='mate' ? sign*(100000-100*Math.min(999,Math.abs(latest.score))) : latest.score;
   return {...latest,cp,bestmove:best};
  }
- close(){if(!this.exited){this.send('quit');this.proc.kill()}}
+ close(){
+  if(this.exited)return;
+  this.exited=true;
+  this.proc.stdin.end('quit\n');
+  const timer=setTimeout(()=>{if(this.proc.exitCode===null)this.proc.kill()},1000);
+  timer.unref();
+ }
 }
 function aggregate(rows){
  const levels=new Map();
