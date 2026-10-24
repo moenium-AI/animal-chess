@@ -1,0 +1,137 @@
+name: Recover held-out AI tournament review
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/recover-heldout-review.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/recover-heldout-review.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN_ID: '40091674028'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check review scripts and tournament regressions
+        run: |
+          node --check tools/summarize_full_time_ai.cjs
+          node --check tools/evaluate_ai_moves.cjs
+          node tools/test_tournament_ai_levels.cjs
+          node tools/test_full_time_ai.cjs
+          node tools/test_ai_move_quality.cjs
+
+  summarize:
+    if: github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 40091674028
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: full-time-*
+          merge-multiple: true
+      - name: Validate held-out experiment design and 144 game records
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const pairs = { '6-7':24, '7-8':24, '8-9':48, '9-10':48 };
+          let total = 0;
+          const openings = new Set();
+          for (const [pair, expected] of Object.entries(pairs)) {
+            const x = JSON.parse(fs.readFileSync('matches-' + pair + '.json','utf8'));
+            if (x.games.length !== expected || x.config.budgetScale !== 1 ||
+                x.config.maxPlies !== 240 || x.config.seed !== 20261025 ||
+                x.config.openingIndices.join(',') !== Array.from({length:12},(_,i)=>i+12).join(','))
+              throw Error('Invalid experiment config: '+pair);
+            const [a,b] = pair.split('-').map(Number);
+            const counts = new Map();
+            for (const g of x.games) {
+              if (g.a !== a || g.b !== b ||
+                  ![20261025,20261026].includes(g.seed) ||
+                  ![[a,b],[b,a]].some(c=>g.white===c[0]&&g.black===c[1]))
+                throw Error('Invalid pairing: '+pair);
+              if (expected === 24 && g.seed !== 20261025)
+                throw Error('Unexpected seed: '+pair);
+              if (g.completed === false &&
+                  (g.reason !== 'ply-cap-draw' || g.startingPly + g.playedPlies !== 240))
+                throw Error('Invalid censored game: '+pair);
+              if (typeof g.completed !== 'boolean')
+                throw Error('Missing completion status: '+pair);
+              openings.add(g.opening);
+              const key = g.opening + '/' + g.seed + '/' + g.white;
+              counts.set(key, (counts.get(key)||0)+1);
+            }
+            if (counts.size !== expected || [...counts.values()].some(v=>v!==1))
+              throw Error('Missing color alternation or repeated games: '+pair);
+            if (new Set(x.games.map(g=>g.opening)).size !== 12)
+              throw Error('Wrong number of openings: '+pair);
+            total += x.games.length;
+          }
+          if (total !== 144 || openings.size !== 12)
+            throw Error('Expected 144 games over 12 independent openings');
+          console.log('Verified: 144 games, 12 openings, independent seeds, paired colors, full budget');
+          NODE
+      - name: Independently replay and summarize all 144 games
+        run: |
+          node tools/summarize_full_time_ai.cjs matches-*.json \
+            --require-full-time --output combined-heldout.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heldout-combined-144
+          path: combined-heldout.json
+          retention-days: 30
+
+  stockfish:
+    if: github.event_name == 'push'
+    needs: summarize
+    strategy:
+      fail-fast: false
+      matrix:
+        pair: ['6-7', '7-8', '8-9', '9-10']
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install and verify Stockfish 16
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          printf 'uci\nquit\n' | /usr/games/stockfish | grep -m1 '^id name Stockfish 16'
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 40091674028
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: full-time-${{ matrix.pair }}
+      - name: Analyze representative AI moves
+        run: |
+          node tools/evaluate_ai_moves.cjs 'matches-${{ matrix.pair }}.json' \
+            --engine /usr/games/stockfish --depth 9 \
+            --min-ply 16 --max-per-game 4 --max-samples 200 \
+            --output 'stockfish-${{ matrix.pair }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heldout-stockfish-${{ matrix.pair }}
+          path: stockfish-${{ matrix.pair }}.json
+          retention-days: 30
