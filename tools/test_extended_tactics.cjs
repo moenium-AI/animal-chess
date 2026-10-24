@@ -49,7 +49,7 @@ const forks={
  'fork-queen-minors':['e4','q',[['e7','n'],['e1','n']]],
  'fork-pawn-major':['d5','p',[['c6','q'],['e6','r']]],
  'fork-bishop-minors':['f6','b',[['d8','r'],['h8','n']]],
- 'promotion-knight-majors':['a8','n',[['b6','q'],['c7','r']]],
+ 'promotion-knight-majors':['g8','n',[['e7','q'],['f6','r']]],
 };
 for(const [id,[landing,type,targets]] of Object.entries(forks)){
  const {g}=play(id);piece(g,landing,type,'w');

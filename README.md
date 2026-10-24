@@ -85,3 +85,7 @@ Pull requests and pushes to main also run the independent audit through GitHub A
 inspect the downloadable `stockfish-puzzle-audit` artifact for flagged positions.
 This is an engine-assisted *review*, not proof that all moves are uniquely optimal.
 See [Stockfish audit guide](docs/puzzle-stockfish-audit-2026-10-24.md).
+
+2026-10-24: Stockfish-verified puzzle quality revisions and scoring diagnostics are recorded in
+[docs/puzzle-stockfish-corrections-2026-10-24.md](docs/puzzle-stockfish-corrections-2026-10-24.md).
+Winning thematic alternatives are retained and annotated as notes rather than automatically rejected solely for being slower than a forced mate.

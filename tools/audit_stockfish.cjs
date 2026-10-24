@@ -128,7 +128,12 @@ async function audit(opts) {
   try {
     await engine.init();
     for (const p of problems) {
-      const legal = new Chess(p.fen).moves({verbose:true});
+      const legalGame = new Chess(p.fen);
+      if (!legalGame.validate_fen(p.fen).valid) throw new Error(`Invalid puzzle FEN: ${p.id}`);
+      const oppositeFen = p.fen.split(' ');
+      oppositeFen[1] = oppositeFen[1] === 'w' ? 'b' : 'w';
+      if (new Chess(oppositeFen.join(' ')).in_check()) throw new Error(`Non-moving king is in check: ${p.id}`);
+      const legal = legalGame.moves({verbose:true});
       const legalUci = new Set(legal.map(m=>`${m.from}${m.to}${m.promotion || ''}`));
       const requestedDepth = p.objective === 'mate' ? opts.mateDepth : opts.depth;
       const root = await engine.analyze(p.fen, requestedDepth);
@@ -137,20 +142,36 @@ async function audit(opts) {
       const item = {id:p.id,title:p.title,objective:p.objective,mateIn:p.mateIn,
         accepted:p.solutions,engineBestMove:root.bestMove,engineBestSan:uciToSan(Chess,p.fen,root.bestMove),
         engineBestScore:root.scoreCp,bestScoreType:root.kind,bestMate:root.kind==='mate'?root.value:null,
-        reachedDepth:root.depth,solutions:[],flags:[]};
+        reachedDepth:root.depth,solutions:[],flags:[],notes:[]};
       if (root.depth < Math.min(10,requestedDepth)) item.flags.push('low_engine_depth');
       const acceptedUci = new Set(accepted.map(a=>a.uci));
       if (p.objective==='mate' && root.kind === 'mate' && root.value > 0 && root.value <= p.mateIn && !acceptedUci.has(root.bestMove))
         item.flags.push('unregistered_mate_candidate');
-      if (p.objective==='mate' && root.kind==='mate' && root.value > p.mateIn)
-        item.flags.push('engine_mate_longer_than_advertised');
+      // A shallow Stockfish root search can miss a shorter composed mate.
+      // Independently re-search registered first moves at a deeper depth.
+      const verifiedMate = new Map();
+      if (p.objective === 'mate' && root.kind === 'mate' && root.value > p.mateIn) {
+        const deeperDepth = Math.min(30, requestedDepth + 6);
+        for (const entry of accepted) {
+          const candidate = await engine.analyze(p.fen, deeperDepth, entry.uci);
+          if (candidate.kind === 'mate' && candidate.value > 0 && candidate.value <= p.mateIn) {
+            verifiedMate.set(entry.uci, candidate);
+            item.notes.push(`mate_confirmed_by_deeper_forced_search:${entry.san}`);
+          }
+        }
+        if (!verifiedMate.size) item.flags.push('engine_mate_longer_than_advertised');
+      }
       if (p.objective==='mate' && root.kind!=='mate') item.flags.push('mate_not_verified_at_depth');
       for (const entry of accepted) {
-        const forced = root.bestMove === entry.uci ? root : await engine.analyze(p.fen, requestedDepth, entry.uci);
+        const forced = verifiedMate.get(entry.uci) || (root.bestMove === entry.uci ? root : await engine.analyze(p.fen, requestedDepth, entry.uci));
         const difference = root.scoreCp - forced.scoreCp;
         const info={san:entry.san,uci:entry.uci,scoreCp:forced.scoreCp,scoreType:forced.kind,scoreMate:forced.kind==='mate'?forced.value:null,lossVsBestCp:difference,depth:forced.depth};
         item.solutions.push(info);movesChecked++;
-        if (p.objective==='tactic' && difference > opts.thresholdCp) item.flags.push(`tactic_move_below_best:${entry.san}`);
+        if (p.objective === 'tactic' && difference > opts.thresholdCp) {
+          if (forced.scoreCp >= 200 && forced.kind !== 'mate')
+            item.notes.push(`winning_tactic_less_forcing_than_engine_best:${entry.san}`);
+          else item.flags.push(`tactic_move_below_best:${entry.san}`);
+        }
         if (p.objective==='tactic' && forced.kind==='mate' && forced.value<0) item.flags.push(`tactic_allows_forced_mate:${entry.san}`);
         if (p.objective==='mate' && forced.kind==='mate' && (forced.value < 1 || forced.value > p.mateIn)) item.flags.push(`mate_solution_disagrees:${entry.san}`);
         if (p.objective==='mate' && forced.kind!=='mate') item.flags.push(`mate_solution_not_verified:${entry.san}`);

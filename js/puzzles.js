@@ -1363,8 +1363,8 @@ const PUZZLES = [
   "id": "tactic-bishop-double-attack",
   "title": "ななめのわかれみち",
   "theme": "fork",
-  "idea": "ビショップをg5に出すと、e7のクイーンとh4のルークを同時に攻撃できる。f4の味方ポーンがビショップを守る。",
-  "fen": "k7/4q3/7B/8/5P1r/8/8/1K6 w - - 0 1",
+  "idea": "ビショップをg5に動かそう。e7のクイーンとh4のルークを同時にねらえる。f4のポーンがビショップを守り、g2のクイーンが相手の反撃を抑える。",
+  "fen": "8/4q2k/7B/8/5P1r/8/6Q1/1K6 w - - 0 1",
   "mateIn": 1,
   "objective": "tactic",
   "turn": "w",
@@ -1372,7 +1372,7 @@ const PUZZLES = [
    "Bg5"
   ],
   "continuations": {
-   "k7/4q3/7B/8/5P1r/8/8/1K6 w - - 0 1|1": [
+   "8/4q2k/7B/8/5P1r/8/6Q1/1K6 w - - 0 1|1": [
     "Bg5"
    ]
   }
@@ -1471,8 +1471,8 @@ const PUZZLES = [
   "id": "tactic-knight-underpromotion",
   "title": "ひよこ、おうまさんになる",
   "theme": "promotion",
-  "idea": "クイーンではなくナイトへ昇格しよう。c8のナイトはe7のキングに王手し、a7のルークも同時に攻撃する。",
-  "fen": "8/r1P1k3/8/8/8/8/8/6K1 w - - 0 1",
+  "idea": "c8でクイーンではなくナイトに昇格しよう。e7のキングを王手しながらa7のルークをねらう。c1のルークが昇格するポーンを支えている。",
+  "fen": "8/r1P1k3/8/8/8/8/8/2R3K1 w - - 0 1",
   "mateIn": 1,
   "objective": "tactic",
   "turn": "w",
@@ -1480,7 +1480,7 @@ const PUZZLES = [
    "c8=N+"
   ],
   "continuations": {
-   "8/r1P1k3/8/8/8/8/8/6K1 w - - 0 1|1": [
+   "8/r1P1k3/8/8/8/8/8/2R3K1 w - - 0 1|1": [
     "c8=N+"
    ]
   }
@@ -1619,15 +1619,15 @@ const PUZZLES = [
   "id": "tactic-fork-pawn-major",
   "title": "ちいさなこがまんなかへ",
   "theme": "fork",
-  "idea": "ポーンをd5へ進め、クイーンとルークを同時にねらおう。e4のポーンがd5を守り、さらにf3のポーンがe4を守るので、相手の反撃にも備えられる。",
-  "fen": "7k/8/2q1r3/8/3PP3/5P2/8/6K1 w - - 0 1",
+  "idea": "d5と進んでクイーンとルークを一度にねらおう。e4のポーンがd5を、f3のポーンがe4を守る。白のクイーンとルークも反撃に備えている。",
+  "fen": "7k/8/2q1r3/8/3PP3/5P2/8/R2Q2K1 w - - 0 1",
   "mateIn": 1,
   "turn": "w",
   "solutions": [
    "d5"
   ],
   "continuations": {
-   "7k/8/2q1r3/8/3PP3/5P2/8/6K1 w - - 0 1|1": [
+   "7k/8/2q1r3/8/3PP3/5P2/8/R2Q2K1 w - - 0 1|1": [
     "d5"
    ]
   },
@@ -1731,15 +1731,15 @@ const PUZZLES = [
   "id": "tactic-pin-rook-relative",
   "title": "ふくろうさんのうしろには",
   "theme": "pin",
-  "idea": "ビショップの奥にクイーンがいる。ルークを同じ縦の線へ。",
-  "fen": "5q1k/8/8/5b2/8/8/R5K1/8 w - - 0 1",
+  "idea": "ルークをf2へ動かし、ビショップの奥にいるクイーンを一直線にねらおう。d1の味方クイーンが反撃に備えている。",
+  "fen": "5q1k/8/8/5b2/8/8/R5K1/3Q4 w - - 0 1",
   "mateIn": 1,
   "turn": "w",
   "solutions": [
    "Rf2"
   ],
   "continuations": {
-   "5q1k/8/8/5b2/8/8/R5K1/8 w - - 0 1|1": [
+   "5q1k/8/8/5b2/8/8/R5K1/3Q4 w - - 0 1|1": [
     "Rf2"
    ]
   },
@@ -1785,8 +1785,8 @@ const PUZZLES = [
   "id": "tactic-discovery-knight-queen",
   "title": "おうまがあけるひみつのみち",
   "theme": "discovery",
-  "idea": "ナイトで王手しながらルークの縦の利きをクイーンまで開こう。",
-  "fen": "4q3/7k/8/8/4N3/8/8/4R2K w - - 0 1",
+  "idea": "ナイトを動かして王手し、e1のルークからe8のクイーンへの道も開こう。もう一枚のルークが白の攻撃を助ける。",
+  "fen": "4q3/7k/8/8/4N3/8/R7/4R2K w - - 0 1",
   "mateIn": 1,
   "turn": "w",
   "solutions": [
@@ -1794,7 +1794,7 @@ const PUZZLES = [
    "Ng5+"
   ],
   "continuations": {
-   "4q3/7k/8/8/4N3/8/8/4R2K w - - 0 1|1": [
+   "4q3/7k/8/8/4N3/8/R7/4R2K w - - 0 1|1": [
     "Nf6+",
     "Ng5+"
    ]
@@ -1969,16 +1969,16 @@ const PUZZLES = [
   "id": "tactic-promotion-knight-majors",
   "title": "おうまになってよくばり",
   "theme": "promotion",
-  "idea": "ナイトに昇格するとクイーンとルークの両方をねらえる。f3のビショップは昇格したナイトを守り、クイーンの逆襲を防ぐ。",
-  "fen": "6k1/P1r5/1q6/8/8/5B2/8/7K w - - 0 1",
+  "idea": "g8でナイトに昇格しよう。h6のキングを王手しながら、e7のクイーンとf6のルークを同時にねらえる。c4のビショップが新しいナイトを守る。",
+  "fen": "8/4q1P1/5r1k/8/2B5/8/8/RK6 w - - 0 1",
   "mateIn": 1,
   "turn": "w",
   "solutions": [
-   "a8=N"
+   "g8=N+"
   ],
   "continuations": {
-   "6k1/P1r5/1q6/8/8/5B2/8/7K w - - 0 1|1": [
-    "a8=N"
+   "8/4q1P1/5r1k/8/2B5/8/8/RK6 w - - 0 1|1": [
+    "g8=N+"
    ]
   },
   "objective": "tactic"
