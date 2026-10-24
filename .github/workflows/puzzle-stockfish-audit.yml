@@ -47,3 +47,16 @@ jobs:
           name: stockfish-puzzle-audit
           path: stockfish-audit.json
           if-no-files-found: warn
+      - name: Preserve engine for diagnostic reproduction
+        if: always()
+        run: |
+          mkdir -p stockfish-test-tool
+          cp /usr/games/stockfish stockfish-test-tool/stockfish
+          cp /usr/share/doc/stockfish/copyright stockfish-test-tool/COPYRIGHT
+          printf '%s\n' 'Source: https://github.com/official-stockfish/Stockfish' > stockfish-test-tool/SOURCE.txt
+      - name: Upload engine diagnostic snapshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stockfish-reproduction-engine
+          path: stockfish-test-tool/
