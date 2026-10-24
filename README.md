@@ -78,3 +78,10 @@ Python検証では戦術の全別解を確認し、詰みの正解集合を並�
 `python -X utf8 tools/test_learning.py` で検証器と不正データ時の生成物保護を検査できます。
 準備と各OSでのブラウザ検査は[開発手順](docs/dev-notes.md#パズルを追加する)、
 今回の反映記録は[統合検証](docs/puzzle-integration-2026-10-20.md)を参照してください。
+
+Stockfish audit (optional, offline UCI engine): `node tools/test_stockfish_audit.cjs` and
+`node tools/audit_stockfish.cjs --engine /path/to/stockfish --depth 13 --output stockfish-audit.json --report-only`.
+Pull requests and pushes to main also run the independent audit through GitHub Actions;
+inspect the downloadable `stockfish-puzzle-audit` artifact for flagged positions.
+This is an engine-assisted *review*, not proof that all moves are uniquely optimal.
+See [Stockfish audit guide](docs/puzzle-stockfish-audit-2026-10-24.md).
