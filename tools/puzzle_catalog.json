@@ -1546,7 +1546,7 @@
       "title": "ななめのわかれみち",
       "theme": "fork",
       "idea": "ビショップをg5に出すと、e7のクイーンとh4のルークを同時に攻撃できる。f4の味方ポーンがビショップを守る。",
-      "fen": "k7/4q3/7B/8/5P1r/8/8/6K1 w - - 0 1",
+      "fen": "k7/4q3/7B/8/5P1r/8/8/1K6 w - - 0 1",
       "mateIn": 1,
       "objective": "tactic",
       "turn": "w",
@@ -1554,7 +1554,7 @@
         "Bg5"
       ],
       "continuations": {
-        "k7/4q3/7B/8/5P1r/8/8/6K1 w - - 0 1|1": [
+        "k7/4q3/7B/8/5P1r/8/8/1K6 w - - 0 1|1": [
           "Bg5"
         ]
       },
@@ -1857,22 +1857,22 @@
       "id": "tactic-fork-pawn-major",
       "title": "ちいさなこがまんなかへ",
       "theme": "fork",
-      "idea": "味方のポーンに守られた一歩で、クイーンとルークを同時にねらおう。クイーンがポーンを取っても取り返せるぞ。",
-      "fen": "7k/8/2q1r3/8/3PP3/8/8/K7 w - - 0 1",
+      "idea": "ポーンをd5へ進め、クイーンとルークを同時にねらおう。e4のポーンがd5を守り、さらにf3のポーンがe4を守るので、相手の反撃にも備えられる。",
+      "fen": "7k/8/2q1r3/8/3PP3/5P2/8/6K1 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "d5"
       ],
       "continuations": {
-        "7k/8/2q1r3/8/3PP3/8/8/K7 w - - 0 1|1": [
+        "7k/8/2q1r3/8/3PP3/5P2/8/6K1 w - - 0 1|1": [
           "d5"
         ]
       },
       "objective": "tactic",
       "en": {
         "title": "The Little One Steps Between",
-        "idea": "Push the pawn to fork the queen and rook. Another pawn protects it, so a queen capture can be answered."
+        "idea": "Push to d5, forking the queen and rook. The e4 pawn guards d5, while the f3 pawn supports e4 against counterattacks."
       }
     },
     {
@@ -1972,14 +1972,14 @@
       "title": "おしろのうしろのおきさきさま",
       "theme": "pin",
       "idea": "ルークの奥にクイーンがいる。ビショップを動かして長い斜めのピンを作ろう。",
-      "fen": "3q4/k3r3/8/8/8/8/8/1KB5 w - - 0 1",
+      "fen": "3q4/k3r3/8/8/8/8/6NK/2B5 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "Bg5"
       ],
       "continuations": {
-        "3q4/k3r3/8/8/8/8/8/1KB5 w - - 0 1|1": [
+        "3q4/k3r3/8/8/8/8/6NK/2B5 w - - 0 1|1": [
           "Bg5"
         ]
       },
@@ -1994,14 +1994,14 @@
       "title": "ふくろうさんのうしろには",
       "theme": "pin",
       "idea": "ビショップの奥にクイーンがいる。ルークを同じ縦の線へ。",
-      "fen": "5q1k/8/8/5b2/8/8/R7/K7 w - - 0 1",
+      "fen": "5q1k/8/8/5b2/8/8/R5K1/8 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "Rf2"
       ],
       "continuations": {
-        "5q1k/8/8/5b2/8/8/R7/K7 w - - 0 1|1": [
+        "5q1k/8/8/5b2/8/8/R5K1/8 w - - 0 1|1": [
           "Rf2"
         ]
       },
@@ -2283,22 +2283,22 @@
       "id": "tactic-promotion-knight-majors",
       "title": "おうまになってよくばり",
       "theme": "promotion",
-      "idea": "ナイトに昇格するとクイーンとルークの両方を狙える。",
-      "fen": "6k1/P1r5/1q6/8/8/8/8/7K w - - 0 1",
+      "idea": "ナイトに昇格するとクイーンとルークの両方をねらえる。f3のビショップは昇格したナイトを守り、クイーンの逆襲を防ぐ。",
+      "fen": "6k1/P1r5/1q6/8/8/5B2/8/7K w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "a8=N"
       ],
       "continuations": {
-        "6k1/P1r5/1q6/8/8/8/8/7K w - - 0 1|1": [
+        "6k1/P1r5/1q6/8/8/5B2/8/7K w - - 0 1|1": [
           "a8=N"
         ]
       },
       "objective": "tactic",
       "en": {
         "title": "A Greedy New Pony",
-        "idea": "Promote to a knight to attack both the queen and rook."
+        "idea": "Promote to a knight to fork the queen and rook. The bishop on f3 guards the new knight against a queen counterattack."
       }
     },
     {

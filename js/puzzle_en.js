@@ -238,7 +238,7 @@ const PUZZLE_EN = {
  ],
  "tactic-fork-pawn-major": [
   "The Little One Steps Between",
-  "Push the pawn to fork the queen and rook. Another pawn protects it, so a queen capture can be answered."
+  "Push to d5, forking the queen and rook. The e4 pawn guards d5, while the f3 pawn supports e4 against counterattacks."
  ],
  "tactic-fork-bishop-minors": [
   "Hello to You Both, Far Away",
@@ -314,7 +314,7 @@ const PUZZLE_EN = {
  ],
  "tactic-promotion-knight-majors": [
   "A Greedy New Pony",
-  "Promote to a knight to attack both the queen and rook."
+  "Promote to a knight to fork the queen and rook. The bishop on f3 guards the new knight against a queen counterattack."
  ],
  "tactic-pin-bishop-king-2": [
   "The King Behind the Castle",
