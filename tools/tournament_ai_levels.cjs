@@ -24,6 +24,20 @@ const OPENINGS = [
   ['four-knights', 'e4 e5 Nf3 Nc6 Nc3 Nf6 Bb5 Bb4'],
   ['evans', 'e4 e5 Nf3 Nc6 Bc4 Bc5 b4 Bxb4 c3 Ba5'],
   ['kings-indian', 'd4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O'],
+  // Holdout openings added after the initial 120-game baseline; the first 12
+  // entries and their indices remain unchanged for reproducibility.
+  ['london', 'd4 d5 Nf3 Nf6 Bf4 e6 e3 Bd6 Bg3 O-O Bd3 c5'],
+  ['slav', 'd4 d5 c4 c6 Nf3 Nf6 Nc3 dxc4 a4 Bf5 e3 e6 Bxc4'],
+  ['nimzo-indian', 'd4 Nf6 c4 e6 Nc3 Bb4 e3 O-O Bd3 d5 Nf3 c5'],
+  ['dutch', 'd4 f5 c4 Nf6 Nc3 e6 Nf3 d5 g3 Be7 Bg2 O-O'],
+  ['petroff', 'e4 e5 Nf3 Nf6 Nxe5 d6 Nf3 Nxe4 d4 d5 Bd3 Bd6'],
+  ['vienna', 'e4 e5 Nc3 Nf6 f4 d5 fxe5 Nxe4 Nf3'],
+  ['pirc', 'e4 d6 d4 Nf6 Nc3 g6 Nf3 Bg7 Be2 O-O O-O'],
+  ['kings-gambit', 'e4 e5 f4 exf4 Nf3 g5 h4 g4 Ne5 Nf6'],
+  ['alekhine', 'e4 Nf6 e5 Nd5 d4 d6 Nf3 Bg4 Be2 e6 O-O'],
+  ['catalan', 'd4 Nf6 c4 e6 g3 d5 Bg2 Be7 Nf3 O-O O-O'],
+  ['benoni', 'd4 Nf6 c4 c5 d5 e6 Nc3 exd5 cxd5 d6'],
+  ['grunfeld', 'd4 Nf6 c4 g6 Nc3 d5 cxd5 Nxd5 e4 Nxc3 bxc3 Bg7'],
 ];
 function parse(argv) {
   const args = {gamesPerOpening:1, budgetScale:.2, maxPlies:120, pairMode:'adjacent', seed:20261024, out:null, onlyPair:null, openingOffset:0, openingIndices:null};

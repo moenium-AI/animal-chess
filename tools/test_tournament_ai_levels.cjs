@@ -1,9 +1,14 @@
 'use strict';
 const assert=require('node:assert/strict');
 const fs=require('node:fs');const os=require('node:os');const path=require('node:path');
-const {parse,hashSeed,OPENINGS,pairs,match}=require('./tournament_ai_levels.cjs');
+const {parse,hashSeed,OPENINGS,pairs,match,createPlayer,openingGame}=require('./tournament_ai_levels.cjs');
 const {summary}=require('./summarize_ai_tournament.cjs');
-assert.equal(OPENINGS.length,12);
+assert.equal(OPENINGS.length,24);
+assert.equal(new Set(OPENINGS.map(([name])=>name)).size,OPENINGS.length);
+assert.deepEqual(OPENINGS.slice(0,12).map(x=>x[0]),['open','italian','sicilian','queen-gambit','french','ruy-lopez','caro-kann','scandinavian','english','four-knights','evans','kings-indian']);
+const {Chess:OpeningChess}=createPlayer(73,.01);
+for(let i=0;i<OPENINGS.length;i++)assert.doesNotThrow(()=>openingGame(OpeningChess,i),`invalid opening ${OPENINGS[i][0]}`);
+assert.deepEqual(parse(['--opening-indices','12,13,14,15,16,17,18,19,20,21,22,23','--seed','20261025']).openingIndices,Array.from({length:12},(_,i)=>i+12));
 assert.equal(pairs('adjacent').length,9);
 assert.equal(pairs('cross').length,8);
 assert.equal(hashSeed([1,2,'a']),hashSeed([1,2,'a']));
