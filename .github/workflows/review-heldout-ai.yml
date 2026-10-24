@@ -1,0 +1,73 @@
+name: Review held-out AI tournament
+
+on:
+  workflow_run:
+    workflows:
+      - Held-out normal-time AI tournament
+    types: [completed]
+    branches:
+      - experiment/heldout-ai-balance-20261024
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  summarize:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: full-time-*
+          merge-multiple: true
+      - name: Replay held-out games and compute censored-aware summary
+        run: |
+          node tools/summarize_full_time_ai.cjs matches-*.json \
+            --require-full-time --output combined-tournament.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tournament-combined-summary
+          path: combined-tournament.json
+          retention-days: 30
+  stockfish:
+    if: github.event.workflow_run.conclusion == 'success'
+    strategy:
+      fail-fast: false
+      matrix:
+        pair: ['6-7', '7-8', '8-9', '9-10']
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install independent Stockfish engine
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          /usr/games/stockfish --help >/dev/null 2>&1 || true
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: full-time-${{ matrix.pair }}
+      - name: Evaluate representative moves from real games
+        run: |
+          node tools/evaluate_ai_moves.cjs 'matches-${{ matrix.pair }}.json' \
+            --engine /usr/games/stockfish --depth 9 \
+            --min-ply 16 --max-per-game 4 --max-samples 200 \
+            --output 'stockfish-${{ matrix.pair }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stockfish-move-review-${{ matrix.pair }}
+          path: stockfish-${{ matrix.pair }}.json
+          retention-days: 30
