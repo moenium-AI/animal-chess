@@ -14,6 +14,7 @@ assert.equal(parseInfo('info depth 12 score cp 999 lowerbound').bound,true);
 assert.equal(getArgs(['--depth','12','--include','tactic']).depth,12);
 assert.throws(()=>getArgs(['--depth','-1']),/depth/);
 assert.equal(getArgs(['--report-only']).reportOnly,true);
+assert.equal(getArgs(['--mate-depth','21']).mateDepth,21);
 const fen='6k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1';
 assert.equal(uciFromSan(Chess,fen,'Re8#'),'e1e8');
 assert.equal(uciToSan(Chess,fen,'e1e8'),'Re8#');

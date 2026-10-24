@@ -29,20 +29,21 @@ function normalizedScore(info) {
   return Math.sign(info.value) * (100000 - Math.abs(info.value) * 100);
 }
 function getArgs(argv) {
-  const options = { engine: process.env.STOCKFISH_PATH || 'stockfish', depth: 13,
+  const options = { engine: process.env.STOCKFISH_PATH || 'stockfish', depth: 13, mateDepth: 20,
     timeoutMs: 90000, thresholdCp: 250, output: null, include: 'all', max: 0, reportOnly: false };
   for (let i = 0; i < argv.length; i++) {
     const [raw, inline] = argv[i].split('=', 2);
     if (raw === '--report-only' && inline == null) { options.reportOnly = true; continue; }
     const flag = raw.replace(/^--/, '');
-    if (!raw.startsWith('--') || !['engine','depth','timeout-ms','threshold-cp','output','include','max'].includes(flag))
+    if (!raw.startsWith('--') || !['engine','depth','mate-depth','timeout-ms','threshold-cp','output','include','max'].includes(flag))
       throw new Error('Unknown option: ' + argv[i]);
     const value = inline ?? argv[++i];
     if (value == null || !value) throw new Error('Missing value for ' + flag);
-    const key = {'timeout-ms':'timeoutMs','threshold-cp':'thresholdCp'}[flag] || flag;
-    options[key] = ['depth','timeoutMs','thresholdCp','max'].includes(key) ? Number(value) : value;
+    const key = {'timeout-ms':'timeoutMs','threshold-cp':'thresholdCp','mate-depth':'mateDepth'}[flag] || flag;
+    options[key] = ['depth','mateDepth','timeoutMs','thresholdCp','max'].includes(key) ? Number(value) : value;
   }
   if (!Number.isInteger(options.depth) || options.depth < 4 || options.depth > 30) throw new Error('depth must be 4..30');
+  if (!Number.isInteger(options.mateDepth) || options.mateDepth < 4 || options.mateDepth > 30) throw new Error('mate-depth must be 4..30');
   if (!Number.isInteger(options.timeoutMs) || options.timeoutMs < 1000 || options.timeoutMs > 600000) throw new Error('timeout-ms must be 1000..600000');
   if (!Number.isInteger(options.thresholdCp) || options.thresholdCp < 0 || options.thresholdCp > 3000) throw new Error('threshold-cp must be 0..3000');
   if (!Number.isInteger(options.max) || options.max < 0 || options.max > 1000) throw new Error('max must be 0..1000');
@@ -129,14 +130,15 @@ async function audit(opts) {
     for (const p of problems) {
       const legal = new Chess(p.fen).moves({verbose:true});
       const legalUci = new Set(legal.map(m=>`${m.from}${m.to}${m.promotion || ''}`));
-      const root = await engine.analyze(p.fen, opts.depth);
+      const requestedDepth = p.objective === 'mate' ? opts.mateDepth : opts.depth;
+      const root = await engine.analyze(p.fen, requestedDepth);
       if (root.bestMove !== '0000' && !legalUci.has(root.bestMove)) throw new Error(`Illegal engine move ${root.bestMove} for ${p.id}`);
       const accepted = p.solutions.map(san=>({san,uci:uciFromSan(Chess,p.fen,san)}));
       const item = {id:p.id,title:p.title,objective:p.objective,mateIn:p.mateIn,
         accepted:p.solutions,engineBestMove:root.bestMove,engineBestSan:uciToSan(Chess,p.fen,root.bestMove),
         engineBestScore:root.scoreCp,bestScoreType:root.kind,bestMate:root.kind==='mate'?root.value:null,
         reachedDepth:root.depth,solutions:[],flags:[]};
-      if (root.depth < Math.min(10,opts.depth)) item.flags.push('low_engine_depth');
+      if (root.depth < Math.min(10,requestedDepth)) item.flags.push('low_engine_depth');
       const acceptedUci = new Set(accepted.map(a=>a.uci));
       if (p.objective==='mate' && root.kind === 'mate' && root.value > 0 && root.value <= p.mateIn && !acceptedUci.has(root.bestMove))
         item.flags.push('unregistered_mate_candidate');
@@ -144,11 +146,12 @@ async function audit(opts) {
         item.flags.push('engine_mate_longer_than_advertised');
       if (p.objective==='mate' && root.kind!=='mate') item.flags.push('mate_not_verified_at_depth');
       for (const entry of accepted) {
-        const forced = root.bestMove === entry.uci ? root : await engine.analyze(p.fen, opts.depth, entry.uci);
+        const forced = root.bestMove === entry.uci ? root : await engine.analyze(p.fen, requestedDepth, entry.uci);
         const difference = root.scoreCp - forced.scoreCp;
         const info={san:entry.san,uci:entry.uci,scoreCp:forced.scoreCp,scoreType:forced.kind,scoreMate:forced.kind==='mate'?forced.value:null,lossVsBestCp:difference,depth:forced.depth};
         item.solutions.push(info);movesChecked++;
         if (p.objective==='tactic' && difference > opts.thresholdCp) item.flags.push(`tactic_move_below_best:${entry.san}`);
+        if (p.objective==='tactic' && forced.kind==='mate' && forced.value<0) item.flags.push(`tactic_allows_forced_mate:${entry.san}`);
         if (p.objective==='mate' && forced.kind==='mate' && (forced.value < 1 || forced.value > p.mateIn)) item.flags.push(`mate_solution_disagrees:${entry.san}`);
         if (p.objective==='mate' && forced.kind!=='mate') item.flags.push(`mate_solution_not_verified:${entry.san}`);
       }
@@ -156,7 +159,7 @@ async function audit(opts) {
       results.push(item); problemsDone++;
       console.error(`[${problemsDone}/${problems.length}] ${p.id}: ${item.flags.join(', ')||'OK'} (depth ${root.depth})`);
     }
-    return {engine:engine.name, parameters:{depth:opts.depth,thresholdCp:opts.thresholdCp},
+    return {engine:engine.name, parameters:{depth:opts.depth,mateDepth:opts.mateDepth,thresholdCp:opts.thresholdCp},
       summary:{analyzed:problemsDone,solutionMoves:movesChecked,flagged:results.filter(r=>r.flags.length).length},
       results};
   } finally { engine.quit(); }
@@ -166,6 +169,8 @@ async function main() {
     const opts = getArgs(process.argv.slice(2));
     const report = await audit(opts);
     const output = JSON.stringify(report,null,2)+'\n';
+    console.error(`Stockfish audit: ${report.summary.analyzed} puzzles, ${report.summary.solutionMoves} answers, ${report.summary.flagged} review candidates`);
+    if (process.env.GITHUB_ACTIONS && report.summary.flagged) console.error(`::warning::Stockfish found ${report.summary.flagged} review candidates; inspect the JSON artifact. The audit is advisory.`);
     if (opts.output) fs.writeFileSync(opts.output, output, {encoding:'utf8',flag:'w'});
     else process.stdout.write(output);
     process.exitCode = report.summary.flagged && !opts.reportOnly ? 2 : 0;
