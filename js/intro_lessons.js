@@ -5,7 +5,7 @@ const INTRO_LESSONS = [
     "cat": "basics",
     "fen": null,
     "title": "64マスのチェス盤",
-    "intro": "盤には縦8列・横8段の64マスがあります。白が先手で、マスはe2などの名前で呼びます。",
+    "intro": "盤には縦のファイル（a～h列）と横のランク（1～8段）がそれぞれ8つあり、全部で64マスあります。白が先手で、マスはe2などの名前で呼びます。",
     "takeaway": "e2のポーンをe4へ進め、マスの名前を覚えよう。",
     "moves": [
       {
@@ -207,7 +207,7 @@ const INTRO_LESSONS = [
     "practice": {
       "ply": 0,
       "prompt": "a2のクイーンをe2へ動かそう。",
-      "hint": "同じ横列を進みます。"
+      "hint": "同じ2段目を横に進みます。"
     },
     "en": {
       "title": "How queens move",
