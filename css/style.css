@@ -596,6 +596,38 @@ html, body {
 .study-reasoning-feedback { min-height: 1.2em; color: #655443; font-size: .79rem; line-height: 1.55; margin: 7px 0 4px; }
 .study-reasoning-caution { color: #877964; font-size: .72rem; line-height: 1.45; margin: 5px 0 0; }
 
+.reasoning-position {
+  margin: 8px 0 11px; display: flex; flex-direction: column; align-items: flex-start;
+}
+.reasoning-position-label {
+  font-size: .76rem; font-weight: 600; color: #665039; margin: 0 0 6px;
+}
+.reasoning-position-board {
+  width: min(100%, 240px); aspect-ratio: 1;
+  display: grid; grid-template-columns: repeat(8, minmax(0, 1fr));
+  border: 2px solid #9d8565; border-radius: 5px; overflow: hidden;
+  user-select: none;
+}
+.reasoning-position-square {
+  display: flex; align-items: center; justify-content: center; min-width: 0;
+  aspect-ratio: 1; font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", sans-serif;
+  font-size: clamp(15px, 3vw, 25px); line-height: 1; position: relative;
+}
+.reasoning-position-square.light { background: #f1e7d4; }
+.reasoning-position-square.dark { background: #bb9f7d; }
+.reasoning-position-square.white-piece { color: #fffdfa; text-shadow: 0 1px 2px #3b3027, 0 -1px #3b3027; }
+.reasoning-position-square.black-piece { color: #342d29; }
+.reasoning-position-square.reasoning-position-move { box-shadow: inset 0 0 0 3px #648c70; }
+.reasoning-position-controls { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.reasoning-position-controls .btn { font-size: .75rem; padding: 5px 8px; }
+.reasoning-position-controls .btn[aria-pressed="true"] { background: #eee3d0; border-color: #8d7145; }
+.reasoning-position-controls .btn:disabled { opacity: .53; cursor: default; }
+@media (max-width: 420px) {
+  .reasoning-position-board { width: min(100%, 210px); }
+  .reasoning-position-square { font-size: 20px; }
+}
+
+
 /* ===== Learn and famous-game lists / まなぶ・名局リスト ===== */
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .chip {

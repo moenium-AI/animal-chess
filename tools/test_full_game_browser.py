@@ -447,6 +447,69 @@ with sync_playwright() as pw:
     page.locator('#learn-cats .chip').first.click(force=True)
     assert '6 / 28' in page.locator('#learn-progress').inner_text()
 
+    # L-04i: chessboard previews stop BEFORE the answer move, with a
+    # separate immutable Chess instance. Correct answers reveal that move.
+    page.locator('#learn-cats .chip').first.click(force=True)
+    page.locator('#learn-list .study-item').nth(13).click(force=True)  # bk_stalemate
+    assert page.locator('#study-reasoning-position-board .reasoning-position-square').count()==64
+    preview_fen=page.locator('#study-reasoning-position-board').get_attribute('data-fen')
+    assert preview_fen==page.evaluate("new Chess(INTRO_LESSONS.find(l=>l.id==='bk_stalemate').fen).fen()")
+    assert page.locator('#btn-reason-after').is_disabled()
+    counter=page.locator('#replay-counter').inner_text()
+    page.locator('#study-reasoning-options button').nth(0).click(force=True)  # wrong
+    assert page.locator('#btn-reason-after').is_disabled()
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==preview_fen
+    page.locator('#study-reasoning-options button').nth(1).click(force=True)  # correct
+    result_fen=page.locator('#study-reasoning-position-board').get_attribute('data-fen')
+    assert result_fen!=preview_fen
+    assert 'Qf7' in page.locator('#study-reasoning-position-label').inner_text()
+    assert page.locator('#study-reasoning-position-board .reasoning-position-move').count()==2
+    assert page.locator('#replay-counter').inner_text()==counter
+    page.locator('#btn-reason-before').click(force=True)
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==preview_fen
+    page.locator('#btn-reason-after').click(force=True)
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==result_fen
+
+    page.locator('#btn-reason-defense').click(force=True)  # Qf6+ ...Kg8 branch
+    expected_before=page.evaluate("""() => {
+      const g=new Chess(INTRO_LESSONS.find(l=>l.id==='bk_stalemate').fen);
+      g.move('Qf6+'); return g.fen();
+    }""")
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==expected_before
+    assert page.locator('#btn-reason-after').is_disabled()
+    page.locator('#study-reasoning-options button').nth(2).click(force=True)  # ...Kg8
+    assert 'Kg8' in page.locator('#study-reasoning-position-label').inner_text()
+    assert page.locator('#replay-counter').inner_text()==counter
+    page.locator('#btn-compare-other').click(force=True)
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')!=preview_fen
+    assert page.locator('#replay-counter').inner_text()=='0 / 2'
+    page.locator('#sel-language').select_option('en')
+    assert 'Move replayed' in page.locator('#study-reasoning-position-label').inner_text()
+    assert 'Kg8' in page.locator('#study-reasoning-position-label').inner_text()
+    page.locator('#sel-language').select_option('ja')
+
+    # The deep opening line must show the position before 12th half-move
+    # ...e5, without inserting eleven moves into the main replay.
+    page.locator('#learn-cats .chip').nth(4).click(force=True)
+    page.locator('#learn-list .study-item').nth(8).click(force=True)  # op_kingsindian
+    page.locator('#btn-reason-defense').click(force=True)
+    assert page.locator('#replay-counter').inner_text().startswith('0 /')
+    before=page.evaluate("""() => {
+      const l=LESSONS.find(x=>x.id==='op_kingsindian');
+      return ReasoningPositions.resolve(Chess,l,'defense',LESSON_REASONING.op_kingsindian.defense).beforeFen;
+    }""")
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==before
+    assert page.locator('#btn-reason-after').is_disabled()
+    page.locator('#study-reasoning-options button').nth(2).click(force=True)
+    assert 'e5' in page.locator('#study-reasoning-position-label').inner_text()
+    assert page.locator('#replay-counter').inner_text().startswith('0 /')
+    page.reload(wait_until='load')
+    page.locator('.tab[data-tab="learn"]').click(force=True)
+    page.locator('#learn-cats .chip').nth(4).click(force=True)
+    page.locator('#learn-list .study-item').nth(8).click(force=True)
+    assert page.locator('#btn-reason-after').is_disabled()
+    assert page.locator('#study-reasoning-position-board .reasoning-position-square').count()==64
+
     # L-05: famous games moved from record tabs to the sixth learning chapter;
     # viewing the last ply saves viewed state, language refreshes annotations.
     page.locator('#learn-cats .chip').nth(5).click(force=True)
