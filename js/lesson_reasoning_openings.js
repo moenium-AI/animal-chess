@@ -603,7 +603,7 @@ const OPENING_REASONING = {
       "ja": {
         "question": "イングリッシュの1.c4が側面から攻撃する中央のマスは？",
         "options": [
-          "e5",
+          "c5",
           "c4の白ポーンはc5にいる相手の駒だけを攻撃する",
           "d5"
         ],
@@ -1055,7 +1055,7 @@ const OPENING_REASONING = {
       "ja": {
         "question": "ダッチの初手...f5で黒ポーンが利かせる中央のマスは？",
         "options": [
-          "d4",
+          "c4",
           "e4",
           "黒ポーンf5は白のg3マスだけを狙いe4には利かない"
         ],
@@ -1083,7 +1083,7 @@ const OPENING_REASONING = {
       "ja": {
         "question": "この教材で黒が...Nf6も指したとき、f5ポーンとf6ナイトが共に攻撃するマスは？",
         "options": [
-          "d5",
+          "f4",
           "f6ナイトがd4、f5ポーンがg4を攻撃し目標は別々",
           "e4"
         ],
