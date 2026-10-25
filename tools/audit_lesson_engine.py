@@ -126,6 +126,23 @@ def verify_windmill(lesson: dict) -> None:
 
 
 
+def verify_windmill_engine(engine: chess.engine.SimpleEngine, lesson: dict) -> None:
+    """An independent search must not find a refutation of the practised move.
+
+    The depth limit is deterministic; this guards a sound attack, not a claim
+    that Rxc7+ is the fastest mate (Stockfish may prefer a quicker line).
+    """
+    board = chess.Board(lesson["fen"])
+    expected_move = board.parse_san("Rxc7+")
+    info = engine.analyse(board, chess.engine.Limit(depth=16),
+                          root_moves=[expected_move])
+    score = info["score"].pov(chess.WHITE).score(mate_score=20000)
+    if score is None or score < 500:
+        raise AssertionError(
+            f"Windmill Rxc7+ must be winning against best defense: {score}"
+        )
+
+
 def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
     if lesson_id in ("cb_fork", "eg_underpromo"):
         if not board.is_insufficient_material():
@@ -191,6 +208,8 @@ def main() -> None:
                 verify_zwischenzug(lesson)
             if lesson["id"] == "cb_windmill":
                 verify_windmill(lesson)
+                if engine:
+                    verify_windmill_engine(engine, lesson)
             if len(lesson["moves"]) != len(lesson["en"]["moves"]):
                 raise AssertionError(f"Bilingual ply count differs: {lesson['id']}")
             for index, (item, translated) in enumerate(
