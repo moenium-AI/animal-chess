@@ -23,6 +23,8 @@ let reasoningProgress = {};
 let reasoningKind = 'why';
 let reasoningChoice = null;
 let reasoningPreviewAfter = false;
+// Temporary navigation context, only when a lesson opens related puzzles.
+let relatedLessonReturn = null;
 const REASONING_STORAGE_KEY = 'animalchess_reasoning_v1';
 let lessonPractice = null; // { id, ply, san, hintShown }
 let lessonFeedback = '';
@@ -900,6 +902,8 @@ function explainHintMove(fenBefore, m) {
 
 // ===== New game / 新しいゲーム =====
 function newGame() {
+  relatedLessonReturn = null;
+  updateRelatedLessonReturn();
   lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   gameGeneration++;
   cancelGameOver();
@@ -1064,6 +1068,14 @@ function updatePuzzleCompletion() {
     button.disabled = true;
   }
 }
+// Only scroll the owning list. Element.scrollIntoView() can also scroll the
+// window and was making the whole page move after each replay step.
+function scrollInsideList(container, item) {
+  if (!item || container.scrollHeight <= container.clientHeight) return;
+  const bounds = container.getBoundingClientRect(), current = item.getBoundingClientRect();
+  if (current.bottom > bounds.bottom) container.scrollTop += current.bottom - bounds.bottom;
+  else if (current.top < bounds.top) container.scrollTop += current.top - bounds.top;
+}
 function goToNextPuzzle() {
   if (mode !== 'puzzle' || !puzzle.complete) return;
   const next = nextPuzzleAfter(puzzle.idx);
@@ -1076,7 +1088,7 @@ function goToNextPuzzle() {
   }
   loadPuzzle(next.index);
   const item = $('puzzle-list').querySelector(`[data-puzzle-index="${next.index}"]`);
-  if (item) item.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  scrollInsideList($('puzzle-list'), item);
 }
 function loadPuzzle(i) {
   const p = PUZZLES[i];
@@ -1181,6 +1193,9 @@ function puzzleSolved() {
 // ===== PGN records / 棋譜（PGN） =====
 // Open study = { baseFen, sans[], notes[], meta:{title, sub, intro, takeaway} } in replay mode. / studyを再生モードで開く。
 function enterStudy(study) {
+  // Any newly opened lesson supersedes a previous puzzle-return destination.
+  relatedLessonReturn = null;
+  updateRelatedLessonReturn();
   gameGeneration++;
   cancelGameOver();
   Engine.cancelPending();
@@ -1336,10 +1351,50 @@ function tryLessonPracticeMove(moveArg) {
   replayGoTo(ply + 1);
   sMove();
 }
+// Preserve the original lesson while learners practice related puzzles.
+// Puzzle progress itself stays untouched; a return restores the same lesson,
+// replay step, branch, active question and hands-on practice state.
+function updateRelatedLessonReturn() {
+  const bar = $('related-lesson-return');
+  bar.classList.toggle('hidden', !relatedLessonReturn);
+  const source = relatedLessonReturn && relatedLessonReturn.annotation.data;
+  $('related-lesson-title').textContent = source ? lessonText(source).title : '';
+}
+function returnToRelatedLesson() {
+  const saved = relatedLessonReturn;
+  if (!saved || !saved.annotation || !saved.annotation.data || !saved.annotation.data.cat) return;
+  relatedLessonReturn = null;
+  updateRelatedLessonReturn();
+  learnCat = saved.learnCat;
+  renderLearnCats();
+  renderLearnList();
+  loadAnnotated(saved.annotation.data, saved.annotation.meta);
+  if (saved.comparison === 'other' && currentComparison()) chooseStudyComparison('other', saved.idx);
+  else replayGoTo(saved.idx);
+  lessonPractice = saved.practice ? { ...saved.practice } : null;
+  lessonFeedback = saved.feedback;
+  lessonFeedbackKind = saved.feedbackKind;
+  renderPracticeControls();
+  reasoningKind = saved.reasoningKind;
+  reasoningChoice = saved.reasoningChoice;
+  reasoningPreviewAfter = saved.reasoningPreviewAfter;
+  renderReasoningQuiz();
+  switchTab('learn');
+  // Return to the point in the lesson where the learner left off.
+  window.scrollTo(0, saved.scrollY);
+}
 function goToLessonPuzzles() {
   const lesson = currentLesson();
   const theme = lesson && lesson.puzzleTheme;
   if (!theme || !PUZZLES.some(p => p.theme === theme)) return;
+  relatedLessonReturn = {
+    annotation: replay.annotation, idx: replay.idx, comparison: replay.comparison,
+    practice: lessonPractice && { ...lessonPractice },
+    feedback: lessonFeedback, feedbackKind: lessonFeedbackKind,
+    reasoningKind, reasoningChoice, reasoningPreviewAfter,
+    learnCat, scrollY: window.scrollY,
+  };
+  updateRelatedLessonReturn();
   puzzleTheme = theme;
   puzzleLevel = 'all';
   renderPuzzleCats();
@@ -1565,6 +1620,7 @@ function replayGoTo(idx) {
 }
 function renderReplayMovelist() {
   const ol = $('replay-movelist');
+  const listScroll = ol.scrollTop;
   ol.innerHTML = '';
   replay.sans.forEach((san, i) => {
     const li = document.createElement('li');
@@ -1574,8 +1630,8 @@ function renderReplayMovelist() {
     li.addEventListener('click', () => replayGoTo(i + 1));
     ol.appendChild(li);
   });
-  const cur = ol.querySelector('.current');
-  if (cur) cur.scrollIntoView({ block: 'nearest' });
+  ol.scrollTop = listScroll;
+  scrollInsideList(ol, ol.querySelector('.current'));
 }
 function closeStudy() {
   $('study-panel').classList.add('hidden');
@@ -1583,6 +1639,8 @@ function closeStudy() {
 }
 function replayToPlay() {
   if (mode !== 'replay') return;
+  relatedLessonReturn = null;
+  updateRelatedLessonReturn();
   $('study-panel').classList.add('hidden');
   lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'play';
@@ -1711,6 +1769,7 @@ function renderGamesList() {
 
 function refreshLanguage() {
   I18N.applyStatic();
+  updateRelatedLessonReturn();
   boardEl.setAttribute('aria-label', tr('board.label'));
   const selSet = $('sel-set');
   if (selSet) [...selSet.options].forEach((opt) => {
@@ -1938,6 +1997,7 @@ function setupUI() {
   $('btn-study-practice').addEventListener('click', beginLessonPractice);
   $('btn-study-practice-hint').addEventListener('click', showLessonPracticeHint);
   $('btn-study-puzzle').addEventListener('click', goToLessonPuzzles);
+  $('btn-return-lesson').addEventListener('click', returnToRelatedLesson);
   $('btn-study-next').addEventListener('click', goToNextLesson);
   $('btn-compare-main').addEventListener('click', () => chooseStudyComparison('main'));
   $('btn-compare-other').addEventListener('click', () => chooseStudyComparison('other'));
