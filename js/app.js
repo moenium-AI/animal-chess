@@ -1364,6 +1364,7 @@ function closeStudy() {
 function replayToPlay() {
   if (mode !== 'replay') return;
   $('study-panel').classList.add('hidden');
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'play';
   updatePuzzleCompletion();
   settings.playerColor = game.turn();
@@ -1489,8 +1490,17 @@ function refreshLanguage() {
   if (replay.annotation) {
     const idx = replay.idx;
     const source = replay.annotation;
+    const activePractice = lessonPractice && { ...lessonPractice };
+    const feedback = lessonFeedback, kind = lessonFeedbackKind;
     loadAnnotated(source.data, source.meta);
     replayGoTo(idx);
+    if (activePractice && replay.annotation?.data?.id === activePractice.id) {
+      beginLessonPractice();
+      lessonPractice.hintShown = activePractice.hintShown;
+      renderPracticeControls();
+    }
+    lessonFeedback = feedback; lessonFeedbackKind = kind;
+    renderPracticeControls();
   } else if (mode === 'replay') {
     showStudyNote();
   }
@@ -1667,6 +1677,10 @@ function setupUI() {
   $('btn-replay-last').addEventListener('click', () => replayGoTo(replay.sans.length));
   $('btn-replay-play').addEventListener('click', replayToPlay);
   $('btn-study-close').addEventListener('click', closeStudy);
+  $('btn-study-practice').addEventListener('click', beginLessonPractice);
+  $('btn-study-practice-hint').addEventListener('click', showLessonPracticeHint);
+  $('btn-study-puzzle').addEventListener('click', goToLessonPuzzles);
+  $('btn-study-next').addEventListener('click', goToNextLesson);
 
   // Lessons and famous games. / まなぶ・名局。
   renderLearnCats();
