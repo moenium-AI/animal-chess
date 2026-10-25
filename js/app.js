@@ -138,12 +138,14 @@ function saveSolved() {
 
 function allLearningLessons() {
   return [...(typeof INTRO_LESSONS !== 'undefined' ? INTRO_LESSONS : []),
-    ...(typeof LESSONS !== 'undefined' ? LESSONS : [])];
+    ...(typeof LESSONS !== 'undefined' ? LESSONS : []),
+    ...(typeof EXTRA_LESSONS !== 'undefined' ? EXTRA_LESSONS : [])];
 }
 function loadLearningProgress() {
   try {
     learnedProgress = Learning.restoreProgress(localStorage.getItem(LEARNING_STORAGE_KEY),
-      allLearningLessons().map(lesson => lesson.id));
+      [...allLearningLessons().map(lesson => lesson.id),
+        ...(typeof FAMOUS_GAMES !== 'undefined' ? FAMOUS_GAMES.map(g => g.id) : [])]);
   } catch (error) { console.warn('Could not restore lesson progress', error); learnedProgress = {}; }
 }
 function noteLessonProgress(id, state) {
@@ -1208,8 +1210,12 @@ function loadAnnotated(data, meta) {
   const text = data && data.moves && data.en ? gameText(data) : lessonText(data);
   const localizedMeta = meta ? {
     ...meta,
-    title: meta.titleKey ? tr(meta.titleKey, { title: text.title }) : meta.title,
-    sub: meta.subKey ? tr(meta.subKey) : meta.sub,
+    title: meta.famous ? '🏆 ' + text.title : meta.titleKey ? tr(meta.titleKey, { title: text.title }) : meta.title,
+    sub: meta.famous
+      ? (I18N.language === 'en'
+        ? text.white + ' vs. ' + text.black + ' · ' + data.year + ' (' + text.opening + ')'
+        : text.white + ' 対 ' + text.black + '・' + data.year + ' (' + text.opening + ')')
+      : meta.subKey ? tr(meta.subKey) : meta.sub,
     intro: text.intro || meta.intro,
     takeaway: text.takeaway || meta.takeaway,
   } : null;
@@ -1229,20 +1235,34 @@ function currentLesson() {
   return mode === 'replay' && replay.annotation && replay.annotation.data &&
     replay.annotation.data.cat ? replay.annotation.data : null;
 }
+function lessonPracticeInfo(data) {
+  if (!data || !data.cat) return null;
+  if (data.practice) {
+    const translated = lessonText(data).practice;
+    return { ply: data.practice.ply, prompt: translated.prompt, hint: translated.hint };
+  }
+  // Existing 44 illustrated lessons did not have structured practice metadata.
+  // Use one meaningful ply from their actual replay, never a fabricated move.
+  const ply = Learning.legacyPly(data);
+  return {
+    ply, prompt: tr('learn.legacyPrompt'),
+    hint: tr('learn.legacyHint', { move: data.moves[ply].san }),
+  };
+}
 function renderPracticeControls() {
   const area = $('study-practice');
   const data = currentLesson();
-  const hasPractice = !!(data && data.practice);
+  const info = lessonPracticeInfo(data);
+  const hasPractice = !!info;
   area.classList.toggle('hidden', !hasPractice);
   if (!hasPractice) return;
-  const text = lessonText(data);
   const active = !!lessonPractice && lessonPractice.id === data.id && replay.idx === lessonPractice.ply;
   $('study-practice-prompt').textContent = active
-    ? text.practice.prompt + ' ' + tr('learn.practiceDisclaimer') : tr('learn.practiceReady');
+    ? info.prompt + ' ' + tr('learn.practiceDisclaimer') : tr('learn.practiceReady');
   const feedback = $('study-practice-feedback');
   const parts = [];
   if (lessonFeedback) parts.push(tr(lessonFeedback));
-  if (active && lessonPractice.hintShown) parts.push(tr('learn.practiceHintLabel', { hint: text.practice.hint }));
+  if (active && lessonPractice.hintShown) parts.push(tr('learn.practiceHintLabel', { hint: info.hint }));
   feedback.textContent = parts.join(' ');
   feedback.classList.toggle('is-correct', lessonFeedbackKind === 'correct');
   feedback.classList.toggle('is-incorrect', lessonFeedbackKind === 'incorrect');
@@ -1255,9 +1275,10 @@ function renderPracticeControls() {
 }
 function beginLessonPractice() {
   const data = currentLesson();
-  if (!data || !data.practice) return;
-  lessonPractice = { id: data.id, ply: data.practice.ply,
-    san: data.moves[data.practice.ply].san, hintShown: false };
+  const info = lessonPracticeInfo(data);
+  if (!info) return;
+  lessonPractice = { id: data.id, ply: info.ply,
+    san: data.moves[info.ply].san, hintShown: false };
   lessonFeedback = 'learn.practiceStart';
   lessonFeedbackKind = '';
   selected = null; legalTargets = []; hintSquares = [];
@@ -1337,7 +1358,7 @@ function replayGoTo(idx) {
   lastMove = hist.length > 0 ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
   $('replay-counter').textContent = `${replay.idx} / ${replay.sans.length}`;
   showStudyNote();
-  const data = currentLesson();
+  const data = replay.annotation && replay.annotation.data;
   if (data && data.id && replay.idx === replay.sans.length) noteLessonProgress(data.id, 'studied');
   renderAll();
   renderReplayMovelist();
@@ -1385,14 +1406,17 @@ const LEARN_CATS = [
   { key: 'combo', labelKey: 'learn.combo' },
   { key: 'endgame', labelKey: 'learn.endgame' },
   { key: 'opening', labelKey: 'learn.opening' },
+  { key: 'famous', labelKey: 'tab.famousGames' },
 ];
 const CAT_KEY = {
   basics: 'learn.catBasics', principles: 'learn.catPrinciples',
-  opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame'
+  opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame',
+  famous: 'tab.famousGames'
 };
 const CAT_DESC = {
   basics: 'learn.descBasics', principles: 'learn.descPrinciples',
-  opening: 'learn.descOpening', combo: 'learn.descCombo', endgame: 'learn.descEndgame'
+  opening: 'learn.descOpening', combo: 'learn.descCombo', endgame: 'learn.descEndgame',
+  famous: 'learn.descFamous'
 };
 let learnCat = 'basics';
 
@@ -1410,6 +1434,7 @@ function renderLearnCats() {
 function renderLearnList() {
   const wrap = $('learn-list');
   wrap.innerHTML = '';
+  if (learnCat === 'famous') { renderGamesList(); return; }
   const list = allLearningLessons().filter((l) => l.cat === learnCat);
   const mastered = list.filter(l => learnedProgress[l.id] === 'mastered').length;
   const studied = list.filter(l => learnedProgress[l.id] === 'studied').length;
@@ -1439,21 +1464,31 @@ function renderLearnList() {
   });
 }
 function renderGamesList() {
-  const wrap = $('games-list');
+  if (learnCat !== 'famous') return;
+  const wrap = $('learn-list');
   wrap.innerHTML = '';
   const list = (typeof FAMOUS_GAMES !== 'undefined' ? FAMOUS_GAMES : []);
-  list.forEach((gm) => {
+  const studied = list.filter(gm => !!learnedProgress[gm.id]).length;
+  $('learn-chapter-desc').textContent = tr('learn.descFamous');
+  $('learn-progress').textContent = tr('learn.famousProgress', { studied, total: list.length });
+  list.forEach(gm => {
     const text = gameText(gm);
     const b = document.createElement('button');
     b.className = 'study-item';
-    b.innerHTML = `<span class="study-item-title">🏆 ${text.title}</span>` +
-      `<span class="study-item-sub">${I18N.language === 'en' ? `${text.white} vs. ${text.black} · ${gm.year}` : `${text.white} 対 ${text.black}・${gm.year}`}</span>`;
+    const title = document.createElement('span');
+    title.className = 'study-item-title';
+    title.textContent = '🏆 ' + text.title;
+    const detail = document.createElement('span');
+    detail.className = 'study-item-sub';
+    detail.textContent = (I18N.language === 'en'
+      ? text.white + ' vs. ' + text.black + ' · ' + gm.year
+      : text.white + ' 対 ' + text.black + '・' + gm.year);
+    const state = document.createElement('span');
+    state.className = 'learn-state';
+    state.textContent = tr(learnedProgress[gm.id] ? 'learn.viewed' : 'learn.notStarted');
+    b.append(title, detail, state);
     b.addEventListener('click', () => {
-      loadAnnotated(gm, {
-        title: `🏆 ${text.title}`,
-        sub: I18N.language === 'en' ? `${text.white} vs. ${text.black} · ${gm.year} (${text.opening})` : `${text.white} 対 ${text.black}・${gm.year}(${text.opening})`,
-        intro: text.intro, takeaway: text.takeaway,
-      });
+      loadAnnotated(gm, { famous: true });
       toast(tr('toast.gameOpened', { title: text.title }));
     });
     wrap.appendChild(b);
