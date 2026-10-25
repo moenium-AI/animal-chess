@@ -262,8 +262,8 @@ with sync_playwright() as pw:
     # lesson must not inherit its answer.
     page.locator('#btn-compare-other').click(force=True)
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).bk_stalemate.defense===true")
-    # Tactics and endgames now have reasoning; opening is still unsupported.
-    page.locator('#learn-cats .chip').nth(4).click(force=True)
+    # Tactics, endgames and openings now have reasoning; principles are not yet covered.
+    page.locator('#learn-cats .chip').nth(1).click(force=True)
     page.locator('#learn-list .study-item').first.click(force=True)
     assert 'hidden' in page.locator('#study-reasoning').get_attribute('class')
     page.locator('#learn-cats .chip').first.click(force=True)
@@ -347,6 +347,45 @@ with sync_playwright() as pw:
     page.locator('.tab[data-tab="learn"]').click(force=True)
     page.locator('#learn-cats .chip').nth(3).click(force=True)
     assert '4 / 36' in page.locator('#learn-progress').inner_text()
+    page.locator('#learn-list .study-item').first.click(force=True)
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+
+    # L-04g: opening chapter: 17 lessons, 34 reasoning checks, bilingual
+    # concepts and unforced but legal counterplay. Progress is separate from mastery.
+    page.locator('#learn-cats .chip').nth(4).click(force=True)
+    assert page.locator('#learn-list .study-item').count()==17
+    assert '0 / 34' in page.locator('#learn-progress').inner_text()
+    assert page.locator('#learn-list .study-item .learn-state').filter(has_text='理解チェック').count()==17
+    page.locator('#learn-list .study-item').first.click(force=True)  # op_italian
+    assert page.locator('#study-reasoning').is_visible()
+    assert 'Bc4' in page.locator('#study-reasoning-question').inner_text()
+    opening_counter=page.locator('#replay-counter').inner_text()
+    page.locator('#study-reasoning-options button').nth(0).click(force=True) # incorrect
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1') || '{}').op_italian === undefined")
+    page.locator('#study-reasoning-options button').nth(1).click(force=True) # why: f7
+    page.locator('#btn-reason-defense').click(force=True)
+    page.locator('#study-reasoning-options button').nth(2).click(force=True) # ...Bc5
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert '2 / 34' in page.locator('#learn-progress').inner_text()
+    assert page.locator('#replay-counter').inner_text()==opening_counter
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).op_italian.defense===true")
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1') || '{}').op_italian !== 'mastered'")
+    page.locator('#sel-language').select_option('en')
+    assert '...Bc5' in page.locator('#study-reasoning-question').inner_text()
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    page.locator('#sel-language').select_option('ja')
+
+    page.locator('#learn-list .study-item').nth(13).click(force=True) # op_london
+    assert '0 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    page.locator('#study-reasoning-options button').nth(0).click(force=True) # Bf4 purpose
+    page.locator('#btn-reason-defense').click(force=True)
+    page.locator('#study-reasoning-options button').nth(1).click(force=True) # ...c5 possible
+    assert '4 / 34' in page.locator('#learn-progress').inner_text()
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).op_london==='mastered'")
+    page.reload(wait_until='load')
+    page.locator('.tab[data-tab="learn"]').click(force=True)
+    page.locator('#learn-cats .chip').nth(4).click(force=True)
+    assert '4 / 34' in page.locator('#learn-progress').inner_text()
     page.locator('#learn-list .study-item').first.click(force=True)
     assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
 
