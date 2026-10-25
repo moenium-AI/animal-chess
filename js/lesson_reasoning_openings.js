@@ -429,22 +429,22 @@ const OPENING_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "この教材で黒が...exd4と取ったあと、白がNxd4を選ぶのは？",
+        "question": "黒が...exd4と取ったあと、白がQxd4ではなくNxd4とする主な利点は？",
         "options": [
-          "cxd4で取る",
-          "白クイーンをd1からd4へ出してe5のポーンを守る",
-          "f3のナイトで取り返してd4へ展開するため"
+          "クイーンd1を先に出せば黒はそのクイーンを攻撃できないから",
+          "ナイトd4が黒のすべてのポーンを動けなくするから",
+          "f3のナイトで取り返しながら中央へ展開し、クイーンの早出しを避けられるから"
         ],
-        "explanation": "f3ナイトがd4の黒ポーンを取り返す。中央の好位置にナイトを置く手じゃ。"
+        "explanation": "Nxd4はポーンを取り返すと同時に、f3のナイトを中央のd4へ活用する。Qxd4も合法だが、クイーンを早く出すと相手が駒の展開とともに攻撃してテンポを得る場合がある。"
       },
       "en": {
-        "question": "Why does White answer ...exd4 with Nxd4 in the lesson?",
+        "question": "After ...exd4, what is the main advantage of Nxd4 instead of Qxd4?",
         "options": [
-          "To recapture cxd4",
-          "White's queen moves from d1 to d4 to defend the e5-pawn",
-          "To recapture with the knight from f3 and occupy d4"
+          "Developing the queen to d4 first prevents Black from attacking it",
+          "A knight on d4 makes every black pawn unable to move",
+          "The knight from f3 recaptures while developing centrally and avoids exposing the queen early"
         ],
-        "explanation": "The knight recaptures the pawn on d4, placing a developed piece in the center."
+        "explanation": "Nxd4 recaptures the pawn and improves the knight from f3 to a central square. Qxd4 is legal too, but an early queen sortie can allow the opponent to develop with tempo by attacking it."
       },
       "evidence": {
         "line": [
@@ -468,7 +468,7 @@ const OPENING_REASONING = {
         "options": [
           "c3のナイトがd5の黒クイーンを攻撃するから",
           "d5を守るため",
-          "c3で王手するため"
+          "c3でチェックするため"
         ],
         "explanation": "ナイトc3の利きがd5へ届く。相手クイーンを攻撃しながら駒を展開できる。"
       },
@@ -561,22 +561,22 @@ const OPENING_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "黒がキングを...O-Oで囲ったあと、教材で行う中央への反撃は？",
+        "question": "白に広い中央を許した黒が、キャスリング後に...e5と指す狙いは？",
         "options": [
-          "...c5で取る",
-          "...f5と指して白キングへ一手で王手する反撃",
-          "...e5で白の広い中央に挑む"
+          "白の中央のポーンを無視し、黒のキングをすぐ攻めるため",
+          "黒のeポーンをe5からe7へ戻し、守りを固めるため",
+          "中央の白ポーンに圧力をかけ、遅れて中央の主導権を争うため"
         ],
-        "explanation": "黒は...d6と...O-Oを経て、...e5で白のe4・d4の中央に圧力をかける。"
+        "explanation": "キングス・インディアンでは黒がいったん白に中央を広げさせ、駒を展開してキングを安全にしてから...e5で反撃する。ポーンで中央へ働きかける理由を考えよう。"
       },
       "en": {
-        "question": "After Black castles with ...O-O, what central counterstrike follows in the lesson?",
+        "question": "Why does Black play ...e5 after castling despite allowing White a broad pawn center?",
         "options": [
-          "To capture via ...c5",
-          "Black answers with ...f5, giving an immediate check against White's king",
-          "...e5 to challenge White's broad center"
+          "To ignore the central pawns and attack White's king immediately",
+          "To retreat Black's e-pawn from e5 to e7 and strengthen the defense",
+          "To challenge White's center and contest central control after completing development"
         ],
-        "explanation": "After building up and castling, Black eventually plays ...e5 to challenge the central pawn structure."
+        "explanation": "In the King's Indian, Black initially allows White a broad center, develops pieces and castles, then challenges central control with ...e5. The move is a purposeful pawn break rather than passive play."
       },
       "evidence": {
         "line": [
@@ -819,22 +819,22 @@ const OPENING_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "白がNxe5とe5のポーンを取ったあと、教材で黒が選ぶ手は？",
+        "question": "黒が白のNxe5にすぐ...Nxe4とせず、先に...d6を挟む狙いは？",
         "options": [
-          "...Nc6で守る",
-          "...f6で支える",
-          "...d6でe5ナイトを追い、次にe4を取り返す準備をする"
+          "黒キングをd6へ出して、白ナイトを直接取れるようにする",
+          "黒はe4ポーンを取る権利を失うので、...d6で引き分けを申し出る",
+          "e5の白ナイトを追ってから...Nxe4で取り返し、白の早いクイーン攻撃を避けるため"
         ],
-        "explanation": "まず...d6でe5のナイトを攻撃し、退いたあとに...Nxe4で取り返す手順じゃ。"
+        "explanation": "...d6でe5のナイトを攻撃し、退かせてから...Nxe4でe4ポーンを取り返す。すぐ...Nxe4と取ると、Qe2で黒ナイトがピンされるなど、白からテンポを得る手がある。手順の違いが重要じゃ。"
       },
       "en": {
-        "question": "After White plays Nxe5 in the Petrov, what is Black's shown reply?",
+        "question": "Why does Black insert ...d6 instead of immediately recapturing on e4 after Nxe5?",
         "options": [
-          "To defend via ...Nc6",
-          "To protect with ...f6",
-          "...d6, attacking the knight on e5 before recapturing e4"
+          "To move Black's king to d6 so it can take the white knight",
+          "Black permanently loses the right to take the e4-pawn and offers a draw with ...d6",
+          "To drive the knight from e5 before ...Nxe4, avoiding early queen pressure"
         ],
-        "explanation": "Black first plays ...d6 to drive away the knight, then recaptures e4 after it retreats."
+        "explanation": "...d6 first attacks the knight on e5, then ...Nxe4 can recover the pawn after the knight retreats. An immediate ...Nxe4 gives White tactical chances such as Qe2, attacking the pinned knight. Move order matters."
       },
       "evidence": {
         "line": [
@@ -859,7 +859,7 @@ const OPENING_REASONING = {
         "options": [
           "ビショップをc1からf4へ早めに展開し、中央へ働かせる",
           "d5をすぐ取る",
-          "e8王に王手する"
+          "e8王にチェックする"
         ],
         "explanation": "ロンドンではd4・Nf3・Bf4が代表的な駒組み。Bf4でビショップを外へ出す。"
       },
@@ -990,7 +990,7 @@ const OPENING_REASONING = {
           "ビショップb4はd2ポーンの後ろの白クイーンd1を狙うから",
           "ナイトc3がキングを守っているため、どの白ポーンも動けないから"
         ],
-        "explanation": "c3のナイトはb4のビショップとe1のキングの間にいる。キングを王手にさらす移動はできない。"
+        "explanation": "c3のナイトはb4のビショップとe1のキングの間にいる。キングをチェックにさらす移動はできない。"
       },
       "en": {
         "question": "Why does ...Bb4 pin the c3-knight in the Nimzo-Indian?",
