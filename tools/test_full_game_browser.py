@@ -122,6 +122,9 @@ with sync_playwright() as pw:
     assert page.locator('#learn-cats .chip').count()==6
     assert page.locator('#learn-list .study-item').count()==14
     page.locator('#learn-list .study-item').first.click(force=True)
+    assert '考えてみよう' in page.locator('#study-reasoning-heading').inner_text()
+    assert 'ポイント' in page.locator('#btn-reason-why').inner_text()
+    assert 'もう一歩' in page.locator('#btn-reason-defense').inner_text()
     page.locator('#btn-replay-last').click(force=True)
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_board")=='studied'
     page.locator('#btn-study-practice').click(force=True)
@@ -135,6 +138,8 @@ with sync_playwright() as pw:
     assert page.locator('#replay-counter').inner_text().startswith('0 /')
     assert '違う' in page.locator('#study-practice-feedback').inner_text()
     page.locator('#sel-language').select_option('en')
+    assert 'Think it through' in page.locator('#study-reasoning-heading').inner_text()
+    assert 'Think further' in page.locator('#btn-reason-defense').inner_text()
     assert 'pawn' in page.locator('#study-practice-prompt').inner_text().lower()
     page.locator('#btn-study-practice-hint').click(force=True)
     assert 'Hint:' in page.locator('#study-practice-feedback').inner_text()
