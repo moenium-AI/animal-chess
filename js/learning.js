@@ -46,5 +46,13 @@ const Learning = (() => {
       (m.promotion || null) === (attempt.promotion || null));
     return { legal: !!actual, correct: !!actual && actual.san === expected.san };
   }
-  return { moveLabel, puzzleMoves, restoreProgress, markProgress, practiceMove };
+  // Curated placement by educational category: early critical decision for
+  // tactics/endgames, development choice on move 3 for opening examples.
+  // This tests reproduction of the shown variation, NOT objective best play.
+  function legacyPly(lesson) {
+    if (!lesson || !['opening','combo','endgame'].includes(lesson.cat) || !Array.isArray(lesson.moves) || !lesson.moves.length)
+      throw new Error('Invalid legacy lesson for practice');
+    return lesson.cat === 'opening' ? Math.min(4, lesson.moves.length - 1) : 0;
+  }
+  return { moveLabel, puzzleMoves, restoreProgress, markProgress, practiceMove, legacyPly };
 })();

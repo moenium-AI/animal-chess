@@ -117,9 +117,9 @@ with sync_playwright() as pw:
         else:
             assert placement['parent']=='side-col', f'desktop status not restored: {placement}'
     page.locator('#sel-view').select_option('simple')
-    # L-01: five chapters, beginner exercises, saved progress and a wrong answer.
+    # L-01: six chapters, beginner exercises, saved progress and a wrong answer.
     page.locator('.tab[data-tab="learn"]').click(force=True)
-    assert page.locator('#learn-cats .chip').count()==5
+    assert page.locator('#learn-cats .chip').count()==6
     assert page.locator('#learn-list .study-item').count()==14
     page.locator('#learn-list .study-item').first.click(force=True)
     page.locator('#btn-replay-last').click(force=True)
@@ -159,6 +159,48 @@ with sync_playwright() as pw:
     page.locator('#btn-study-puzzle').click(force=True)
     assert page.locator('#tab-puzzle').evaluate("(node) => node.classList.contains('active')")
     assert page.locator('#puzzle-list .puzzle-item').count()>0
+
+    # L-04: old 44 lessons are also interactive and a challenge does not
+    # mutate position when graded. Quiz status survives navigation.
+    page.locator('.tab[data-tab="learn"]').click(force=True)
+    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    assert page.locator('#learn-list .study-item').count()==21
+    page.locator('#learn-list .study-item').first.click(force=True)
+    page.locator('#btn-study-practice').click(force=True)
+    fork_move=page.evaluate("""() => {
+      const l=LESSONS.find(x=>x.id==='cb_fork');
+      const g=new Chess(l.fen);const m=g.moves({verbose:true}).find(x=>x.san===l.moves[0].san);
+      return {from:m.from,to:m.to};
+    }""")
+    move(page,fork_move['from'],fork_move['to'])
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).cb_fork")=='mastered'
+    page.locator('#learn-cats .chip').nth(4).click(force=True)
+    assert page.locator('#learn-list .study-item').count()==17
+    page.locator('#learn-list .study-item').nth(13).click(force=True)
+    page.locator('#btn-study-practice').click(force=True)
+    london=page.evaluate("""() => {
+      const l=EXTRA_LESSONS.find(x=>x.id==='op_london');
+      const g=new Chess(l.fen||undefined);
+      for(let i=0;i<l.practice.ply;i++)g.move(l.moves[i].san);
+      const m=g.moves({verbose:true}).find(x=>x.san===l.moves[l.practice.ply].san);
+      return {from:m.from,to:m.to};
+    }""")
+    move(page,london['from'],london['to'])
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).op_london")=='mastered'
+
+    # L-05: famous games moved from record tabs to the sixth learning chapter;
+    # viewing the last ply saves viewed state, language refreshes annotations.
+    page.locator('#learn-cats .chip').nth(5).click(force=True)
+    assert page.locator('#learn-list .study-item').count()==15
+    assert page.locator('.card-kifu .tab').count()==2
+    assert page.locator('#tab-games').count()==0
+    page.locator('#learn-list .study-item').first.click(force=True)
+    assert 'hidden' in page.locator('#study-practice').get_attribute('class')
+    page.locator('#btn-replay-last').click(force=True)
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).opera")=='studied'
+    page.locator('#sel-language').select_option('en')
+    assert 'Opera' in page.locator('#study-title').inner_text()
+    page.locator('#sel-language').select_option('ja')
     page.locator('.tab[data-tab="settings"]').click(force=True)
     page.locator('#btn-new').click(force=True)
     # A-01: terminal dialog callback must not outlive the game.

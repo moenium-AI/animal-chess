@@ -155,7 +155,7 @@
         <div id="puzzle-list" class="puzzle-list"></div>
       </div>
 
-      <!-- Learn: openings, combinations, and endgames / まなぶ: オープニング・コンビネーション・エンドゲーム -->
+      <!-- Learn: basics, strategy, tactics, endgames, openings, famous games / まなぶ -->
       <div id="tab-learn" class="tab-page" data-group="ctrl">
         <p class="hint-text" data-i18n="learn.help">テーマを選ぶと、一手ずつ「なぜそう指すのか」を解説つきで学べます</p>
         <div id="learn-cats" class="chip-row"></div>
@@ -169,7 +169,6 @@
     <section class="panel card-kifu">
       <nav class="tabs">
         <button class="tab active" data-tab="game" data-group="kifu" data-i18n="tab.currentGame">📜 この対局</button>
-        <button class="tab" data-tab="games" data-group="kifu" data-i18n="tab.famousGames">🏆 名局</button>
         <button class="tab" data-tab="load" data-group="kifu" data-i18n="tab.load">📥 よみこみ</button>
       </nav>
 
@@ -179,12 +178,6 @@
           <div class="movelist-title" data-i18n="ui.moveList">きふ</div>
           <ol id="movelist" class="movelist"></ol>
         </div>
-      </div>
-
-      <!-- Famous games with annotations / 名局。歴史的な名勝負を解説付きで表示。 -->
-      <div id="tab-games" class="tab-page" data-group="kifu">
-        <p class="hint-text" data-i18n="games.help">歴史に残る名勝負を、一手ずつ独自の解説つきで鑑賞できます</p>
-        <div id="games-list" class="study-list tall"></div>
       </div>
 
       <!-- Load a game record / 棋譜読み込み -->
@@ -237,10 +230,11 @@
 <script src="js/puzzle_en.js?v=6"></script>
 <script src="js/lessons.js?v=18"></script>
 <script src="js/intro_lessons.js?v=1"></script>
+<script src="js/extra_lessons.js?v=1"></script>
 <script src="js/games.js?v=16"></script>
 <script src="js/engine.js?v=20"></script>
-<script src="js/i18n.js?v=9"></script>
-<script src="js/learning.js?v=2"></script>
-<script src="js/app.js?v=25"></script>
+<script src="js/i18n.js?v=10"></script>
+<script src="js/learning.js?v=3"></script>
+<script src="js/app.js?v=26"></script>
 </body>
 </html>
