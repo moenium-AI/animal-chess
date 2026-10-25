@@ -333,7 +333,7 @@ EN = {
     "The king goes back to the corner.",
     "The rook moves to the fifth rank, revealing the bishop's check and attacking the queen on a5.",
     "This line interposes the queen on e5 to stop the diagonal check.",
-    "This line wins the queen. If Black blocks earlier with ...Qc3 or ...Qe5, the windmill stops but the bishop can take the queen instead.",
+    "Bxe5# captures the queen with checkmate. Earlier interpositions ...Qc3 or ...Qe5 stop the windmill, but the bishop still wins the queen.",
   ),
   "eg_stalemate": E(
     "Watch for Stalemate",
