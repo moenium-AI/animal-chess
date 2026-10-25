@@ -124,6 +124,45 @@ const LESSON_COMPARISONS = {
     },
     "theme": "fork"
   },
+  "cb_smother": {
+    "ply": 1,
+    "alternative": ["Rxf7", "Qxf7"],
+    "main": {
+      "ja": "黒が...Kg8を選ぶと、Nh6+のダブルチェックからクイーンを捨てる窒息メイトが成立します。",
+      "en": "After ...Kg8, the double check Nh6+ leads to a smothered mate with a queen sacrifice."
+    },
+    "other": {
+      "ja": "黒が...Rxf7でナイトを取っても、Qxf7で白クイーンがルークを取り返せます。同じ窒息メイトにはなりませんが、白の攻めは続きます。",
+      "en": "After ...Rxf7, White answers Qxf7 and wins the rook. This avoids the smothered-mate pattern, but White's attack continues."
+    },
+    "theme": "defense"
+  },
+  "cb_decoy": {
+    "ply": 1,
+    "alternative": ["Qd5", "Bxd5+"],
+    "main": {
+      "ja": "黒が...Kh8とキングを逃がすとNf7+でキングとクイーンをフォークでき、クイーンを取れます。",
+      "en": "After ...Kh8, Nf7+ forks the king and queen, allowing White to capture the queen."
+    },
+    "other": {
+      "ja": "黒が...Qd5で王手を遮っても、白はBxd5+でクイーンを取れます。フォークの形は出ませんが、この防御でも黒クイーンを失います。",
+      "en": "Black can block the check with ...Qd5, but Bxd5+ captures the queen. The fork does not appear in this line, yet the defense also loses the queen."
+    },
+    "theme": "defense"
+  },
+  "cb_interference": {
+    "ply": 1,
+    "alternative": ["Kf7", "c8=Q"],
+    "main": {
+      "ja": "黒が...Rxc7ならdxc7でルークを取り返して昇格へ進めます。掲載手順は応手の一例です。",
+      "en": "After ...Rxc7, dxc7 wins the rook and advances toward promotion. This is one possible defensive line."
+    },
+    "other": {
+      "ja": "黒が...Kf7とキングを動かしても、白はc8=Qで昇格できます。別の...Bxd6にはRxd6で白ルークがビショップを取れます。",
+      "en": "If Black moves the king with ...Kf7, White can promote with c8=Q. Against ...Bxd6 instead, White can capture the bishop with Rxd6."
+    },
+    "theme": "defense"
+  },
   "cb_windmill": {
     "ply": 1,
     "alternative": [
