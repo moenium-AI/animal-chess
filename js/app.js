@@ -1282,7 +1282,7 @@ function beginLessonPractice() {
   lessonFeedback = 'learn.practiceStart';
   lessonFeedbackKind = '';
   selected = null; legalTargets = []; hintSquares = [];
-  replayGoTo(data.practice.ply);
+  replayGoTo(info.ply);
   boardEl.querySelector('.square[tabindex="0"]')?.focus();
 }
 function showLessonPracticeHint() {
