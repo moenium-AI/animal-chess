@@ -115,15 +115,15 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "e4で道が開き、f1のビショップがc4へ進みます。"
+        "note": "e4のポーンで中央を確保すると、f1のビショップの道も開きます。"
       },
       {
         "san": "e5",
-        "note": "e4で道が開き、f1のビショップがc4へ進みます。"
+        "note": "黒もe5で中央を争います。"
       },
       {
         "san": "Bc4",
-        "note": "e4で道が開き、f1のビショップがc4へ進みます。"
+        "note": "f1のビショップがc4へ斜めに移動しました。"
       }
     ],
     "practice": {
@@ -138,15 +138,15 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "After e4 clears the path, the f1 bishop goes to c4."
+          "note": "e4 claims the center and opens a path for the f1 bishop."
         },
         {
           "san": "e5",
-          "note": "After e4 clears the path, the f1 bishop goes to c4."
+          "note": "Black contests the center with ...e5."
         },
         {
           "san": "Bc4",
-          "note": "After e4 clears the path, the f1 bishop goes to c4."
+          "note": "The bishop slides diagonally from f1 to c4."
         }
       ],
       "practice": {
@@ -341,19 +341,19 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "f3",
-        "note": "白の弱点を突き、黒クイーンがh4へ出てメイト。「#」はチェックメイトです。"
+        "note": "白はfポーンを進め、キングの斜めの守りを弱めました。"
       },
       {
         "san": "e5",
-        "note": "白の弱点を突き、黒クイーンがh4へ出てメイト。「#」はチェックメイトです。"
+        "note": "黒はe5で中央に進みます。"
       },
       {
         "san": "g4",
-        "note": "白の弱点を突き、黒クイーンがh4へ出てメイト。「#」はチェックメイトです。"
+        "note": "白はgポーンを進め、さらにキングを危険にさらしました。"
       },
       {
         "san": "Qh4#",
-        "note": "白の弱点を突き、黒クイーンがh4へ出てメイト。「#」はチェックメイトです。"
+        "note": "黒クイーンがh4に出て王手。白は合法的に王手を避けられず、チェックメイトです。"
       }
     ],
     "practice": {
@@ -368,19 +368,19 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "f3",
-          "note": "The queen reaches h4 and delivers mate. # marks checkmate."
+          "note": "White weakens a diagonal near the king by moving f3."
         },
         {
           "san": "e5",
-          "note": "The queen reaches h4 and delivers mate. # marks checkmate."
+          "note": "Black advances the e-pawn to e5."
         },
         {
           "san": "g4",
-          "note": "The queen reaches h4 and delivers mate. # marks checkmate."
+          "note": "White further exposes the king with g4."
         },
         {
           "san": "Qh4#",
-          "note": "The queen reaches h4 and delivers mate. # marks checkmate."
+          "note": "Black's queen reaches h4 and delivers checkmate with no legal escape."
         }
       ],
       "practice": {
@@ -470,11 +470,11 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "d5",
-        "note": "黒がd5へ2マス進んだ直後、白ポーンはe5からd6へ進み、黒ポーンを取れます。"
+        "note": "黒のポーンがd7からd5へ2マス進んだため、白はアンパッサンの権利を得ました。"
       },
       {
         "san": "exd6",
-        "note": "黒がd5へ2マス進んだ直後、白ポーンはe5からd6へ進み、黒ポーンを取れます。"
+        "note": "白ポーンがe5からd6へ動き、d5にいた黒ポーンを取ります。この直後の手しか使えません。"
       }
     ],
     "practice": {
@@ -489,11 +489,11 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "d5",
-          "note": "After ...d5, the white pawn moves e5–d6 and captures en passant."
+          "note": "Black advances from d7 to d5, giving White an immediate en passant opportunity."
         },
         {
           "san": "exd6",
-          "note": "After ...d5, the white pawn moves e5–d6 and captures en passant."
+          "note": "White moves e5–d6 and captures the pawn from d5. This works only right now."
         }
       ],
       "practice": {
@@ -548,23 +548,23 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+        "note": "e4にポーンを進め、中央のマスを確保します。"
       },
       {
         "san": "e5",
-        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+        "note": "黒もe5で中央を取りに来ます。"
       },
       {
         "san": "Nf3",
-        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+        "note": "ナイトを展開し、e5のポーンを攻撃します。"
       },
       {
         "san": "Nc6",
-        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+        "note": "黒はナイトを出してe5を守ります。"
       },
       {
         "san": "d4",
-        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+        "note": "白はd4を突いて中央に挑戦します。黒が取る場合の取り返しも考えましょう。"
       }
     ],
     "practice": {
@@ -579,23 +579,23 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "d4 challenges Black in the center. Be ready for captures."
+          "note": "White takes space on e4."
         },
         {
           "san": "e5",
-          "note": "d4 challenges Black in the center. Be ready for captures."
+          "note": "Black answers ...e5."
         },
         {
           "san": "Nf3",
-          "note": "d4 challenges Black in the center. Be ready for captures."
+          "note": "The knight develops while attacking e5."
         },
         {
           "san": "Nc6",
-          "note": "d4 challenges Black in the center. Be ready for captures."
+          "note": "Black's knight defends e5."
         },
         {
           "san": "d4",
-          "note": "d4 challenges Black in the center. Be ready for captures."
+          "note": "d4 challenges the center. Consider Black's possible captures."
         }
       ],
       "practice": {
@@ -615,15 +615,15 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。"
+        "note": "白が中央を占めます。"
       },
       {
         "san": "e5",
-        "note": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。"
+        "note": "黒も中央へ進みます。"
       },
       {
         "san": "Nf3",
-        "note": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。"
+        "note": "白はナイトを展開し、e5を攻撃します。"
       }
     ],
     "practice": {
@@ -638,15 +638,15 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "Nf3 develops a knight while attacking e5."
+          "note": "White claims space in the center."
         },
         {
           "san": "e5",
-          "note": "Nf3 develops a knight while attacking e5."
+          "note": "Black advances its central pawn."
         },
         {
           "san": "Nf3",
-          "note": "Nf3 develops a knight while attacking e5."
+          "note": "White develops a knight while attacking e5."
         }
       ],
       "practice": {
@@ -666,19 +666,19 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+        "note": "白はe4を取ります。"
       },
       {
         "san": "e5",
-        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+        "note": "黒はe5で応戦します。"
       },
       {
         "san": "Nf3",
-        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+        "note": "Nf3がe5のポーンを狙います。"
       },
       {
         "san": "Nc6",
-        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+        "note": "黒のNc6は展開とe5の守りを兼ねています。"
       }
     ],
     "practice": {
@@ -693,19 +693,19 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+          "note": "White advances the e-pawn."
         },
         {
           "san": "e5",
-          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+          "note": "Black responds ...e5."
         },
         {
           "san": "Nf3",
-          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+          "note": "Nf3 attacks the pawn on e5."
         },
         {
           "san": "Nc6",
-          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+          "note": "Nc6 develops the knight and defends e5."
         }
       ],
       "practice": {
@@ -725,31 +725,31 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "白はe4で中央を争います。"
       },
       {
         "san": "e5",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "黒もe5にポーンを進めます。"
       },
       {
         "san": "Nf3",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "ナイトをf3へ展開。"
       },
       {
         "san": "Nc6",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "黒もナイトをc6へ。"
       },
       {
         "san": "Bc4",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "f1のビショップをc4へ動かし、キャスリングの道を開きます。"
       },
       {
         "san": "Bc5",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "黒はBc5で展開を進めます。"
       },
       {
         "san": "O-O",
-        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+        "note": "白キングはO-Oでg1へ移動。h1のルークもf1へ移ります。"
       }
     ],
     "practice": {
@@ -764,31 +764,31 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "White occupies e4."
         },
         {
           "san": "e5",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "Black meets it with ...e5."
         },
         {
           "san": "Nf3",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "Develop the knight to f3."
         },
         {
           "san": "Nc6",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "Black develops to c6."
         },
         {
           "san": "Bc4",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "Bc4 clears the bishop from the king's castling path."
         },
         {
           "san": "Bc5",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "Black develops its bishop to c5."
         },
         {
           "san": "O-O",
-          "note": "White's kingside pieces are developed, so castling is available."
+          "note": "O-O shelters the white king on g1 and shifts the rook to f1."
         }
       ],
       "practice": {
@@ -808,15 +808,15 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。"
+        "note": "白がe4へ進んで中央を取ります。"
       },
       {
         "san": "d5",
-        "note": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。"
+        "note": "黒はd5で白の中央を揺さぶります。"
       },
       {
         "san": "exd5",
-        "note": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。"
+        "note": "白はexd5と取って中央を開きます。黒クイーンが取り返す可能性もあります。"
       }
     ],
     "practice": {
@@ -831,15 +831,15 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "White captures on d5 to open the center; Black may recapture."
+          "note": "White claims e4."
         },
         {
           "san": "d5",
-          "note": "White captures on d5 to open the center; Black may recapture."
+          "note": "Black challenges with ...d5."
         },
         {
           "san": "exd5",
-          "note": "White captures on d5 to open the center; Black may recapture."
+          "note": "White plays exd5, opening the center; ...Qxd5 is possible."
         }
       ],
       "practice": {
@@ -854,59 +854,75 @@ const INTRO_LESSONS = [
     "cat": "principles",
     "fen": null,
     "title": "ピンを理解する",
-    "intro": "ピンとは、駒が動くと後ろのもっと大切な駒が攻撃される配置です。",
-    "takeaway": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。",
+    "intro": "ピンは、駒が動くと後ろの重要な駒を攻撃される形です。e7のポーンが動いたあとのピンに注目しましょう。",
+    "takeaway": "Bg5でf6のナイトを後ろのクイーンd8に対してピンします。キングに対するピンではありません。",
     "moves": [
       {
         "san": "d4",
-        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+        "note": "白はd4で中央に進みます。"
       },
       {
         "san": "d5",
-        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+        "note": "黒もd5で中央を取ります。"
       },
       {
-        "san": "Nf3",
-        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+        "san": "c4",
+        "note": "c4で黒のd5ポーンに挑みます。"
+      },
+      {
+        "san": "e6",
+        "note": "黒はe6を指し、e7のマスが空きます。"
+      },
+      {
+        "san": "Nc3",
+        "note": "白ナイトはc3へ展開します。"
       },
       {
         "san": "Nf6",
-        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+        "note": "黒ナイトがf6へ出ます。"
       },
       {
         "san": "Bg5",
-        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+        "note": "白ビショップがg5へ進み、f6のナイトをd8のクイーンに対してピンします。"
       }
     ],
     "practice": {
-      "ply": 4,
+      "ply": 6,
       "prompt": "白ビショップをc1からg5へ動かそう。",
       "hint": "d2のポーンはすでに動き、斜めの道が空いています。"
     },
     "en": {
       "title": "Understand a pin",
-      "intro": "A pinned piece cannot move freely without exposing a more valuable piece behind it.",
-      "takeaway": "Bg5 pins the f6 knight to the queen on d8, not to the king.",
+      "intro": "A pin exposes a more valuable piece behind a moving defender. Watch how ...e6 clears the e7 square.",
+      "takeaway": "Bg5 pins the knight on f6 to the queen on d8, not to the king.",
       "moves": [
         {
           "san": "d4",
-          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+          "note": "White advances to d4."
         },
         {
           "san": "d5",
-          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+          "note": "Black occupies d5."
         },
         {
-          "san": "Nf3",
-          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+          "san": "c4",
+          "note": "c4 challenges the d5 pawn."
+        },
+        {
+          "san": "e6",
+          "note": "...e6 clears the e7 square behind the knight."
+        },
+        {
+          "san": "Nc3",
+          "note": "White develops the c3 knight."
         },
         {
           "san": "Nf6",
-          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+          "note": "Black develops the knight to f6."
         },
         {
           "san": "Bg5",
-          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+          "note": "Bg5 pins the f6 knight to the queen on d8, now that e7 is empty."
         }
       ],
       "practice": {
@@ -926,19 +942,19 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+        "note": "白は中央に進みます。"
       },
       {
         "san": "e5",
-        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+        "note": "黒も中央へ。"
       },
       {
         "san": "Nf3",
-        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+        "note": "Nf3でe5を攻撃します。まだ両取りではありません。"
       },
       {
         "san": "Nc6",
-        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+        "note": "黒のNc6がe5を守ります。ここからフォークの形を探す練習につなげます。"
       }
     ],
     "practice": {
@@ -953,19 +969,19 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+          "note": "White takes the center."
         },
         {
           "san": "e5",
-          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+          "note": "Black replies centrally."
         },
         {
           "san": "Nf3",
-          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+          "note": "Nf3 attacks e5 but is not itself a fork."
         },
         {
           "san": "Nc6",
-          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+          "note": "Black defends e5 with ...Nc6. Look for true fork patterns in puzzles."
         }
       ],
       "practice": {
@@ -985,19 +1001,19 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+        "note": "白はe4で中央を確保します。"
       },
       {
         "san": "d5",
-        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+        "note": "黒はd5で挑戦します。"
       },
       {
         "san": "exd5",
-        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+        "note": "白はexd5と取り、相手のポーンを除きます。"
       },
       {
         "san": "Qxd5",
-        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+        "note": "黒はQxd5で取り返します。単純な駒得にはなりません。"
       }
     ],
     "practice": {
@@ -1012,19 +1028,19 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "White captures on d5, but Black's queen can recapture immediately."
+          "note": "White takes central space."
         },
         {
           "san": "d5",
-          "note": "White captures on d5, but Black's queen can recapture immediately."
+          "note": "Black plays ...d5."
         },
         {
           "san": "exd5",
-          "note": "White captures on d5, but Black's queen can recapture immediately."
+          "note": "White captures the pawn on d5."
         },
         {
           "san": "Qxd5",
-          "note": "White captures on d5, but Black's queen can recapture immediately."
+          "note": "Black recaptures with the queen. This was a trade, not a free pawn."
         }
       ],
       "practice": {
@@ -1044,19 +1060,19 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "f3",
-        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+        "note": "白はf3でキング付近に弱点を作ります。"
       },
       {
         "san": "e5",
-        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+        "note": "黒はe5で中央を開き、クイーンの対角線も開きます。"
       },
       {
         "san": "g4",
-        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+        "note": "白はg4を進め、さらにキングを危険にさらします。"
       },
       {
         "san": "Qh4#",
-        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+        "note": "黒はQh4#でメイト。相手の次の王手を確認する大切さが分かります。"
       }
     ],
     "practice": {
@@ -1071,19 +1087,19 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "f3",
-          "note": "White's f3 and g4 permit the quick ...Qh4#."
+          "note": "f3 exposes a diagonal near White's king."
         },
         {
           "san": "e5",
-          "note": "White's f3 and g4 permit the quick ...Qh4#."
+          "note": "...e5 opens Black's queen diagonal."
         },
         {
           "san": "g4",
-          "note": "White's f3 and g4 permit the quick ...Qh4#."
+          "note": "g4 further weakens White's king."
         },
         {
           "san": "Qh4#",
-          "note": "White's f3 and g4 permit the quick ...Qh4#."
+          "note": "...Qh4# illustrates why checking opponent threats matters."
         }
       ],
       "practice": {
@@ -1103,23 +1119,23 @@ const INTRO_LESSONS = [
     "moves": [
       {
         "san": "e4",
-        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+        "note": "白はe4で中央を押さえます。"
       },
       {
         "san": "e5",
-        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+        "note": "黒はe5で応じます。"
       },
       {
         "san": "Nf3",
-        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+        "note": "白のナイトがf3へ進みます。"
       },
       {
         "san": "Nc6",
-        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+        "note": "黒もナイトをc6へ展開します。"
       },
       {
         "san": "Bc4",
-        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+        "note": "白はBc4と指し、次のキャスリングを準備します。"
       }
     ],
     "practice": {
@@ -1134,23 +1150,23 @@ const INTRO_LESSONS = [
       "moves": [
         {
           "san": "e4",
-          "note": "Bc4 develops the bishop and prepares to castle soon."
+          "note": "White claims central space."
         },
         {
           "san": "e5",
-          "note": "Bc4 develops the bishop and prepares to castle soon."
+          "note": "Black answers ...e5."
         },
         {
           "san": "Nf3",
-          "note": "Bc4 develops the bishop and prepares to castle soon."
+          "note": "The knight develops to f3."
         },
         {
           "san": "Nc6",
-          "note": "Bc4 develops the bishop and prepares to castle soon."
+          "note": "Black brings its knight to c6."
         },
         {
           "san": "Bc4",
-          "note": "Bc4 develops the bishop and prepares to castle soon."
+          "note": "Bc4 develops the bishop and prepares to castle next."
         }
       ],
       "practice": {
