@@ -106,7 +106,7 @@ def verify_windmill(lesson: dict) -> None:
     if "Rf6" not in [board.san(move) for move in board.legal_moves]:
         raise AssertionError("The windmill's ...Rf6 alternative must be legal")
     board.push_san("Rf6")
-    if board.is_check():
+    if board.is_attacked_by(chess.WHITE, board.king(chess.BLACK)):
         raise AssertionError("...Rf6 must actually stop the discovered check")
     if "Rf6" not in lesson["intro"] or "Rf6" not in lesson["en"]["intro"]:
         raise AssertionError("Both windmill introductions must mention the defense")
