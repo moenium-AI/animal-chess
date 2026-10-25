@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const ctx = vm.createContext({console});
-for (const name of ['chess', 'learning', 'lessons', 'intro_lessons', 'extra_lessons', 'lesson_comparisons', 'lesson_reasoning', 'lesson_reasoning_endgames'])
+for (const name of ['chess', 'learning', 'lessons', 'intro_lessons', 'extra_lessons', 'lesson_comparisons', 'lesson_reasoning', 'lesson_reasoning_endgames', 'lesson_reasoning_openings'])
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../js', name+'.js'), 'utf8'), ctx);
 const {Chess, Learning, LESSONS, INTRO_LESSONS, EXTRA_LESSONS, LESSON_COMPARISONS, LESSON_REASONING} =
   vm.runInContext('({Chess,Learning,LESSONS,INTRO_LESSONS,EXTRA_LESSONS,LESSON_COMPARISONS,LESSON_REASONING})',ctx);
@@ -11,12 +11,14 @@ const all = new Map([...LESSONS, ...INTRO_LESSONS, ...EXTRA_LESSONS].map(lesson 
 const lessonCatalog=[...LESSONS,...INTRO_LESSONS,...EXTRA_LESSONS];
 const tacticIds=lessonCatalog.filter(lesson=>lesson.cat==='combo').map(lesson=>lesson.id);
 const endgameIds=lessonCatalog.filter(lesson=>lesson.cat==='endgame').map(lesson=>lesson.id);
+const openingIds=lessonCatalog.filter(lesson=>lesson.cat==='opening').map(lesson=>lesson.id);
 assert.equal(tacticIds.length,21,'all tactical lessons must be covered');
 assert.equal(endgameIds.length,18,'all endgame lessons must be covered');
-const expected = ['bk_stalemate','bk_castling',...tacticIds,...endgameIds];
+assert.equal(openingIds.length,17,'all opening lessons must be covered');
+const expected = ['bk_stalemate','bk_castling',...tacticIds,...endgameIds,...openingIds];
 assert.deepEqual(Object.keys(LESSON_REASONING).sort(), expected.slice().sort(), 'unexpected/missing reasoning lessons');
 const original=['bk_stalemate','bk_castling','cb_windmill','cb_smother','cb_decoy','cb_interference'];
-let checked = 0, proofed = 0, endgameProofs=0;
+let checked = 0, proofed = 0, endgameProofs=0, openingProofs=0;
 for (const id of expected) {
   assert.ok(all.has(id), 'Unknown lesson '+id);
   if (original.includes(id)) assert.ok(LESSON_COMPARISONS[id], 'Missing audited comparison for '+id);
@@ -49,12 +51,37 @@ for (const id of expected) {
       assert.equal(evidence.line[0],lesson.moves[0].san,id+'/'+kind+' must anchor the demonstrated move');
       proofed++;
       if (endgameIds.includes(id)) endgameProofs++;
+      if (openingIds.includes(id)) {
+        assert.equal(evidence.line[evidence.line.length-1],evidence.focus,id+'/'+kind+' focus must name observed move');
+        openingProofs++;
+      }
     }
     assert.equal(Learning.gradeReasoning(q, q.answer),true,id+'/'+kind);
     assert.equal(Learning.gradeReasoning(q, (q.answer+1)%3),false,id+'/'+kind);
     checked++;
   }
 }
+// Keep representative opening principles tied to the actual board, not just prose.
+const london=new Chess(all.get('op_london').fen || undefined);
+for(const san of ['d4','d5','Nf3','Nf6','Bf4','c5']) assert.ok(london.move(san));
+assert.equal(london.get('c5').type,'p','London ...c5 must be a pawn');
+assert.equal(london.get('d4').color,'w','London ...c5 challenges White pawn d4');
+const slav=new Chess(all.get('op_slav').fen || undefined);
+for(const san of ['d4','d5','c4','c6','cxd5','cxd5']) assert.ok(slav.move(san));
+assert.equal(slav.get('d5').color,'b','Slav c-pawn must recapture on d5');
+const nimzo=new Chess(all.get('op_nimzo').fen || undefined);
+for(const san of ['d4','Nf6','c4','e6','Nc3','Bb4']) assert.ok(nimzo.move(san));
+assert.equal(nimzo.moves({verbose:true}).filter(m=>m.from==='c3').length,0,'Nimzo knight on c3 must be pinned');
+for(const san of ['a3','Bxc3+','bxc3']) assert.ok(nimzo.move(san));
+assert.equal(nimzo.get('c3').type,'p','White pawn must recapture on c3');
+const sicilian=new Chess(all.get('op_sicilian').fen || undefined);
+sicilian.move('e4');sicilian.move('c5');
+assert.equal(sicilian.get('c5').color,'b','Sicilian pawn should occupy c5');
+const italian=new Chess(all.get('op_italian').fen || undefined);
+for(const san of ['e4','e5','Nf3','Nc6','Bc4','Bc5']) assert.ok(italian.move(san));
+assert.equal(italian.get('c4').type,'b','Italian bishop on c4');
+assert.equal(italian.get('c5').type,'b','Italian mirror bishop on c5');
+
 // Storage cannot invent an achievement or pollute prototypes.
 const stored = JSON.stringify({
   cb_windmill:{why:true,defense:false,extra:true},
@@ -114,4 +141,5 @@ const wrongBishop=new Chess(all.get('eg_wrongbishop').fen);
 for(const san of ['Kg6','Kg8','h7+','Kh8','Kh6']) assert.ok(wrongBishop.move(san));
 assert.equal(wrongBishop.in_stalemate(),true,'wrong-colored rook pawn ending must draw in displayed line');
 assert.equal(endgameProofs,36,'two replayed evidence lines per endgame');
-console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,endgames:endgameIds.length,questions:checked,verifiedExampleLines:proofed,endgameProofs,tablebaseSnapshots:snapshots.length,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
+assert.equal(openingProofs,34,'two replayed evidence lines per opening');
+console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,endgames:endgameIds.length,openings:openingIds.length,questions:checked,verifiedExampleLines:proofed,endgameProofs,openingProofs,tablebaseSnapshots:snapshots.length,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
