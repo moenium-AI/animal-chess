@@ -142,10 +142,10 @@ const FOUNDATION_REASONING = {
         "question": "Ra8+の「+」は何を表す？",
         "options": [
           "黒キングに詰み",
-          "黒キングe8への王手",
+          "黒キングe8へのチェック",
           "ルークが黒キングのいるマスまで進めることを示す印"
         ],
-        "explanation": "a8のルークが8段目のキングに王手している。"
+        "explanation": "a8のルークが8段目のキングにチェックしている。"
       },
       "en": {
         "question": "What does '+' mean in Ra8+?",
@@ -305,10 +305,10 @@ const FOUNDATION_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "Qe2+が王手になる理由は？",
+        "question": "Qe2+がチェックになる理由は？",
         "options": [
-          "f3方向への斜め王手",
-          "王を守るだけで王手",
+          "f3方向への斜めチェック",
+          "王を守るだけでチェック",
           "e筋を通して黒キングe8を攻撃するから"
         ],
         "explanation": "e2からe8への線が空いている。"
@@ -365,7 +365,7 @@ const FOUNDATION_REASONING = {
           "d2から次の手に敵のクイーンを取れるかどうか",
           "d2が敵の利きに入っていないか"
         ],
-        "explanation": "キングは王手になるマスへ動けない。"
+        "explanation": "キングはチェックになるマスへ動けない。"
       },
       "en": {
         "question": "What must be checked before Kd2?",
@@ -441,13 +441,13 @@ const FOUNDATION_REASONING = {
     "why": {
       "answer": 2,
       "ja": {
-        "question": "Re2+が王手になる理由は？",
+        "question": "Re2+がチェックになる理由は？",
         "options": [
-          "e2から斜めに王手",
-          "2段目の横から王手",
+          "e2から斜めにチェック",
+          "2段目の横からチェック",
           "ルークe2が同じe筋の黒キングを攻撃するから"
         ],
-        "explanation": "ルークe2からe8への縦の利きで王手になる。"
+        "explanation": "ルークe2からe8への縦の利きでチェックになる。"
       },
       "en": {
         "question": "Why does Re2+ give check?",
@@ -467,13 +467,13 @@ const FOUNDATION_REASONING = {
     "defense": {
       "answer": 1,
       "ja": {
-        "question": "王手を受けた黒が必ずすべきことは？",
+        "question": "チェックを受けた黒が必ずすべきことは？",
         "options": [
-          "先に王手を返せる",
-          "合法手で王手を解消する",
-          "黒キングが守られていれば王手を受けたままでも指せる"
+          "先にチェックを返せる",
+          "合法手でチェックを解消する",
+          "黒キングが守られていればチェックを受けたままでも指せる"
         ],
-        "explanation": "王手を放置する手は違法じゃ。"
+        "explanation": "チェックを放置する手は違法じゃ。"
       },
       "en": {
         "question": "What must Black do when in check?",
@@ -497,11 +497,11 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Qh4#の「#」が意味するのは？",
         "options": [
-          "王手を回避できないチェックメイト",
-          "受けが残る王手",
+          "チェックを回避できないチェックメイト",
+          "受けが残るチェック",
           "Qを取れるという印"
         ],
-        "explanation": "黒クイーンの王手を白は合法的に防げない。"
+        "explanation": "黒クイーンのチェックを白は合法的に防げない。"
       },
       "en": {
         "question": "What does the '#' in Qh4# mean?",
@@ -586,10 +586,10 @@ const FOUNDATION_REASONING = {
         "question": "a8=Q+の「+」は？",
         "options": [
           "詰みを示す記号",
-          "昇格したクイーンによる王手",
-          "黒王は逃げられず詰み"
+          "昇格したクイーンによるチェック",
+          "黒キングは逃げられず詰み"
         ],
-        "explanation": "新しいクイーンが8段目の黒キングe8へ王手する。"
+        "explanation": "新しいクイーンが8段目の黒キングe8へチェックする。"
       },
       "en": {
         "question": "What does '+' signify after a8=Q?",
@@ -734,8 +734,8 @@ const FOUNDATION_REASONING = {
         "question": "Nf3が展開と攻撃を兼ねるのは？",
         "options": [
           "g1ナイトをf3へ出しe5を攻撃するから",
-          "ナイトの王手だから",
-          "黒王に直接王手"
+          "ナイトのチェックだから",
+          "黒キングに直接チェック"
         ],
         "explanation": "駒を出しながら相手の中央ポーンへ圧力をかける。"
       },
@@ -854,7 +854,7 @@ const FOUNDATION_REASONING = {
         "options": [
           "f1ビショップがまだいる",
           "ナイトとビショップを出しf1・g1が空いたから",
-          "黒が王手を禁じる"
+          "黒がチェックを禁じる"
         ],
         "explanation": "f1・g1の道が空き、キャスリングできる。"
       },
@@ -1045,7 +1045,7 @@ const FOUNDATION_REASONING = {
         "question": "フォーク（二股）とは？",
         "options": [
           "自分の2枚を守る手",
-          "相手のキングを王手して次の手をすべて禁止すること",
+          "相手のキングをチェックして次の手をすべて禁止すること",
           "一つの駒が複数の相手の駒を同時に攻撃"
         ],
         "explanation": "ナイトが得意な複数目標への攻撃じゃ。"
@@ -1168,7 +1168,7 @@ const FOUNDATION_REASONING = {
           "キング周辺の守りを弱めQh4#を許すから",
           "黒ビショップがf8に残るため白のキャスリングが妨げられるから"
         ],
-        "explanation": "次の王手・詰みを読まないと危険じゃ。"
+        "explanation": "次のチェック・詰みを読まないと危険じゃ。"
       },
       "en": {
         "question": "Why are White's f3 and g4 risky?",
@@ -1227,7 +1227,7 @@ const FOUNDATION_REASONING = {
         "question": "Bc4が次の計画に役立つのは？",
         "options": [
           "ルークも同時に動かす",
-          "ビショップをc4へ動かすと黒キングを直ちに王手できるから",
+          "ビショップをc4へ動かすと黒キングを直ちにチェックできるから",
           "ビショップを出してキャスリングの道を開ける"
         ],
         "explanation": "ナイトとビショップを出せばO-Oの準備が整う。"
