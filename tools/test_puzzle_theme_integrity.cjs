@@ -108,7 +108,7 @@ for (const id of [
   const noKnight=new Chess(p.fen);
   noKnight.remove('b5');
   assert.equal(noKnight.move('Rf8#').san,'Rf8+');
-  assert.deepEqual(noKnight.moves(),['Ka7']);
+  assert.deepEqual([...noKnight.moves()],['Ka7']);
 }
 
 // "A Royal Pony Walk": the knight on g7 rules out ...Ke8; a single
@@ -118,17 +118,17 @@ for (const id of [
   assert.equal(p.theme,'knight');
   assert.equal(p.mateIn,2);
   assert.deepEqual(mateInTwoStarts(new Chess(p.fen)),['Kg6']);
-  assert.deepEqual(checkmateMoves(new Chess(p.fen)),[]);
+  assert.deepEqual([...checkmateMoves(new Chess(p.fen))],[]);
   const board=new Chess(p.fen), knightBoard=new Chess(p.fen);
   assert.equal(board.get('g7').type,'n');
   const initial=p.fen+'|2';
   assert.equal(p.continuations[initial].join(' '),'Kg6');
   board.move('Kg6');
   const replies=board.moves();
-  assert.deepEqual(replies.slice().sort(),['Kg8','a2'].sort());
+  assert.deepEqual([...replies].sort(),['Kg8','a2'].sort());
   for (const reply of replies) {
     board.move(reply);
-    assert.deepEqual(checkmateMoves(board),['Qd8#']);
+    assert.deepEqual([...checkmateMoves(board)],['Qd8#']);
     assert.equal(p.continuations[board.fen()+'|1'].join(' '),'Qd8#');
     board.undo();
   }
