@@ -2302,8 +2302,8 @@ const LESSONS = [
     "note": "ここではクイーンをe5に差し出して斜めのチェックを止める変化を見る。"
    },
    {
-    "san": "Rxe5",
-    "note": "この変化ではクイーンを取れた。黒が最初に...Qc3や...Qe5を選べば、風車は止まる代わりにビショップでクイーンを取れる。"
+    "san": "Bxe5#",
+    "note": "ビショップでクイーンを取りながらチェックメイト。黒が最初に...Qc3や...Qe5を選べば、風車は止まる代わりにビショップでクイーンを取れる。"
    }
   ],
   "en": {
@@ -2352,8 +2352,8 @@ const LESSONS = [
      "note": "This line interposes the queen on e5 to stop the diagonal check."
     },
     {
-     "san": "Rxe5",
-     "note": "This line wins the queen. If Black blocks earlier with ...Qc3 or ...Qe5, the windmill stops but the bishop can take the queen instead."
+     "san": "Bxe5#",
+     "note": "Bxe5# captures the queen with checkmate. Earlier interpositions ...Qc3 or ...Qe5 stop the windmill, but the bishop still wins the queen."
     }
    ]
   }
