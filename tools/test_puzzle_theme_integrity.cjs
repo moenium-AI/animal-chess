@@ -97,6 +97,55 @@ for (const id of [
   }
 }
 
+// Check the *meaning* of named supporting pieces in one-move mates.
+// A legal move and an accurate title are different properties: removing
+// the credited helper must make the SAME mating move cease to be checkmate.
+// This counterfactual is only a motif test, not a new legal puzzle position.
+const supportPieceNames = {
+  b: {ja:/ビショップ/,en:/bishop/i},
+  n: {ja:/ナイト/,en:/knight/i},
+  p: {ja:/ポーン/,en:/pawn/i},
+  r: {ja:/ルーク/,en:/rook/i},
+};
+const supportMotifs = [
+  ['puzzle-007', 'b2', 'b', ['Qg7#']],
+  ['puzzle-008', 'b2', 'b', ['Qd8#', 'Qc4#']],
+  ['puzzle-017', 'a7', 'r', ['Rb8#']],
+  ['puzzle-025', 'h6', 'p', ['Qg7#']],
+  // Only Qg7# relies on the supporting rook: the other queen mates do not.
+  ['puzzle-026', 'a7', 'r', ['Qg7#']],
+  ['mate-bishop-corner-mate', 'g1', 'r', ['Bf6#']],
+  ['mate-rook-bishop-wall', 'd6', 'b', ['Rf8#']],
+  ['mate-two-bishops-king', 'f3', 'b', ['Kb6#']],
+  ['mate-pawn-capture-mate', 'e7', 'n', ['fxg7#']],
+  ['mate-pawn-capture-mate', 'g1', 'r', ['fxg7#']],
+  ['mate-two-knights-final', 'h6', 'n', ['Ne6#']],
+];
+let supportingMateChecks=0;
+for (const [id, square, type, sans] of supportMotifs) {
+  const p=byId.get(id);
+  assert.ok(p && p.objective==='mate' && p.mateIn===1, id+' missing one-move mate');
+  const names=supportPieceNames[type];
+  assert.match(p.idea,names.ja,id+' Japanese hint stopped naming its helper');
+  assert.match(p.en.idea,names.en,id+' English hint stopped naming its helper');
+  const board=new Chess(p.fen);
+  const helper=board.get(square);
+  assert.ok(helper && helper.type===type && helper.color==='w',
+    id+' named helper missing at '+square);
+  for (const san of sans) {
+    assert.ok(p.solutions.includes(san), id+' solution removed: '+san);
+    const actual=new Chess(p.fen);
+    assert.ok(actual.move(san) && actual.in_checkmate(), id+' expected mate '+san);
+    const without=new Chess(p.fen);
+    without.remove(square);
+    // Its SAN suffix may change from # to + or disappear after removal.
+    const tryMove=without.move(san.replace(/[+#]+$/,''));
+    assert.ok(tryMove && !without.in_checkmate(),
+      id+' supporting '+type+' at '+square+' is decorative for '+san);
+    supportingMateChecks++;
+  }
+}
+
 // The formerly faulty "Pony's Ambush": the knight on b5 guards a7.
 {
   const p=byId.get('mate-rook-knight-coordination');
@@ -169,6 +218,6 @@ for (const id of [
 }
 console.log(JSON.stringify({
   puzzles:entries.length,oneMoveMates:matesOneChecked,
-  supportedKnightMateChecks:4,kingKnightMateIn2:'PASS',
+  supportedKnightMateChecks:4,supportingMateChecks,kingKnightMateIn2:'PASS',
   defenderExplanation:'PASS',rookTitle:'PASS',bilingualAssets:'PASS'
 }));
