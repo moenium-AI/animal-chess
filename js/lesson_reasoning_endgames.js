@@ -8,18 +8,18 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "Ra8#が詰みになるために、白キングe6はどんな役目を果たす？",
         "options": [
-          "白キングe6は8段目を攻撃し、ルークの横の利きを強める",
+          "8段目を王手で守る",
           "黒キングのd7・e7・f7への逃げ道をふさぐ",
-          "白キングe6が黒キングを斜めに押してf8から退かせる"
+          "黒王をf8から追い出す"
         ],
         "explanation": "白キングe6が黒キングの前方の逃げ道を押さえ、a8のルークが8段目の王手を担当する。"
       },
       "en": {
         "question": "What does White's king on e6 contribute to Ra8#?",
         "options": [
-          "The king on e6 directly attacks every square on Black's eighth rank",
+          "To guard rank eight",
           "It controls the escape squares d7, e7 and f7",
-          "The king on e6 forces Black's king to leave f8 by moving diagonally"
+          "To drive the king off f8"
         ],
         "explanation": "The king covers the escape squares while the rook gives check along the eighth rank."
       },
@@ -35,7 +35,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "Ra8#のあと黒はどう受けられる？",
         "options": [
-          "黒は...Kd7へ逃げられるが、次にルークが追い詰める",
+          "...Kd7へ逃げる",
           "黒は...Kf7と斜めに逃げ、白キングから距離を取れる",
           "合法な応手はない"
         ],
@@ -44,7 +44,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "How can Black respond after Ra8#?",
         "options": [
-          "Black can run to d7, but White's rook would catch it next turn",
+          "Escape with ...Kd7",
           "Black can retreat to f7, moving away from White's approaching king",
           "There is no legal response"
         ],
@@ -65,8 +65,8 @@ const ENDGAME_REASONING = {
         "question": "Rb8#のとき、a7の白ルークは何をしている？",
         "options": [
           "7段目のキングの逃げ道を封じている",
-          "a7ルークは8段目のb8ルークを守る役割だけを持つ",
-          "a7ルークは黒キングのいる8段目を直接攻撃する"
+          "b8ルークだけを守る",
+          "8段目へ王手する"
         ],
         "explanation": "a7のルークが7段目を横に押さえ、b8のルークが8段目から王手をかける。階段メイトの役割分担じゃ。"
       },
@@ -74,8 +74,8 @@ const ENDGAME_REASONING = {
         "question": "What is White's rook on a7 doing when Rb8# is played?",
         "options": [
           "Sealing the king's escape along rank seven",
-          "The rook on a7 only protects the other rook already on b8",
-          "The rook on a7 directly gives check along the eighth rank"
+          "To defend rook b8",
+          "To check rank eight"
         ],
         "explanation": "One rook blocks rank seven while the other checks on rank eight: the ladder mate pattern."
       },
@@ -91,7 +91,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "このRb8#で黒キングが7段目へ逃げられる？",
         "options": [
-          "黒キングは...Kd7へ移れるが、次は白ルークa7に狙われる",
+          "...Kd7へ逃げられる",
           "逃げられない。a7のルークが7段目を押さえる",
           "黒キングは...Kf7へ出て7段目の白ルークを攻撃できる"
         ],
@@ -100,7 +100,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "Can Black's king escape to rank seven after Rb8#?",
         "options": [
-          "Black can move to d7 but will be attacked by the rook on a7 next",
+          "Escape via ...Kd7",
           "No, the rook on a7 controls that rank",
           "Black may escape to f7 and attack the rook on a7 in return"
         ],
@@ -120,8 +120,8 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "Qg7#の白クイーンを黒キングが取れないのはなぜ？",
         "options": [
-          "白キングg6は黒キングを直接王手してクイーンを守る",
-          "白クイーンg7はキングに守られず黒キングが取れる",
+          "白王自身の王手",
+          "黒王はQを取れる",
           "白キングg6がクイーンg7を守っているから"
         ],
         "explanation": "g6の白キングがg7を守っている。隣接して王手するクイーンには支えが必要じゃ。"
@@ -129,8 +129,8 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "Why can't Black's king capture the queen after Qg7#?",
         "options": [
-          "White's king on g6 is giving check itself, which protects the queen",
-          "The queen on g7 is undefended, so Black's king can capture it",
+          "The king gives check",
+          "The queen is unguarded",
           "White's king on g6 protects the queen on g7"
         ],
         "explanation": "The white king protects g7; the black king cannot capture a defended queen."
@@ -148,7 +148,7 @@ const ENDGAME_REASONING = {
         "question": "Qg7#を受けた黒の合法手は？",
         "options": [
           "ない。チェックメイト",
-          "黒キングはg7のクイーンを取れるが次の手で白キングが取る",
+          "...Kxg7で取る",
           "黒キングは...Kh8に逃げられるが白に再び王手される"
         ],
         "explanation": "黒キングは白キングが守るクイーンを取れず、ほかの逃げ道もない。"
@@ -157,7 +157,7 @@ const ENDGAME_REASONING = {
         "question": "What legal reply does Black have to Qg7#?",
         "options": [
           "None: checkmate",
-          "Black can capture the queen on g7 but would then lose its king",
+          "Capture via ...Kxg7",
           "Black can flee to h8 but White's queen will check it again"
         ],
         "explanation": "The queen is defended and Black has no legal escape or block."
@@ -176,18 +176,18 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "b8=Qの「=Q」は何を意味する？",
         "options": [
-          "b8のポーンがクイーンに昇格できるのは次の白番だけ",
+          "次の手で昇格する",
           "bポーンが最終段でクイーンに昇格した印",
-          "b8=Qは白クイーンがb8に移ってポーンを支える手"
+          "既存Qがb8へ動く"
         ],
         "explanation": "白ポーンがb7からb8へ進み、クイーンに昇格する表記じゃ。"
       },
       "en": {
         "question": "What does '=Q' mean in b8=Q?",
         "options": [
-          "The pawn on b8 must wait until White's next turn to promote",
+          "To promote next turn",
           "The pawn reached the last rank and promoted to a queen",
-          "The notation means White's existing queen moved to b8 to defend a pawn"
+          "The queen moves to b8"
         ],
         "explanation": "The pawn advances from b7 to b8 and becomes a queen on promotion."
       },
@@ -202,7 +202,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "このb8=Qの直後、対局はどうなる？",
         "options": [
-          "昇格で黒キングはただちに王手を受けるが受けは残る",
+          "すでに王手している",
           "昇格後のクイーンは同じ手でさらに1マス進むことができる",
           "新しいクイーンができるが、対局は続く"
         ],
@@ -211,7 +211,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "What happens immediately after b8=Q here?",
         "options": [
-          "Promotion immediately gives Black check here, although replies remain",
+          "It already gives check",
           "The newly promoted queen may make one additional move in the same turn",
           "White gains a queen, but play continues"
         ],
@@ -231,8 +231,8 @@ const ENDGAME_REASONING = {
         "question": "Kd6から白キングをポーンの前に置く狙いは？",
         "options": [
           "黒キングを押し下げ、eポーンを守って前進させる",
-          "Kd6で白キングがe6のポーンの前に立ち、進路を封じる",
-          "Kd6で白キングが黒のキングに直接王手をかける"
+          "eポーンの進路をふさぐ",
+          "黒キングに王手する"
         ],
         "explanation": "キングを先に進めれば黒キングの行き場を減らし、eポーンを支えて昇格を狙える。"
       },
@@ -240,8 +240,8 @@ const ENDGAME_REASONING = {
         "question": "Why does White lead with Kd6 before pushing the e-pawn?",
         "options": [
           "To push back Black's king and support the pawn's advance",
-          "The white king on d6 blocks its pawn on e6 and prevents any advance",
-          "The white king on d6 directly checks Black's king from a distance"
+          "To block the e-pawn",
+          "To give the king check"
         ],
         "explanation": "The active king restricts Black's king and escorts the e-pawn toward promotion."
       },
@@ -258,7 +258,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "黒が...Kd8と守ったあと、教材で白はどう続ける？",
         "options": [
-          "白はe6を進めるとキングの支えを失い黒が直ちに取れる",
+          "e6は黒王に取られる",
           "e6と進め、キングの支援を受けたポーンを前へ出す",
           "白はKd7と進み黒キングを追いかけてからe6を指す"
         ],
@@ -267,7 +267,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "After ...Kd8 in the lesson, how does White continue?",
         "options": [
-          "The e6 advance removes king support and allows immediate capture",
+          "Black captures e6",
           "Play e6, supported by White's king",
           "White follows the black king with Kd7 before trying the e6 advance"
         ],
@@ -319,7 +319,7 @@ const ENDGAME_REASONING = {
         "question": "教材の...cxb6 ...bxa6という取り方のあと、白の突破手は？",
         "options": [
           "c6で残ったポーンを走らせる",
-          "残るcポーンはc5に留まり、aポーンをa7へ進める",
+          "aポーンをa7へ",
           "白はb6のポーンをb7へ進めてからcポーンを動かす"
         ],
         "explanation": "bポーンとaポーンを突き捨てた結果、cポーンが前進できる。別の取り方なら同じ手順とは限らないぞ。"
@@ -328,7 +328,7 @@ const ENDGAME_REASONING = {
         "question": "After the illustrated ...cxb6 and ...bxa6 captures, what can White play?",
         "options": [
           "Advance the remaining pawn with c6",
-          "White keeps the c-pawn on c5 and advances the a-pawn to a7",
+          "Advance the a-pawn",
           "White advances the sacrificed b-pawn to b7 before touching the c-pawn"
         ],
         "explanation": "The sacrifices clear a route for the c-pawn. Other black capture choices can require a different order."
@@ -378,7 +378,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "黒がa5に...Ke6、続いてa6に...Kd6と追っても白は？",
         "options": [
-          "白はキングh1をg2へ動かしてaポーンを守るのが先",
+          "キングをg2へ運ぶ",
           "白はa6のポーンをa5へ戻し黒キングを遠ざける",
           "a7と前進し、先に昇格を狙う"
         ],
@@ -387,7 +387,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "If Black chases with ...Ke6 and ...Kd6, what does White do?",
         "options": [
-          "White must move its king from h1 to g2 to escort the pawn first",
+          "Escort with the king",
           "White withdraws the pawn from a6 to a5 to lure Black's king away",
           "Keep advancing with a7, then aim for a8=Q"
         ],
@@ -413,8 +413,8 @@ const ENDGAME_REASONING = {
         "question": "e8=N+とナイトに昇格する狙いは？",
         "options": [
           "キングへの王手とd6のクイーンへのフォーク",
-          "e8=Q+でもクイーンd6を同じ形でフォークできるから",
-          "ナイトe8はg7のキングではなくf6のマスを王手するから"
+          "クイーンも同じ二股",
+          "f6のマスへの王手"
         ],
         "explanation": "e8のナイトはg7のキングへ王手し、d6のクイーンも攻撃できる。昇格先による利きの違いじゃ。"
       },
@@ -422,8 +422,8 @@ const ENDGAME_REASONING = {
         "question": "Why promote to a knight with e8=N+?",
         "options": [
           "To check the king while forking the queen on d6",
-          "Promoting to a queen would also fork the queen on d6 in exactly the same way",
-          "The new knight checks the square f6 rather than the king on g7"
+          "A queen gives this fork",
+          "It checks square f6"
         ],
         "explanation": "The new knight checks Black's king and attacks the queen on d6 at the same time."
       },
@@ -472,7 +472,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "c7を指した白ポーンは何に守られている？",
         "options": [
-          "c7の白ポーンは白キングg1が遠くから守っている",
+          "g1の白キング",
           "隣のb6の白ポーン",
           "c7のポーンはb7に進んだ白ポーンだけが守れる"
         ],
@@ -481,7 +481,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "What protects White's pawn after c7?",
         "options": [
-          "The white king on g1 defends c7 from across the board",
+          "White's king on g1",
           "The neighboring white pawn on b6",
           "Only a pawn advanced to b7, not one on b6, could defend c7"
         ],
@@ -501,7 +501,7 @@ const ENDGAME_REASONING = {
         "question": "この教材で黒キングが...Kf7 ...Ke7と近づいても、白は？",
         "options": [
           "c8=Qと昇格できる",
-          "白はc8でナイトに昇格する以外の手を選べない",
+          "b8=Qを先に指す",
           "白はb8=Qと昇格してからcポーンを進める必要がある"
         ],
         "explanation": "黒キングが間に合う前に二枚の白ポーンが進み、cポーンがc8でクイーンになる。"
@@ -510,7 +510,7 @@ const ENDGAME_REASONING = {
         "question": "In this line, after Black approaches with ...Kf7 and ...Ke7, what can White do?",
         "options": [
           "Promote with c8=Q",
-          "White must choose knight promotion on c8 in this line",
+          "Promote on b8 first",
           "White first needs to promote its b-pawn on b8 before advancing c7"
         ],
         "explanation": "The connected pawns advance quickly enough for the c-pawn to promote in the displayed variation."
@@ -532,8 +532,8 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "Qg7#を選ぶ理由は何かな？",
         "options": [
-          "Qg7#なら黒キングには合法手が残り、まだ対局が続く",
-          "Qg7#は黒キングを王手せず、逃げ道だけを消している",
+          "黒に逃げ道を残す",
+          "王手せずに手を奪う",
           "王手をかけて詰ませ、ステイルメイトを避けるため"
         ],
         "explanation": "Qg7#は黒に王手をかけ、合法な応手がないので詰み。王手がないまま合法手を消すと引き分けじゃ。"
@@ -541,8 +541,8 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "Why play Qg7# instead of carelessly restricting the king?",
         "options": [
-          "With Qg7#, Black still has legal moves and the game continues",
-          "The queen on g7 removes all flights without actually giving check",
+          "To keep escape moves",
+          "To remove moves without check",
           "To give checkmate rather than cause stalemate"
         ],
         "explanation": "Qg7# is checkmate. Removing every legal move without giving check would instead result in stalemate."
@@ -690,18 +690,18 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "教材で白がe6と進めたあと、黒はどんな守備に切り替える？",
         "options": [
-          "...Ra1で黒は後方へ戻るが、次の王手はあえて避ける",
+          "後方から王手を避ける",
           "...Ra1と後方へ回り、チェックを続ける",
-          "...Ra1は黒のルークを受け身にし、白キングの前進を許す"
+          "前進して白王を追う"
         ],
         "explanation": "白ポーンが6段目へ来たら黒ルークを後方へ回して王手をかける。これはフィリドールの引き分けを保つ考え方じゃ。"
       },
       "en": {
         "question": "After White plays e6 in this example, how does Black defend?",
         "options": [
-          "...Ra1 retreats the rook specifically to avoid giving any further checks",
+          "To avoid rear checks",
           "Retreat with ...Ra1 and give checks from behind",
-          "...Ra1 makes the rook passive and permits White's king to advance freely"
+          "To chase the king"
         ],
         "explanation": "Once the pawn advances to the sixth rank, Black switches to rear checks with the rook, a standard drawing idea."
       },
@@ -723,8 +723,8 @@ const ENDGAME_REASONING = {
         "question": "白がビショップとhポーンを持っていても勝てない理由は？",
         "options": [
           "白ビショップはh8の昇格マスの色を攻撃できないから",
-          "白ビショップはh7の白ポーンを守れないので直ちに負ける",
-          "h8への昇格には白キングが必ずh8へ先に入る必要がある"
+          "h7のポーンを守れない",
+          "h8へ王を先に運ぶ"
         ],
         "explanation": "hポーンの昇格マスh8は黒マスだが、白のビショップは白マスしか利かない。黒キングが隅を守れば引き分けを狙える。"
       },
@@ -732,8 +732,8 @@ const ENDGAME_REASONING = {
         "question": "Why can't White force a win with bishop and h-pawn here?",
         "options": [
           "The bishop cannot control the color of h8, the promotion square",
-          "The bishop cannot protect White's pawn on h7, causing an immediate loss",
-          "White's king must first occupy h8 before the pawn is allowed to promote"
+          "Cannot defend pawn h7",
+          "The king must reach h8"
         ],
         "explanation": "The h-pawn promotes on the dark square h8, which the light-squared bishop cannot control. The defending king can hold the corner."
       },
@@ -817,7 +817,7 @@ const ENDGAME_REASONING = {
         "question": "開始局面ですぐc6+とポーンを進めると、教材によれば黒は？",
         "options": [
           "...Kc8で引き分けへ持ち込める",
-          "黒キングは...Kc8ではなく...Kd8で白ポーンを取れる",
+          "...Kd8で取る",
           "...Kc8と指されると白はc7から必ず次に昇格できる"
         ],
         "explanation": "即c6+は...Kc8で引き分け。キングの手番調整には意味があり、単純にポーンを押せばよいわけではない。"
@@ -826,7 +826,7 @@ const ENDGAME_REASONING = {
         "question": "What can Black do against an immediate c6+ in the initial triangulation position?",
         "options": [
           "Reply ...Kc8 to reach a draw",
-          "Black can capture the white pawn immediately with ...Kd8 instead of ...Kc8",
+          "Capture with ...Kd8",
           "After ...Kc8, White's pawn is guaranteed to promote on its very next move"
         ],
         "explanation": "The immediate c6+ allows ...Kc8 and a draw under best play in this position; the king maneuver changes the timing."
@@ -987,7 +987,7 @@ const ENDGAME_REASONING = {
         "question": "このRa1は、どの終盤でも必ず唯一の最善手？",
         "options": [
           "いいえ。通過ポーンの後ろは有力な形だが、局面次第",
-          "通過ポーンがある限りルークは必ずその前に置く必要がある",
+          "ルークは前に置く",
           "Ra1のような後方配置は強いが、黒が王手ならすべて不合法"
         ],
         "explanation": "ルークを通過ポーンの後方に置く原則は有用だが、最善手かどうかは具体的な局面で変わる。"
@@ -996,7 +996,7 @@ const ENDGAME_REASONING = {
         "question": "Is Ra1 always the only best move in every rook ending?",
         "options": [
           "No. Behind the passer is often useful, but it depends on the position",
-          "A rook must always be placed in front of a passed pawn, without exception",
+          "Rook ahead of the pawn",
           "Putting a rook behind a passer is illegal whenever the opponent can give check"
         ],
         "explanation": "Rooks often work well behind passed pawns, but optimal placement depends on the position."
