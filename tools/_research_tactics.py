@@ -76,3 +76,6 @@ with chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish") as e:
     print("engine_error",repr(exc),flush=True)
   winners.sort(key=lambda x:(x["score"]-max(0,(x["best_score"] or 0)-x["score"])*2),reverse=True)
   print(json.dumps({"kind":kind,"tested":examined,"invalid":invalid,"winner_count":len(winners),"top":winners[:22]}),flush=True)
+  simple=[item for item in winners if len(item["extra"])<=2]
+  simple.sort(key=lambda x: (x["score"]-max(0,(x["best_score"] or 0)-x["score"])*3),reverse=True)
+  print(json.dumps({"kind":kind,"simple_count":len(simple),"simple_top":simple[:35]}),flush=True)
