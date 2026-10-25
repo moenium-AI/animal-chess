@@ -1323,7 +1323,7 @@ function beginLessonPractice() {
   lessonFeedbackKind = '';
   selected = null; legalTargets = []; hintSquares = [];
   replayGoTo(info.ply);
-  boardEl.querySelector('.square[tabindex="0"]')?.focus();
+  boardEl.querySelector('.square[tabindex="0"]')?.focus({ preventScroll: true });
 }
 function showLessonPracticeHint() {
   if (!lessonPractice) return;
@@ -1597,6 +1597,9 @@ function showStudyNote() {
 }
 
 function replayGoTo(idx) {
+  // Updating notes, progress and the move list must not move the viewport.
+  // scrollInsideList handles any needed scrolling within the list itself.
+  const viewportX = window.scrollX, viewportY = window.scrollY;
   replay.idx = Math.max(0, Math.min(idx, replay.sans.length));
   if (lessonPractice && replay.idx !== lessonPractice.ply) {
     lessonPractice = null;
@@ -1617,6 +1620,8 @@ function replayGoTo(idx) {
   renderPracticeControls();
   renderStudyComparison();
   renderReasoningQuiz();
+  if (window.scrollX !== viewportX || window.scrollY !== viewportY)
+    window.scrollTo(viewportX, viewportY);
 }
 function renderReplayMovelist() {
   const ol = $('replay-movelist');
