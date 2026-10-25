@@ -22,13 +22,22 @@ function analyzeLanguage(rows,lang){
   });
   const correctUnique=unique.filter(r=>r[lang].options[r.answer].length===
     Math.max(...r[lang].options.map(s=>s.length))).length;
-  // Deterministic heuristic: select the first option with maximal character length.
-  const firstLongestCorrect=rows.filter(r=>r[lang].options.findIndex(s=>
-    s.length===Math.max(...r[lang].options.map(t=>t.length)))===r.answer).length;
+  // Each heuristic chooses the FIRST option at the corresponding length.
+  // Ties are deterministic and do not hide a stable answer-key bias.
+  const hitCounts=[0,1,2].map(rank=>rows.filter(r=>{
+    const lens=r[lang].options.map(s=>s.length);
+    const target=lens.slice().sort((a,b)=>a-b)[rank];
+    return lens.indexOf(target)===r.answer;
+  }).length);
+  const pct=n=>Number((100*n/rows.length).toFixed(1));
   return {uniqueLongestQuestions:unique.length,
     correctIsUniqueLongest:correctUnique,
-    correctWhenUsingLongestHeuristic:firstLongestCorrect,
-    longestHeuristicPercent:Number((100*firstLongestCorrect/rows.length).toFixed(1))};
+    correctWhenUsingLongestHeuristic:hitCounts[2],
+    longestHeuristicPercent:pct(hitCounts[2]),
+    shortestHeuristicPercent:pct(hitCounts[0]),
+    middleHeuristicPercent:pct(hitCounts[1]),
+    shortestHeuristicCorrect:hitCounts[0],
+    middleHeuristicCorrect:hitCounts[1]};
 }
 const rows=Object.entries(LESSON_REASONING).flatMap(([id,block])=>
   ['why','defense'].map(kind=>({id,cat:category.get(id),kind,...block[kind]})));
@@ -43,7 +52,7 @@ for(const cat of ['basics','principles','combo','endgame','opening']){
     examplesRequiringReplayOfAtLeastTwoMoves:subset.filter(r=>(r.evidence?.line.length||0)>1).length};
 }
 const report={
-  source:'main working tree at audit execution',
+  source:'working tree at audit execution',
   lessonCount:catalog.length,
   coveredLessons:Object.keys(LESSON_REASONING).length,
   questions:rows.length,
@@ -55,6 +64,6 @@ const report={
     lineLengthAtLeast4:evidence.filter(r=>r.evidence.line.length>=4).length,
     lineLengthAtLeast8:evidence.filter(r=>r.evidence.line.length>=8).length},
   categories:groupResults,
-  status:'OBSERVATION ONLY: no subjective quality threshold is enforced'
+  status:'Metrics are observations; test_reasoning_distractors.cjs enforces length-only leak thresholds'
 };
 console.log(JSON.stringify(report,null,2));

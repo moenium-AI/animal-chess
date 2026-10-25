@@ -8,18 +8,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "3.Bc4で白ビショップをc4に出す狙いは？",
         "options": [
-          "クイーンをすぐ取る",
+          "d5ポーンを取る",
           "黒キングの近くのf7に圧力をかけながら展開する",
-          "キングをb1に移動する"
+          "e4ポーンを守る"
         ],
         "explanation": "c4のビショップはf7をにらむ。中央を占めたあと、駒を活用するイタリアンの基本じゃ。"
       },
       "en": {
         "question": "Why does White develop the bishop with 3.Bc4?",
         "options": [
-          "To capture the queen immediately",
+          "To take the d5-pawn",
           "To develop while looking toward f7 near Black's king",
-          "To move the king to b1"
+          "To guard the e4-pawn"
         ],
         "explanation": "The bishop on c4 eyes f7. Developing a piece and applying pressure is a key Italian Game idea."
       },
@@ -39,8 +39,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白がBc4と出たあと、黒が...Bc5を選ぶと何が起きる？",
         "options": [
-          "黒キングがキャスリング済みになる",
-          "白のc4ビショップが取られる",
+          "白d2を狙う",
+          "黒ビショップc5が白のd2ポーンを攻撃し、その場で取る",
           "黒もビショップを展開し、白のf2の方向へ利きを向ける"
         ],
         "explanation": "黒のc5ビショップはf2をにらみ、白のc4ビショップはf7をにらむ。両者の展開を比較してみよう。"
@@ -48,8 +48,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "What does Black's ...Bc5 do after White plays Bc4?",
         "options": [
-          "It castles Black's king",
-          "It immediately captures White's bishop",
+          "To target d2",
+          "The bishop on c5 immediately attacks White's pawn on d2",
           "It develops a bishop toward White's f2 square"
         ],
         "explanation": "The bishops face the respective f-pawn areas: White's on c4 eyes f7 and Black's on c5 eyes f2."
@@ -74,8 +74,8 @@ const OPENING_REASONING = {
         "question": "3.Bb5で白が狙う黒の駒は？",
         "options": [
           "e5のポーンを守るc6のナイト",
-          "d8のクイーンを直接取る",
-          "h8のルークを捕まえる"
+          "黒のf6ナイトを攻撃し、e4のポーンを守る役割を弱める",
+          "黒のd7ポーンを直接攻撃し、黒の中央進出を妨げる"
         ],
         "explanation": "白ビショップb5が黒ナイトc6へ圧力をかける。ナイトはe5のポーンを守っている。"
       },
@@ -83,8 +83,8 @@ const OPENING_REASONING = {
         "question": "Which black piece does 3.Bb5 pressure in the Ruy Lopez?",
         "options": [
           "The knight on c6 defending the e5 pawn",
-          "The queen on d8 for an immediate capture",
-          "The rook on h8"
+          "The bishop threatens the knight on f6, weakening protection of e4",
+          "The bishop attacks the pawn on d7 to prevent central counterplay"
         ],
         "explanation": "The bishop on b5 pressures the c6 knight, one of the defenders of e5."
       },
@@ -104,18 +104,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "黒の...a6に対し白がBa4と戻る理由は？",
         "options": [
-          "必ずチェックメイトになるから",
+          "a6ポーンを取る",
           "ビショップを失わず、c6ナイトへの圧力を残すため",
-          "白キングをチェックから守るため"
+          "c6ナイトを見捨てる"
         ],
         "explanation": "...a6はb5のビショップを攻撃する。Ba4で一歩引き、対角線によるナイトへの圧力を残す。"
       },
       "en": {
         "question": "Why does White retreat to Ba4 after ...a6?",
         "options": [
-          "It forces immediate checkmate",
+          "To capture a6",
           "It saves the bishop and keeps pressure on the knight at c6",
-          "It blocks a check against White's king"
+          "To abandon c6"
         ],
         "explanation": "Black's ...a6 attacks the bishop; Ba4 preserves the bishop and maintains its diagonal toward c6."
       },
@@ -139,8 +139,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "シチリアンの1...c5は、1...e5と比べてどんな中央への働きかけ？",
         "options": [
-          "白のe4ポーンをその場で取る",
-          "cポーンを昇格させる",
+          "e4を取るため",
+          "黒のc5ポーンがb4だけを攻撃して中央は無視する",
           "黒のcポーンでd4のマスを攻撃する"
         ],
         "explanation": "c5の黒ポーンはd4を攻撃する。e5と左右対称に応じず、中央を側面から争うのじゃ。"
@@ -148,8 +148,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "What does 1...c5 achieve in the Sicilian compared with ...e5?",
         "options": [
-          "It captures the e4-pawn immediately",
-          "It promotes the c-pawn",
+          "To capture e4",
+          "The pawn on c5 attacks b4 alone and leaves the center uncontested",
           "The c-pawn attacks the d4 square"
         ],
         "explanation": "The pawn on c5 attacks d4, challenging the center asymmetrically rather than mirroring 1.e4."
@@ -168,8 +168,8 @@ const OPENING_REASONING = {
         "question": "教材で白のd4を黒が...cxd4と取ったあと、白は何で取り返す？",
         "options": [
           "f3のナイトでNxd4",
-          "e4のポーンでexd4",
-          "白キングでKxd4"
+          "exd4で取り返す",
+          "白はb1ナイトでc3を経由してd4をすぐ取り返す"
         ],
         "explanation": "白はNxd4で取り返し、ナイトを中央d4に置く。これは掲載したオープン・シチリアンの変化じゃ。"
       },
@@ -177,8 +177,8 @@ const OPENING_REASONING = {
         "question": "In the displayed Sicilian, how does White recapture after ...cxd4?",
         "options": [
           "With the knight from f3: Nxd4",
-          "With the e4-pawn: exd4",
-          "With the king: Kxd4"
+          "Recapture with exd4",
+          "White must recapture with the knight from b1 via c3 to d4"
         ],
         "explanation": "White recaptures with Nxd4, placing the knight on the central square d4 in this open variation."
       },
@@ -202,18 +202,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "フレンチの1...e6が準備する中心的なポーンの手は？",
         "options": [
-          "...f5で白キングをただちに詰ませる",
+          "...e5へ進むため",
           "...d5で白のe4・d4の中央に挑む",
-          "...a5でルークを昇格させる"
+          "...e5と進めて白のe4ポーンを黒ポーンで守る準備"
         ],
         "explanation": "...e6から...d5を支え、白の中央とぶつかるのがフレンチ・ディフェンスの典型じゃ。"
       },
       "en": {
         "question": "What central pawn move does 1...e6 prepare in the French Defense?",
         "options": [
-          "...f5 for immediate checkmate",
+          "To push ...e5",
           "...d5 to challenge White's center",
-          "...a5 to promote a rook"
+          "It prepares ...e5 so Black's pawn on e6 can defend White's e4-pawn"
         ],
         "explanation": "The pawn on e6 supports ...d5, Black's typical challenge to White's central pawns."
       },
@@ -232,8 +232,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白のBg5でf6ナイトに圧力がかかったあと、教材の黒の応手は？",
         "options": [
-          "...Kxf6でナイトを取る",
-          "...Qa5#で詰ませる",
+          "...h6で追い払う",
+          "...Qd7で守る",
           "...Be7で駒を展開し、ピンを和らげる"
         ],
         "explanation": "e7へビショップを出すことで、f6ナイトとd8クイーンの間に黒の駒が入り、白の圧力に対応する。"
@@ -241,8 +241,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "What does Black play in the lesson after Bg5 pressures the f6-knight?",
         "options": [
-          "...Kxf6, capturing its own knight",
-          "...Qa5# for mate",
+          "To play ...h6",
+          "To defend with ...Qd7",
           "...Be7, developing a piece and easing the pin"
         ],
         "explanation": "The bishop on e7 interrupts the line behind the knight and develops a defender."
@@ -269,8 +269,8 @@ const OPENING_REASONING = {
         "question": "クイーンズ・ギャンビットの2.c4は何を攻撃する？",
         "options": [
           "黒のd5ポーン",
-          "黒キングe8",
-          "黒クイーンd8を直接取る"
+          "e6ポーン",
+          "白のc4ポーンは黒のc7ポーンをまっすぐ攻撃する"
         ],
         "explanation": "c4の白ポーンはd5を攻撃する。中央を側面から崩す誘いじゃ。"
       },
@@ -278,8 +278,8 @@ const OPENING_REASONING = {
         "question": "What does White's 2.c4 attack in the Queen's Gambit?",
         "options": [
           "Black's pawn on d5",
-          "Black's king on e8",
-          "Black's queen on d8 for immediate capture"
+          "Pawn on e6",
+          "The pawn on c4 attacks the pawn on c7 straight ahead"
         ],
         "explanation": "The c-pawn on c4 attacks d5, creating central pressure from the flank."
       },
@@ -297,18 +297,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "黒が...e6と応じて『拒否形』になるのはなぜ？",
         "options": [
-          "c4のポーンを必ず取るから",
+          "c4を取って守る",
           "c4を取らず、d5ポーンをe6から支えるから",
-          "黒キングを一手でキャスリングするから"
+          "d5ポーンを進める"
         ],
         "explanation": "黒は白のc4ポーンをすぐ取らず、e6ポーンでd5を支える。"
       },
       "en": {
         "question": "Why is ...e6 a 'declined' Queen's Gambit response?",
         "options": [
-          "Black must capture the c4-pawn",
+          "To capture c4",
           "Black supports d5 with the e6-pawn instead of taking c4",
-          "Black castles in one move"
+          "To advance d5"
         ],
         "explanation": "Black reinforces the pawn on d5 rather than immediately accepting the offered c4-pawn."
       },
@@ -329,8 +329,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "カロ・カンの...Bf5には、フレンチと比べてどんな長所がある？",
         "options": [
-          "キングをビショップに昇格する",
-          "クイーンがf5へ飛んでくる",
+          "c8のビショップをe6へ戻す",
+          "c8ビショップでd5を守る",
           "c8のビショップをe6ポーンで閉じ込める前に展開できる"
         ],
         "explanation": "...c6から...d5を作り、ビショップをf5に出せるのがカロ・カンの持ち味の一つじゃ。"
@@ -338,8 +338,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "What is an advantage of ...Bf5 in the Caro-Kann compared with the French?",
         "options": [
-          "Promoting the king into a bishop",
-          "Teleporting the queen to f5",
+          "To retreat bishop to e6",
+          "To defend d5 with bishop",
           "Developing the c8-bishop before an ...e6-pawn can restrict it"
         ],
         "explanation": "The Caro-Kann can develop the light-squared bishop outside the pawn chain before ...e6 is needed."
@@ -364,8 +364,8 @@ const OPENING_REASONING = {
         "question": "教材で黒が...Bf5とビショップを出したあと、白はどう当てる？",
         "options": [
           "Ng3でナイトからf5ビショップを攻撃する",
-          "Nxf5#で即詰み",
-          "Bxf5で白ビショップと交換する"
+          "白ナイトをg3へ動かしe5にいる黒ナイトを攻撃する",
+          "白ナイトをg3へ動かしてf5のビショップを直接守る"
         ],
         "explanation": "白のNg3はe4のナイトをg3へ動かし、f5のビショップを攻撃する。この応手が指せるか盤面でも確認しよう。"
       },
@@ -373,8 +373,8 @@ const OPENING_REASONING = {
         "question": "After ...Bf5 in the example, how does White challenge that bishop?",
         "options": [
           "Ng3 attacks it with the knight",
-          "Nxf5# checkmates immediately",
-          "Bxf5 trades it with a bishop"
+          "White's knight goes to g3 to attack a black knight on e5",
+          "White's knight moves to g3 to defend Black's bishop on f5"
         ],
         "explanation": "White plays Ng3, moving the knight from e4 to attack the bishop on f5."
       },
@@ -400,18 +400,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "スコッチの3.d4はなぜ中央の展開を早める？",
         "options": [
-          "黒ルークをその場で取るため",
+          "中央を閉じるため",
           "黒のe5ポーンに挑み、中央のラインを開くため",
-          "白キングを中央に置くため"
+          "c5ポーンを取るため"
         ],
         "explanation": "d4でe5にぶつかり、ポーン交換からナイトを中央へ出せる形を作る。"
       },
       "en": {
         "question": "Why does 3.d4 lead to open central play in the Scotch Game?",
         "options": [
-          "It captures a rook immediately",
+          "To close the center",
           "It challenges the e5-pawn and opens central lines",
-          "It centralizes White's king"
+          "To capture a pawn on c5"
         ],
         "explanation": "The d-pawn challenges e5, and exchanges can open files and develop a central knight."
       },
@@ -431,8 +431,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "この教材で黒が...exd4と取ったあと、白がNxd4を選ぶのは？",
         "options": [
-          "白のクイーンを交換するため",
-          "黒キングへチェックメイトをかけるため",
+          "cxd4で取る",
+          "白クイーンをd1からd4へ出してe5のポーンを守る",
           "f3のナイトで取り返してd4へ展開するため"
         ],
         "explanation": "f3ナイトがd4の黒ポーンを取り返す。中央の好位置にナイトを置く手じゃ。"
@@ -440,8 +440,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "Why does White answer ...exd4 with Nxd4 in the lesson?",
         "options": [
-          "To trade queens immediately",
-          "To give immediate checkmate",
+          "To recapture cxd4",
+          "White's queen moves from d1 to d4 to defend the e5-pawn",
           "To recapture with the knight from f3 and occupy d4"
         ],
         "explanation": "The knight recaptures the pawn on d4, placing a developed piece in the center."
@@ -467,8 +467,8 @@ const OPENING_REASONING = {
         "question": "スカンジナビアンで白のNc3が...Qxd5に当たるのはなぜ？",
         "options": [
           "c3のナイトがd5の黒クイーンを攻撃するから",
-          "白キングが黒キングに王手しているから",
-          "白ポーンがf8へ昇格したから"
+          "d5を守るため",
+          "c3で王手するため"
         ],
         "explanation": "ナイトc3の利きがd5へ届く。相手クイーンを攻撃しながら駒を展開できる。"
       },
@@ -476,8 +476,8 @@ const OPENING_REASONING = {
         "question": "Why does Nc3 attack Black's queen after ...Qxd5?",
         "options": [
           "The knight on c3 attacks the queen on d5",
-          "White's king is checking Black's king",
-          "A pawn has promoted on f8"
+          "To protect d5",
+          "To check from c3"
         ],
         "explanation": "The knight on c3 attacks d5, developing with a threat to the early queen."
       },
@@ -497,18 +497,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白がNc3で黒クイーンを攻撃したあと、教材の黒の応手は？",
         "options": [
-          "...Kxd5でキングで取り返す",
+          "...Qc6と逃げる",
           "...Qa5でクイーンを攻撃から逃がす",
-          "...Qe1#ですぐ詰ませる"
+          "黒クイーンはd5に留まりc3ナイトの攻撃を受け続ける"
         ],
         "explanation": "...Qa5でクイーンを安全な場所へ退き、白のナイトの当たりを避ける。"
       },
       "en": {
         "question": "How does Black respond to Nc3's attack on the queen in the example?",
         "options": [
-          "...Kxd5, capturing with the king",
+          "To retreat ...Qc6",
           "...Qa5, moving the queen away from the knight's attack",
-          "...Qe1# for immediate mate"
+          "Black's queen stays on d5 despite the attack from the knight on c3"
         ],
         "explanation": "Black plays ...Qa5, moving the queen away after White's developing knight attacked it."
       },
@@ -531,18 +531,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "キングス・インディアンで黒の...g6にはどんな展開の狙いがある？",
         "options": [
-          "a8のルークを昇格させる",
+          "...Be7を準備",
           "...Bg7とフィアンケットして長い対角線へビショップを置く",
-          "f6のナイトを無理に失う"
+          "...Ng8を準備"
         ],
         "explanation": "...g6はビショップをg7へ出す道を用意する。中央はあとからポーンで反撃する考え方じゃ。"
       },
       "en": {
         "question": "Why does Black play ...g6 in the King's Indian Defense?",
         "options": [
-          "To promote the rook on a8",
+          "To prepare ...Be7",
           "To prepare ...Bg7 and fianchetto the bishop on a long diagonal",
-          "To deliberately lose the f6-knight"
+          "To prepare ...Ng8"
         ],
         "explanation": "The move ...g6 prepares development of the bishop to g7, while Black plans later central counterplay."
       },
@@ -563,8 +563,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "黒がキングを...O-Oで囲ったあと、教材で行う中央への反撃は？",
         "options": [
-          "...b5でビショップを取る",
-          "...Qxd4で白キングを捕まえる",
+          "...c5で取る",
+          "...f5と指して白キングへ一手で王手する反撃",
           "...e5で白の広い中央に挑む"
         ],
         "explanation": "黒は...d6と...O-Oを経て、...e5で白のe4・d4の中央に圧力をかける。"
@@ -572,8 +572,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "After Black castles with ...O-O, what central counterstrike follows in the lesson?",
         "options": [
-          "...b5 to capture a bishop",
-          "...Qxd4 to capture White's king",
+          "To capture via ...c5",
+          "Black answers with ...f5, giving an immediate check against White's king",
           "...e5 to challenge White's broad center"
         ],
         "explanation": "After building up and castling, Black eventually plays ...e5 to challenge the central pawn structure."
@@ -603,8 +603,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "イングリッシュの1.c4が側面から攻撃する中央のマスは？",
         "options": [
-          "e5",
-          "f7",
+          "c5",
+          "c4の白ポーンはc5にいる相手の駒だけを攻撃する",
           "d5"
         ],
         "explanation": "c4の白ポーンは斜め前のd5を利かせる。e4やd4へ最初からポーンを置かない中央への働きかけじゃ。"
@@ -612,8 +612,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "Which central square is attacked by the pawn after 1.c4 in the English?",
         "options": [
-          "e5",
-          "f7",
+          "e4",
+          "The pawn on c4 attacks only an enemy piece directly ahead on c5",
           "d5"
         ],
         "explanation": "The pawn on c4 attacks d5 diagonally, contesting the center from the flank."
@@ -630,18 +630,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "教材で黒が...d5で中央を広げたら、白はどう応じる？",
         "options": [
-          "cポーンをc3へ戻す",
+          "c3へ戻す",
           "cxd5でd5の黒ポーンを取る",
-          "白キングをd5へ進める"
+          "白はc4からe6へ2マス斜めに進んで取り返す"
         ],
         "explanation": "白はc4からd5へポーンを進めて...d5の黒ポーンを取る。掲載された交換手順の一例じゃ。"
       },
       "en": {
         "question": "If Black expands with ...d5 in the lesson, what does White do?",
         "options": [
-          "Retreat the c-pawn to c3",
+          "To retreat to c3",
           "Capture the pawn on d5 with cxd5",
-          "Move White's king to d5"
+          "White's pawn on c4 captures diagonally two squares away on e6"
         ],
         "explanation": "White captures from c4 to d5 with cxd5, the chosen central exchange in the displayed line."
       },
@@ -668,8 +668,8 @@ const OPENING_REASONING = {
         "question": "キングス・ギャンビットの2.f4は何を攻撃する？",
         "options": [
           "黒のe5ポーン",
-          "黒キングe8を直接取る",
-          "黒クイーンd8をただで取る"
+          "d5ポーン",
+          "白のf4ポーンは黒のf7ポーンを同じ筋から攻撃する"
         ],
         "explanation": "f4の白ポーンはe5を攻撃する。中央を開いて主導権を狙う積極的な選択じゃ。"
       },
@@ -677,8 +677,8 @@ const OPENING_REASONING = {
         "question": "What does the move 2.f4 attack in the King's Gambit?",
         "options": [
           "Black's pawn on e5",
-          "Black's king on e8 for capture",
-          "Black's queen on d8 for free"
+          "The d5-pawn",
+          "The pawn on f4 attacks Black's f7-pawn along the same file"
         ],
         "explanation": "The pawn on f4 attacks e5, offering a sharp fight over the center."
       },
@@ -696,18 +696,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "この教材の黒は2.f4のポーンをすぐ取る代わりにどう応じる？",
         "options": [
-          "...exf4でギャンビットを受ける",
+          "...Nc6で取る",
           "...Bc5でビショップを展開して拒否する",
-          "...Qh4#で確実に詰ませる"
+          "...d6で取る"
         ],
         "explanation": "黒は...Bc5と出てギャンビットを受けず、ビショップを活動させる変化を選ぶ。"
       },
       "en": {
         "question": "In the example, how does Black decline the offered pawn after 2.f4?",
         "options": [
-          "By accepting with ...exf4",
+          "To capture via ...Nc6",
           "By developing with ...Bc5 instead of taking the pawn",
-          "By forcing immediate mate with ...Qh4#"
+          "To capture via ...d6"
         ],
         "explanation": "Black chooses ...Bc5, developing the bishop instead of capturing the f4-pawn."
       },
@@ -728,18 +728,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "ウィーン・ゲームで2.Nc3を先に指す意図は？",
         "options": [
-          "fポーンを昇格させる",
+          "e5をすぐ取る",
           "ナイトを展開し、後のf4による攻めを選択肢に残す",
-          "中央ポーンを全部捨てる"
+          "次にO-Oを完了"
         ],
         "explanation": "白はナイトをc3へ出して中央を支え、次にf4と動く計画を残す。"
       },
       "en": {
         "question": "Why does White develop with 2.Nc3 in the Vienna Game?",
         "options": [
-          "To promote the f-pawn",
+          "To capture e5 now",
           "To develop while keeping f4 as a possible later break",
-          "To sacrifice every central pawn"
+          "To castle O-O"
         ],
         "explanation": "White develops the knight and retains the option of a later pawn thrust with f4."
       },
@@ -757,8 +757,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白のf4に対する黒の...d5は何を狙った応手？",
         "options": [
-          "ただちに白キングを詰ます",
-          "dポーンで黒ビショップを取る",
+          "f4を取るため",
+          "黒は...d5で白ナイトc3を取ってから中央に出る",
           "中央で反撃し、白に自由な攻めをさせない"
         ],
         "explanation": "黒は...d5と中央で切り返す。教材ではこれがf4に対する一つの受け方として示される。"
@@ -766,8 +766,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "What is the point of Black's ...d5 after White plays f4?",
         "options": [
-          "To checkmate the king immediately",
-          "To capture Black's own bishop with the d-pawn",
+          "To capture f4",
+          "Black plays ...d5 to capture the knight on c3 before central play",
           "To strike back in the center rather than allow a free attack"
         ],
         "explanation": "Black counters in the center with ...d5. This is a concrete reply to f4 in the shown Vienna variation."
@@ -791,18 +791,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "ペトロフの2...Nf6は、黒のe5ポーンを守る代わりに何をする？",
         "options": [
-          "白のd4をポーンで取る",
+          "白ナイトf3を取る",
           "白のe4ポーンを黒ナイトで攻撃する",
-          "白キングをただちにチェックする"
+          "黒ナイトf6は黒のe5ポーンを守るためだけに出る"
         ],
         "explanation": "黒はe5を直接守らず、...Nf6で白のe4を攻撃し返す。対称的なカウンターじゃ。"
       },
       "en": {
         "question": "What does 2...Nf6 do in the Petrov instead of defending e5 directly?",
         "options": [
-          "Capture White's d4-pawn with a pawn",
+          "To capture the f3-knight",
           "Attack White's e4-pawn with Black's knight",
-          "Give immediate check to White's king"
+          "Black develops the knight only to protect the pawn on e5"
         ],
         "explanation": "The black knight on f6 attacks the e4-pawn rather than directly guarding e5."
       },
@@ -821,8 +821,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白がNxe5とe5のポーンを取ったあと、教材で黒が選ぶ手は？",
         "options": [
-          "すぐ...Nxe4で取り返すだけ",
-          "...Qh4#で詰ませる",
+          "...Nc6で守る",
+          "...f6で支える",
           "...d6でe5ナイトを追い、次にe4を取り返す準備をする"
         ],
         "explanation": "まず...d6でe5のナイトを攻撃し、退いたあとに...Nxe4で取り返す手順じゃ。"
@@ -830,8 +830,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "After White plays Nxe5 in the Petrov, what is Black's shown reply?",
         "options": [
-          "Always ...Nxe4 immediately",
-          "...Qh4# for checkmate",
+          "To defend via ...Nc6",
+          "To protect with ...f6",
           "...d6, attacking the knight on e5 before recapturing e4"
         ],
         "explanation": "Black first plays ...d6 to drive away the knight, then recaptures e4 after it retreats."
@@ -858,8 +858,8 @@ const OPENING_REASONING = {
         "question": "ロンドン・システムのBf4を指す狙いは？",
         "options": [
           "ビショップをc1からf4へ早めに展開し、中央へ働かせる",
-          "白キングをf4へ出す",
-          "白ポーンをその場で昇格させる"
+          "d5をすぐ取る",
+          "e8王に王手する"
         ],
         "explanation": "ロンドンではd4・Nf3・Bf4が代表的な駒組み。Bf4でビショップを外へ出す。"
       },
@@ -867,8 +867,8 @@ const OPENING_REASONING = {
         "question": "Why does White play Bf4 in the London System?",
         "options": [
           "To develop the bishop from c1 to f4 and influence central squares",
-          "To move White's king to f4",
-          "To promote a pawn on the spot"
+          "To capture d5",
+          "To check the king e8"
         ],
         "explanation": "The London commonly develops the bishop to f4 early, alongside d4 and Nf3."
       },
@@ -888,18 +888,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白のBf4のあと、黒は...c5で中央へ挑める？",
         "options": [
-          "いいえ、cポーンは進めない",
+          "d4に利かない",
           "はい。...c5は合法で、d4の白ポーンを攻撃する",
-          "いいえ、Bf4を指すと黒は自動的に負ける"
+          "...c5でf4を狙う"
         ],
         "explanation": "Bf4は黒の応手を封じるわけではない。この局面では...c5が合法でd4に圧力をかける。"
       },
       "en": {
         "question": "Can Black challenge the London with ...c5 after White's Bf4?",
         "options": [
-          "No, Black's c-pawn cannot move",
+          "No attack on d4",
           "Yes: ...c5 is legal and attacks White's pawn on d4",
-          "No, Bf4 automatically wins the game"
+          "To target bishop f4"
         ],
         "explanation": "The London setup does not prevent counterplay. Black can legally play ...c5 to attack d4 in this position."
       },
@@ -922,8 +922,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "スラヴの...c6は主にどの黒ポーンを支える？",
         "options": [
-          "e7のポーン",
-          "h7のポーン",
+          "e5ポーン",
+          "c6ポーンはc4の白ポーンをまっすぐ攻撃するためにある",
           "d5のポーン"
         ],
         "explanation": "c6に黒ポーンを置くと、斜め前のd5を守れる。スラヴの堅実な中央構造じゃ。"
@@ -931,8 +931,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "Which black pawn is supported by ...c6 in the Slav Defense?",
         "options": [
-          "The pawn on e7",
-          "The pawn on h7",
+          "Pawn on e5",
+          "Black's pawn on c6 attacks White's pawn on c4 directly ahead",
           "The pawn on d5"
         ],
         "explanation": "The pawn on c6 guards d5, reinforcing Black's central pawn."
@@ -953,8 +953,8 @@ const OPENING_REASONING = {
         "question": "...c6のあと白がcxd5と取ったら、黒はどう取り返せる？",
         "options": [
           "c6ポーンで...cxd5と取る",
-          "黒キングで...Kxd5と取る",
-          "...Qxd5#でチェックメイトする"
+          "...Qxd5で取る",
+          "黒はe7のポーンをd6へ進めてd5ポーンを取り返す"
         ],
         "explanation": "黒はc6のポーンでd5を取り返せる。c6によるポーンの守りが盤面で分かる変化じゃ。"
       },
@@ -962,8 +962,8 @@ const OPENING_REASONING = {
         "question": "If White plays cxd5 after ...c6, how can Black recapture?",
         "options": [
           "With the c6-pawn: ...cxd5",
-          "With the king: ...Kxd5",
-          "With ...Qxd5# for mate"
+          "To recapture ...Qxd5",
+          "Black advances the e7-pawn to d6 to recapture White's pawn on d5"
         ],
         "explanation": "Black can recapture on d5 using the pawn from c6, demonstrating the central pawn support."
       },
@@ -987,8 +987,8 @@ const OPENING_REASONING = {
         "question": "ニムゾ・インディアンの...Bb4はなぜc3ナイトをピンする？",
         "options": [
           "ナイトが動くとビショップb4から白キングe1への対角線が開くから",
-          "ビショップがナイトの動きを飛び越えるから",
-          "黒のキングがナイトを取るから"
+          "ビショップb4はd2ポーンの後ろの白クイーンd1を狙うから",
+          "ナイトc3がキングを守っているため、どの白ポーンも動けないから"
         ],
         "explanation": "c3のナイトはb4のビショップとe1のキングの間にいる。キングを王手にさらす移動はできない。"
       },
@@ -996,8 +996,8 @@ const OPENING_REASONING = {
         "question": "Why does ...Bb4 pin the c3-knight in the Nimzo-Indian?",
         "options": [
           "Moving the knight exposes the diagonal from the bishop on b4 to White's king on e1",
-          "The bishop can jump over the knight",
-          "Black's king can capture the knight"
+          "The bishop on b4 attacks the queen on d1 behind the pawn on d2",
+          "The knight on c3 protects the king so none of White's pawns may move"
         ],
         "explanation": "The knight on c3 lies between the bishop on b4 and the king on e1, restricting its legal moves."
       },
@@ -1018,8 +1018,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "白がa3でb4のビショップを攻撃し、黒が...Bxc3+でナイトを取ったら、白は？",
         "options": [
-          "白キングでKxc3と取り返す",
-          "白ポーンd4でdxc3と取る",
+          "dxc3で取り返す",
+          "白はクイーンd1でc2を通りc3のビショップを取る",
           "bポーンでbxc3と取り返すことができる"
         ],
         "explanation": "b2の白ポーンはc3へ斜めに進んでビショップを取り返せる。ナイトのピンと交換の一例じゃ。"
@@ -1027,8 +1027,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "If White plays a3 and Black captures the knight with ...Bxc3+, how can White recapture?",
         "options": [
-          "With the king: Kxc3",
-          "With the d4-pawn: dxc3",
+          "To recapture dxc3",
+          "White's queen travels via c2 to c3 to recapture the bishop",
           "With the b-pawn: bxc3"
         ],
         "explanation": "The pawn from b2 can recapture the bishop on c3, leaving a changed pawn structure."
@@ -1055,18 +1055,18 @@ const OPENING_REASONING = {
       "ja": {
         "question": "ダッチの初手...f5で黒ポーンが利かせる中央のマスは？",
         "options": [
-          "d4",
+          "c4",
           "e4",
-          "c4"
+          "黒ポーンf5は白のg3マスだけを狙いe4には利かない"
         ],
         "explanation": "黒ポーンf5は斜め前のe4を攻撃する。一方、fポーンを動かすとキング周辺の守りにも影響する。"
       },
       "en": {
         "question": "Which central square does the pawn attack after ...f5 in the Dutch?",
         "options": [
-          "d4",
+          "g3",
           "e4",
-          "c4"
+          "The f5-pawn attacks g3 alone and has no influence over e4"
         ],
         "explanation": "The pawn on f5 attacks e4, although moving the f-pawn also changes king-side defenses."
       },
@@ -1083,8 +1083,8 @@ const OPENING_REASONING = {
       "ja": {
         "question": "この教材で黒が...Nf6も指したとき、f5ポーンとf6ナイトが共に攻撃するマスは？",
         "options": [
-          "h7",
-          "c4",
+          "f4",
+          "f6ナイトがd4、f5ポーンがg4を攻撃し目標は別々",
           "e4"
         ],
         "explanation": "f5のポーンもf6のナイトも、どちらもe4を攻撃する。中央の同じマスへ駒を集める形じゃ。"
@@ -1092,8 +1092,8 @@ const OPENING_REASONING = {
       "en": {
         "question": "After ...Nf6 in the Dutch example, which square is attacked by both the f5-pawn and the f6-knight?",
         "options": [
-          "h7",
           "c4",
+          "The knight on f6 targets d4 while the f5-pawn targets g4 instead",
           "e4"
         ],
         "explanation": "Both the pawn on f5 and knight on f6 attack e4, concentrating pressure on a central square."

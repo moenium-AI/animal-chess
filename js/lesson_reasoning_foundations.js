@@ -7,18 +7,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "e4というマス名の意味は？",
         "options": [
-          "e列の2段目",
+          "e列の5段目",
           "e列の4段目",
-          "4列のe段目"
+          "白から数えた4番目の縦の列を指す記号"
         ],
         "explanation": "英字は列、数字は段。e4はe列の4段目じゃ。"
       },
       "en": {
         "question": "What is square e4?",
         "options": [
-          "File e, rank 2",
+          "File e, rank 5",
           "File e, rank 4",
-          "File 4, rank e"
+          "The fourth file counted from White's left side"
         ],
         "explanation": "File letters a–h come before rank numbers 1–8."
       },
@@ -33,8 +33,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "初期配置からe4へ2マス進めるのは？",
         "options": [
-          "後ろへも進めるから",
-          "相手の駒を飛び越えるから",
+          "e3を飛び越すから",
+          "e3へ進んだあと続けてもう一手指せるから",
           "最初のポーンの手で、途中も空いているから"
         ],
         "explanation": "e2のポーンは最初だけe3とe4が空なら2マス進める。"
@@ -42,8 +42,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why may the e-pawn initially advance to e4?",
         "options": [
-          "It may move backwards",
-          "It can jump enemy pieces",
+          "By jumping over e3",
+          "The pawn makes a second move immediately after reaching e3",
           "It is the first pawn move and both squares are clear"
         ],
         "explanation": "A pawn can make a two-square first move along a clear file."
@@ -61,8 +61,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "d2のポーンがd4まで進めるのは？",
         "options": [
-          "いつでも2マス進めるから",
-          "斜めに相手の駒があるから",
+          "d3の駒を取るから",
+          "途中の駒も跳べるから",
           "初回の手でd3・d4が空いているから"
         ],
         "explanation": "ポーンの2マス前進は初期位置からの最初の手だけ。"
@@ -70,8 +70,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why can the pawn advance from d2 to d4?",
         "options": [
-          "It can always advance two",
-          "It captures diagonally",
+          "To capture on d3",
+          "It can jump over d3",
           "It is the pawn's first move and d3 and d4 are clear"
         ],
         "explanation": "The initial two-square pawn move requires a clear path."
@@ -88,8 +88,8 @@ const FOUNDATION_REASONING = {
         "question": "d4のポーンはd2へ戻れる？",
         "options": [
           "いいえ、ポーンは後退できない",
-          "はい、最初だけ戻れる",
-          "d2に相手の駒があれば戻れる"
+          "d3へは戻れる",
+          "斜め後ろなら取れる"
         ],
         "explanation": "ポーンは後ろに進めない。"
       },
@@ -97,8 +97,8 @@ const FOUNDATION_REASONING = {
         "question": "Can the d4-pawn retreat to d2?",
         "options": [
           "No, pawns cannot move backward",
-          "Yes, once",
-          "Yes, to capture a piece there"
+          "It may retreat to d3",
+          "Capture diagonally back"
         ],
         "explanation": "Pawns cannot retreat."
       },
@@ -116,8 +116,8 @@ const FOUNDATION_REASONING = {
         "question": "Ra8+でルークはどう動く？",
         "options": [
           "a筋を縦に進む",
-          "斜めに進む",
-          "L字に跳ぶ"
+          "a筋を斜めに",
+          "a2からa8へ斜めのマスを順に渡って進む"
         ],
         "explanation": "ルークは縦横へ直進する。a2からa8は同じ筋じゃ。"
       },
@@ -125,8 +125,8 @@ const FOUNDATION_REASONING = {
         "question": "How does the rook travel in Ra8+?",
         "options": [
           "Along the a-file",
-          "Diagonally",
-          "In an L jump"
+          "Diagonally up file a",
+          "It follows a diagonal path of clear squares from a2 to a8"
         ],
         "explanation": "Rooks move along files and ranks."
       },
@@ -141,18 +141,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Ra8+の「+」は何を表す？",
         "options": [
-          "昇格",
+          "黒キングに詰み",
           "黒キングe8への王手",
-          "必ずチェックメイト"
+          "ルークが黒キングのいるマスまで進めることを示す印"
         ],
         "explanation": "a8のルークが8段目のキングに王手している。"
       },
       "en": {
         "question": "What does '+' mean in Ra8+?",
         "options": [
-          "Promotion",
+          "Black is checkmated",
           "Check on the king at e8",
-          "Guaranteed checkmate"
+          "It indicates the rook may move directly onto the king's square"
         ],
         "explanation": "The rook on a8 checks along the eighth rank."
       },
@@ -169,18 +169,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "e4で白ビショップf1の道が開くのは？",
         "options": [
-          "ポーンがビショップになるから",
+          "e4ポーンがf1を守る",
           "e2ポーンが動いて対角線が空くから",
-          "ビショップが駒を飛び越すから"
+          "ポーンと場所を交換"
         ],
         "explanation": "e2が空いたのでf1のビショップはe2・d3を通りc4へ進める。"
       },
       "en": {
         "question": "Why does e4 free the f1-bishop?",
         "options": [
-          "The pawn becomes a bishop",
+          "The e4-pawn defends f1",
           "The e2-pawn vacates the diagonal",
-          "The bishop jumps over pawns"
+          "The pawn swaps places"
         ],
         "explanation": "The move clears the diagonal from f1."
       },
@@ -197,8 +197,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Bc4はどのように移動する手？",
         "options": [
-          "横へ3マス",
-          "縦へ2マス",
+          "e2ポーンを飛び越す",
+          "途中の駒を飛び越す",
           "f1から空いた対角線をc4へ進む"
         ],
         "explanation": "ビショップは斜めへ進み、駒は飛び越せない。"
@@ -206,8 +206,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "How does Bc4 travel from f1?",
         "options": [
-          "Three squares sideways",
-          "Two squares vertically",
+          "Jump over the e2-pawn",
+          "It jumps over a piece",
           "Along the clear diagonal to c4"
         ],
         "explanation": "A bishop slides diagonally without jumping."
@@ -227,8 +227,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Nf3でg1のナイトはどう移動する？",
         "options": [
-          "同じ筋を直進",
-          "斜めに3マス",
+          "縦1・横2の直進",
+          "g1からf2を通過してそのままf3へ進む",
           "縦2・横1のL字"
         ],
         "explanation": "ナイトはL字に跳ぶ。"
@@ -236,8 +236,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "How does a knight move from g1 to f3?",
         "options": [
-          "Along a file",
-          "Three diagonal squares",
+          "One square straight",
+          "It passes through f2 before taking one more step to f3",
           "An L: two squares one way and one across"
         ],
         "explanation": "Knights use an L-shaped move."
@@ -254,8 +254,8 @@ const FOUNDATION_REASONING = {
         "question": "初期配置でもNf3が可能なのは？",
         "options": [
           "ナイトは途中の駒を飛び越えられるから",
-          "味方のポーンを取るから",
-          "キングがすでに王手だから"
+          "f2ポーンを取って進む",
+          "味方の駒にも着地できる"
         ],
         "explanation": "ナイトは途中の駒に邪魔されず跳べる。"
       },
@@ -263,8 +263,8 @@ const FOUNDATION_REASONING = {
         "question": "Why can Nf3 be played in the initial position?",
         "options": [
           "Knights can jump over pieces",
-          "It captures its own pawn",
-          "Black is already in check"
+          "Capture the f2-pawn first",
+          "It may land on allies"
         ],
         "explanation": "Knights may jump over occupied intervening squares."
       },
@@ -281,18 +281,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Qe2+でクイーンがa2からe2に行けるのは？",
         "options": [
-          "L字に跳ぶから",
+          "a2からe2へ斜め移動",
           "2段目を横に進めるから",
-          "前に一歩だけ動くから"
+          "a2からe2の間に白の駒がいても通り抜けられるから"
         ],
         "explanation": "クイーンは縦横斜めの空いた線を進む。"
       },
       "en": {
         "question": "Why is the queen move from a2 to e2 legal?",
         "options": [
-          "Queens jump in an L",
+          "A diagonal move to e2",
           "Queens travel along an open rank",
-          "Queens only move one square"
+          "It may cross occupied squares on the second rank without stopping"
         ],
         "explanation": "Queens slide along unobstructed ranks, files and diagonals."
       },
@@ -307,8 +307,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Qe2+が王手になる理由は？",
         "options": [
-          "黒キングがクイーンを取れるから",
-          "a8を攻撃するから",
+          "f3方向への斜め王手",
+          "王を守るだけで王手",
           "e筋を通して黒キングe8を攻撃するから"
         ],
         "explanation": "e2からe8への線が空いている。"
@@ -316,8 +316,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why does Qe2+ check Black?",
         "options": [
-          "The king can capture it",
-          "The queen attacks a8",
+          "Check along the f3 diagonal",
+          "Defending White gives check",
           "It attacks the king along the e-file"
         ],
         "explanation": "The queen on e2 checks the king on e8."
@@ -336,8 +336,8 @@ const FOUNDATION_REASONING = {
         "question": "Kd2でe1のキングは何マス進む？",
         "options": [
           "斜め隣へ1マス",
-          "縦に3マス",
-          "ナイトのL字"
+          "d1を経由して進む",
+          "キングがe1からd2へ移るには途中に駒が必要"
         ],
         "explanation": "キングは隣のマスへ1歩進む。"
       },
@@ -345,8 +345,8 @@ const FOUNDATION_REASONING = {
         "question": "How does the king move in Kd2?",
         "options": [
           "One diagonally adjacent square",
-          "Three squares up",
-          "An L jump"
+          "Via d1 and then d2",
+          "A king can reach d2 only by passing through an occupied square"
         ],
         "explanation": "Kings move one square at a time."
       },
@@ -361,8 +361,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "キングがd2へ行く前に確認するのは？",
         "options": [
-          "黒ポーンをすべて取ったか",
-          "白クイーンがあるか",
+          "d2を味方が守るか",
+          "d2から次の手に敵のクイーンを取れるかどうか",
           "d2が敵の利きに入っていないか"
         ],
         "explanation": "キングは王手になるマスへ動けない。"
@@ -370,8 +370,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "What must be checked before Kd2?",
         "options": [
-          "All black pawns captured",
-          "White queen exists",
+          "If a friend guards d2",
+          "Whether moving to d2 creates an attack on the enemy queen next turn",
           "d2 is not attacked by Black"
         ],
         "explanation": "A king may never move into check."
@@ -389,18 +389,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "exd5でポーンがd5を取れるのは？",
         "options": [
-          "まっすぐ前へ取るから",
+          "d5が空でも取れる",
           "斜め前の敵駒を取れるから",
-          "後退して取るから"
+          "e4のポーンがd5の駒を飛び越えてd6の駒を取るから"
         ],
         "explanation": "ポーンは移動は前、捕獲は斜め前じゃ。"
       },
       "en": {
         "question": "Why is exd5 a legal pawn capture?",
         "options": [
-          "Pawns capture straight",
+          "Capture an empty d5",
           "Pawns capture diagonally forward",
-          "Pawns capture backward"
+          "The pawn on e4 jumps over d5 to capture an enemy piece on d6"
         ],
         "explanation": "A pawn captures diagonally forward."
       },
@@ -416,8 +416,8 @@ const FOUNDATION_REASONING = {
         "question": "exd5のあとd5にいるのは？",
         "options": [
           "白ポーン。黒ポーンは取られた",
-          "黒ポーンのまま",
-          "両方のポーン"
+          "白ポーンはe4に残る",
+          "黒ポーンはe4へ戻る"
         ],
         "explanation": "白ポーンがd5へ進み、黒ポーンは取り除かれる。"
       },
@@ -425,8 +425,8 @@ const FOUNDATION_REASONING = {
         "question": "What occupies d5 after exd5?",
         "options": [
           "A white pawn; the black pawn is gone",
-          "Still the black pawn",
-          "Both pawns"
+          "White stays on e4",
+          "Black's pawn returns e4"
         ],
         "explanation": "The capturing pawn replaces the captured pawn."
       },
@@ -443,8 +443,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Re2+が王手になる理由は？",
         "options": [
-          "ルークが斜めに跳ぶから",
-          "白キングがe8へ行くから",
+          "e2から斜めに王手",
+          "2段目の横から王手",
           "ルークe2が同じe筋の黒キングを攻撃するから"
         ],
         "explanation": "ルークe2からe8への縦の利きで王手になる。"
@@ -452,8 +452,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why does Re2+ give check?",
         "options": [
-          "The rook jumps diagonally",
-          "White's king moves to e8",
+          "A diagonal check from e2",
+          "A check along rank two",
           "The rook attacks Black's king along the e-file"
         ],
         "explanation": "The rook gives check up the e-file."
@@ -469,18 +469,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "王手を受けた黒が必ずすべきことは？",
         "options": [
-          "王手を無視してポーンを進める",
+          "先に王手を返せる",
           "合法手で王手を解消する",
-          "白キングを直接取る"
+          "黒キングが守られていれば王手を受けたままでも指せる"
         ],
         "explanation": "王手を放置する手は違法じゃ。"
       },
       "en": {
         "question": "What must Black do when in check?",
         "options": [
-          "Ignore the check",
+          "Give countercheck first",
           "Make a legal move resolving the check",
-          "Capture the white king"
+          "A defended king may remain in check while Black makes another move"
         ],
         "explanation": "The next move must remove check."
       },
@@ -498,8 +498,8 @@ const FOUNDATION_REASONING = {
         "question": "Qh4#の「#」が意味するのは？",
         "options": [
           "王手を回避できないチェックメイト",
-          "昇格",
-          "ルークの交換"
+          "受けが残る王手",
+          "Qを取れるという印"
         ],
         "explanation": "黒クイーンの王手を白は合法的に防げない。"
       },
@@ -507,8 +507,8 @@ const FOUNDATION_REASONING = {
         "question": "What does the '#' in Qh4# mean?",
         "options": [
           "Checkmate with no legal escape",
-          "Promotion",
-          "Rook exchange"
+          "Check with a reply",
+          "It means a queen capture"
         ],
         "explanation": "White cannot legally escape the queen's check."
       },
@@ -527,18 +527,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "白のf3・g4が危険だったのは？",
         "options": [
-          "すでにキングを囲えていたから",
+          "f3とg4で王を守る",
           "キング周りのポーンを動かしQh4#を許したから",
-          "黒キングがe4に来たから"
+          "白Qの利きを強める"
         ],
         "explanation": "f・gポーンを進めるとキングの対角線が弱くなる。"
       },
       "en": {
         "question": "Why were f3 and g4 dangerous?",
         "options": [
-          "They safely castled",
+          "The pawns guard the king",
           "They exposed king-side diagonals and Qh4#",
-          "Black's king reached e4"
+          "They protect White's queen"
         ],
         "explanation": "Early pawn moves left White's king exposed."
       },
@@ -559,8 +559,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "a8=Q+の「=Q」が表すのは？",
         "options": [
-          "ポーン捕獲",
-          "クイーンの移動",
+          "a8のクイーンを取る",
+          "ポーンがa8に着いたあと次の手でクイーンに変わること",
           "aポーンがクイーンに昇格"
         ],
         "explanation": "8段目でポーンがクイーンに変わる。"
@@ -568,8 +568,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "What does '=Q' signify in a8=Q+?",
         "options": [
-          "Capture",
-          "Queen move",
+          "Capture a queen on a8",
+          "The pawn reaches a8 but must wait until the next turn to become a queen",
           "Promotion of the a-pawn to a queen"
         ],
         "explanation": "The pawn promotes upon reaching rank eight."
@@ -585,18 +585,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "a8=Q+の「+」は？",
         "options": [
-          "対局終了の印",
+          "詰みを示す記号",
           "昇格したクイーンによる王手",
-          "ポーンを2枚取った印"
+          "黒王は逃げられず詰み"
         ],
         "explanation": "新しいクイーンが8段目の黒キングe8へ王手する。"
       },
       "en": {
         "question": "What does '+' signify after a8=Q?",
         "options": [
-          "Game over",
+          "Checkmate symbol",
           "The promoted queen gives check",
-          "Two pawns captured"
+          "It means unavoidable mate"
         ],
         "explanation": "Promotion gives check here but not necessarily mate."
       },
@@ -613,18 +613,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "黒の...d5直後にexd6ができるのは？",
         "options": [
-          "黒ポーンがd6に止まるから",
+          "黒ポーンはd6に来た",
           "黒がd7からd5へ2マス進み白のe5ポーンの隣に来たから",
-          "白ポーンが後退するから"
+          "黒が2マス進む前から、白には好きな手番で取る権利があるから"
         ],
         "explanation": "直前の2マス前進だけに使えるアンパッサンじゃ。"
       },
       "en": {
         "question": "Why may White play exd6 just after ...d5?",
         "options": [
-          "Black stopped on d6",
+          "Black first reached d6",
           "Black's pawn moved two squares next to White's e5-pawn",
-          "White retreats"
+          "The right to capture remains available on any later turn after ...d5"
         ],
         "explanation": "En passant is allowed immediately after the adjacent double pawn move."
       },
@@ -640,8 +640,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "アンパッサンexd6のあと黒ポーンd5は？",
         "options": [
-          "d5に残る",
-          "d6で昇格する",
+          "黒ポーンはd5に残る",
+          "黒ポーンはd6に戻る",
           "d5から取り除かれ白ポーンがd6へ着く"
         ],
         "explanation": "通常の斜め捕獲と異なり、捕まる黒ポーンはd5にいた。"
@@ -649,8 +649,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Where is the black pawn after exd6 en passant?",
         "options": [
-          "Still on d5",
-          "Promoted on d6",
+          "Black stays on d5",
+          "Black's pawn returns d6",
           "Removed from d5 while White reaches d6"
         ],
         "explanation": "En passant captures the pawn from its passed square."
@@ -669,18 +669,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "e4・d4で中央を占める狙いは？",
         "options": [
-          "ナイトをすべて禁止",
+          "ポーン交換で得をする",
           "空間を作り駒の働きを助ける",
-          "自動キャスリング"
+          "全駒が展開できない"
         ],
         "explanation": "中央を支配すると駒の活動範囲を広げやすい。"
       },
       "en": {
         "question": "Why play e4 and d4 in the center?",
         "options": [
-          "Ban all knights",
+          "Force a pawn exchange",
           "Gain space and help piece activity",
-          "Castle automatically"
+          "It blocks all development"
         ],
         "explanation": "Central pawns claim space for active pieces."
       },
@@ -699,8 +699,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "d4に黒が...exd4と取ったら？",
         "options": [
-          "白キングをe4へ",
-          "白クイーンを捨てる",
+          "Qxd4で取り返す",
+          "クイーンd1でd4を取り返してナイトを初期位置に残す",
           "Nxd4で取り返せる"
         ],
         "explanation": "f3ナイトがd4の黒ポーンを取れる。"
@@ -708,8 +708,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "After ...exd4, what can White play?",
         "options": [
-          "Ke4",
-          "Sacrifice the queen",
+          "Recapture with Qxd4",
+          "Recapture on d4 with the queen, leaving the knight undeveloped",
           "Nxd4 to recapture"
         ],
         "explanation": "The f3-knight can recapture on d4."
@@ -734,8 +734,8 @@ const FOUNDATION_REASONING = {
         "question": "Nf3が展開と攻撃を兼ねるのは？",
         "options": [
           "g1ナイトをf3へ出しe5を攻撃するから",
-          "キャスリングも同時にするから",
-          "ナイトが昇格するから"
+          "ナイトの王手だから",
+          "黒王に直接王手"
         ],
         "explanation": "駒を出しながら相手の中央ポーンへ圧力をかける。"
       },
@@ -743,8 +743,8 @@ const FOUNDATION_REASONING = {
         "question": "Why is Nf3 both development and attack?",
         "options": [
           "It moves the knight to f3 and attacks e5",
-          "It castles simultaneously",
-          "The knight promotes"
+          "The knight gives check",
+          "It protects e4"
         ],
         "explanation": "Developing the knight creates pressure on e5."
       },
@@ -761,18 +761,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "黒はNf3にどう対応してe5を守れる？",
         "options": [
-          "...Qh4#で必ず詰ませる",
+          "...Bc5でe5を守る",
           "...Nc6で守りつつ展開する",
-          "黒キングでe5を取る"
+          "e5ポーンを戻す"
         ],
         "explanation": "ナイトc6がe5を守る。"
       },
       "en": {
         "question": "How can Black defend e5 after Nf3?",
         "options": [
-          "Guaranteed ...Qh4#",
+          "Protect e5 with ...Bc5",
           "Develop ...Nc6 to protect e5",
-          "Capture e5 with the king"
+          "Retreat the pawn on e5"
         ],
         "explanation": "Black can develop a defender on c6."
       },
@@ -792,8 +792,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "...Nc6がe5の黒ポーンを守るのは？",
         "options": [
-          "黒キングを取るから",
-          "ナイトがまっすぐ進むから",
+          "ナイトはe5へ進む",
+          "d4だけを守る",
           "c6ナイトがe5を利かせるから"
         ],
         "explanation": "c6のナイトはe5へL字の利きがある。"
@@ -801,8 +801,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why does ...Nc6 protect e5?",
         "options": [
-          "It captures its king",
-          "Knights move straight",
+          "The knight moves to e5",
+          "It only guards d4",
           "The knight on c6 guards e5"
         ],
         "explanation": "Knights defend squares they attack."
@@ -822,8 +822,8 @@ const FOUNDATION_REASONING = {
         "question": "...Nc6の守備以外の利点は？",
         "options": [
           "b8ナイトを展開できる",
-          "黒クイーンが昇格する",
-          "キングがワープする"
+          "d8クイーンが自由になる",
+          "ナイトc6によりa8ルークが中央のd5を直接守れる"
         ],
         "explanation": "駒を守るのと展開するのを同時にできる。"
       },
@@ -831,8 +831,8 @@ const FOUNDATION_REASONING = {
         "question": "What else does ...Nc6 accomplish?",
         "options": [
           "Develops the b8 knight",
-          "Promotes the queen",
-          "Teleports the king"
+          "The queen gains space",
+          "The knight on c6 lets the rook on a8 defend the pawn on d5 directly"
         ],
         "explanation": "It combines defense with development."
       },
@@ -852,18 +852,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "白がO-Oできる準備が整ったのは？",
         "options": [
-          "キングがg1にいたから",
+          "f1ビショップがまだいる",
           "ナイトとビショップを出しf1・g1が空いたから",
-          "黒を詰ませたから"
+          "黒が王手を禁じる"
         ],
         "explanation": "f1・g1の道が空き、キャスリングできる。"
       },
       "en": {
         "question": "Why can White castle O-O here?",
         "options": [
-          "The king started on g1",
+          "Bishop stays on f1",
           "Knight and bishop cleared f1 and g1",
-          "White delivered mate"
+          "Black prevents check"
         ],
         "explanation": "Kingside development cleared the route."
       },
@@ -884,8 +884,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "O-Oでh1ルークはどこへ？",
         "options": [
-          "d1",
-          "g1",
+          "ルークはh1に残る",
+          "h1のルークがg1へ行きキングはf1で止まる",
           "f1"
         ],
         "explanation": "キングはg1、ルークはf1に移る。"
@@ -893,8 +893,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Where does the h1-rook go after O-O?",
         "options": [
-          "d1",
-          "g1",
+          "The rook stays on h1",
+          "The rook goes to g1 and the king stops on f1 instead",
           "f1"
         ],
         "explanation": "The rook moves from h1 to f1."
@@ -919,8 +919,8 @@ const FOUNDATION_REASONING = {
         "question": "exd5のようなポーン交換の狙いは？",
         "options": [
           "中央の形を変えてラインを開く",
-          "自動的に詰み",
-          "全ポーンが昇格"
+          "中央が閉じるから",
+          "中央を完全に閉じる"
         ],
         "explanation": "交換後に駒の通り道が開くことがある。"
       },
@@ -928,8 +928,8 @@ const FOUNDATION_REASONING = {
         "question": "Why exchange central pawns with exd5?",
         "options": [
           "Change the structure and open lines",
-          "Automatic mate",
-          "Promote every pawn"
+          "To close the center",
+          "It closes the center"
         ],
         "explanation": "Pawn exchanges can open routes for pieces."
       },
@@ -946,18 +946,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "exd5のあと黒が...Qxd5と取れるのは？",
         "options": [
-          "キングを取れるから",
+          "黒は...e6で取り返す",
           "d8クイーンがd筋を進み白ポーンを取れるから",
-          "ナイトのように跳ぶから"
+          "eポーンで取る"
         ],
         "explanation": "ポーンを取っても黒が取り返せる。"
       },
       "en": {
         "question": "Why is ...Qxd5 legal after exd5?",
         "options": [
-          "It captures the king",
+          "Black recaptures ...e6",
           "The d8-queen takes the pawn along the d-file",
-          "The queen jumps like a knight"
+          "Capture with e-pawn"
         ],
         "explanation": "Black's queen can recapture on d5."
       },
@@ -977,18 +977,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Bg5でf6ナイトの後ろにある価値の高い駒は？",
         "options": [
-          "黒キングe8",
+          "黒ルークh8",
           "黒クイーンd8",
-          "白ルークa1"
+          "ビショップg5はf6を攻撃するが、その後ろの駒には利かない"
         ],
         "explanation": "ナイトはd8のクイーンへ対する相対ピン。キングのピンとは違う。"
       },
       "en": {
         "question": "Which piece is behind the knight pinned by Bg5?",
         "options": [
-          "Black king e8",
+          "Black's king on e8",
           "Black queen d8",
-          "White rook a1"
+          "The bishop attacks the knight but cannot influence the piece behind it"
         ],
         "explanation": "It is a relative pin to the queen, not the king."
       },
@@ -1010,8 +1010,8 @@ const FOUNDATION_REASONING = {
         "question": "黒が...Be7と指す意味は？",
         "options": [
           "ビショップを展開しナイトとクイーンの間へ置く",
-          "キングでビショップを取る",
-          "ナイトが昇格する"
+          "ナイトをe4へ逃がす",
+          "クイーンを前へ出す"
         ],
         "explanation": "e7にビショップを置き、ピンを和らげる。"
       },
@@ -1019,8 +1019,8 @@ const FOUNDATION_REASONING = {
         "question": "What does ...Be7 do against Bg5?",
         "options": [
           "Develop a bishop between knight and queen",
-          "King captures bishop",
-          "Knight promotes"
+          "The knight escapes to e4",
+          "Bring the queen forward"
         ],
         "explanation": "The bishop on e7 interrupts the diagonal behind the knight."
       },
@@ -1044,8 +1044,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "フォーク（二股）とは？",
         "options": [
-          "2枚の駒を一度に動かす",
-          "必ずチェックメイト",
+          "自分の2枚を守る手",
+          "相手のキングを王手して次の手をすべて禁止すること",
           "一つの駒が複数の相手の駒を同時に攻撃"
         ],
         "explanation": "ナイトが得意な複数目標への攻撃じゃ。"
@@ -1053,8 +1053,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "What is a fork?",
         "options": [
-          "Moving two pieces at once",
-          "Always checkmate",
+          "Defending two allies",
+          "Checking the king and preventing every possible reply next turn",
           "One piece attacking multiple enemy targets"
         ],
         "explanation": "Forks attack two or more targets."
@@ -1072,18 +1072,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "この教材のNf3はフォーク？",
         "options": [
-          "キングとクイーンのフォーク",
+          "王とクイーンへの二股",
           "いいえ。e5を攻撃するがフォークではない",
-          "ルーク2枚のフォーク"
+          "ルーク2枚も狙う"
         ],
         "explanation": "単なる攻撃とフォークは違う。"
       },
       "en": {
         "question": "Is Nf3 already a fork here?",
         "options": [
-          "Fork of king and queen",
+          "A king-queen fork",
           "No, it attacks e5 but not multiple targets",
-          "Fork of both rooks"
+          "It attacks both rooks"
         ],
         "explanation": "This move attacks the e5-pawn but is not yet a fork."
       },
@@ -1104,8 +1104,8 @@ const FOUNDATION_REASONING = {
         "question": "exd5ですぐ駒得とは言えないのは？",
         "options": [
           "黒が...Qxd5で取り返せるから",
-          "自動キャスリングだから",
-          "キングが逃げるから"
+          "黒キングが守るから",
+          "exd5と取ると白クイーンも自動的に交換されるから"
         ],
         "explanation": "交換の続きまで確認しよう。"
       },
@@ -1113,8 +1113,8 @@ const FOUNDATION_REASONING = {
         "question": "Why doesn't exd5 immediately gain material?",
         "options": [
           "Black can recapture with ...Qxd5",
-          "It castles",
-          "The king escapes"
+          "Defended by the king",
+          "Capturing on d5 automatically exchanges both queens as well"
         ],
         "explanation": "Check recaptures before claiming a gain."
       },
@@ -1132,8 +1132,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "...Qxd5のあと白のNc3は？",
         "options": [
-          "すぐ詰ませる",
-          "ポーンを昇格",
+          "Nc3はe4ポーンを守る",
+          "c3のナイトはd5のクイーンを守る側に回るため",
           "ナイトを展開しd5のクイーンを攻撃"
         ],
         "explanation": "黒クイーンに当てながら展開する手じゃ。"
@@ -1141,8 +1141,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "What is the idea of Nc3 after ...Qxd5?",
         "options": [
-          "Immediate mate",
-          "Promotion",
+          "Nc3 protects e4",
+          "The knight on c3 becomes a defender of Black's queen on d5",
           "Develop while attacking the queen on d5"
         ],
         "explanation": "The knight develops with a threat against the queen."
@@ -1164,18 +1164,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "白のf3・g4が危険なのは？",
         "options": [
-          "ナイトが強くなるから",
+          "白キングへの進路が開く",
           "キング周辺の守りを弱めQh4#を許すから",
-          "ルークが跳べるから"
+          "黒ビショップがf8に残るため白のキャスリングが妨げられるから"
         ],
         "explanation": "次の王手・詰みを読まないと危険じゃ。"
       },
       "en": {
         "question": "Why are White's f3 and g4 risky?",
         "options": [
-          "They empower knights",
+          "Open a route for White's king",
           "They expose the king and allow Qh4#",
-          "Rooks can jump"
+          "They allow Black's bishop on f8 to prevent White from ever castling"
         ],
         "explanation": "The pawn moves leave White vulnerable to mate."
       },
@@ -1195,8 +1195,8 @@ const FOUNDATION_REASONING = {
         "question": "g4の直後、黒の詰みの手は？",
         "options": [
           "...Qh4#",
-          "...O-O-O#",
-          "...Nxa1"
+          "...Nf6+で詰める",
+          "...Bc5+とビショップを出してから次に...Qh4を狙う"
         ],
         "explanation": "黒クイーンがh4へ出てチェックメイト。"
       },
@@ -1204,8 +1204,8 @@ const FOUNDATION_REASONING = {
         "question": "What checkmate does Black have after g4?",
         "options": [
           "...Qh4#",
-          "...O-O-O#",
-          "...Nxa1"
+          "Mate with ...Nf6+",
+          "Play ...Bc5+ as an immediate bishop check before aiming for ...Qh4"
         ],
         "explanation": "The black queen moves to h4 to deliver mate."
       },
@@ -1226,8 +1226,8 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Bc4が次の計画に役立つのは？",
         "options": [
-          "キングが同時に移動",
-          "クイーンがキングを取る",
+          "ルークも同時に動かす",
+          "ビショップをc4へ動かすと黒キングを直ちに王手できるから",
           "ビショップを出してキャスリングの道を開ける"
         ],
         "explanation": "ナイトとビショップを出せばO-Oの準備が整う。"
@@ -1235,8 +1235,8 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why is Bc4 a useful move in White's plan?",
         "options": [
-          "Moves the king",
-          "Queen captures the king",
+          "The rook moves too",
+          "Developing the bishop to c4 immediately checks Black's king on e8",
           "Develops a bishop and clears castling path"
         ],
         "explanation": "Developing the bishop clears f1 for castling."
@@ -1256,18 +1256,18 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "黒が...Bc5と指したあと、白のキングを守る手は？",
         "options": [
-          "白キングをe8へ",
+          "Kd2で王を中央へ",
           "O-Oとキャスリング",
-          "白ルークをh8へ"
+          "白キングをd2へ出して中央の白ポーンを直接守る"
         ],
         "explanation": "白はf1・g1が空いており、O-Oできる。"
       },
       "en": {
         "question": "How can White improve king safety after ...Bc5?",
         "options": [
-          "Move king to e8",
+          "Centralize with Kd2",
           "Castle O-O",
-          "Jump rook to h8"
+          "Activate White's king with Kd2 to defend the central pawns directly"
         ],
         "explanation": "Castling kingside is legal in the illustrated position."
       },
