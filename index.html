@@ -92,7 +92,15 @@
           <button id="btn-reason-defense" type="button" class="btn" aria-pressed="false" data-i18n="learn.reasonDefense">どう防ぐ？</button>
         </div>
         <p id="study-reasoning-question" class="study-reasoning-question"></p>
-        <div id="study-reasoning-options" class="study-reasoning-options" role="group"></div>
+        <div class="reasoning-position" aria-labelledby="study-reasoning-position-label">
+          <p id="study-reasoning-position-label" class="reasoning-position-label"></p>
+          <div id="study-reasoning-position-board" class="reasoning-position-board" role="img"></div>
+          <div class="reasoning-position-controls">
+            <button id="btn-reason-before" type="button" class="btn"></button>
+            <button id="btn-reason-after" type="button" class="btn" disabled></button>
+          </div>
+        </div>
+        <div id="study-reasoning-options" class="study-reasoning-options" role="group" aria-labelledby="study-reasoning-question"></div>
         <p id="study-reasoning-feedback" class="study-reasoning-feedback" role="status" aria-live="polite"></p>
         <p class="study-reasoning-caution" data-i18n="learn.reasonCaution">教材に登場する具体的な局面について考えよう。別の応手をすべて順位づけする問題ではありません。</p>
       </section>
@@ -255,6 +263,7 @@
 <script src="js/extra_lessons.js?v=1"></script>
 <script src="js/lesson_comparisons.js?v=3"></script>
 <script src="js/lesson_reasoning.js?v=3"></script>
+<script src="js/reasoning_positions.js?v=1"></script>
 <script src="js/lesson_reasoning_endgames.js?v=2"></script>
 <script src="js/lesson_reasoning_openings.js?v=2"></script>
 <script src="js/lesson_reasoning_foundations.js?v=2"></script>
@@ -262,6 +271,6 @@
 <script src="js/engine.js?v=20"></script>
 <script src="js/i18n.js?v=12"></script>
 <script src="js/learning.js?v=4"></script>
-<script src="js/app.js?v=30"></script>
+<script src="js/app.js?v=31"></script>
 </body>
 </html>
