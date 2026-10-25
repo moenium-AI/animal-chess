@@ -1172,6 +1172,7 @@ function enterStudy(study) {
   replay.notes = study.notes || [];
   replay.meta = study.meta || null;
   replay.annotation = study.annotation || null;
+  replay.comparison = 'main';
   replay.idx = 0;
   lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'replay';
@@ -1275,6 +1276,7 @@ function renderPracticeControls() {
 }
 function beginLessonPractice() {
   const data = currentLesson();
+  if (replay.comparison === 'other') chooseStudyComparison('main');
   const info = lessonPracticeInfo(data);
   if (!info) return;
   lessonPractice = { id: data.id, ply: info.ply,
@@ -1333,12 +1335,61 @@ function goToNextLesson() {
   loadAnnotated(next, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[next.cat] });
 }
 
+// Side-by-side study branches. They are curated variations, never a live
+// evaluation of all alternative moves. Both paths share the original Chess
+// implementation and are rebuilt from legal SAN on each navigation step.
+function currentComparison() {
+  const lesson = currentLesson();
+  return lesson && typeof LESSON_COMPARISONS !== 'undefined'
+    ? LESSON_COMPARISONS[lesson.id] || null : null;
+}
+function chooseStudyComparison(kind, idx = null) {
+  const data = currentLesson();
+  const compare = currentComparison();
+  if (!data || !compare || (kind !== 'main' && kind !== 'other')) return;
+  lessonPractice = null;
+  lessonFeedback = '';
+  lessonFeedbackKind = '';
+  const localizedMoves = lessonText(data).moves;
+  replay.comparison = kind;
+  if (kind === 'other') {
+    replay.sans = [
+      ...localizedMoves.slice(0, compare.ply).map(m => m.san),
+      ...compare.alternative,
+    ];
+    const comment = compare.other[I18N.language] || compare.other.ja;
+    replay.notes = [
+      ...localizedMoves.slice(0, compare.ply).map(m => m.note),
+      ...compare.alternative.map(() => comment),
+    ];
+  } else {
+    replay.sans = localizedMoves.map(m => m.san);
+    replay.notes = localizedMoves.map(m => m.note);
+  }
+  const target = idx === null ? compare.ply + (kind === 'other' ? compare.alternative.length : 1) : idx;
+  replayGoTo(Math.min(target, replay.sans.length));
+}
+function renderStudyComparison() {
+  const cmp = currentComparison();
+  const wrap = $('study-comparison');
+  wrap.classList.toggle('hidden', !cmp);
+  if (!cmp) return;
+  const isOther = replay.comparison === 'other';
+  const localized = isOther ? cmp.other : cmp.main;
+  const mainSan = currentLesson().moves[cmp.ply].san;
+  const sans = isOther ? cmp.alternative.join(' ') : mainSan;
+  $('study-compare-line').textContent = tr('learn.compareLine', { moves: sans });
+  $('study-compare-reason').textContent = localized[I18N.language] || localized.ja;
+  $('btn-compare-main').setAttribute('aria-pressed', String(!isOther));
+  $('btn-compare-other').setAttribute('aria-pressed', String(isOther));
+}
+
 function showStudyNote() {
   const i = replay.idx;
   let html = '';
   if (i === 0) html = (replay.meta && replay.meta.intro) || '';
   else html = replay.notes[i - 1] || '';
-  if (i === replay.sans.length && replay.meta && replay.meta.takeaway) {
+  if (i === replay.sans.length && replay.comparison !== 'other' && replay.meta && replay.meta.takeaway) {
     html += `<div class="study-takeaway">💡 ${replay.meta.takeaway}</div>`;
   }
   $('study-note').innerHTML = html;
@@ -1359,10 +1410,11 @@ function replayGoTo(idx) {
   $('replay-counter').textContent = `${replay.idx} / ${replay.sans.length}`;
   showStudyNote();
   const data = replay.annotation && replay.annotation.data;
-  if (data && data.id && replay.idx === replay.sans.length) noteLessonProgress(data.id, 'studied');
+  if (data && data.id && replay.comparison !== 'other' && replay.idx === replay.sans.length) noteLessonProgress(data.id, 'studied');
   renderAll();
   renderReplayMovelist();
   renderPracticeControls();
+  renderStudyComparison();
 }
 function renderReplayMovelist() {
   const ol = $('replay-movelist');
@@ -1522,13 +1574,17 @@ function refreshLanguage() {
     $('puzzle-title').textContent = tr('puzzle.select');
     $('puzzle-goal').textContent = tr('puzzle.filterHelp');
   }
-  if (replay.annotation) {
+  // An old annotation may remain after leaving replay for a normal game.
+  // Never reopen that lesson merely because the interface language changed.
+  if (mode === 'replay' && replay.annotation) {
     const idx = replay.idx;
     const source = replay.annotation;
+    const comparisonMode = replay.comparison;
     const activePractice = lessonPractice && { ...lessonPractice };
     const feedback = lessonFeedback, kind = lessonFeedbackKind;
     loadAnnotated(source.data, source.meta);
-    replayGoTo(idx);
+    if (comparisonMode === 'other' && currentComparison()) chooseStudyComparison('other', idx);
+    else replayGoTo(idx);
     if (activePractice && replay.annotation?.data?.id === activePractice.id) {
       beginLessonPractice();
       lessonPractice.hintShown = activePractice.hintShown;
@@ -1716,6 +1772,8 @@ function setupUI() {
   $('btn-study-practice-hint').addEventListener('click', showLessonPracticeHint);
   $('btn-study-puzzle').addEventListener('click', goToLessonPuzzles);
   $('btn-study-next').addEventListener('click', goToNextLesson);
+  $('btn-compare-main').addEventListener('click', () => chooseStudyComparison('main'));
+  $('btn-compare-other').addEventListener('click', () => chooseStudyComparison('other'));
 
   // Lessons and famous games. / まなぶ・名局。
   renderLearnCats();

@@ -527,6 +527,20 @@ html, body {
   background: #fffdf8; border: 1.5px solid #eadfce; border-radius: 10px;
   padding: 8px 12px; min-height: 3.4em; margin-bottom: 8px;
 }
+/* Lesson move comparison shares the existing replay chessboard.
+   Modest inset layout, never overlays the banquet room or chessboard. */
+.study-comparison {
+  margin: 0 0 9px; padding: 9px 10px;
+  border: 1.5px solid #d6c9af; border-radius: 10px;
+  background: #f9f5ec;
+}
+.study-compare-head { font-size: .82rem; font-weight: 700; color: #655039; margin-bottom: 6px; }
+.study-compare-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.study-compare-actions .btn { font-size: .79rem; padding: 6px 9px; }
+.study-compare-actions .btn[aria-pressed="true"] { border-color: #8d7145; background: #eee3d0; font-weight: 700; }
+.study-compare-line { font-size: .76rem; font-weight: 700; margin-top: 7px; color: #685641; }
+.study-compare-reason { font-size: .81rem; line-height: 1.55; margin: 5px 0; color: #524638; }
+.study-compare-disclaimer { color: #877964; font-size: .71rem; line-height: 1.45; margin: 6px 0 0; }
 .study-takeaway {
   margin-top: 6px; padding-top: 6px; border-top: 1px dashed #e0d0b0;
   color: #b0763a; font-weight: bold;

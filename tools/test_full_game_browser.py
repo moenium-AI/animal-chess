@@ -187,6 +187,32 @@ with sync_playwright() as pw:
     }""")
     move(page,london['from'],london['to'])
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).op_london")=='mastered'
+    # L-04b: compare an alternate line on the actual chessboard, then restore
+    # the annotated main line without awarding/downgrading mastery.
+    assert page.locator('#study-comparison').is_visible()
+    assert page.locator('#btn-compare-main').get_attribute('aria-pressed')=='true'
+    page.locator('#btn-compare-other').click(force=True)
+    assert page.locator('#btn-compare-other').get_attribute('aria-pressed')=='true'
+    assert 'Bg5' in page.locator('#study-compare-line').inner_text()
+    assert 'Bg5' in page.locator('#replay-movelist li').last.inner_text()
+    assert page.locator('#replay-counter').inner_text()=='5 / 5'
+    page.locator('#btn-replay-prev').click(force=True)
+    assert page.locator('#replay-counter').inner_text()=='4 / 5'
+    page.locator('#btn-replay-next').click(force=True)
+    page.locator('#sel-language').select_option('en')
+    assert page.locator('#btn-compare-other').get_attribute('aria-pressed')=='true'
+    assert 'legal' in page.locator('#study-compare-reason').inner_text().lower()
+    assert 'Bg5' in page.locator('#replay-movelist li').last.inner_text()
+    page.locator('#sel-language').select_option('ja')
+    page.locator('#btn-compare-main').click(force=True)
+    assert page.locator('#btn-compare-main').get_attribute('aria-pressed')=='true'
+    assert 'Bf4' in page.locator('#replay-movelist li').last.inner_text()
+    assert page.locator('#replay-counter').inner_text()=='5 / 5'
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).op_london")=='mastered'
+    page.locator('#btn-compare-other').click(force=True)
+    page.locator('#btn-study-practice').click(force=True)
+    assert page.locator('#btn-compare-main').get_attribute('aria-pressed')=='true'
+    assert page.locator('#replay-counter').inner_text()=='4 / 5'
 
     # L-05: famous games moved from record tabs to the sixth learning chapter;
     # viewing the last ply saves viewed state, language refreshes annotations.
@@ -203,6 +229,11 @@ with sync_playwright() as pw:
     page.locator('#sel-language').select_option('ja')
     page.locator('.tab[data-tab="settings"]').click(force=True)
     page.locator('#btn-new').click(force=True)
+    # Changing locale during normal play must not reopen a stale lesson.
+    page.locator('#sel-language').select_option('en')
+    assert 'hidden' in page.locator('#study-panel').get_attribute('class')
+    page.locator('#sel-language').select_option('ja')
+    assert 'hidden' in page.locator('#study-panel').get_attribute('class')
     # A-01: terminal dialog callback must not outlive the game.
     for a,b in [('f2','f3'),('e7','e5'),('g2','g4'),('d8','h4')]:move(page,a,b)
     assert page.locator('#movelist li').count()==4
