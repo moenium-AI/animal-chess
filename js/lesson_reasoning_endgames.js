@@ -44,7 +44,7 @@ const ENDGAME_REASONING = {
       "en": {
         "question": "How can Black respond after Ra8#?",
         "options": [
-          "Escape with ...Kd7",
+          "Flee with ...Kd7",
           "Black can flee to f7",
           "There is no legal response"
         ],
