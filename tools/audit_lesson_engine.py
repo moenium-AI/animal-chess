@@ -99,6 +99,19 @@ def verify_zwischenzug(lesson: dict) -> None:
         raise AssertionError("Intermezzo must still win the queen")
 
 
+def verify_windmill(lesson: dict) -> None:
+    """Keep the demonstrated non-king defense factual and bilingual."""
+    board = chess.Board(lesson["fen"])
+    board.push_san("Rxc7+")
+    if "Rf6" not in [board.san(move) for move in board.legal_moves]:
+        raise AssertionError("The windmill's ...Rf6 alternative must be legal")
+    board.push_san("Rf6")
+    if board.is_check():
+        raise AssertionError("...Rf6 must actually stop the discovered check")
+    if "Rf6" not in lesson["intro"] or "Rf6" not in lesson["en"]["intro"]:
+        raise AssertionError("Both windmill introductions must mention the defense")
+
+
 def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
     if lesson_id in ("cb_fork", "eg_underpromo"):
         if not board.is_insufficient_material():
@@ -162,6 +175,8 @@ def main() -> None:
                 raise AssertionError(f"Invalid lesson starting FEN: {lesson['id']}")
             if lesson["id"] == "cb_zwischenzug":
                 verify_zwischenzug(lesson)
+            if lesson["id"] == "cb_windmill":
+                verify_windmill(lesson)
             if len(lesson["moves"]) != len(lesson["en"]["moves"]):
                 raise AssertionError(f"Bilingual ply count differs: {lesson['id']}")
             for index, (item, translated) in enumerate(
