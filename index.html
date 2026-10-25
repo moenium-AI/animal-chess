@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
 <!-- ?v= is a cache-busting version; increment it whenever the file contents change. / ?v= は更新時にキャッシュを切り替える版数。内容を変えたら増やす。 -->
-<link rel="stylesheet" href="css/style.css?v=20">
+<link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body>
 
@@ -56,6 +56,16 @@
       </div>
       <div id="study-meta" class="study-meta"></div>
       <div id="study-note" class="study-note"></div>
+      <section id="study-comparison" class="study-comparison hidden" aria-label="指し手の比較">
+        <div class="study-compare-head" data-i18n="learn.compareTitle">🔍 ほかの手と比べる</div>
+        <div class="study-compare-actions">
+          <button id="btn-compare-main" type="button" class="btn" aria-pressed="true" data-i18n="learn.compareMain">教材の手</button>
+          <button id="btn-compare-other" type="button" class="btn" aria-pressed="false" data-i18n="learn.compareOther">別の一例</button>
+        </div>
+        <div id="study-compare-line" class="study-compare-line"></div>
+        <p id="study-compare-reason" class="study-compare-reason" role="status" aria-live="polite"></p>
+        <p class="study-compare-disclaimer" data-i18n="learn.compareCaution">別の合法手が必ず悪手とは限りません。ここでは具体的な違いを学びます。</p>
+      </section>
       <div class="study-nav">
         <button id="btn-replay-first" class="btn small" data-i18n-title="ui.first" title="さいしょ">⏮</button>
         <button id="btn-replay-prev" class="btn small" data-i18n-title="ui.previous" title="まえ">◀</button>
@@ -231,10 +241,11 @@
 <script src="js/lessons.js?v=18"></script>
 <script src="js/intro_lessons.js?v=1"></script>
 <script src="js/extra_lessons.js?v=1"></script>
+<script src="js/lesson_comparisons.js?v=1"></script>
 <script src="js/games.js?v=16"></script>
 <script src="js/engine.js?v=20"></script>
-<script src="js/i18n.js?v=10"></script>
+<script src="js/i18n.js?v=11"></script>
 <script src="js/learning.js?v=3"></script>
-<script src="js/app.js?v=26"></script>
+<script src="js/app.js?v=27"></script>
 </body>
 </html>
