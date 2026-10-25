@@ -7,11 +7,11 @@ const LESSON_COMPARISONS = {
       "Kg8"
     ],
     "main": {
-      "ja": "Qf7は王手ではなく、黒には合法手がないためステイルメイトで引き分けになります。",
+      "ja": "Qf7はチェックではなく、黒には合法手がないためステイルメイトで引き分けになります。",
       "en": "Qf7 is not check and leaves Black no legal move: stalemate."
     },
     "other": {
-      "ja": "Qf6+なら王手となり、黒キングはg8へ逃げます。ゲームは続きます。",
+      "ja": "Qf6+ならチェックとなり、黒キングはg8へ逃げます。ゲームは続きます。",
       "en": "Qf6+ gives check and Black can escape to g8. The game continues."
     },
     "theme": "stalemate"
@@ -100,7 +100,7 @@ const LESSON_COMPARISONS = {
       "Qxd2"
     ],
     "main": {
-      "ja": "Rxd3+はクイーンを取ると同時にキングへ王手をかけます。",
+      "ja": "Rxd3+はクイーンを取ると同時にキングへチェックをかけます。",
       "en": "Rxd3+ captures the queen and checks the king."
     },
     "other": {
@@ -115,11 +115,11 @@ const LESSON_COMPARISONS = {
       "Nb5"
     ],
     "main": {
-      "ja": "Ne4+はf6キングに王手をかけつつ、d2クイーンを攻撃します。",
+      "ja": "Ne4+はf6キングにチェックをかけつつ、d2クイーンを攻撃します。",
       "en": "Ne4+ checks the king on f6 while attacking the queen on d2."
     },
     "other": {
-      "ja": "Nb5は合法ですが、王手とクイーン攻撃を同時には実現しません。戦術の好機を逃す例です。",
+      "ja": "Nb5は合法ですが、チェックとクイーン攻撃を同時には実現しません。戦術の好機を逃す例です。",
       "en": "Nb5 is legal but misses the opportunity to attack king and queen together."
     },
     "theme": "fork"
@@ -145,7 +145,7 @@ const LESSON_COMPARISONS = {
       "en": "After ...Kh8, Nf7+ forks the king and queen, allowing White to capture the queen."
     },
     "other": {
-      "ja": "黒が...Qd5で王手を遮っても、白はBxd5+でクイーンを取れます。フォークの形は出ませんが、この防御でも黒クイーンを失います。",
+      "ja": "黒が...Qd5でチェックを遮っても、白はBxd5+でクイーンを取れます。フォークの形は出ませんが、この防御でも黒クイーンを失います。",
       "en": "Black can block the check with ...Qd5, but Bxd5+ captures the queen. The fork does not appear in this line, yet the defense also loses the queen."
     },
     "theme": "defense"
@@ -174,7 +174,7 @@ const LESSON_COMPARISONS = {
       "en": "After ...Kg8, White can return with Rg7+ and continue the windmill to collect pawns. Other defenses lead to different lines."
     },
     "other": {
-      "ja": "黒が...Qc3で発見王手を遮っても、Bxc3+で白ビショップがクイーンを取ります。...Qe5もBxe5+で同様です。風車の連続王手は止まっても、攻めを防ぎきれません。",
+      "ja": "黒が...Qc3で発見チェックを遮っても、Bxc3+で白ビショップがクイーンを取ります。...Qe5もBxe5+で同様です。風車の連続チェックは止まっても、攻めを防ぎきれません。",
       "en": "Black can block the discovered check with ...Qc3, but Bxc3+ captures the queen. Likewise ...Qe5 allows Bxe5+. The repeated windmill stops, but the attack still succeeds."
     },
     "theme": "defense"
@@ -185,11 +185,11 @@ const LESSON_COMPARISONS = {
       "Ra7"
     ],
     "main": {
-      "ja": "Ra8+は8段目からg8の黒キングへ横方向の王手をかけます。",
+      "ja": "Ra8+は8段目からg8の黒キングへ横方向のチェックをかけます。",
       "en": "Ra8+ attacks the king on g8 along the eighth rank."
     },
     "other": {
-      "ja": "Ra7ではキングへの直接の王手になりません。ルークの着地点で横方向の利きが変わります。",
+      "ja": "Ra7ではキングへの直接のチェックになりません。ルークの着地点で横方向の利きが変わります。",
       "en": "Ra7 does not check the king directly. The rook's rank matters."
     },
     "theme": "check"
@@ -205,7 +205,7 @@ const LESSON_COMPARISONS = {
       "en": "Ra1 puts the rook behind its a-pawn without blocking promotion."
     },
     "other": {
-      "ja": "Rb8+も王手ですが、ルークは通過ポーンの後ろから離れます。黒キングはh7に逃げられます。",
+      "ja": "Rb8+もチェックですが、ルークは通過ポーンの後ろから離れます。黒キングはh7に逃げられます。",
       "en": "Rb8+ gives check but leaves the rook off the pawn's file; the black king can escape to h7."
     },
     "theme": "plans"

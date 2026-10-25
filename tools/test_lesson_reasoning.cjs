@@ -163,8 +163,8 @@ for (const item of snapshots) {
   tbCounts[item.lesson]++;
 }
 for(const [key,count] of Object.entries(expectedTB)) assert.equal(tbCounts[key],count,'saved tablebase snapshot coverage '+key);
-// Lucena's second question must distinguish interposition from capture
-// and pawn defense, with the actual c-file check independently replayed.
+// Lucena's second question now tests WHY interposition is preferable to
+// simply moving the king, not the elementary definition of blocking a check.
 const lucenaLesson=all.get('eg_lucena');
 const lucenaGame=new Chess(lucenaLesson.fen);
 for(const san of ['Rf4','Ra1','Kd7','Rd1+','Ke6','Re1+','Kd6','Rd1+','Kc5','Rc1+'])
@@ -172,23 +172,55 @@ for(const san of ['Rf4','Ra1','Kd7','Rd1+','Ke6','Re1+','Kd6','Rd1+','Kc5','Rc1+
 assert.equal(lucenaGame.in_check(),true,'...Rc1+ must give check');
 assert.equal(lucenaGame.get('c5').type,'k','king must still be on c5');
 assert.equal(lucenaGame.get('c1').type,'r','black rook must be on c1');
+assert.ok(lucenaGame.moves().includes('Kd5'),'king can legally step away from the check');
+assert.ok(lucenaGame.moves().includes('Kb6'),'another king escape must remain legal');
+lucenaGame.move('Kd5');
+assert.ok(lucenaGame.moves().includes('Rc5+'),'king-only escape permits another checking move');
+lucenaGame.undo();
 const lucenaBlock=lucenaGame.move('Rc4');
 assert.equal(lucenaBlock.san,'Rc4');
-assert.equal(lucenaBlock.captured,undefined,'Rc4 is an interposition, not a capture');
+assert.equal(lucenaBlock.captured,undefined,'Rc4 is interposition, not capture');
 assert.equal(lucenaGame.in_check(),false,'interposition must stop the check');
-assert.equal(lucenaGame.get('c4').color,'w','white rook must stand between king and attacker');
-assert.equal(lucenaGame.get('c5').color,'w','king must stay on c5');
-assert.equal(lucenaGame.get('e7').type,'p','promotion pawn is still on e7');
-assert.ok(lucenaGame.move('Rxc4+'),'black rook can capture interposing rook');
-assert.ok(lucenaGame.move('Kxc4'),'king on c5 can recapture on c4');
+assert.equal(lucenaGame.get('c4').color,'w','white rook interposes');
+assert.equal(lucenaGame.get('c5').color,'w','king stays on c5 and guards rook');
+assert.equal(lucenaGame.get('e7').type,'p','promotion pawn stays on e7');
+assert.ok(lucenaGame.moves().includes('Rxc4+'),'rook exchange is one option, not forced');
+assert.ok(lucenaGame.moves().length>1,'Black is not forced to exchange');
+assert.ok(lucenaGame.move('Rxc4+'));
+assert.ok(lucenaGame.move('Kxc4'),'king on c5 recaptures');
 const lucenaQuiz=LESSON_REASONING.eg_lucena.defense;
-assert.equal(lucenaQuiz.answer,0,'existing Lucena answer index must not change');
+assert.equal(lucenaQuiz.answer,0,'Lucena answer index stable');
 for(const lang of ['ja','en']) {
   const item=lucenaQuiz[lang];
-  assert.equal(new Set(item.options).size,3,'Lucena answer choices must be distinct');
-  assert.ok(item.options[1].includes('c1'),'capture misconception must identify black rook square');
-  assert.ok(item.options[2].includes('e7'),'pawn misconception must identify the promotion pawn');
-  assert.ok(item.explanation.includes('Kxc4'),'Lucena explanation must demonstrate the recapture');
+  assert.equal(new Set(item.options).size,3);
+  assert.ok(item.options[1].includes('c1'),'pin misconception must refer to c1');
+  assert.ok(item.options[2].includes('Rc4'),'forced-only-move misconception must refer to Rc4');
+  assert.ok(item.explanation.includes('Kxc4'),'recapture is explained');
+}
+const selected=LESSON_REASONING;
+// Counterfactual escapes turn a rote "is it mate?" question into a geometric one.
+{
+  const boden=new Chess(all.get('cb_boden').fen);
+  boden.remove('f4');
+  assert.ok(boden.move('Ba6+'));
+  assert.ok(boden.moves().includes('Kb8'));
+  const epaulette=new Chess(all.get('cb_epaulette').fen);
+  epaulette.remove('f8');
+  assert.ok(epaulette.move('Qe6+'));
+  assert.ok(epaulette.moves().includes('Kf8'));
+  const queen=new Chess(all.get('eg_queen').fen);
+  assert.ok(queen.move('Qe7'));
+  assert.deepEqual(Array.from(queen.moves()),['Kh8']);
+  const escort=new Chess(all.get('eg_kingescort').fen);
+  assert.ok(escort.move('Kd5'));
+  assert.ok(!escort.moves().includes('Ke6'),'opposing king cannot step into protected e6');
+}
+// Chess teaching terminology should be consistent in the published Japanese
+// questions and explanations, not alternate between shogi and chess labels.
+for(const [id,block] of Object.entries(selected)) for(const kind of ['why','defense']){
+  const q=block[kind].ja;
+  for(const field of [q.question,...q.options,q.explanation])
+    assert.ok(!field.includes('王手'),id+'/'+kind+' must say チェック');
 }
 
 // Guard the alternative outcomes described by two particularly easy-to-misread questions.

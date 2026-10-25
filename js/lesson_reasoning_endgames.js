@@ -8,11 +8,11 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "Ra8#が詰みになるために、白キングe6はどんな役目を果たす？",
         "options": [
-          "8段目を王手で守る",
+          "8段目をチェックで守る",
           "黒キングのd7・e7・f7への逃げ道をふさぐ",
-          "黒王をf8から追い出す"
+          "黒キングをf8から追い出す"
         ],
-        "explanation": "白キングe6が黒キングの前方の逃げ道を押さえ、a8のルークが8段目の王手を担当する。"
+        "explanation": "白キングe6が黒キングの前方の逃げ道を押さえ、a8のルークが8段目のチェックを担当する。"
       },
       "en": {
         "question": "What does White's king on e6 contribute to Ra8#?",
@@ -33,22 +33,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "Ra8#のあと黒はどう受けられる？",
+        "question": "もし黒キングがe8ではなくg8にいたら、同じRa8+がメイトにならないのはなぜ？",
         "options": [
-          "...Kd7へ逃げる",
-          "黒は...Kf7と斜めに逃げ、白キングから距離を取れる",
-          "合法な応手はない"
+          "黒キングがg8なら、a8のルークの横の利きは届かなくなるから",
+          "g8にいる黒キングには白ルークがチェックをかけられない決まりだから",
+          "白キングe6はh7を押さえず、黒キングにそこへの逃げ道が残るから"
         ],
-        "explanation": "キングとルークで逃げ道を全部封じた局面なので、黒はすでにチェックメイトじゃ。"
+        "explanation": "元のe8の黒キングには白キングe6がd7・e7・f7の逃げ道を封じている。仮に黒キングがg8なら、Ra8+は依然チェックだが、h7へ逃げられ、メイトではない。ルークのチェックだけでなくキングが押さえる逃げ道を確認しよう。"
       },
       "en": {
-        "question": "How can Black respond after Ra8#?",
+        "question": "If Black's king were on g8 instead of e8, why would Ra8+ not be mate?",
         "options": [
-          "Flee with ...Kd7",
-          "Black can flee to f7",
-          "There is no legal response"
+          "The rook on a8 could no longer attack horizontally along the eighth rank",
+          "A king on g8 cannot be checked by a rook",
+          "White's king on e6 would not cover h7, leaving Black an escape square"
         ],
-        "explanation": "The white king and rook cover all escape squares. Ra8# is checkmate."
+        "explanation": "Against a king on e8, White's king on e6 controls d7, e7 and f7. If Black's king were on g8, Ra8+ would still check, but the king could escape to h7. A rook check alone does not guarantee mate."
       },
       "evidence": {
         "line": [
@@ -66,9 +66,9 @@ const ENDGAME_REASONING = {
         "options": [
           "7段目のキングの逃げ道を封じている",
           "b8ルークだけを守る",
-          "8段目へ王手する"
+          "8段目へチェックする"
         ],
-        "explanation": "a7のルークが7段目を横に押さえ、b8のルークが8段目から王手をかける。階段メイトの役割分担じゃ。"
+        "explanation": "a7のルークが7段目を横に押さえ、b8のルークが8段目からチェックをかける。階段メイトの役割分担じゃ。"
       },
       "en": {
         "question": "What is White's rook on a7 doing when Rb8# is played?",
@@ -120,11 +120,11 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "Qg7#の白クイーンを黒キングが取れないのはなぜ？",
         "options": [
-          "白王自身の王手",
-          "黒王はQを取れる",
+          "白キング自身のチェック",
+          "黒キングはQを取れる",
           "白キングg6がクイーンg7を守っているから"
         ],
-        "explanation": "g6の白キングがg7を守っている。隣接して王手するクイーンには支えが必要じゃ。"
+        "explanation": "g6の白キングがg7を守っている。隣接してチェックするクイーンには支えが必要じゃ。"
       },
       "en": {
         "question": "Why can't Black's king capture the queen after Qg7#?",
@@ -145,22 +145,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "Qg7#を受けた黒の合法手は？",
+        "question": "この配置でQg7#の代わりにQe7と指すと、黒はどうできる？",
         "options": [
-          "ない。チェックメイト",
-          "...Kxg7で取る",
-          "黒キングは...Kh8に逃げられるが白に再び王手される"
+          "黒キングはQe7をキングで取れる",
+          "Qe7ではチェックにならず、黒キングは...Kh8と逃げられる",
+          "Qe7も同じ一手メイトになる"
         ],
-        "explanation": "黒キングは白キングが守るクイーンを取れず、ほかの逃げ道もない。"
+        "explanation": "白クイーンがc7からe7に動いても、黒キングg8にチェックはかからない。黒は...Kh8と動ける。一方Qg7#なら白キングg6の支えがあり、チェックと逃げ道の封鎖を同時に実現する。"
       },
       "en": {
-        "question": "What legal reply does Black have to Qg7#?",
+        "question": "Instead of Qg7#, what can Black do after Qe7 in this position?",
         "options": [
-          "None: checkmate",
-          "Capture via ...Kxg7",
-          "Black can flee to h8 but White's queen will check it again"
+          "The black king can capture the queen on e7",
+          "Qe7 gives no check, so Black can play ...Kh8",
+          "Qe7 is another mate in one"
         ],
-        "explanation": "The queen is defended and Black has no legal escape or block."
+        "explanation": "Qe7 does not check the king on g8, so Black can play ...Kh8. Qg7#, by contrast, uses the king on g6 to protect the queen while giving check and sealing all escapes."
       },
       "evidence": {
         "line": [
@@ -202,7 +202,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "このb8=Qの直後、対局はどうなる？",
         "options": [
-          "すでに王手している",
+          "すでにチェックしている",
           "昇格後のクイーンは同じ手でさらに1マス進むことができる",
           "新しいクイーンができるが、対局は続く"
         ],
@@ -232,7 +232,7 @@ const ENDGAME_REASONING = {
         "options": [
           "黒キングを押し下げ、eポーンを守って前進させる",
           "eポーンの進路をふさぐ",
-          "黒キングに王手する"
+          "黒キングにチェックする"
         ],
         "explanation": "キングを先に進めれば黒キングの行き場を減らし、eポーンを支えて昇格を狙える。"
       },
@@ -258,7 +258,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "黒が...Kd8と守ったあと、教材で白はどう続ける？",
         "options": [
-          "e6は黒王に取られる",
+          "e6は黒キングに取られる",
           "e6と進め、キングの支援を受けたポーンを前へ出す",
           "白はKd7と進み黒キングを追いかけてからe6を指す"
         ],
@@ -412,11 +412,11 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "e8=N+とナイトに昇格する狙いは？",
         "options": [
-          "キングへの王手とd6のクイーンへのフォーク",
+          "キングへのチェックとd6のクイーンへのフォーク",
           "クイーンも同じ二股",
-          "f6のマスへの王手"
+          "f6のマスへのチェック"
         ],
-        "explanation": "e8のナイトはg7のキングへ王手し、d6のクイーンも攻撃できる。昇格先による利きの違いじゃ。"
+        "explanation": "e8のナイトはg7のキングへチェックし、d6のクイーンも攻撃できる。昇格先による利きの違いじゃ。"
       },
       "en": {
         "question": "Why promote to a knight with e8=N+?",
@@ -442,7 +442,7 @@ const ENDGAME_REASONING = {
         "question": "ナイトでクイーンを取ったNxd6+のあと、最善同士の結果は？",
         "options": [
           "ナイトがクイーンを取ったので白の勝ちが確定する",
-          "ナイトは黒キングを王手中なので次の手で必ず詰む",
+          "ナイトは黒キングをチェック中なので次の手で必ず詰む",
           "キング＋ナイト対キングで引き分けになる"
         ],
         "explanation": "クイーンは取れるが、盤上はキング＋ナイト対キング。これだけで詰ませられず引き分けとなる。"
@@ -533,10 +533,10 @@ const ENDGAME_REASONING = {
         "question": "Qg7#を選ぶ理由は何かな？",
         "options": [
           "黒に逃げ道を残す",
-          "王手せずに手を奪う",
-          "王手をかけて詰ませ、ステイルメイトを避けるため"
+          "チェックせずに手を奪う",
+          "チェックをかけて詰ませ、ステイルメイトを避けるため"
         ],
-        "explanation": "Qg7#は黒に王手をかけ、合法な応手がないので詰み。王手がないまま合法手を消すと引き分けじゃ。"
+        "explanation": "Qg7#は黒にチェックをかけ、合法な応手がないので詰み。チェックがないまま合法手を消すと引き分けじゃ。"
       },
       "en": {
         "question": "Why play Qg7# instead of carelessly restricting the king?",
@@ -559,11 +559,11 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "この局面でQg7#の代わりにQg6?を指すとどうなる？",
         "options": [
-          "Qg6は黒キングへの王手になり、次に黒はh7へ逃げる",
-          "黒は王手を受けておらず合法手もなく、引き分け",
+          "Qg6は黒キングへのチェックになり、次に黒はh7へ逃げる",
+          "黒はチェックを受けておらず合法手もなく、引き分け",
           "Qg6のあと黒は...Kxg6とクイーンを取って対局を続ける"
         ],
-        "explanation": "Qg6?では黒キングに王手がなく、合法な手もない。ステイルメイトの落とし穴じゃ。"
+        "explanation": "Qg6?では黒キングにチェックがなく、合法な手もない。ステイルメイトの落とし穴じゃ。"
       },
       "en": {
         "question": "What happens if White plays Qg6? instead of Qg7# here?",
@@ -592,7 +592,7 @@ const ENDGAME_REASONING = {
           "あとでルークをc4などへ動かしてチェックを遮る『橋』を作る",
           "Rf4で白ポーンe7が8段目へ進むマスを守れなくなる"
         ],
-        "explanation": "4段目にルークを置くと、あとで黒の横・縦の王手に合駒してキングを守れる。"
+        "explanation": "4段目にルークを置くと、あとで黒の横・縦のチェックに合駒してキングを守れる。"
       },
       "en": {
         "question": "Why does White start this Lucena example with Rf4?",
@@ -622,22 +622,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "黒の...Rc1+に白がRc4と応じると、どうやって王手が止まる？",
+        "question": "黒の...Rc1+に対して、キングで逃げるだけでなくRc4とルークを合駒する利点は？",
         "options": [
-          "白ルークをc4に置いて王手を遮り、キングc5がそのルークを守る",
-          "c4へ動きながら黒ルークc1も取り、王手を消す",
-          "c4からe7ポーンを守れば、王手を放置できる"
+          "チェックの連続を遮る『橋』になり、e7ポーンの昇格へ進みやすくなる",
+          "Rc4で黒ルークをc1にピンし、以後のチェックをすべて禁止できる",
+          "キングには合法な逃げ道がないため、Rc4だけがチェックへの応手になる"
         ],
-        "explanation": "黒ルークはc1から白キングc5を狙っている。Rc4は黒ルークを取る手ではなく、白ルークを間に入れて王手を止める手。c4のルークは白キングc5が守り、黒が...Rxc4+と取ればKxc4で取り返せる。王手を無視してポーンを進めることはできない。"
+        "explanation": "キングにも合法な逃げ方はあるが、移動だけでは黒ルークにチェックを続けられやすい。Rc4でc筋を遮れば、c5のキングが白ルークを守る。黒が...Rxc4+と交換すればKxc4で取り返し、遠い黒キングを尻目にe7ポーンを昇格へ進められる。黒に交換の義務があるわけではない。"
       },
       "en": {
-        "question": "How does Rc4 stop the check from ...Rc1+ in this Lucena line?",
+        "question": "Why interpose Rc4 against ...Rc1+ rather than only move the king?",
         "options": [
-          "The rook interposes on c4, protected by the king on c5",
-          "Rc4 also captures Black's rook on c1, ending the check",
-          "From c4 the rook guards the e7-pawn, so White can ignore the check"
+          "It builds a bridge that interrupts repeated checks and helps the e7-pawn promote",
+          "Rc4 pins the black rook on c1, making all later rook checks illegal",
+          "The king has no legal escape, so Rc4 is the only response to the check"
         ],
-        "explanation": "Black's rook on c1 checks the king on c5. Rc4 interposes White's rook; it does not capture the black rook. The king protects the rook on c4, so after ...Rxc4+ White can recapture with Kxc4. A check cannot be ignored to protect a pawn."
+        "explanation": "The king has legal escapes, but moving alone can allow further rook checks. Rc4 blocks the c-file with a rook protected by the king on c5. If Black exchanges with ...Rxc4+, Kxc4 recaptures and White can advance the e7-pawn while Black's king is far away. Black is not forced to exchange."
       },
       "evidence": {
         "line": [
@@ -688,22 +688,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 1,
       "ja": {
-        "question": "教材で白がe6と進めたあと、黒はどんな守備に切り替える？",
+        "question": "白ポーンがe6に進んだあと、黒が...Ra1と後方へ回るのはなぜ？",
         "options": [
-          "後方から王手を避ける",
-          "...Ra1と後方へ回り、チェックを続ける",
-          "前進して白王を追う"
+          "白ルークh3をすぐ取って駒得するため",
+          "6段目の封鎖から後方チェックへ切り替え、白キングを前進させないため",
+          "e6ポーンは6段目にあるだけで自動的に取れるため"
         ],
-        "explanation": "白ポーンが6段目へ来たら黒ルークを後方へ回して王手をかける。これはフィリドールの引き分けを保つ考え方じゃ。"
+        "explanation": "...Ra6では白キングの侵入を6段目で防いだ。白がe6と進めたあとは...Ra1と後方に回り、次に...Rg1+などのチェックで白キングを追い返す。...Ra1自体はチェックではない。"
       },
       "en": {
-        "question": "After White plays e6 in this example, how does Black defend?",
+        "question": "Why does Black switch to ...Ra1 after White pushes the pawn to e6?",
         "options": [
-          "To avoid rear checks",
-          "Retreat with ...Ra1 and give checks from behind",
-          "To chase the king"
+          "To win White's rook on h3 immediately",
+          "To switch from sixth-rank restriction to rear checks that hold back White's king",
+          "To capture the e6-pawn automatically just because it reached the sixth rank"
         ],
-        "explanation": "Once the pawn advances to the sixth rank, Black switches to rear checks with the rook, a standard drawing idea."
+        "explanation": "...Ra6 first restricts the white king along the sixth rank. After e6, Black moves behind with ...Ra1 to prepare checks such as ...Rg1+. The move ...Ra1 itself is not a check."
       },
       "evidence": {
         "line": [
@@ -754,8 +754,8 @@ const ENDGAME_REASONING = {
         "question": "教材の最後のKh6のあと、黒キングが動けないのに引き分けとなるのは？",
         "options": [
           "最後のKh6のあと黒には...Kg8と...Kh7の逃げ道が残る",
-          "Kh6で白キングが黒へ王手し、黒は合駒を選べない",
-          "黒は王手を受けておらず合法手もない、ステイルメイトだから"
+          "Kh6で白キングが黒へチェックし、黒は合駒を選べない",
+          "黒はチェックを受けておらず合法手もない、ステイルメイトだから"
         ],
         "explanation": "黒キングはh8でチェックされていないのに動く手がないため、ステイルメイトとなる。"
       },
@@ -848,7 +848,7 @@ const ENDGAME_REASONING = {
       "ja": {
         "question": "a7と進めた白ポーンが強い理由は？",
         "options": [
-          "a7で黒キングへの王手が生じ黒は昇格に応じられない",
+          "a7で黒キングへのチェックが生じ黒は昇格に応じられない",
           "a7のポーンが黒キングh8を直接攻撃して動けなくする",
           "次にa8へ進めば昇格でき、黒キングは遠くて止めにくいから"
         ],
@@ -874,22 +874,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 1,
       "ja": {
-        "question": "教材の...Kh7のあとa8=Qと昇格すると、黒キングに王手はかかる？",
+        "question": "この例でa8=Qと昇格しただけでは対局が終わらないのはなぜ？",
         "options": [
-          "a8=Qは黒キングh7へ横から王手をかけている",
-          "この配置では王手ではないが、白クイーンができる",
-          "a8=Qはチェックメイトで黒に合法な受けがない"
+          "昇格にはさらに一手使って、クイーンを別のマスへ動かす必要があるから",
+          "昇格そのものは勝利条件ではなく、黒キングにはまだ合法手があるから",
+          "昇格した白クイーンは同じ手でチェックを追加しなければならないから"
         ],
-        "explanation": "a8=Qで白はクイーンを得るが、黒キングh7には王手をかけていない。昇格と王手は別のことじゃ。"
+        "explanation": "a8=Qで強力なクイーンを得るが、昇格はチェックメイトではない。黒キングh7にはまだ合法手がある。白は新しいクイーンとキングを使ってメイトを目指す必要がある。"
       },
       "en": {
-        "question": "Does a8=Q give check after ...Kh7 in this example?",
+        "question": "Why doesn't the game end immediately when White promotes with a8=Q here?",
         "options": [
-          "Promotion on a8 checks Black's king on h7 along the eighth rank",
-          "No, but White gets a queen",
-          "The promotion is checkmate, leaving Black no legal response"
+          "Promotion requires an additional move to place the new queen on another square",
+          "Promotion itself is not a win condition, and Black's king still has legal moves",
+          "The promoted queen must give an extra check in the same turn"
         ],
-        "explanation": "The pawn promotes on a8, but the new queen does not give check to the black king on h7."
+        "explanation": "Promotion gives White a powerful queen, but it is not checkmate. Black's king on h7 still has legal moves; White must convert the advantage by working toward mate with the king and queen."
       },
       "evidence": {
         "line": [
@@ -930,22 +930,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "このKd4は、それだけで白の強制勝ちを示す？",
+        "question": "白キングをe3からd4へ進めると、e2ポーンの前進をどう助けられる？",
         "options": [
-          "Kd4のあと黒キングが動けないため即引き分けが確定する",
-          "Kd4で白は黒キングに必ず王手をかけ、逃げ道を奪う",
-          "いいえ。安全なキング活動の一例で、勝ちの証明ではない"
+          "d4からe筋に立ってポーンの進路をふさぎ、取られないようにする",
+          "d4に動けば、e2ポーンも同じ手でe3へ進められる",
+          "d4のキングがe3を守りながら、ポーンの前進路を空けておける"
         ],
-        "explanation": "キングを中央へ動かすのは有用だが、その一手だけで勝敗は確定しない。"
+        "explanation": "d4のキングは斜め隣のe3を守り、e2ポーンが次に前進するマスを支えられる。同時にキング自身はe筋をふさがない。キングの活動はポーンの進路との兼ね合いが大切じゃ。"
       },
       "en": {
-        "question": "Does this single Kd4 move prove a forced win?",
+        "question": "How does moving the king from e3 to d4 help the pawn on e2 advance?",
         "options": [
-          "Kd4 immediately creates stalemate because Black cannot move",
-          "Kd4 necessarily gives check and removes all of Black's escape squares",
-          "No, it illustrates safe king activity, not a forced win"
+          "The king stands on the e-file and blocks the pawn's path for protection",
+          "Moving the king to d4 also advances the e2-pawn to e3 in the same turn",
+          "From d4 the king protects e3 without obstructing the pawn's path"
         ],
-        "explanation": "Centralizing the king is useful, but the lesson does not establish a forced win from this move alone."
+        "explanation": "The king on d4 controls the adjacent e3-square, supporting the pawn's next step while leaving the e-file clear. King activity must work with the pawn's route."
       },
       "evidence": {
         "line": [
@@ -984,22 +984,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "このRa1は、どの終盤でも必ず唯一の最善手？",
+        "question": "Ra1で通過ポーンの後ろに置いたあと、白ポーンがa7へ進むとルークはどう働く？",
         "options": [
-          "いいえ。通過ポーンの後ろは有力な形だが、局面次第",
-          "ルークは前に置く",
-          "Ra1のような後方配置は強いが、黒が王手ならすべて不合法"
+          "a筋の途中が空き、a1のルークがa7ポーンを後方から守れる",
+          "ルークが味方のa7ポーンを取って、そのままクイーンへ昇格する",
+          "ポーンがルークの利きに入るため、a7への前進が違法になる"
         ],
-        "explanation": "ルークを通過ポーンの後方に置く原則は有用だが、最善手かどうかは具体的な局面で変わる。"
+        "explanation": "a6のポーンがa7へ進めばa6が空き、a1からa7まで同じ筋が通る。ルークはポーンを後ろから守り、前進路をふさがない。相手の配置によって最善のルーク位置は変わるぞ。"
       },
       "en": {
-        "question": "Is Ra1 always the only best move in every rook ending?",
+        "question": "After Ra1, how does the rook help if White's passed pawn advances from a6 to a7?",
         "options": [
-          "No. Behind the passer is often useful, but it depends on the position",
-          "Rook ahead of the pawn",
-          "Putting a rook behind a passer is illegal whenever the opponent can give check"
+          "The a-file opens behind the pawn, letting the rook on a1 defend it on a7",
+          "The rook can capture its own pawn on a7 and promote to a queen",
+          "The pawn's advance to a7 becomes illegal because a friendly rook attacks that square"
         ],
-        "explanation": "Rooks often work well behind passed pawns, but optimal placement depends on the position."
+        "explanation": "After the pawn reaches a7, a6 is clear and the rook on a1 protects it along the a-file from behind without blocking its route. The best rook placement still depends on the position."
       },
       "evidence": {
         "line": [
@@ -1038,22 +1038,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 1,
       "ja": {
-        "question": "この教材のKd5だけで、白の勝利が確定したと考えてよい？",
+        "question": "白がKd5としたあと、黒キングがe7からすぐ...Ke6と進めない理由は？",
         "options": [
-          "白キングd5は黒のキングを一手で必ず追い出して勝つ",
-          "いいえ。ポーンを守る一手の例示で、強制勝ちは主張していない",
-          "ポーンを守れているので黒のすべての応手は違法になる"
+          "e4の白ポーンがe6を直接攻撃しているから",
+          "d5の白キングがe6を利かせ、黒キングはそのマスへ入れないから",
+          "黒キングは自分の手番でも前へ進めないルールだから"
         ],
-        "explanation": "Kd5はキングの支えを示す教材で、全合法応手に対して白の勝ちを証明した手順ではない。"
+        "explanation": "d5の白キングはe4のポーンだけでなくe6のマスも守っている。黒キングe7が...Ke6と進むと白キングの利きに入るため違法。キングでポーンを守りながら、相手キングの活動も制限できる。"
       },
       "en": {
-        "question": "Does Kd5 alone prove a forced win for White?",
+        "question": "After Kd5, why can't Black immediately move the king from e7 to e6?",
         "options": [
-          "White's king on d5 can always drive Black's king away in one move",
-          "No, it demonstrates king support without claiming a forced win",
-          "Protecting the pawn makes every possible black response illegal"
+          "White's pawn on e4 directly attacks e6",
+          "The king on d5 controls e6, so the black king cannot enter that square",
+          "Black kings are never allowed to advance on their own turn"
         ],
-        "explanation": "This move shows king support, but the example is not a proof of a forced victory."
+        "explanation": "The king on d5 protects both the e4-pawn and the e6-square. ...Ke6 would step into the white king's attack and is illegal. An active king both escorts its pawn and restricts the opponent."
       },
       "evidence": {
         "line": [
