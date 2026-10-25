@@ -23,7 +23,7 @@ const I18N = (() => {
       'learn.help': 'はじめてのチェスから定跡まで、順番に学べます。解説のあとで実際に一手を指してみよう。',
       'learn.basics': '🐤 はじめて', 'learn.principles': '🌱 基本の考え方',
       'learn.catBasics': 'チェス入門', 'learn.catPrinciples': '基本の考え方',
-      'learn.descBasics': '駒の動かし方・王手・特別なルールから始めよう。14レッスン。',
+      'learn.descBasics': '駒の動かし方・チェック・特別なルールから始めよう。14レッスン。',
       'learn.descPrinciples': '中央・展開・キングの安全・両取りなどを学ぼう。10レッスン。',
       'learn.descOpening': '定跡ごとの狙いを、最初の一手から学ぼう。',
       'learn.descCombo': 'フォークやピンなどの戦術を、一手ずつ観察しよう。',
