@@ -6,6 +6,10 @@ on:
       - 'css/style.css'
       - 'js/app.js'
       - 'js/intro_lessons.js'
+      - 'js/extra_lessons.js'
+      - 'js/lessons.js'
+      - 'js/games.js'
+      - 'tools/test_course_expansion.cjs'
       - 'js/learning.js'
       - 'js/i18n.js'
       - 'tools/test_intro_lessons.cjs'
@@ -35,6 +39,10 @@ on:
       - 'css/style.css'
       - 'js/app.js'
       - 'js/intro_lessons.js'
+      - 'js/extra_lessons.js'
+      - 'js/lessons.js'
+      - 'js/games.js'
+      - 'tools/test_course_expansion.cjs'
       - 'js/learning.js'
       - 'js/i18n.js'
       - 'tools/test_intro_lessons.cjs'
@@ -89,6 +97,7 @@ jobs:
           node tools/test_puzzle_navigation.cjs
           node tools/test_learning_runtime.cjs
           node tools/test_intro_lessons.cjs
+          node tools/test_course_expansion.cjs
           node tools/audit_runtime.cjs
       - name: Install browser tests
         run: |
