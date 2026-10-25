@@ -84,6 +84,18 @@
           <button id="btn-study-next" type="button" class="btn" data-i18n="learn.nextLesson">▶ 次のレッスン</button>
         </div>
       </div>
+      <section id="study-reasoning" class="study-reasoning hidden" aria-labelledby="study-reasoning-heading">
+        <div id="study-reasoning-heading" class="study-reasoning-heading" data-i18n="learn.reasonTitle">🧠 なぜ？どう防ぐ？</div>
+        <p id="study-reasoning-progress" class="study-reasoning-progress"></p>
+        <div class="study-reasoning-tabs" role="group" aria-label="Reasoning topics">
+          <button id="btn-reason-why" type="button" class="btn" aria-pressed="true" data-i18n="learn.reasonWhy">なぜその手？</button>
+          <button id="btn-reason-defense" type="button" class="btn" aria-pressed="false" data-i18n="learn.reasonDefense">どう防ぐ？</button>
+        </div>
+        <p id="study-reasoning-question" class="study-reasoning-question"></p>
+        <div id="study-reasoning-options" class="study-reasoning-options" role="group"></div>
+        <p id="study-reasoning-feedback" class="study-reasoning-feedback" role="status" aria-live="polite"></p>
+        <p class="study-reasoning-caution" data-i18n="learn.reasonCaution">教材に登場する具体的な局面について考えよう。別の応手をすべて順位づけする問題ではありません。</p>
+      </section>
       <ol id="replay-movelist" class="movelist study-moves"></ol>
     </div>
 
@@ -242,10 +254,11 @@
 <script src="js/intro_lessons.js?v=1"></script>
 <script src="js/extra_lessons.js?v=1"></script>
 <script src="js/lesson_comparisons.js?v=3"></script>
+<script src="js/lesson_reasoning.js?v=1"></script>
 <script src="js/games.js?v=16"></script>
 <script src="js/engine.js?v=20"></script>
 <script src="js/i18n.js?v=11"></script>
-<script src="js/learning.js?v=3"></script>
-<script src="js/app.js?v=28"></script>
+<script src="js/learning.js?v=4"></script>
+<script src="js/app.js?v=29"></script>
 </body>
 </html>
