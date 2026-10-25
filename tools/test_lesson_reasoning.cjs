@@ -163,6 +163,34 @@ for (const item of snapshots) {
   tbCounts[item.lesson]++;
 }
 for(const [key,count] of Object.entries(expectedTB)) assert.equal(tbCounts[key],count,'saved tablebase snapshot coverage '+key);
+// Lucena's second question must distinguish interposition from capture
+// and pawn defense, with the actual c-file check independently replayed.
+const lucenaLesson=all.get('eg_lucena');
+const lucenaGame=new Chess(lucenaLesson.fen);
+for(const san of ['Rf4','Ra1','Kd7','Rd1+','Ke6','Re1+','Kd6','Rd1+','Kc5','Rc1+'])
+  assert.ok(lucenaGame.move(san),'Lucena preparation missing '+san);
+assert.equal(lucenaGame.in_check(),true,'...Rc1+ must give check');
+assert.equal(lucenaGame.get('c5').type,'k','king must still be on c5');
+assert.equal(lucenaGame.get('c1').type,'r','black rook must be on c1');
+const lucenaBlock=lucenaGame.move('Rc4');
+assert.equal(lucenaBlock.san,'Rc4');
+assert.equal(lucenaBlock.captured,undefined,'Rc4 is an interposition, not a capture');
+assert.equal(lucenaGame.in_check(),false,'interposition must stop the check');
+assert.equal(lucenaGame.get('c4').color,'w','white rook must stand between king and attacker');
+assert.equal(lucenaGame.get('c5').color,'w','king must stay on c5');
+assert.equal(lucenaGame.get('e7').type,'p','promotion pawn is still on e7');
+assert.ok(lucenaGame.move('Rxc4+'),'black rook can capture interposing rook');
+assert.ok(lucenaGame.move('Kxc4'),'king on c5 can recapture on c4');
+const lucenaQuiz=LESSON_REASONING.eg_lucena.defense;
+assert.equal(lucenaQuiz.answer,0,'existing Lucena answer index must not change');
+for(const lang of ['ja','en']) {
+  const item=lucenaQuiz[lang];
+  assert.equal(new Set(item.options).size,3,'Lucena answer choices must be distinct');
+  assert.ok(item.options[1].includes('c1'),'capture misconception must identify black rook square');
+  assert.ok(item.options[2].includes('e7'),'pawn misconception must identify the promotion pawn');
+  assert.ok(item.explanation.includes('Kxc4'),'Lucena explanation must demonstrate the recapture');
+}
+
 // Guard the alternative outcomes described by two particularly easy-to-misread questions.
 const egStalemate=new Chess(all.get('eg_stalemate').fen);
 assert.equal(egStalemate.move('Qg6').san,'Qg6');
