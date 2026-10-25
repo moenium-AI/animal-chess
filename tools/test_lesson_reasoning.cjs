@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const ctx = vm.createContext({console});
-for (const name of ['chess', 'learning', 'lessons', 'intro_lessons', 'extra_lessons', 'lesson_comparisons', 'lesson_reasoning', 'lesson_reasoning_endgames', 'lesson_reasoning_openings'])
+for (const name of ['chess', 'learning', 'lessons', 'intro_lessons', 'extra_lessons', 'lesson_comparisons', 'lesson_reasoning', 'lesson_reasoning_endgames', 'lesson_reasoning_openings', 'lesson_reasoning_foundations'])
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../js', name+'.js'), 'utf8'), ctx);
 const {Chess, Learning, LESSONS, INTRO_LESSONS, EXTRA_LESSONS, LESSON_COMPARISONS, LESSON_REASONING} =
   vm.runInContext('({Chess,Learning,LESSONS,INTRO_LESSONS,EXTRA_LESSONS,LESSON_COMPARISONS,LESSON_REASONING})',ctx);
@@ -12,13 +12,18 @@ const lessonCatalog=[...LESSONS,...INTRO_LESSONS,...EXTRA_LESSONS];
 const tacticIds=lessonCatalog.filter(lesson=>lesson.cat==='combo').map(lesson=>lesson.id);
 const endgameIds=lessonCatalog.filter(lesson=>lesson.cat==='endgame').map(lesson=>lesson.id);
 const openingIds=lessonCatalog.filter(lesson=>lesson.cat==='opening').map(lesson=>lesson.id);
+const basicIds=lessonCatalog.filter(lesson=>lesson.cat==='basics').map(lesson=>lesson.id);
+const principleIds=lessonCatalog.filter(lesson=>lesson.cat==='principles').map(lesson=>lesson.id);
 assert.equal(tacticIds.length,21,'all tactical lessons must be covered');
 assert.equal(endgameIds.length,18,'all endgame lessons must be covered');
 assert.equal(openingIds.length,17,'all opening lessons must be covered');
-const expected = ['bk_stalemate','bk_castling',...tacticIds,...endgameIds,...openingIds];
+assert.equal(basicIds.length,14,'all basic lessons must be covered');
+assert.equal(principleIds.length,10,'all principle lessons must be covered');
+assert.equal(lessonCatalog.length,80,'full course count changed');
+const expected = [...basicIds,...principleIds,...tacticIds,...endgameIds,...openingIds];
 assert.deepEqual(Object.keys(LESSON_REASONING).sort(), expected.slice().sort(), 'unexpected/missing reasoning lessons');
 const original=['bk_stalemate','bk_castling','cb_windmill','cb_smother','cb_decoy','cb_interference'];
-let checked = 0, proofed = 0, endgameProofs=0, openingProofs=0;
+let checked = 0, proofed = 0, endgameProofs=0, openingProofs=0, foundationProofs=0;
 for (const id of expected) {
   assert.ok(all.has(id), 'Unknown lesson '+id);
   if (original.includes(id)) assert.ok(LESSON_COMPARISONS[id], 'Missing audited comparison for '+id);
@@ -51,6 +56,7 @@ for (const id of expected) {
       assert.equal(evidence.line[0],lesson.moves[0].san,id+'/'+kind+' must anchor the demonstrated move');
       proofed++;
       if (endgameIds.includes(id)) endgameProofs++;
+      if (basicIds.includes(id) || principleIds.includes(id)) foundationProofs++;
       if (openingIds.includes(id)) {
         assert.equal(evidence.line[evidence.line.length-1],evidence.focus,id+'/'+kind+' focus must name observed move');
         openingProofs++;
@@ -61,6 +67,35 @@ for (const id of expected) {
     checked++;
   }
 }
+// Verify foundations against the board, not merely the written answer key.
+const chessBoard=id=>new Chess(all.get(id).fen || undefined);
+const pawnCapture=chessBoard('bk_capture');
+pawnCapture.move('exd5');
+assert.equal(pawnCapture.get('d5').color,'w','capturing pawn must land on d5');
+assert.equal(pawnCapture.get('e4'),null,'capture must vacate e4');
+const queenPromotion=chessBoard('bk_promotion');
+queenPromotion.move('a8=Q+');
+assert.equal(queenPromotion.get('a8').type,'q','promotion must create a queen');
+assert.equal(queenPromotion.in_check(),true,'promotion should give check');
+const ep=chessBoard('bk_enpassant');
+ep.move('d5');ep.move('exd6');
+assert.equal(ep.get('d6').color,'w','en passant must leave White pawn on d6');
+assert.equal(ep.get('d5'),null,'en passant must remove the pawn on d5');
+const castled=chessBoard('pr_castle');
+for(const san of ['e4','e5','Nf3','Nc6','Bc4','Bc5','O-O']) assert.ok(castled.move(san));
+assert.equal(castled.get('g1').type,'k','castling must put king on g1');
+assert.equal(castled.get('f1').type,'r','castling must put rook on f1');
+const center=chessBoard('pr_center');
+for(const san of ['e4','e5','Nf3','Nc6','d4','exd4','Nxd4']) assert.ok(center.move(san));
+assert.equal(center.get('d4').type,'n','White knight must recapture d4');
+const basicMate=chessBoard('bk_mate');
+for(const san of ['f3','e5','g4','Qh4#']) assert.ok(basicMate.move(san));
+assert.equal(basicMate.in_checkmate(),true,'Qh4# must checkmate');
+const pinnedQueen=chessBoard('pr_pin');
+for(const san of ['d4','d5','c4','e6','Nc3','Nf6','Bg5']) assert.ok(pinnedQueen.move(san));
+assert.equal(pinnedQueen.get('f6').type,'n','pin should target f6 knight');
+assert.equal(pinnedQueen.get('d8').type,'q','pin should target d8 queen, not king');
+
 // Keep representative opening principles tied to the actual board, not just prose.
 const london=new Chess(all.get('op_london').fen || undefined);
 for(const san of ['d4','d5','Nf3','Nf6','Bf4','c5']) assert.ok(london.move(san));
@@ -142,4 +177,6 @@ for(const san of ['Kg6','Kg8','h7+','Kh8','Kh6']) assert.ok(wrongBishop.move(san
 assert.equal(wrongBishop.in_stalemate(),true,'wrong-colored rook pawn ending must draw in displayed line');
 assert.equal(endgameProofs,36,'two replayed evidence lines per endgame');
 assert.equal(openingProofs,34,'two replayed evidence lines per opening');
-console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,endgames:endgameIds.length,openings:openingIds.length,questions:checked,verifiedExampleLines:proofed,endgameProofs,openingProofs,tablebaseSnapshots:snapshots.length,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
+assert.equal(foundationProofs,44,'two lines for the 22 newly covered foundation lessons');
+assert.equal(checked,160,'all 80 lessons must have two answer-checked questions');
+console.log(JSON.stringify({lessons:expected.length,basics:basicIds.length,principles:principleIds.length,tactical:tacticIds.length,endgames:endgameIds.length,openings:openingIds.length,questions:checked,verifiedExampleLines:proofed,foundationProofs,endgameProofs,openingProofs,tablebaseSnapshots:snapshots.length,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
