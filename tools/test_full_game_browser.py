@@ -165,7 +165,7 @@ with sync_playwright() as pw:
     page.locator('#btn-replay-last').click(force=True)
     source_counter=page.locator('#replay-counter').inner_text()
     page.locator('#btn-reason-defense').click(force=True)
-    page.locator('#study-reasoning-options button').nth(0).click(force=True)
+    page.locator('#study-reasoning-options button').nth(1).click(force=True)  # wrong, preserve original progress totals
     source_fen=page.locator('#study-reasoning-position-board').get_attribute('data-fen')
     assert page.locator('#btn-return-lesson').is_hidden()
     page.locator('#btn-study-puzzle').click(force=True)
@@ -181,7 +181,7 @@ with sync_playwright() as pw:
     assert page.locator('#replay-counter').inner_text()==source_counter
     assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
     assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==source_fen
-    assert 'Correct' in page.locator('#study-reasoning-feedback').inner_text()
+    assert 'Think again' in page.locator('#study-reasoning-feedback').inner_text()
     assert page.locator('#btn-return-lesson').is_hidden()
     page.locator('#sel-language').select_option('ja')
 
