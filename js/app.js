@@ -1220,6 +1220,95 @@ function loadAnnotated(data, meta) {
   });
 }
 
+// Practice is attached to the SAME legal Chess instance used for replay.
+// An incorrect move never advances the game or corrupts the annotated line.
+function currentLesson() {
+  return mode === 'replay' && replay.annotation && replay.annotation.data &&
+    replay.annotation.data.cat ? replay.annotation.data : null;
+}
+function renderPracticeControls() {
+  const area = $('study-practice');
+  const data = currentLesson();
+  const hasPractice = !!(data && data.practice);
+  area.classList.toggle('hidden', !hasPractice);
+  if (!hasPractice) return;
+  const text = lessonText(data);
+  const active = !!lessonPractice && lessonPractice.id === data.id && replay.idx === lessonPractice.ply;
+  $('study-practice-prompt').textContent = active
+    ? text.practice.prompt + ' ' + tr('learn.practiceDisclaimer') : tr('learn.practiceReady');
+  const feedback = $('study-practice-feedback');
+  const parts = [];
+  if (lessonFeedback) parts.push(tr(lessonFeedback));
+  if (active && lessonPractice.hintShown) parts.push(tr('learn.practiceHintLabel', { hint: text.practice.hint }));
+  feedback.textContent = parts.join(' ');
+  feedback.classList.toggle('is-correct', lessonFeedbackKind === 'correct');
+  feedback.classList.toggle('is-incorrect', lessonFeedbackKind === 'incorrect');
+  $('btn-study-practice').textContent = tr(active ? 'learn.retryMove' : 'learn.tryMove');
+  $('btn-study-practice-hint').classList.toggle('hidden', !active);
+  const theme = data.puzzleTheme;
+  $('btn-study-puzzle').classList.toggle('hidden', !theme || !PUZZLES.some(p => p.theme === theme));
+  const lessons = allLearningLessons().filter(l => l.cat === data.cat);
+  $('btn-study-next').classList.toggle('hidden', lessons.findIndex(l => l.id === data.id) >= lessons.length - 1);
+}
+function beginLessonPractice() {
+  const data = currentLesson();
+  if (!data || !data.practice) return;
+  lessonPractice = { id: data.id, ply: data.practice.ply,
+    san: data.moves[data.practice.ply].san, hintShown: false };
+  lessonFeedback = 'learn.practiceStart';
+  lessonFeedbackKind = '';
+  selected = null; legalTargets = []; hintSquares = [];
+  replayGoTo(data.practice.ply);
+  boardEl.querySelector('.square[tabindex="0"]')?.focus();
+}
+function showLessonPracticeHint() {
+  if (!lessonPractice) return;
+  lessonPractice.hintShown = true;
+  renderPracticeControls();
+}
+function tryLessonPracticeMove(moveArg) {
+  const data = currentLesson();
+  if (!data || !lessonPractice || data.id !== lessonPractice.id) return;
+  const result = Learning.practiceMove(game, lessonPractice.san, moveArg);
+  selected = null; legalTargets = []; hintSquares = [];
+  if (!result.correct) {
+    lessonFeedback = 'learn.practiceWrong';
+    lessonFeedbackKind = 'incorrect';
+    sBad();
+    renderPosition();
+    renderPracticeControls();
+    return;
+  }
+  const ply = lessonPractice.ply;
+  lessonPractice = null;
+  lessonFeedback = 'learn.practiceCorrect';
+  lessonFeedbackKind = 'correct';
+  noteLessonProgress(data.id, 'mastered');
+  replayGoTo(ply + 1);
+  sMove();
+}
+function goToLessonPuzzles() {
+  const lesson = currentLesson();
+  const theme = lesson && lesson.puzzleTheme;
+  if (!theme || !PUZZLES.some(p => p.theme === theme)) return;
+  puzzleTheme = theme;
+  puzzleLevel = 'all';
+  renderPuzzleCats();
+  renderPuzzleList({ resetScroll: true });
+  switchTab('puzzle');
+  const idx = PUZZLES.findIndex(p => p.theme === theme && !solvedPuzzles.has(p.id));
+  const fallback = PUZZLES.findIndex(p => p.theme === theme);
+  loadPuzzle(idx >= 0 ? idx : fallback);
+}
+function goToNextLesson() {
+  const data = currentLesson();
+  if (!data) return;
+  const choices = allLearningLessons().filter(l => l.cat === data.cat);
+  const next = choices[choices.findIndex(l => l.id === data.id) + 1];
+  if (!next) { toast(tr('learn.noNextLesson')); return; }
+  loadAnnotated(next, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[next.cat] });
+}
+
 function showStudyNote() {
   const i = replay.idx;
   let html = '';
