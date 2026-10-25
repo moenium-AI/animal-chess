@@ -93,6 +93,11 @@ with sync_playwright() as pw:
     # to the desktop sidebar without duplicating or losing its live text.
     for width,height in [(1099,840),(390,840),(1280,900)]:
         page.set_viewport_size({'width':width,'height':height})
+        # The matchMedia change event can arrive after set_viewport_size returns.
+        expected_parent = 'board-col' if width < 1100 else 'side-col'
+        page.wait_for_function(
+            "(expected) => document.querySelector('#status-bar').parentElement.className === expected",
+            arg=expected_parent, timeout=3000)
         placement=page.evaluate("""() => {
           const status = document.querySelector('#status-bar');
           const parent = status.parentElement;
