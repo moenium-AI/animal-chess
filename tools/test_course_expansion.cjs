@@ -72,3 +72,5 @@ assert.equal(p.op_london,'mastered');assert.equal(p.opera,'studied');assert.equa
 console.log(JSON.stringify({lessons:80,chapters:counts,legacyPractice:legacyPractices,allPractice:practices,lessonPlies,famousGames:15,gamePlies,progress:'PASS'}));
 // The regular course CI must also validate the reasoning catalog and storage. 
 require('./test_lesson_reasoning.cjs');
+// Nonblocking metrics: quantify distractor-length leakage on every CI run.
+require('./audit_reasoning_quality.cjs');
