@@ -8,11 +8,11 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Qf7のあと、なぜ引き分けになるのかな？",
         "options": [
-          "黒キングは王手を受けており、白クイーンを取る手だけが禁じられたから",
-          "黒は王手を受けておらず、合法手もないから",
+          "黒キングはチェックを受けており、白クイーンを取る手だけが禁じられたから",
+          "黒はチェックを受けておらず、合法手もないから",
           "黒キングに合法な手はあるが、同じ局面が3回繰り返されたから"
         ],
-        "explanation": "Qf7は王手ではない。黒に合法手がないため、チェックメイトではなくステイルメイトの引き分けじゃ。"
+        "explanation": "Qf7はチェックではない。黒に合法手がないため、チェックメイトではなくステイルメイトの引き分けじゃ。"
       },
       "en": {
         "question": "Why is the game drawn after Qf7?",
@@ -29,8 +29,8 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Qf7の代わりにQf6+と指したら、黒はどうできる？",
         "options": [
-          "黒キングは...Kh7と進んで王手を避けることができる",
-          "黒キングは...Kxf6と白クイーンを取って王手を消せる",
+          "黒キングは...Kh7と進んでチェックを避けることができる",
+          "黒キングは...Kxf6と白クイーンを取ってチェックを消せる",
           "Kg8でチェックから逃げ、対局が続く"
         ],
         "explanation": "Qf6+にはKg8という合法な応手がある。ステイルメイトを避けられる一例じゃ。"
@@ -96,11 +96,11 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Rxc7+から風車が始まる理由は？",
         "options": [
-          "c7ルーク自身の王手",
+          "c7ルーク自身のチェック",
           "b2ビショップを遮る",
-          "ルークが動くとb2のビショップの王手が開くから"
+          "ルークが動くとb2のビショップのチェックが開くから"
         ],
-        "explanation": "ルークがg7からc7へ動くと、b2のビショップの対角線がh8のキングに通る。これが発見王手じゃ。"
+        "explanation": "ルークがg7からc7へ動くと、b2のビショップの対角線がh8のキングに通る。これが発見チェックじゃ。"
       },
       "en": {
         "question": "Why can Rxc7+ begin the windmill?",
@@ -119,9 +119,9 @@ const LESSON_REASONING = {
         "options": [
           "Bxc3+でクイーンを取る",
           "Rxc3+で取る",
-          "黒が...Qc3と遮ったあと白はRxc7+で再び発見王手"
+          "黒が...Qc3と遮ったあと白はRxc7+で再び発見チェック"
         ],
-        "explanation": "...Qc3は発見王手を遮るが、b2のビショップがBxc3+でクイーンを取れる。風車が続かなくても白の攻めは成立する。"
+        "explanation": "...Qc3は発見チェックを遮るが、b2のビショップがBxc3+でクイーンを取れる。風車が続かなくても白の攻めは成立する。"
       },
       "en": {
         "question": "How does White answer ...Qc3 after Rxc7+?",
@@ -142,7 +142,7 @@ const LESSON_REASONING = {
         "options": [
           "黒ルークをg8から追う",
           "Rxg8で逃げ道をふさぎ、Nf7#を可能にするため",
-          "黒王をf8へ戻す"
+          "黒キングをf8へ戻す"
         ],
         "explanation": "黒ルークがg8でクイーンを取ると、黒キングの逃げ道が自分のルークで埋まり、Nf7#の窒息メイトとなる。"
       },
@@ -188,7 +188,7 @@ const LESSON_REASONING = {
           "h8ルークも狙う",
           "d8クイーンを守る"
         ],
-        "explanation": "ナイトがf7でキングに王手をかけ、同時にd8のクイーンも狙う。f8の黒ビショップはそのナイトを取れない。"
+        "explanation": "ナイトがf7でキングにチェックをかけ、同時にd8のクイーンも狙う。f8の黒ビショップはそのナイトを取れない。"
       },
       "en": {
         "question": "After Bb3+ Kh8, what does Nf7+ threaten?",
@@ -273,10 +273,10 @@ const LESSON_REASONING = {
         "question": "Ne7+がフォークになるのはなぜ？",
         "options": [
           "a8ルークを狙う",
-          "黒キングに王手をかけながら、c6のクイーンを攻撃するから",
+          "黒キングにチェックをかけながら、c6のクイーンを攻撃するから",
           "c6クイーンを守る"
         ],
-        "explanation": "e7のナイトは黒キングg8と黒クイーンc6を同時に狙う。王手への対応が先になるのがポイントじゃ。"
+        "explanation": "e7のナイトは黒キングg8と黒クイーンc6を同時に狙う。チェックへの対応が先になるのがポイントじゃ。"
       },
       "en": {
         "question": "Why is Ne7+ a knight fork?",
@@ -302,7 +302,7 @@ const LESSON_REASONING = {
         "question": "この例でNxc6とクイーンを取ったあと、対局の結果は？",
         "options": [
           "Nxc6で黒クイーンを取るとキングとナイトだけでは勝ち切れないが、黒にまだポーンが残る",
-          "Nxc6のあと白ナイトはc6で黒キングに王手をかけ続けるため詰む",
+          "Nxc6のあと白ナイトはc6で黒キングにチェックをかけ続けるため詰む",
           "駒不足による引き分け"
         ],
         "explanation": "クイーンは取れたが、キング＋ナイト対キングでは詰ませられない。駒得と勝利は別なのじゃ。"
@@ -332,8 +332,8 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒ナイトd5がピンされているのはなぜ？",
         "options": [
-          "動くとd1の白ルークがd8の黒キングへ王手をかけるから",
-          "c4ポーンの王手",
+          "動くとd1の白ルークがd8の黒キングへチェックをかけるから",
+          "c4ポーンのチェック",
           "白ルークを守る手"
         ],
         "explanation": "黒ナイトd5がd筋から離れると、白ルークd1が黒キングd8を直線で攻撃するため、そのナイトは動かせない。"
@@ -359,8 +359,8 @@ const LESSON_REASONING = {
         "question": "黒はd5のナイトを動かしてcxd5を避けられる？",
         "options": [
           "Nc7で逃げる",
-          "できない。キングを王手にさらす移動は違法",
-          "黒ナイトはe7へ逃げれば黒キングがルークの王手を受けずに済む"
+          "できない。キングをチェックにさらす移動は違法",
+          "黒ナイトはe7へ逃げれば黒キングがルークのチェックを受けずに済む"
         ],
         "explanation": "この局面でd5ナイトを動かすとd筋の白ルークの利きがキングに届く。ピンされた駒の移動は合法ではないぞ。"
       },
@@ -416,7 +416,7 @@ const LESSON_REASONING = {
         "options": [
           "Rxe8でクイーンを取る",
           "Rxe5で取る",
-          "黒キングがd5へ逃げたので白はRe8+と王手を続ける"
+          "黒キングがd5へ逃げたので白はRe8+とチェックを続ける"
         ],
         "explanation": "キングがe筋から逃げたので、ルークはe8のクイーンを取れる。これが串刺しの収穫じゃ。"
       },
@@ -448,7 +448,7 @@ const LESSON_REASONING = {
           "黒キングの逃げ道が自分のf7・g7・h7のポーンに塞がれているから",
           "黒キングg8は白のルークを取れるが次の手で詰まされるから"
         ],
-        "explanation": "黒のポーンがキングの逃げ道を塞いでいるため、8段目のルークの王手を受けられない。"
+        "explanation": "黒のポーンがキングの逃げ道を塞いでいるため、8段目のルークのチェックを受けられない。"
       },
       "en": {
         "question": "Why does Rd8# checkmate Black?",
@@ -469,22 +469,22 @@ const LESSON_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "この局面でRd8#を指されたあと、黒に合法な受けはある？",
+        "question": "黒がバックランク・メイトを前もって防ぐなら、どんなルフトを作るのが有効？",
         "options": [
-          "...f6で防ぐ",
-          "黒は...Kh7でf7ポーンを避け、7段目へ脱出できる",
-          "ない。すでにチェックメイト"
+          "黒キングはf7の自分のポーンを飛び越えられるので準備は不要",
+          "Rd8#とメイトされたあとでも...h6を指せば助かる",
+          "事前に...h6でh7を空け、必要ならキングが逃げられるようにする"
         ],
-        "explanation": "詰みの時点ではポーンを動かしても王手を解除できず、キングにも逃げ道がない。準備段階で『ルフト』を作るのが大切じゃ。"
+        "explanation": "現局面でRd8#を許すと、黒キングg8の前にはf7・g7・h7の味方ポーンが並び、逃げ道がない。黒が前もって...h6とすればh7が空き、同じRd8+にも...Kh7で逃げられる。チェックメイトされてからでは遅い。"
       },
       "en": {
-        "question": "After Rd8# in this exact position, does Black have a legal reply?",
+        "question": "To prevent this back-rank mate in advance, how could Black make luft?",
         "options": [
-          "Block with ...f6",
-          "Black may flee with ...Kh7, moving out beside its pawn on f7",
-          "No, the position is already checkmate"
+          "The king can always jump over its own pawn on f7, so no preparation is needed",
+          "After being checkmated by Rd8#, Black can still play ...h6",
+          "Play ...h6 ahead of time to clear h7 as a possible king escape square"
         ],
-        "explanation": "There is no legal response to the rook's check. Creating a king escape square (luft) must be done before the mating attack."
+        "explanation": "In the shown position Rd8# traps the king behind its own f7, g7 and h7 pawns. If Black had played ...h6 earlier, h7 would be open and ...Kh7 could answer Rd8+. Once checkmated it is too late."
       },
       "evidence": {
         "line": [
@@ -500,11 +500,11 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Qa4+が二重攻撃になるのはなぜ？",
         "options": [
-          "黒キングへの王手とh4のビショップへの攻撃を同時に作るから",
-          "d4ポーンを守る王手",
-          "h4ビショップを守る王手"
+          "黒キングへのチェックとh4のビショップへの攻撃を同時に作るから",
+          "d4ポーンを守るチェック",
+          "h4ビショップを守るチェック"
         ],
-        "explanation": "クイーンa4はe8のキングへ斜めに王手をかけ、h4のビショップへ横から利きを通している。"
+        "explanation": "クイーンa4はe8のキングへ斜めにチェックをかけ、h4のビショップへ横から利きを通している。"
       },
       "en": {
         "question": "Why is Qa4+ a double attack?",
@@ -529,10 +529,10 @@ const LESSON_REASONING = {
         "question": "黒がQa4+に...Kf8と応じたら、白は何を取れる？",
         "options": [
           "Qxa7で取る",
-          "...Kf8のあと白クイーンはQe8+で王手を続ける",
+          "...Kf8のあと白クイーンはQe8+でチェックを続ける",
           "Qxh4でビショップを取れる"
         ],
-        "explanation": "黒キングが王手に対応したあと、白クイーンのh4への利きが残り、Qxh4でビショップを取れる。"
+        "explanation": "黒キングがチェックに対応したあと、白クイーンのh4への利きが残り、Qxh4でビショップを取れる。"
       },
       "en": {
         "question": "After ...Kf8 in reply to Qa4+, what can White capture?",
@@ -556,11 +556,11 @@ const LESSON_REASONING = {
     "why": {
       "answer": 1,
       "ja": {
-        "question": "Nc6+が『発見王手』なのはなぜ？",
+        "question": "Nc6+が『発見チェック』なのはなぜ？",
         "options": [
-          "c6ナイト自身の王手",
-          "ナイトがe筋を離れてe1のルークの王手を開くから",
-          "白ビショップの発見王手"
+          "c6ナイト自身のチェック",
+          "ナイトがe筋を離れてe1のルークのチェックを開くから",
+          "白ビショップの発見チェック"
         ],
         "explanation": "ナイトe5がc6へ動くと、白ルークe1から黒キングe8への縦の利きが開く。ナイトもd8のクイーンを狙う。"
       },
@@ -584,7 +584,7 @@ const LESSON_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "黒がNc6+に...Qe7で王手を遮ったら、白は？",
+        "question": "黒がNc6+に...Qe7でチェックを遮ったら、白は？",
         "options": [
           "Rxe7+でクイーンを取れる",
           "Nxe7で取る",
@@ -616,9 +616,9 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Ne7+でダブルチェックになるのはなぜ？",
         "options": [
-          "Ne7+では白ルークが黒ナイトだけを攻撃し王手は一つ",
-          "ナイトがe7に動くとc1ルークはナイトに遮られ王手が消える",
-          "ナイト自身の王手とc1の白ルークの発見王手が同時に生じるから"
+          "Ne7+では白ルークが黒ナイトだけを攻撃しチェックは一つ",
+          "ナイトがe7に動くとc1ルークはナイトに遮られチェックが消える",
+          "ナイト自身のチェックとc1の白ルークの発見チェックが同時に生じるから"
         ],
         "explanation": "c6のナイトがe7に動くとキングc8をナイトで攻撃し、同時にc1のルークの縦の利きも開く。"
       },
@@ -645,10 +645,10 @@ const LESSON_REASONING = {
         "question": "黒はNe7+のダブルチェックを合駒だけで防げる？",
         "options": [
           "c7に合駒する",
-          "できない。キングを動かして二つの王手を同時に避ける",
-          "黒はナイトを取れば残ったc1ルークの王手も遮れる"
+          "できない。キングを動かして二つのチェックを同時に避ける",
+          "黒はナイトを取れば残ったc1ルークのチェックも遮れる"
         ],
-        "explanation": "ダブルチェックでは、一方の王手だけを遮ってももう一方が残る。この局面ではキングの移動が必要じゃ。"
+        "explanation": "ダブルチェックでは、一方のチェックだけを遮ってももう一方が残る。この局面ではキングの移動が必要じゃ。"
       },
       "en": {
         "question": "Can Black stop Ne7+ by blocking only the rook's line?",
@@ -676,7 +676,7 @@ const LESSON_REASONING = {
         "options": [
           "黒のルークがd8とf8から黒キングの両側を守って逃げ道を開く",
           "d8とf8を黒自身のルークが塞ぎ、ほかの逃げ道もクイーンに攻撃されるから",
-          "白クイーンe6はd7とf7を押さえるが黒キングには王手していない"
+          "白クイーンe6はd7とf7を押さえるが黒キングにはチェックしていない"
         ],
         "explanation": "黒のルークが両脇をふさぎ、白クイーンが残りの逃げ道を押さえる。味方の駒が作る窒息が特徴じゃ。"
       },
@@ -699,22 +699,22 @@ const LESSON_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "Qe6#を受けたあと、黒に指せる合法手は？",
+        "question": "もしf8の黒ルークが盤上になければ、Qe6+のあと黒キングはどこへ逃げられる？",
         "options": [
-          "ない。これはエポーレット・メイト",
-          "黒のルークd8で...Rd7と合駒して王手を止められる",
-          "黒は...Kd7と一歩進んで白クイーンの射線から逃れる"
+          "f8。味方ルークがいなければ、そこが逃げ道になる",
+          "d8。残った黒ルークがキングを飛び越えさせる",
+          "e7。チェック中の白クイーンを黒キングが取れる"
         ],
-        "explanation": "この配置でのQe6#はすでに詰み。どの黒駒も王手を解消できない。"
+        "explanation": "本来のQe6#では、黒キングe8の両隣d8・f8を黒自身のルークが塞いでいる。仮にf8のルークがなければ、黒キングは...Kf8と逃げられる。相手の駒が逃げ道をふさぐこと自体がメイトの条件じゃ。"
       },
       "en": {
-        "question": "Does Black have a legal reply to Qe6#?",
+        "question": "If Black's rook on f8 were absent, where could the king escape after Qe6+?",
         "options": [
-          "No, this is epaulette mate",
-          "Black's rook on d8 can interpose with ...Rd7 to block the check",
-          "The king can step to d7 to leave the queen's checking line"
+          "To f8, which would then be an open escape square",
+          "To d8 by jumping over Black's remaining rook",
+          "To e7 by capturing the checking queen"
         ],
-        "explanation": "Qe6# is checkmate in this position; no black move removes the check."
+        "explanation": "In the original Qe6#, Black's own rooks occupy both d8 and f8 beside the king on e8. Without the rook on f8, ...Kf8 would be legal. The blocked escape squares make this mating pattern work."
       },
       "evidence": {
         "line": [
@@ -731,10 +731,10 @@ const LESSON_REASONING = {
         "question": "Rh4#でルークとナイトが協力する役割は？",
         "options": [
           "e7ナイトはh5の白ルークを守るためg6を空けておく",
-          "ルークがh4へ動くとナイトe7はg6へ移動して王手を続ける",
-          "ルークがh筋で王手し、e7のナイトがg6・g8の逃げ道を押さえる"
+          "ルークがh4へ動くとナイトe7はg6へ移動してチェックを続ける",
+          "ルークがh筋でチェックし、e7のナイトがg6・g8の逃げ道を押さえる"
         ],
-        "explanation": "ナイトe7がg6・g8への脱出を防ぎ、ルークがh4からキングh7へ王手をかける。"
+        "explanation": "ナイトe7がg6・g8への脱出を防ぎ、ルークがh4からキングh7へチェックをかける。"
       },
       "en": {
         "question": "What roles do the rook and knight play after Rh4#?",
@@ -786,11 +786,11 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Ba6#で2枚のビショップが担う役割は？",
         "options": [
-          "a6のビショップが王手し、f4のビショップがb8・c7を押さえる",
-          "ビショップf4がc7キングへ王手しa6ビショップはb8を守る",
+          "a6のビショップがチェックし、f4のビショップがb8・c7を押さえる",
+          "ビショップf4がc7キングへチェックしa6ビショップはb8を守る",
           "2枚のビショップはa6から同じ対角線で黒キングを攻撃する"
         ],
-        "explanation": "a6のビショップがキングc8に王手し、f4のビショップがb8・c7の逃げ道を押さえる。黒のポーン・ルークもキングの逃げ道をふさぐ。"
+        "explanation": "a6のビショップがキングc8にチェックし、f4のビショップがb8・c7の逃げ道を押さえる。黒のポーン・ルークもキングの逃げ道をふさぐ。"
       },
       "en": {
         "question": "How do the two bishops cooperate in Ba6#?",
@@ -811,22 +811,22 @@ const LESSON_REASONING = {
     "defense": {
       "answer": 2,
       "ja": {
-        "question": "このBa6#に対して、黒は何を指せる？",
+        "question": "もしf4の白ビショップがいなければ、Ba6+のあと黒キングはどうできる？",
         "options": [
-          "黒は...b7へポーンを戻せばc8キングの逃げ道を作れる",
-          "黒は...Rb8とルークをb8へ動かし白ビショップを遮る",
-          "合法な受けはない。チェックメイト"
+          "a6のビショップはc8へチェックできなくなる",
+          "黒キングは自分のd7ポーンを飛び越えてd6へ逃げられる",
+          "b8が守られなくなり、...Kb8と逃げられる"
         ],
-        "explanation": "黒キングの逃げ道はビショップの利きと黒自身の駒で塞がれており、王手を防ぐ手はない。"
+        "explanation": "Ba6+を指したビショップはc8のキングにチェックする。もう一枚のf4ビショップはb8・c7への逃走を防ぐ。f4のビショップがなければ...Kb8で逃げられ、メイトにならない。"
       },
       "en": {
-        "question": "What legal defense does Black have after Ba6#?",
+        "question": "If White's bishop on f4 were absent, what could Black do after Ba6+?",
         "options": [
-          "Black can move its pawn backward to b7 and create a flight square",
-          "Black can interpose the rook with ...Rb8 to obstruct the bishop",
-          "None: the position is checkmate"
+          "The bishop on a6 could no longer check the king on c8",
+          "Black could jump over its own pawn on d7 to escape to d6",
+          "The b8 escape would be uncovered, allowing ...Kb8"
         ],
-        "explanation": "The bishops and Black's own pieces leave no escape or effective block. Ba6# ends the game."
+        "explanation": "The bishop that moves to a6 checks the king on c8. White's other bishop on f4 covers b8 and c7. Without that supporting bishop, ...Kb8 would escape and the position would not be mate."
       },
       "evidence": {
         "line": [
@@ -844,7 +844,7 @@ const LESSON_REASONING = {
         "options": [
           "黒ルークa5は黒キングg8に守られているが取られる",
           "a5の黒ルークに守り駒がなく、この取り方が合法だから",
-          "白クイーンはa5のルークを取ると黒キングへ王手できる"
+          "白クイーンはa5のルークを取ると黒キングへチェックできる"
         ],
         "explanation": "黒ルークa5は守られておらず、白クイーンがa1からa5へ進んで取れる。無防備な駒を見つける基本じゃ。"
       },
@@ -867,22 +867,22 @@ const LESSON_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "Qxa5のあと、黒キングは王手を受けている？",
+        "question": "a5の黒ルークに守りがないと気づいたら、Qxa5を指す前に何を確かめるべき？",
         "options": [
-          "受けていない。白はルークを取ったが王手ではない",
-          "Qxa5は黒キングへの王手なので...Kh8で回避する必要がある",
-          "黒キングは...Kxa5でクイーンを取り返せる位置にいる"
+          "取ったクイーンが反撃で失われないか、黒の駒の利きも確認する",
+          "守られていない駒なら、クイーンが取られても必ず駒得になる",
+          "Qxa5がチェックでなくても、相手の応手は一切確認しなくてよい"
         ],
-        "explanation": "Qxa5は王手ではない。黒はたとえば...Kh8と続けられる。駒得と王手を区別しよう。"
+        "explanation": "守りのない黒ルークa5はQxa5で取れる。ただしハンギング・ピースを見つけても、取ったクイーンが安全か、相手に反撃がないかを確かめる習慣が大切じゃ。この例では黒に即座の取り返しはない。"
       },
       "en": {
-        "question": "After Qxa5, is Black's king in check?",
+        "question": "Before taking the undefended rook on a5 with Qxa5, what else should White check?",
         "options": [
-          "No. White captured the rook without giving check",
-          "Qxa5 gives check, forcing Black to respond with ...Kh8",
-          "Black's king is close enough to recapture the queen with ...Kxa5"
+          "Whether the queen can be recaptured or hit by a tactical counterattack",
+          "An undefended piece always yields a gain even if White loses the queen",
+          "As long as Qxa5 is not check, Black's possible replies never need to be considered"
         ],
-        "explanation": "Qxa5 wins an undefended rook but does not give check; Black can continue, for example with ...Kh8."
+        "explanation": "The rook on a5 is hanging and Qxa5 wins it. Still, check the queen's safety and potential replies before taking a hanging piece. In this example Black has no immediate recapture."
       },
       "evidence": {
         "line": [
@@ -958,11 +958,11 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒の...Bxh2+はなぜ『中間手』になる？",
         "options": [
-          "d8のクイーンを取る前に王手でh2のポーンを取れるから",
+          "d8のクイーンを取る前にチェックでh2のポーンを取れるから",
           "黒は...Bxh2+で白クイーンd8を同時に取るので交換が完了する",
           "...Bxh2+は白キングを攻撃しないが次の...Rxd8を先送りする"
         ],
-        "explanation": "黒はすぐ...Rxd8でクイーンを取る代わりに、先に...Bxh2+を挟んでh2のポーンを得る。王手のため白は対応を強いられる。"
+        "explanation": "黒はすぐ...Rxd8でクイーンを取る代わりに、先に...Bxh2+を挟んでh2のポーンを得る。チェックのため白は対応を強いられる。"
       },
       "en": {
         "question": "Why is ...Bxh2+ an intermediate move?",
@@ -988,7 +988,7 @@ const LESSON_REASONING = {
         "options": [
           "白キングはKxh2と進み、守られているビショップを取れる",
           "Kh1でキングを逃がす",
-          "白はQxd8+と返し王手をかければ自分のキングも守れる"
+          "白はQxd8+と返しチェックをかければ自分のキングも守れる"
         ],
         "explanation": "白はKh1しか指せない。h2のビショップはg4のナイトに守られ、Kxh2で取ることはできない。"
       },
@@ -1018,9 +1018,9 @@ const LESSON_REASONING = {
         "options": [
           "ナイトe4が黒キングf6と黒ルークa8を同時に攻撃する",
           "キングf6とクイーンd2",
-          "ナイトe4はd2クイーンを守り、キングだけに王手する"
+          "ナイトe4はd2クイーンを守り、キングだけにチェックする"
         ],
-        "explanation": "c3のナイトがe4へ跳ぶと、f6のキングに王手をかけながらd2のクイーンも狙う。"
+        "explanation": "c3のナイトがe4へ跳ぶと、f6のキングにチェックをかけながらd2のクイーンも狙う。"
       },
       "en": {
         "question": "Which black pieces are forked by Ne4+?",
@@ -1046,9 +1046,9 @@ const LESSON_REASONING = {
         "options": [
           "...Qe3で逃げる",
           "黒キングはナイトe4を取れるのでまず...Kxe4と進む",
-          "王手を解消すること。たとえば...Ke7"
+          "チェックを解消すること。たとえば...Ke7"
         ],
-        "explanation": "王手を無視してクイーンだけを動かすことはできない。黒はまずキングの安全を確保する必要がある。"
+        "explanation": "チェックを無視してクイーンだけを動かすことはできない。黒はまずキングの安全を確保する必要がある。"
       },
       "en": {
         "question": "What must Black do first after Ne4+?",
@@ -1072,13 +1072,13 @@ const LESSON_REASONING = {
     "why": {
       "answer": 0,
       "ja": {
-        "question": "Ra8+で遠くの黒キングに王手が届くのはなぜ？",
+        "question": "Ra8+で遠くの黒キングにチェックが届くのはなぜ？",
         "options": [
           "a筋を上がったルークの利きが8段目を横に伸びてg8のキングへ届くから",
-          "ルークa8は黒キングg8への斜めの利きで王手をかける",
-          "ルークがa1からa8まで進む間に黒キングを通過して王手する"
+          "ルークa8は黒キングg8への斜めの利きでチェックをかける",
+          "ルークがa1からa8まで進む間に黒キングを通過してチェックする"
         ],
-        "explanation": "ルークはa1からa8まで開いたa筋を進み、到着したa8からg8へ横向きに王手をかける。"
+        "explanation": "ルークはa1からa8まで開いたa筋を進み、到着したa8からg8へ横向きにチェックをかける。"
       },
       "en": {
         "question": "Why does Ra8+ check a distant king?",
@@ -1103,7 +1103,7 @@ const LESSON_REASONING = {
         "options": [
           "黒キングはf8へ動き8段目の白ルークを取る道を作れる",
           "h7",
-          "黒キングはg7のポーンを取ってg7へ進めば王手を避けられる"
+          "黒キングはg7のポーンを取ってg7へ進めばチェックを避けられる"
         ],
         "explanation": "Ra8+のあと黒の合法な応手は...Kh7だけ。この局面ではf7とg7に黒のポーンがある。"
       },
@@ -1130,7 +1130,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Qxf7+で白クイーンがf7に進んでも守られているのは？",
         "options": [
-          "白王がf7を守る",
+          "白キングがf7を守る",
           "f7クイーンの自衛",
           "f1の白ルークがf筋を通してクイーンを支えるから"
         ],
@@ -1187,10 +1187,10 @@ const LESSON_REASONING = {
         "question": "Rxd3+が一手で達成する二つの目的は？",
         "options": [
           "d3クイーンを取ると同時に白キングをd6へ誘い出す",
-          "黒クイーンd3の捕獲と黒キングd6への王手",
+          "黒クイーンd3の捕獲と黒キングd6へのチェック",
           "黒クイーンを攻撃しながら白ルークをd1のまま守る"
         ],
-        "explanation": "白ルークd1がd3のクイーンを取り、そのd筋の先にいるキングd6へ王手をかける。"
+        "explanation": "白ルークd1がd3のクイーンを取り、そのd筋の先にいるキングd6へチェックをかける。"
       },
       "en": {
         "question": "What two goals does Rxd3+ achieve?",
@@ -1214,10 +1214,10 @@ const LESSON_REASONING = {
         "question": "黒はRxd3+でクイーンを失ったあと、何を先にする？",
         "options": [
           "黒は白ルークd3をクイーンでQxd3と取り返せる",
-          "黒はd7ポーンをd5へ進めればルークの王手を遮れる",
+          "黒はd7ポーンをd5へ進めればルークのチェックを遮れる",
           "黒キングを安全なマスへ動かす。たとえば...Kc7"
         ],
-        "explanation": "クイーンを取り返すより前に王手に対応しなければならない。この局面では...Kc7は合法な一例じゃ。"
+        "explanation": "クイーンを取り返すより前にチェックに対応しなければならない。この局面では...Kc7は合法な一例じゃ。"
       },
       "en": {
         "question": "What must Black do after losing the queen to Rxd3+?",
