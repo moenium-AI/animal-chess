@@ -100,16 +100,30 @@ def verify_zwischenzug(lesson: dict) -> None:
 
 
 def verify_windmill(lesson: dict) -> None:
-    """Keep the demonstrated non-king defense factual and bilingual."""
-    board = chess.Board(lesson["fen"])
-    board.push_san("Rxc7+")
-    if "Rf6" not in [board.san(move) for move in board.legal_moves]:
-        raise AssertionError("The windmill's ...Rf6 alternative must be legal")
-    board.push_san("Rf6")
-    if board.is_attacked_by(chess.WHITE, board.king(chess.BLACK)):
-        raise AssertionError("...Rf6 must actually stop the discovered check")
-    if "Rf6" not in lesson["intro"] or "Rf6" not in lesson["en"]["intro"]:
-        raise AssertionError("Both windmill introductions must mention the defense")
+    """Verify all immediate defenses and the instructional wins after interpositions."""
+    initial = chess.Board(lesson["fen"])
+    if initial.piece_at(chess.F8) != chess.Piece(chess.KNIGHT, chess.BLACK):
+        raise AssertionError("Windmill requires Black's knight on f8")
+    initial.push_san("Rxc7+")
+    replies = {initial.san(move) for move in initial.legal_moves}
+    if replies != {"Kg8", "Qc3", "Qe5"}:
+        raise AssertionError(f"Unaccounted-for windmill defense: {sorted(replies)}")
+    if "Qc3" not in lesson["intro"] or "Qc3" not in lesson["en"]["intro"]:
+        raise AssertionError("Both languages must explain the queen interposition")
+    for answer, capture in (("Qc3", "Bxc3+"), ("Qe5", "Bxe5+")):
+        board = initial.copy()
+        board.push_san(answer)
+        board.push_san(capture)
+        white_piece = board.piece_at(chess.C3 if answer == "Qc3" else chess.E5)
+        if white_piece != chess.Piece(chess.BISHOP, chess.WHITE) or not board.is_check():
+            raise AssertionError(f"{answer} must lose the queen with check")
+        if any(piece.piece_type == chess.QUEEN and piece.color == chess.BLACK
+               for piece in board.piece_map().values()):
+            raise AssertionError(f"Black queen escaped after {answer}")
+    demo = initial.copy()
+    for san in ("Kg8", "Rg7+", "Kh8", "Rxb7+", "Kg8", "Rg7+", "Kh8"):
+        demo.push_san(san)
+
 
 
 def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
