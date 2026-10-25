@@ -17,6 +17,12 @@ let pendingGuests = 0;       // Pieces in transit by carriage, not yet shown at 
 let graphicsRevision = 0;    // Cancel obsolete carriage callbacks when graphics change. / 表示切替前の馬車コールバックを無効化。
 let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
+// Lesson progress remains separate from puzzle records and settings.
+let learnedProgress = {};
+let lessonPractice = null; // { id, ply, san, hintShown }
+let lessonFeedback = '';
+let lessonFeedbackKind = '';
+const LEARNING_STORAGE_KEY = 'animalchess_learning_v1';
 let pendingPromotion = null;
 let gameGeneration = 0;
 let gameOverTimer = null;
@@ -130,6 +136,24 @@ function saveSolved() {
   try { localStorage.setItem('animalchess_solved_v4', JSON.stringify([...solvedPuzzles])); } catch (error) {}
 }
 
+function allLearningLessons() {
+  return [...(typeof INTRO_LESSONS !== 'undefined' ? INTRO_LESSONS : []),
+    ...(typeof LESSONS !== 'undefined' ? LESSONS : [])];
+}
+function loadLearningProgress() {
+  try {
+    learnedProgress = Learning.restoreProgress(localStorage.getItem(LEARNING_STORAGE_KEY),
+      allLearningLessons().map(lesson => lesson.id));
+  } catch (error) { console.warn('Could not restore lesson progress', error); learnedProgress = {}; }
+}
+function noteLessonProgress(id, state) {
+  const next = Learning.markProgress(learnedProgress, id, state);
+  if (next === learnedProgress) return;
+  learnedProgress = next;
+  try { localStorage.setItem(LEARNING_STORAGE_KEY, JSON.stringify(learnedProgress)); }
+  catch (error) { console.warn('Could not save lesson progress', error); }
+  renderLearnList();
+}
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
 const isMiniature = () => settings.viewMode === 'miniature';
 const isIllustrated = () => isMiniature() || settings.viewMode === '3d';
@@ -565,7 +589,8 @@ function turnBadge() {
 }
 function renderStatus() {
   if (mode === 'replay') {
-    statusEl.innerHTML = tr('status.replay', { current: replay.idx, total: replay.sans.length }) + ' · ' + turnBadge();
+    statusEl.innerHTML = lessonPractice ? tr('learn.practiceStatus') + ' · ' + turnBadge()
+      : tr('status.replay', { current: replay.idx, total: replay.sans.length }) + ' · ' + turnBadge();
     return;
   }
   if (mode === 'puzzle') {
@@ -678,7 +703,7 @@ function maybeCpuMove() {
 // ===== Click interaction / クリック操作 =====
 function playerCanMoveNow() {
   if (cpuThinking || puzzle.busy || (mode === 'puzzle' && puzzle.complete)) return false;
-  if (mode === 'replay') return false;
+  if (mode === 'replay') return !!lessonPractice && replay.idx === lessonPractice.ply && !game.game_over();
   if (game.game_over()) return false;
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
@@ -709,6 +734,10 @@ function onSquareClick(sq) {
 
 function tryPlayerMove(moveArg) {
   if (mode === 'puzzle') { puzzleTryMove(moveArg); return; }
+  if (mode === 'replay') {
+    if (lessonPractice) tryLessonPracticeMove(moveArg);
+    return;
+  }
   applyMove(moveArg);
 }
 
@@ -849,6 +878,7 @@ function explainHintMove(fenBefore, m) {
 
 // ===== New game / 新しいゲーム =====
 function newGame() {
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   gameGeneration++;
   cancelGameOver();
   Engine.cancelPending();
@@ -1034,6 +1064,7 @@ function loadPuzzle(i) {
   Engine.cancelPending();
   closeModal($('gameover-modal'), false);
   game = new Chess(p.fen);
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'puzzle';
   replay.annotation = null;
   puzzle = { idx: i, movesLeft: p.mateIn, busy: false, hintShown: false, complete: false };
@@ -1140,6 +1171,7 @@ function enterStudy(study) {
   replay.meta = study.meta || null;
   replay.annotation = study.annotation || null;
   replay.idx = 0;
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'replay';
   updatePuzzleCompletion();
   selected = null; legalTargets = []; hintSquares = [];
@@ -1191,6 +1223,95 @@ function loadAnnotated(data, meta) {
   });
 }
 
+// Practice is attached to the SAME legal Chess instance used for replay.
+// An incorrect move never advances the game or corrupts the annotated line.
+function currentLesson() {
+  return mode === 'replay' && replay.annotation && replay.annotation.data &&
+    replay.annotation.data.cat ? replay.annotation.data : null;
+}
+function renderPracticeControls() {
+  const area = $('study-practice');
+  const data = currentLesson();
+  const hasPractice = !!(data && data.practice);
+  area.classList.toggle('hidden', !hasPractice);
+  if (!hasPractice) return;
+  const text = lessonText(data);
+  const active = !!lessonPractice && lessonPractice.id === data.id && replay.idx === lessonPractice.ply;
+  $('study-practice-prompt').textContent = active
+    ? text.practice.prompt + ' ' + tr('learn.practiceDisclaimer') : tr('learn.practiceReady');
+  const feedback = $('study-practice-feedback');
+  const parts = [];
+  if (lessonFeedback) parts.push(tr(lessonFeedback));
+  if (active && lessonPractice.hintShown) parts.push(tr('learn.practiceHintLabel', { hint: text.practice.hint }));
+  feedback.textContent = parts.join(' ');
+  feedback.classList.toggle('is-correct', lessonFeedbackKind === 'correct');
+  feedback.classList.toggle('is-incorrect', lessonFeedbackKind === 'incorrect');
+  $('btn-study-practice').textContent = tr(active ? 'learn.retryMove' : 'learn.tryMove');
+  $('btn-study-practice-hint').classList.toggle('hidden', !active);
+  const theme = data.puzzleTheme;
+  $('btn-study-puzzle').classList.toggle('hidden', !theme || !PUZZLES.some(p => p.theme === theme));
+  const lessons = allLearningLessons().filter(l => l.cat === data.cat);
+  $('btn-study-next').classList.toggle('hidden', lessons.findIndex(l => l.id === data.id) >= lessons.length - 1);
+}
+function beginLessonPractice() {
+  const data = currentLesson();
+  if (!data || !data.practice) return;
+  lessonPractice = { id: data.id, ply: data.practice.ply,
+    san: data.moves[data.practice.ply].san, hintShown: false };
+  lessonFeedback = 'learn.practiceStart';
+  lessonFeedbackKind = '';
+  selected = null; legalTargets = []; hintSquares = [];
+  replayGoTo(data.practice.ply);
+  boardEl.querySelector('.square[tabindex="0"]')?.focus();
+}
+function showLessonPracticeHint() {
+  if (!lessonPractice) return;
+  lessonPractice.hintShown = true;
+  renderPracticeControls();
+}
+function tryLessonPracticeMove(moveArg) {
+  const data = currentLesson();
+  if (!data || !lessonPractice || data.id !== lessonPractice.id) return;
+  const result = Learning.practiceMove(game, lessonPractice.san, moveArg);
+  selected = null; legalTargets = []; hintSquares = [];
+  if (!result.correct) {
+    lessonFeedback = 'learn.practiceWrong';
+    lessonFeedbackKind = 'incorrect';
+    sBad();
+    renderPosition();
+    renderPracticeControls();
+    return;
+  }
+  const ply = lessonPractice.ply;
+  lessonPractice = null;
+  lessonFeedback = 'learn.practiceCorrect';
+  lessonFeedbackKind = 'correct';
+  noteLessonProgress(data.id, 'mastered');
+  replayGoTo(ply + 1);
+  sMove();
+}
+function goToLessonPuzzles() {
+  const lesson = currentLesson();
+  const theme = lesson && lesson.puzzleTheme;
+  if (!theme || !PUZZLES.some(p => p.theme === theme)) return;
+  puzzleTheme = theme;
+  puzzleLevel = 'all';
+  renderPuzzleCats();
+  renderPuzzleList({ resetScroll: true });
+  switchTab('puzzle');
+  const idx = PUZZLES.findIndex(p => p.theme === theme && !solvedPuzzles.has(p.id));
+  const fallback = PUZZLES.findIndex(p => p.theme === theme);
+  loadPuzzle(idx >= 0 ? idx : fallback);
+}
+function goToNextLesson() {
+  const data = currentLesson();
+  if (!data) return;
+  const choices = allLearningLessons().filter(l => l.cat === data.cat);
+  const next = choices[choices.findIndex(l => l.id === data.id) + 1];
+  if (!next) { toast(tr('learn.noNextLesson')); return; }
+  loadAnnotated(next, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[next.cat] });
+}
+
 function showStudyNote() {
   const i = replay.idx;
   let html = '';
@@ -1204,14 +1325,23 @@ function showStudyNote() {
 
 function replayGoTo(idx) {
   replay.idx = Math.max(0, Math.min(idx, replay.sans.length));
+  if (lessonPractice && replay.idx !== lessonPractice.ply) {
+    lessonPractice = null;
+    lessonFeedback = '';
+    lessonFeedbackKind = '';
+  }
+  selected = null; legalTargets = []; hintSquares = [];
   game = replay.baseFen ? new Chess(replay.baseFen) : new Chess();
   for (let i = 0; i < replay.idx; i++) game.move(replay.sans[i], { sloppy: true });
   const hist = game.history({ verbose: true });
   lastMove = hist.length > 0 ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
   $('replay-counter').textContent = `${replay.idx} / ${replay.sans.length}`;
   showStudyNote();
+  const data = currentLesson();
+  if (data && data.id && replay.idx === replay.sans.length) noteLessonProgress(data.id, 'studied');
   renderAll();
   renderReplayMovelist();
+  renderPracticeControls();
 }
 function renderReplayMovelist() {
   const ol = $('replay-movelist');
@@ -1234,6 +1364,7 @@ function closeStudy() {
 function replayToPlay() {
   if (mode !== 'replay') return;
   $('study-panel').classList.add('hidden');
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'play';
   updatePuzzleCompletion();
   settings.playerColor = game.turn();
@@ -1249,12 +1380,21 @@ function replayToPlay() {
 
 // ===== Learn lessons / まなぶ（レッスン） =====
 const LEARN_CATS = [
-  { key: 'opening', labelKey: 'learn.opening' },
+  { key: 'basics', labelKey: 'learn.basics' },
+  { key: 'principles', labelKey: 'learn.principles' },
   { key: 'combo', labelKey: 'learn.combo' },
   { key: 'endgame', labelKey: 'learn.endgame' },
+  { key: 'opening', labelKey: 'learn.opening' },
 ];
-const CAT_KEY = { opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame' };
-let learnCat = 'opening';
+const CAT_KEY = {
+  basics: 'learn.catBasics', principles: 'learn.catPrinciples',
+  opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame'
+};
+const CAT_DESC = {
+  basics: 'learn.descBasics', principles: 'learn.descPrinciples',
+  opening: 'learn.descOpening', combo: 'learn.descCombo', endgame: 'learn.descEndgame'
+};
+let learnCat = 'basics';
 
 function renderLearnCats() {
   const wrap = $('learn-cats');
@@ -1270,12 +1410,27 @@ function renderLearnCats() {
 function renderLearnList() {
   const wrap = $('learn-list');
   wrap.innerHTML = '';
-  const list = (typeof LESSONS !== 'undefined' ? LESSONS : []).filter((l) => l.cat === learnCat);
+  const list = allLearningLessons().filter((l) => l.cat === learnCat);
+  const mastered = list.filter(l => learnedProgress[l.id] === 'mastered').length;
+  const studied = list.filter(l => learnedProgress[l.id] === 'studied').length;
+  $('learn-chapter-desc').textContent = tr(CAT_DESC[learnCat]);
+  $('learn-progress').textContent = tr('learn.progressSummary', { mastered, studied, total: list.length });
   list.forEach((l) => {
     const b = document.createElement('button');
     b.className = 'study-item';
     const text = lessonText(l);
-    b.innerHTML = `<span class="study-item-title">${text.title}</span><span class="study-item-sub">${text.intro.slice(0, I18N.language === 'en' ? 72 : 32)}…</span>`;
+    const state = learnedProgress[l.id];
+    const label = state === 'mastered' ? 'learn.mastered' : state === 'studied' ? 'learn.studied' : 'learn.notStarted';
+    const title = document.createElement('span');
+    title.className = 'study-item-title';
+    title.textContent = text.title;
+    const detail = document.createElement('span');
+    detail.className = 'study-item-sub';
+    detail.textContent = text.intro.slice(0, I18N.language === 'en' ? 72 : 32) + '…';
+    const stateEl = document.createElement('span');
+    stateEl.className = 'learn-state';
+    stateEl.textContent = tr(label);
+    b.append(title, detail, stateEl);
     b.addEventListener('click', () => {
       loadAnnotated(l, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[l.cat] });
       toast(tr('toast.studyOpened', { title: text.title }));
@@ -1335,8 +1490,17 @@ function refreshLanguage() {
   if (replay.annotation) {
     const idx = replay.idx;
     const source = replay.annotation;
+    const activePractice = lessonPractice && { ...lessonPractice };
+    const feedback = lessonFeedback, kind = lessonFeedbackKind;
     loadAnnotated(source.data, source.meta);
     replayGoTo(idx);
+    if (activePractice && replay.annotation?.data?.id === activePractice.id) {
+      beginLessonPractice();
+      lessonPractice.hintShown = activePractice.hintShown;
+      renderPracticeControls();
+    }
+    lessonFeedback = feedback; lessonFeedbackKind = kind;
+    renderPracticeControls();
   } else if (mode === 'replay') {
     showStudyNote();
   }
@@ -1513,6 +1677,10 @@ function setupUI() {
   $('btn-replay-last').addEventListener('click', () => replayGoTo(replay.sans.length));
   $('btn-replay-play').addEventListener('click', replayToPlay);
   $('btn-study-close').addEventListener('click', closeStudy);
+  $('btn-study-practice').addEventListener('click', beginLessonPractice);
+  $('btn-study-practice-hint').addEventListener('click', showLessonPracticeHint);
+  $('btn-study-puzzle').addEventListener('click', goToLessonPuzzles);
+  $('btn-study-next').addEventListener('click', goToNextLesson);
 
   // Lessons and famous games. / まなぶ・名局。
   renderLearnCats();
@@ -1536,6 +1704,7 @@ function setupUI() {
 
 // ===== Startup / 起動 =====
 loadSaved();
+loadLearningProgress();
 I18N.setLanguage(settings.language, false);
 setupUI();
 newGame();

@@ -93,6 +93,11 @@ with sync_playwright() as pw:
     # to the desktop sidebar without duplicating or losing its live text.
     for width,height in [(1099,840),(390,840),(1280,900)]:
         page.set_viewport_size({'width':width,'height':height})
+        # The matchMedia change event can arrive after set_viewport_size returns.
+        expected_parent = 'board-col' if width < 1100 else 'side-col'
+        page.wait_for_function(
+            "(expected) => document.querySelector('#status-bar').parentElement.className === expected",
+            arg=expected_parent, timeout=3000)
         placement=page.evaluate("""() => {
           const status = document.querySelector('#status-bar');
           const parent = status.parentElement;
@@ -112,6 +117,50 @@ with sync_playwright() as pw:
         else:
             assert placement['parent']=='side-col', f'desktop status not restored: {placement}'
     page.locator('#sel-view').select_option('simple')
+    # L-01: five chapters, beginner exercises, saved progress and a wrong answer.
+    page.locator('.tab[data-tab="learn"]').click(force=True)
+    assert page.locator('#learn-cats .chip').count()==5
+    assert page.locator('#learn-list .study-item').count()==14
+    page.locator('#learn-list .study-item').first.click(force=True)
+    page.locator('#btn-replay-last').click(force=True)
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_board")=='studied'
+    page.locator('#btn-study-practice').click(force=True)
+    assert page.locator('#study-practice').is_visible()
+    move(page,'e2','e4')
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_board")=='mastered'
+    assert '✅' in page.locator('#study-practice-feedback').inner_text()
+    page.locator('#btn-study-next').click(force=True)
+    page.locator('#btn-study-practice').click(force=True)
+    move(page,'d2','d3')  # Legal, but not the demonstrated d4.
+    assert page.locator('#replay-counter').inner_text().startswith('0 /')
+    assert '違う' in page.locator('#study-practice-feedback').inner_text()
+    page.locator('#sel-language').select_option('en')
+    assert 'pawn' in page.locator('#study-practice-prompt').inner_text().lower()
+    page.locator('#btn-study-practice-hint').click(force=True)
+    assert 'Hint:' in page.locator('#study-practice-feedback').inner_text()
+    move(page,'d2','d4')
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_pawn")=='mastered'
+    page.locator('#sel-language').select_option('ja')
+
+    # L-02: promotion and en passant are validated through the normal board.
+    page.locator('#learn-list .study-item').nth(11).click(force=True)
+    page.locator('#btn-study-practice').click(force=True)
+    move(page,'a7','a8')
+    page.locator('#promo-modal:not(.hidden)').wait_for(timeout=2000)
+    page.locator('#promo-choices button').first.click(force=True)
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_promotion")=='mastered'
+    page.locator('#learn-list .study-item').nth(12).click(force=True)
+    page.locator('#btn-study-practice').click(force=True)
+    move(page,'e5','d6')
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_enpassant")=='mastered'
+
+    # L-03: connect lesson themes to the existing, already curated puzzles.
+    page.locator('#learn-list .study-item').nth(7).click(force=True)
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#tab-puzzle').evaluate("(node) => node.classList.contains('active')")
+    assert page.locator('#puzzle-list .puzzle-item').count()>0
+    page.locator('.tab[data-tab="settings"]').click(force=True)
+    page.locator('#btn-new').click(force=True)
     # A-01: terminal dialog callback must not outlive the game.
     for a,b in [('f2','f3'),('e7','e5'),('g2','g4'),('d8','h4')]:move(page,a,b)
     assert page.locator('#movelist li').count()==4

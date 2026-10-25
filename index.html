@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
 <!-- ?v= is a cache-busting version; increment it whenever the file contents change. / ?v= は更新時にキャッシュを切り替える版数。内容を変えたら増やす。 -->
-<link rel="stylesheet" href="css/style.css?v=19">
+<link rel="stylesheet" href="css/style.css?v=20">
 </head>
 <body>
 
@@ -63,6 +63,16 @@
         <button id="btn-replay-next" class="btn small" data-i18n-title="ui.next" title="つぎ">▶</button>
         <button id="btn-replay-last" class="btn small" data-i18n-title="ui.last" title="さいご">⏭</button>
         <button id="btn-replay-play" class="btn primary" data-i18n="ui.playFromHere">🎮 ここから対局</button>
+      </div>
+      <div id="study-practice" class="study-practice hidden">
+        <div id="study-practice-prompt" class="practice-prompt"></div>
+        <div id="study-practice-feedback" class="practice-feedback" role="status" aria-live="polite"></div>
+        <div class="practice-actions">
+          <button id="btn-study-practice" type="button" class="btn primary" data-i18n="learn.tryMove">✋ 一手ためす</button>
+          <button id="btn-study-practice-hint" type="button" class="btn" data-i18n="learn.practiceHint">💡 ヒント</button>
+          <button id="btn-study-puzzle" type="button" class="btn" data-i18n="learn.relatedPuzzles">🧩 関連パズル</button>
+          <button id="btn-study-next" type="button" class="btn" data-i18n="learn.nextLesson">▶ 次のレッスン</button>
+        </div>
       </div>
       <ol id="replay-movelist" class="movelist study-moves"></ol>
     </div>
@@ -149,6 +159,8 @@
       <div id="tab-learn" class="tab-page" data-group="ctrl">
         <p class="hint-text" data-i18n="learn.help">テーマを選ぶと、一手ずつ「なぜそう指すのか」を解説つきで学べます</p>
         <div id="learn-cats" class="chip-row"></div>
+        <div id="learn-chapter-desc" class="learn-chapter-desc"></div>
+        <div id="learn-progress" class="learn-progress" aria-live="polite"></div>
         <div id="learn-list" class="study-list"></div>
       </div>
     </section>
@@ -224,10 +236,11 @@
 <script src="js/puzzles.js?v=19"></script>
 <script src="js/puzzle_en.js?v=6"></script>
 <script src="js/lessons.js?v=18"></script>
+<script src="js/intro_lessons.js?v=1"></script>
 <script src="js/games.js?v=16"></script>
 <script src="js/engine.js?v=20"></script>
-<script src="js/i18n.js?v=8"></script>
-<script src="js/learning.js?v=1"></script>
-<script src="js/app.js?v=24"></script>
+<script src="js/i18n.js?v=9"></script>
+<script src="js/learning.js?v=2"></script>
+<script src="js/app.js?v=25"></script>
 </body>
 </html>

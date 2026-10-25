@@ -16,5 +16,35 @@ const Learning = (() => {
       return move;
     });
   }
-  return { moveLabel, puzzleMoves };
+  // Versioned progress stores only known lesson IDs and two stable states.
+  // Malformed/foreign localStorage data never becomes display HTML.
+  function restoreProgress(raw, ids) {
+    let parsed;
+    try { parsed = JSON.parse(raw); } catch (_) { return {}; }
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    const allowed = new Set(ids);
+    const out = {};
+    for (const [id, value] of Object.entries(parsed)) {
+      if (allowed.has(id) && (value === 'studied' || value === 'mastered'))
+        out[id] = value;
+    }
+    return out;
+  }
+  function markProgress(current, id, state) {
+    if (state !== 'studied' && state !== 'mastered') throw new Error('Invalid learning state');
+    if (current[id] === 'mastered') return current;
+    return { ...current, [id]: state };
+  }
+  // Grade from currently LEGAL moves without modifying the lesson position.
+  // Only the exact SAN of the demonstrated answer earns mastery; different
+  // legal alternatives are not globally judged bad chess moves.
+  function practiceMove(game, expectedSan, attempt) {
+    const moves = game.moves({ verbose: true });
+    const expected = moves.find(m => m.san === expectedSan);
+    if (!expected) throw new Error('Invalid lesson practice answer');
+    const actual = moves.find(m => m.from === attempt.from && m.to === attempt.to &&
+      (m.promotion || null) === (attempt.promotion || null));
+    return { legal: !!actual, correct: !!actual && actual.san === expected.san };
+  }
+  return { moveLabel, puzzleMoves, restoreProgress, markProgress, practiceMove };
 })();
