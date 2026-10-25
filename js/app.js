@@ -878,6 +878,7 @@ function explainHintMove(fenBefore, m) {
 
 // ===== New game / 新しいゲーム =====
 function newGame() {
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   gameGeneration++;
   cancelGameOver();
   Engine.cancelPending();
@@ -1063,6 +1064,7 @@ function loadPuzzle(i) {
   Engine.cancelPending();
   closeModal($('gameover-modal'), false);
   game = new Chess(p.fen);
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'puzzle';
   replay.annotation = null;
   puzzle = { idx: i, movesLeft: p.mateIn, busy: false, hintShown: false, complete: false };
@@ -1169,6 +1171,7 @@ function enterStudy(study) {
   replay.meta = study.meta || null;
   replay.annotation = study.annotation || null;
   replay.idx = 0;
+  lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'replay';
   updatePuzzleCompletion();
   selected = null; legalTargets = []; hintSquares = [];
@@ -1322,14 +1325,23 @@ function showStudyNote() {
 
 function replayGoTo(idx) {
   replay.idx = Math.max(0, Math.min(idx, replay.sans.length));
+  if (lessonPractice && replay.idx !== lessonPractice.ply) {
+    lessonPractice = null;
+    lessonFeedback = '';
+    lessonFeedbackKind = '';
+  }
+  selected = null; legalTargets = []; hintSquares = [];
   game = replay.baseFen ? new Chess(replay.baseFen) : new Chess();
   for (let i = 0; i < replay.idx; i++) game.move(replay.sans[i], { sloppy: true });
   const hist = game.history({ verbose: true });
   lastMove = hist.length > 0 ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
   $('replay-counter').textContent = `${replay.idx} / ${replay.sans.length}`;
   showStudyNote();
+  const data = currentLesson();
+  if (data && data.id && replay.idx === replay.sans.length) noteLessonProgress(data.id, 'studied');
   renderAll();
   renderReplayMovelist();
+  renderPracticeControls();
 }
 function renderReplayMovelist() {
   const ol = $('replay-movelist');
