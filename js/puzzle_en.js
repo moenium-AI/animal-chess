@@ -98,7 +98,7 @@ const PUZZLE_EN = {
  ],
  "mate-rook-knight-coordination": [
   "The Pony's Ambush",
-  "Before checking with the rook, look at the knight and king’s coverage."
+  "The knight covers the a7 escape square while White’s king controls b7 and c7. Find the rook's finishing check."
  ],
  "mate-two-bishops-king": [
   "A Little Room, Your Majesty",
@@ -142,15 +142,15 @@ const PUZZLE_EN = {
  ],
  "mate-queen-knight-endgame": [
   "A Royal Pony Walk",
-  "Calculate the king’s approach and the queen–knight follow-up."
+  "White's king blocks the queen's diagonal. Move the king to clear it, while the knight guards Black's escape on e8."
  ],
  "mate-queen-rook-zug": [
   "The Castle Duo",
   "Find a first move that mates against every black defense using queen and rook."
  ],
  "puzzle-035": [
-  "Finish with the Rook",
-  "An extended challenge starting one move before “The King Helps.” Bring your king closer and complete the two-move mating net."
+  "One Step to Rook Mate",
+  "The rook cannot mate yet. Bring the king closer first, then calculate the three-move line ending with the rook."
  ],
  "puzzle-036": [
   "A Distant Ladder",
@@ -290,7 +290,7 @@ const PUZZLE_EN = {
  ],
  "tactic-defender-bishop-2": [
   "Watch Out for the Owl",
-  "Capture the bishop defending the rook, opening your bishop’s diagonal attack."
+  "Black's bishop on g4 defends the rook on d7. White's bishop on a4 already attacks that rook, so remove its defender first."
  ],
  "tactic-doublecheck-knight": [
   "Together with the Pony",
