@@ -535,6 +535,30 @@ html, body {
 .study-nav .replay-counter { min-width: 54px; }
 .study-nav .btn.primary { margin-left: auto; }
 .movelist.study-moves { max-height: 128px; margin: 0; }
+/* Learning course: compact progression, clear statuses and hands-on tasks. */
+.learn-chapter-desc {
+  font-size: .81rem; line-height: 1.5; color: #7c695b;
+  margin: 9px 0 6px;
+}
+.learn-progress {
+  font-size: .76rem; font-weight: 600; color: #806d54;
+  margin-bottom: 10px;
+}
+.study-item .learn-state { display: block; margin-top: 3px; font-size: .72rem; color: #6b8070; }
+.study-practice {
+  border: 1.5px solid #dfcdae; border-radius: 10px;
+  background: #fffdf8; padding: 9px 10px; margin-bottom: 9px;
+}
+.practice-prompt { color: #584b3c; font-size: .84rem; line-height: 1.55; font-weight: 600; }
+.practice-feedback {
+  min-height: 1.25em; font-size: .82rem; line-height: 1.55;
+  color: #685a43; margin: 6px 0 7px;
+}
+.practice-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+.practice-actions .btn { padding: 6px 8px; font-size: .78rem; }
+.practice-feedback.is-correct { color: #286449; }
+.practice-feedback.is-incorrect { color: #955039; }
+
 
 /* ===== Learn and famous-game lists / まなぶ・名局リスト ===== */
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
