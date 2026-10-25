@@ -1265,12 +1265,12 @@ const LESSONS = [
   "cat": "combo",
   "title": "スマザー・メイト(窒息の詰み)",
   "fen": "5r1k/pp4pp/8/4N3/8/1Q6/PP4PP/6K1 w - - 0 1",
-  "intro": "型の実演です。初手の後にはRxf7という別応手があり、全手順が強制されるわけではありません。",
-  "takeaway": "逃げ道が味方でふさがれたキングはナイトに弱い。ダブルチェックでキングを隅へ追い込み、クイーンを捨ててでも詰みの形を作る。",
+  "intro": "Nf7+への黒の応手は...Kg8か...Rxf7。...Kg8ならクイーンを捨てる窒息メイト、...Rxf7ならQxf7でルークを取り返せます。同じ詰みの形がすべての応手で強制されるわけではありません。",
+  "takeaway": "ダブルチェックとクイーンの犠牲から窒息メイトへ進む筋を覚える。相手が...Rxf7と応じたときはQxf7で駒を取り返し、別の攻めへ切り替えよう。",
   "moves": [
    {
     "san": "Nf7+",
-    "note": "ナイトが飛び込んでチェック。ここではキングをg8へ逃がす変化を見る。ルークでナイトを取る応手もある。"
+    "note": "ナイトがチェック。...Kg8なら窒息メイトの形へ。...Rxf7でナイトを取られてもQxf7で黒ルークを取り返せる。"
    },
    {
     "san": "Kg8",
@@ -1278,7 +1278,7 @@ const LESSONS = [
    },
    {
     "san": "Nh6+",
-    "note": "ナイトが跳ねると、後ろのクイーンがb3-g8の斜めで同時にチェック(ダブルチェック=ダブルチェック)。ダブルチェックはキングが動くしかない。"
+    "note": "ナイトが跳ね、b3のクイーンもg8へ発見王手。ナイトとクイーンによるダブルチェックなのでキングは移動するしかない。"
    },
    {
     "san": "Kh8",
@@ -1299,12 +1299,12 @@ const LESSONS = [
   ],
   "en": {
    "title": "Smothered Mate",
-   "intro": "Pattern demonstration: Rxf7 after the first move avoids this sequence, so the entire line is not forced.",
-   "takeaway": "A king boxed in by its own pieces is vulnerable to a knight. Sometimes a queen sacrifice is justified if it creates a forced smothered mate.",
+   "intro": "After Nf7+, Black can play ...Kg8 or ...Rxf7. The king move allows the smothered-mate pattern; ...Rxf7 instead permits Qxf7, capturing the rook. The same mate sequence is not forced against every defense.",
+   "takeaway": "Learn the double-check and queen sacrifice leading to smothered mate. Against ...Rxf7, switch plans and capture the rook with Qxf7.",
    "moves": [
     {
      "san": "Nf7+",
-     "note": "The knight checks. This demonstration follows Kg8; Rxf7 is also legal and avoids the displayed smothered-mate sequence."
+     "note": "The knight checks. ...Kg8 allows the smothered-mate pattern; after ...Rxf7, White can recapture the rook with Qxf7."
     },
     {
      "san": "Kg8",
@@ -2036,13 +2036,13 @@ const LESSONS = [
   "id": "cb_decoy",
   "cat": "combo",
   "title": "デコイ(おびき出し)",
-  "fen": "3q1rk1/6pp/8/4N3/8/8/2B5/6K1 w - - 0 1",
-  "intro": "相手が誤った応手を選ぶ例です。Nf7+にはRxf7でナイトを取れるため、このフォークを強制する手順ではありません。",
-  "takeaway": "おびき出すマスだけでなく、フォークする駒を相手が取れないか確認する。チェックだから成功するとは限らない。",
+  "fen": "3q1bk1/6pp/8/4N3/8/8/2B5/5RK1 w - - 0 1",
+  "intro": "f8の黒ビショップはf7のナイトを取れません。Bb3+のあと...Kh8ならNf7+で黒クイーンをフォークし、...Qd5ならBxd5+でクイーンを取れます。どちらの守りにも答えがある配置です。",
+  "takeaway": "Bb3+でキングを隅へ誘導すればNf7+のフォークが働く。黒が...Qd5で王手を遮るときも、Bxd5+でクイーンを取れるか確かめよう。",
   "moves": [
    {
     "san": "Bb3+",
-    "note": "ビショップのチェック。f7はビショップ自身の利き、f8はルークにふさがれている。ここではキングがh8へ逃げる変化を見る。"
+    "note": "ビショップの王手。f8は黒自身のビショップがふさぎ、黒は...Kh8か...Qd5で応じられる。ここでは...Kh8を選ぶ。"
    },
    {
     "san": "Kh8",
@@ -2054,7 +2054,7 @@ const LESSONS = [
    },
    {
     "san": "Kg8",
-    "note": "Kg8はここでは誤り。Rxf7ならナイトを取って、このフォークによるクイーン取りを防げる。"
+    "note": "黒はg8へ戻るしかない。f8のビショップはf7のナイトを取れないため、黒クイーンが狙われたままになる。"
    },
    {
     "san": "Nxd8+",
@@ -2063,12 +2063,12 @@ const LESSONS = [
   ],
   "en": {
    "title": "Decoy",
-   "intro": "This example relies on an error: Rxf7 answers Nf7+ by taking the knight. The fork is not forced.",
-   "takeaway": "Check whether the forking piece can be captured, not just whether the king reaches the target square. A check does not guarantee success.",
+   "intro": "The black bishop on f8 cannot capture the knight on f7. After Bb3+, ...Kh8 permits the Nf7+ queen fork, while ...Qd5 allows Bxd5+ to win the queen. Both defenses leave White a tactical continuation.",
+   "takeaway": "Bb3+ draws the king toward h8, enabling the Nf7+ fork. If Black blocks with ...Qd5 instead, check whether Bxd5+ wins the queen.",
    "moves": [
     {
      "san": "Bb3+",
-     "note": "The bishop checks. The bishop controls f7 and the rook occupies f8; this line follows the king's retreat to h8."
+     "note": "The bishop checks. Black's own bishop blocks f8; Black can answer with ...Kh8 or ...Qd5. This line follows ...Kh8."
     },
     {
      "san": "Kh8",
@@ -2080,7 +2080,7 @@ const LESSONS = [
     },
     {
      "san": "Kg8",
-     "note": "Kg8 is an error here. Rxf7 captures the knight and prevents this fork from winning the queen."
+     "note": "The king must return to g8. The bishop on f8 cannot capture the knight on f7, so the queen remains under attack."
     },
     {
      "san": "Nxd8+",
@@ -2670,9 +2670,9 @@ const LESSONS = [
   "id": "cb_interference",
   "cat": "combo",
   "title": "インターフェアレンス(利きの遮断)",
-  "fen": "6k1/r3b1pp/2PP4/8/8/8/8/6K1 w - - 0 1",
-  "intro": "遮断の型の実演です。c7にはBxd6という別応手もあり、表示するRxc7以降の手順は強制ではありません。",
-  "takeaway": "『どの線を通って守っているか』を見る。その線の途中に駒を置ければ、守り駒はいても守れない。",
+  "fen": "6k1/r3b1pp/2PP4/4B3/8/8/8/3R2K1 w - - 0 1",
+  "intro": "白ルークd1とビショップe5を使って前進ポーンを支える局面です。c7は黒のa7ルークからe7ビショップへの守りの線を遮断します。黒には...Rxc7以外の応手もあり、表示手順は強制ではありません。",
+  "takeaway": "c7で横からの守りを遮断する。...Rxc7ならdxc7でルークを取り、...Bxd6ならd1のルークでRxd6と取り返せる。応手に合わせて守り駒の働きを見極めよう。",
   "moves": [
    {
     "san": "c7",
@@ -2680,7 +2680,7 @@ const LESSONS = [
    },
    {
     "san": "Rxc7",
-    "note": "この実演ではRxc7を選ぶ。Bxd6など別の応手も読んでから、遮断が有効か判断する。"
+    "note": "この変化では...Rxc7を選ぶ。...Bxd6なら白はRxd6でビショップを取る。"
    },
    {
     "san": "dxc7",
@@ -2697,8 +2697,8 @@ const LESSONS = [
   ],
   "en": {
    "title": "Interference",
-   "intro": "Pattern demonstration: Bxd6 is another reply to c7. The displayed Rxc7 line is not forced.",
-   "takeaway": "Trace the exact line by which a piece is defended. If you can occupy a square on that line, the target may become vulnerable.",
+   "intro": "White's rook on d1 and bishop on e5 support the advanced pawns. c7 blocks the rook on a7 from defending the bishop on e7. Black has responses other than ...Rxc7, so the displayed line is not forced.",
+   "takeaway": "c7 interrupts the seventh-rank defense. After ...Rxc7, dxc7 wins the rook; if ...Bxd6, White can reply Rxd6 with the rook on d1. Always calculate the chosen defense.",
    "moves": [
     {
      "san": "c7",
@@ -2706,7 +2706,7 @@ const LESSONS = [
     },
     {
      "san": "Rxc7",
-     "note": "This demonstration chooses Rxc7. Calculate alternatives such as Bxd6 before judging the interference."
+     "note": "This line shows ...Rxc7. After ...Bxd6, White can capture the bishop with Rxd6."
     },
     {
      "san": "dxc7",
