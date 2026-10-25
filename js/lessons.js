@@ -2629,7 +2629,7 @@ const LESSONS = [
   "id": "cb_zwischenzug",
   "cat": "combo",
   "title": "ツヴィッシェンツーク(中間手)",
-  "fen": "r2Q4/6k1/3b4/8/6n1/8/6PP/6K1 b - - 0 1",
+  "fen": "r2Q4/6k1/3b4/8/6n1/8/6PP/5RK1 b - - 0 1",
   "intro": "d8の白クイーンを取る前に、黒はBxh2+を挟めます。g4のナイトがh2のビショップを守るのでKxh2は不可能。チェックに対応させてからクイーンを取ると、h2のポーンを余分に取れます。",
   "takeaway": "中間チェックの前に、犠牲にする駒が取り返されないか確認する。この配置では即Rxd8なら白は2ポーン、Bxh2+を挟むと1ポーン。黒のルーク・ビショップ・ナイトはどちらでも残ります。",
   "moves": [
@@ -2639,7 +2639,7 @@ const LESSONS = [
    },
    {
     "san": "Kh1",
-    "note": "白の合法な応手はKh1とKf1。どちらでも黒は次にRxd8でクイーンを取れる。"
+    "note": "白の応手はKh1のみ。黒は次にRxd8でクイーンを取れる。"
    },
    {
     "san": "Rxd8",
@@ -2657,7 +2657,7 @@ const LESSONS = [
     },
     {
      "san": "Kh1",
-     "note": "White can only play Kh1 or Kf1. Either allows Rxd8 next."
+     "note": "White's only legal reply is Kh1; Black can capture the queen with ...Rxd8 next."
     },
     {
      "san": "Rxd8",
