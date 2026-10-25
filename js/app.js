@@ -1366,8 +1366,9 @@ function chooseStudyComparison(kind, idx = null) {
     replay.sans = localizedMoves.map(m => m.san);
     replay.notes = localizedMoves.map(m => m.note);
   }
-  const target = idx === null ? compare.ply + (kind === 'other' ? compare.alternative.length : 1) : idx;
-  replayGoTo(Math.min(target, replay.sans.length));
+  // User-triggered line switches always start at the initial position (0).
+  // Only internal callers, such as language refresh, preserve an explicit ply.
+  replayGoTo(idx === null ? 0 : Math.min(idx, replay.sans.length));
 }
 function renderStudyComparison() {
   const cmp = currentComparison();
