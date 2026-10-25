@@ -382,7 +382,7 @@ EN = {
     "Before capturing the queen on d8, Black can insert Bxh2+. The knight on g4 protects h2, so Kxh2 is illegal. Answering the check leaves White no time to save the queen.",
     "Check that the checking piece cannot be captured. Immediate Rxd8 leaves White two pawns; inserting Bxh2+ leaves White one. Black retains the rook, bishop and knight in either line.",
     "Insert Bxh2+ before taking the queen. The knight on g4 protects h2, making Kxh2 illegal.",
-    "White can only play Kh1 or Kf1. Either allows Rxd8 next.",
+    "White's only legal reply is Kh1; Black can capture the queen with ...Rxd8 next.",
     "Capture the queen. Black keeps the rook, bishop and knight, and has taken one more pawn than immediate Rxd8.",
   ),
   "cb_interference": E(
