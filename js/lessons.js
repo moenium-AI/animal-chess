@@ -2258,12 +2258,12 @@ const LESSONS = [
   "cat": "combo",
   "title": "【上級】ウィンドミル(風車)",
   "fen": "5r1k/1pp3Rp/8/q7/8/8/1B6/6K1 w - - 0 1",
-  "intro": "選んだ応手に対する風車の実演です。黒にはキング移動以外のチェック対応もあり、全手順を強制できるという意味ではありません。",
+  "intro": "風車の形を学ぶために、黒がキング移動を選ぶ実演です。初手Rxc7+には黒が...Rf6で発見王手を遮る手もあり、表示手順は強制でも最善手の保証でもありません。",
   "takeaway": "大駒の前に自分の駒があるとき、それを動かせばディスカバードチェックになる。チェック→駒取り→またチェックを繰り返し、相手の駒を刈り取っていく。",
   "moves": [
    {
     "san": "Rxc7+",
-    "note": "ルークが7段目のポーンを取りながら、後ろのビショップのチェックを発見(ディスカバードチェック)。黒には複数の対応があるが、ここではKg8を選ぶ。"
+    "note": "ルークがc7のポーンを取り、ビショップの発見王手を開く。黒は...Rf6で王手を遮ることもできるが、ここでは形を見るため...Kg8を選ぶ。"
    },
    {
     "san": "Kg8",
@@ -2303,17 +2303,17 @@ const LESSONS = [
    },
    {
     "san": "Rxe5",
-    "note": "そのクイーンを頂いて風車は終了。チェックを利用して駒を刈り取り続ける、豪快な必殺技。"
+    "note": "選んだ応手ではクイーンを取れる。ただし実戦では...Rf6のような合駒も読む必要があり、この手順は強制ではない。"
    }
   ],
   "en": {
    "title": "Windmill",
-   "intro": "This illustrates a windmill against selected replies. Black can also answer some checks without moving the king; the entire sequence is not forced.",
+   "intro": "This illustrates a windmill against selected king moves. After Rxc7+, Black can block the discovered check with ...Rf6. The displayed line is neither forced nor a claim of best play.",
    "takeaway": "When a piece blocks a bishop or rook, consider a discovered check. Repeat check, capture, and check when the position allows it; do not assume every reply is forced.",
    "moves": [
     {
      "san": "Rxc7+",
-     "note": "The rook captures on c7 and reveals the bishop's check. Black has several replies; this line chooses Kg8."
+     "note": "The rook takes c7 with discovered check. Black can interpose ...Rf6, but this line chooses ...Kg8 to show the pattern."
     },
     {
      "san": "Kg8",
@@ -2353,7 +2353,7 @@ const LESSONS = [
     },
     {
      "san": "Rxe5",
-     "note": "The rook takes the queen. The windmill ends after using checks to win material."
+     "note": "The rook captures the queen in this selected line. In a real game, examine defenses such as ...Rf6 rather than assuming the sequence is forced."
     }
    ]
   }
