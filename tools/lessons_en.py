@@ -206,7 +206,7 @@ EN = {
   "eg_opposition": E(
     "Promotion with Opposition",
     "In a king-and-pawn ending, king placement is everything. Put your king in front of the pawn and use opposition to push the enemy king away.",
-    "A pawn cannot promote safely by itself. Lead with the king, drive the opposing king back, and escort the pawn toward promotion.",
+    "In this position, the pawn needs the king's help. Lead with the king, drive the opposing king back, and escort the pawn toward promotion.",
     "The king moves ahead of the pawn and begins to push the enemy king back.", "The black king retreats.", "The pawn advances while protected by the king.",
     "Black holds the opposition from the front.", "The pawn advances again; the king protects it, so Black must give way.",
     "The black king steps aside because it cannot capture the protected pawn.", "The white king approaches the promotion square and clears the path.",
