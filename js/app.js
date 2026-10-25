@@ -1574,7 +1574,9 @@ function refreshLanguage() {
     $('puzzle-title').textContent = tr('puzzle.select');
     $('puzzle-goal').textContent = tr('puzzle.filterHelp');
   }
-  if (replay.annotation) {
+  // An old annotation may remain after leaving replay for a normal game.
+  // Never reopen that lesson merely because the interface language changed.
+  if (mode === 'replay' && replay.annotation) {
     const idx = replay.idx;
     const source = replay.annotation;
     const comparisonMode = replay.comparison;
