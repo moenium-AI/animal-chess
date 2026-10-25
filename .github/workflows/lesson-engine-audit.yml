@@ -1,0 +1,44 @@
+name: Lesson engine audit
+
+on:
+  pull_request:
+    paths:
+      - 'js/lessons.js'
+      - 'js/extra_lessons.js'
+      - 'tools/audit_lesson_engine.py'
+      - 'docs/learning-fixes-tablebase.json'
+      - '.github/workflows/lesson-engine-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stockfish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install independent chess engine
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y stockfish
+          python -m pip install 'python-chess==1.999'
+      - name: Verify all audited lesson states against stored tablebase
+        run: python tools/audit_lesson_engine.py --no-engine
+      - name: Run Stockfish audit on all tactical and endgame lesson moves
+        run: |
+          python tools/audit_lesson_engine.py \
+            --stockfish /usr/games/stockfish \
+            --time-per-search 0.15 \
+            --output lesson-engine-audit.json
+      - name: Save diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lesson-engine-audit
+          path: lesson-engine-audit.json
+          if-no-files-found: warn
