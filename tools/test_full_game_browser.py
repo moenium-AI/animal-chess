@@ -578,7 +578,10 @@ with sync_playwright() as pw:
         page.evaluate("document.getElementById('btn-replay-next').click()")
         assert abs(page.evaluate("window.scrollY")-before_scroll)<=2, 'replay navigation moved the page'
     assert page.locator('#replay-counter').inner_text()=='10 / 11'
-    assert page.locator('#replay-movelist').evaluate("(node) => node.scrollTop")>0
+    list_metrics=page.locator('#replay-movelist').evaluate(
+        "(node) => ({top:node.scrollTop, height:node.clientHeight, content:node.scrollHeight})")
+    if list_metrics['content']>list_metrics['height']:
+        assert list_metrics['top']>0, 'overflowed move list did not scroll internally'
     for _ in range(5):
         page.evaluate("document.getElementById('btn-replay-prev').click()")
         assert abs(page.evaluate("window.scrollY")-before_scroll)<=2, 'replay rewind moved the page'
@@ -592,7 +595,11 @@ with sync_playwright() as pw:
     page.locator('#learn-list .study-item').first.click(force=True)
     assert 'hidden' in page.locator('#study-reasoning').get_attribute('class'), 'famous games should not inherit a course quiz'
     assert 'hidden' in page.locator('#study-practice').get_attribute('class')
-    page.locator('#btn-replay-last').click(force=True)
+    page.evaluate("window.scrollTo(0, 260)")
+    original_y=page.evaluate("window.scrollY")
+    page.evaluate("document.getElementById('btn-replay-last').click()")
+    assert abs(page.evaluate("window.scrollY")-original_y)<=2, 'famous game replay scrolled whole page'
+    assert page.locator('#replay-movelist').evaluate("(node) => node.scrollTop")>0, 'long replay did not scroll inside its list'
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).opera")=='studied'
     page.locator('#sel-language').select_option('en')
     assert 'Opera' in page.locator('#study-title').inner_text()
