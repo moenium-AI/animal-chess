@@ -958,7 +958,7 @@ const PUZZLE_THEME_JA = {
   pattern: 'エポレット・メイト', fork: '両取り・フォーク', pin: 'ピン',
   skewer: 'スキュア', discovery: '発見攻撃', promotion: 'ポーンの昇格',
   doublecheck: 'ダブルチェック', enpassant: 'アンパッサン', stalemate: 'ステイルメイト回避',
-  defender: '守備駒の除去', castling: 'キャスリング', capture: '駒取りと王手',
+  defender: '守備駒の除去', castling: 'キャスリング', capture: '駒取りとチェック',
 };
 const PUZZLE_THEME_EN = {
   backrank: 'Back rank', opening: 'Opening traps', knight: 'Knight mates', diagonal: 'Diagonal line',
