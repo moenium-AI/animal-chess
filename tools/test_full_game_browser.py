@@ -229,6 +229,11 @@ with sync_playwright() as pw:
     page.locator('#sel-language').select_option('ja')
     page.locator('.tab[data-tab="settings"]').click(force=True)
     page.locator('#btn-new').click(force=True)
+    # Changing locale during normal play must not reopen a stale lesson.
+    page.locator('#sel-language').select_option('en')
+    assert 'hidden' in page.locator('#study-panel').get_attribute('class')
+    page.locator('#sel-language').select_option('ja')
+    assert 'hidden' in page.locator('#study-panel').get_attribute('class')
     # A-01: terminal dialog callback must not outlive the game.
     for a,b in [('f2','f3'),('e7','e5'),('g2','g4'),('d8','h4')]:move(page,a,b)
     assert page.locator('#movelist li').count()==4
