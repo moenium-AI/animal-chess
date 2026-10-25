@@ -262,7 +262,8 @@ with sync_playwright() as pw:
     # lesson must not inherit its answer.
     page.locator('#btn-compare-other').click(force=True)
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).bk_stalemate.defense===true")
-    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    # Tactics now have reasoning; use an endgame that is not in this release.
+    page.locator('#learn-cats .chip').nth(3).click(force=True)
     page.locator('#learn-list .study-item').first.click(force=True)
     assert 'hidden' in page.locator('#study-reasoning').get_attribute('class')
     page.locator('#learn-cats .chip').first.click(force=True)
