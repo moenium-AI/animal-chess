@@ -96,8 +96,8 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Rxc7+から風車が始まる理由は？",
         "options": [
-          "ルークc7がb2ビショップからの王手を遮り、守りを固めるから",
-          "ルークがc7へ動くと黒キングh8へ横から直接王手するから",
+          "c7ルーク自身の王手",
+          "b2ビショップを遮る",
           "ルークが動くとb2のビショップの王手が開くから"
         ],
         "explanation": "ルークがg7からc7へ動くと、b2のビショップの対角線がh8のキングに通る。これが発見王手じゃ。"
@@ -105,8 +105,8 @@ const LESSON_REASONING = {
       "en": {
         "question": "Why can Rxc7+ begin the windmill?",
         "options": [
-          "The rook on c7 blocks the bishop from b2 and protects White's position",
-          "Moving the rook to c7 checks the king on h8 directly along its rank",
+          "The rook checks on c7",
+          "It blocks the bishop",
           "The rook uncovers the bishop’s diagonal check"
         ],
         "explanation": "Moving the rook from g7 to c7 reveals the bishop on b2 checking the king on h8. This is discovered check."
@@ -118,7 +118,7 @@ const LESSON_REASONING = {
         "question": "黒がRxc7+に...Qc3と合駒すると、白はどう対応する？",
         "options": [
           "Bxc3+でクイーンを取る",
-          "黒が...Qc3と合駒すると白はRxc3+でクイーンを取る",
+          "Rxc3+で取る",
           "黒が...Qc3と遮ったあと白はRxc7+で再び発見王手"
         ],
         "explanation": "...Qc3は発見王手を遮るが、b2のビショップがBxc3+でクイーンを取れる。風車が続かなくても白の攻めは成立する。"
@@ -127,7 +127,7 @@ const LESSON_REASONING = {
         "question": "How does White answer ...Qc3 after Rxc7+?",
         "options": [
           "Bxc3+ captures the queen",
-          "After ...Qc3, White can capture the queen with Rxc3+",
+          "Capture with Rxc3+",
           "After ...Qc3, White repeats the discovered check by playing Rxc7+"
         ],
         "explanation": "...Qc3 blocks the discovered check, but the bishop on b2 can capture the queen with Bxc3+. The attack still works without repeated checks."
@@ -140,18 +140,18 @@ const LESSON_REASONING = {
       "ja": {
         "question": "掲載変化のQg8+でクイーンを捨てる狙いは？",
         "options": [
-          "Qg8+でルークをg8から追い払いナイトをf7に出しやすくする",
+          "黒ルークをg8から追う",
           "Rxg8で逃げ道をふさぎ、Nf7#を可能にするため",
-          "Qg8+で黒キングをf8へ押し戻し、f7のナイトを守り切る"
+          "黒王をf8へ戻す"
         ],
         "explanation": "黒ルークがg8でクイーンを取ると、黒キングの逃げ道が自分のルークで埋まり、Nf7#の窒息メイトとなる。"
       },
       "en": {
         "question": "What is the purpose of Qg8+ in the displayed line?",
         "options": [
-          "Qg8+ drives the rook away from g8 to clear a route for the knight",
+          "To chase the g8-rook",
           "To induce ...Rxg8, block an escape square and allow Nf7#",
-          "Qg8+ forces Black's king back to f8 and protects the knight on f7"
+          "To force the king to f8"
         ],
         "explanation": "After ...Rxg8, Black’s own rook blocks g8, letting the knight deliver smothered mate with Nf7#."
       }
@@ -161,7 +161,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒が最初のNf7+に...Rxf7と応じたら？",
         "options": [
-          "黒が...Rxf7とナイトを取ったあと白はQxb7でポーンを得る",
+          "Qxb7で取る",
           "...Rxf7には白クイーンがg8へ進み、同じ詰みが続く",
           "白はQxf7で黒ルークを取り返せる"
         ],
@@ -170,7 +170,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "What if Black answers the first Nf7+ with ...Rxf7?",
         "options": [
-          "After ...Rxf7, White captures the pawn on b7 with Qxb7",
+          "Capture on b7",
           "After ...Rxf7, White brings the queen to g8 and forces the same mate",
           "White recaptures the rook with Qxf7"
         ],
@@ -185,8 +185,8 @@ const LESSON_REASONING = {
         "question": "Bb3+ Kh8のあと、Nf7+で何を狙う？",
         "options": [
           "キングとd8のクイーンを同時に攻撃する",
-          "f7ナイトが黒ルークh8と黒ビショップf8を同時に狙う",
-          "f7ナイトは黒キングへの王手だけでクイーンには当たらない"
+          "h8ルークも狙う",
+          "d8クイーンを守る"
         ],
         "explanation": "ナイトがf7でキングに王手をかけ、同時にd8のクイーンも狙う。f8の黒ビショップはそのナイトを取れない。"
       },
@@ -194,8 +194,8 @@ const LESSON_REASONING = {
         "question": "After Bb3+ Kh8, what does Nf7+ threaten?",
         "options": [
           "A fork of the king and queen on d8",
-          "The knight on f7 attacks both the rook on h8 and bishop on f8",
-          "The knight gives check but does not attack Black's queen on d8"
+          "It attacks the rook h8",
+          "It defends queen d8"
         ],
         "explanation": "The knight checks the king while attacking the queen on d8. The black bishop on f8 cannot capture that knight."
       }
@@ -205,7 +205,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Bb3+に黒が...Qd5と合駒した場合、白の一手は？",
         "options": [
-          "黒の...Qd5には白はNf7+としてからQxd5と取る",
+          "Nf7+で攻める",
           "Bxd5+でクイーンを取る",
           "黒が...Qd5と合駒したらビショップをc4へ戻して守る"
         ],
@@ -214,7 +214,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "If Black blocks Bb3+ with ...Qd5, what can White play?",
         "options": [
-          "After ...Qd5 White must play Nf7+ before capturing with Qxd5",
+          "Play Nf7+ first",
           "Bxd5+ to capture the queen",
           "When Black interposes with ...Qd5 White retreats the bishop to c4"
         ],
@@ -228,8 +228,8 @@ const LESSON_REASONING = {
       "ja": {
         "question": "白のc7が「利きの遮断」になるのはなぜ？",
         "options": [
-          "c7のポーンが黒ビショップe7から黒ルークa7への斜めの利きを遮るから",
-          "白ポーンがc7へ進み黒ルークa7を直接攻撃して守りを破るから",
+          "ビショップの利きを遮る",
+          "a7ルークを攻撃する",
           "a7の黒ルークからe7の黒ビショップへの守りをふさぐから"
         ],
         "explanation": "c7へ進んだ白ポーンが、a7のルークの横方向の守りを遮る。見えない防御線を見つける練習じゃ。"
@@ -237,8 +237,8 @@ const LESSON_REASONING = {
       "en": {
         "question": "Why is White’s c7 an interference move?",
         "options": [
-          "The pawn on c7 blocks the bishop on e7 from defending the rook on a7",
-          "White's pawn moves to c7 and directly attacks the black rook on a7",
+          "Blocks the bishop's attack",
+          "Directly attacks rook a7",
           "It blocks the rook on a7 from defending the bishop on e7"
         ],
         "explanation": "The pawn on c7 interrupts the rook’s seventh-rank line of defense. Look for pieces relying on that line."
@@ -250,7 +250,7 @@ const LESSON_REASONING = {
         "question": "c7に黒が...Bxd6と応じたら、白は？",
         "options": [
           "Rxd6でビショップを取る",
-          "黒が...Bxd6と取ったら白はc8=Qでその場で昇格する",
+          "c8=Qと昇格",
           "黒の...Bxd6には白はRxd1とルークを後方へ戻して守る"
         ],
         "explanation": "新しい局面ではd1の白ルークがd6まで通っており、...Bxd6にはRxd6でビショップを取り返せる。"
@@ -259,7 +259,7 @@ const LESSON_REASONING = {
         "question": "How can White respond if Black plays ...Bxd6 after c7?",
         "options": [
           "Rxd6 captures the bishop",
-          "If Black plays ...Bxd6, White promotes immediately with c8=Q",
+          "Promote with c8=Q",
           "White answers ...Bxd6 by retreating its rook back to d1"
         ],
         "explanation": "The rook on d1 has a clear file to d6, so White can reply Rxd6 and take the bishop."
@@ -272,18 +272,18 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Ne7+がフォークになるのはなぜ？",
         "options": [
-          "e7ナイトは黒キングg8に王手をかけつつ黒ルークa8を狙う",
+          "a8ルークを狙う",
           "黒キングに王手をかけながら、c6のクイーンを攻撃するから",
-          "e7ナイトは黒クイーンc6を守るため白キングから離れる"
+          "c6クイーンを守る"
         ],
         "explanation": "e7のナイトは黒キングg8と黒クイーンc6を同時に狙う。王手への対応が先になるのがポイントじゃ。"
       },
       "en": {
         "question": "Why is Ne7+ a knight fork?",
         "options": [
-          "From e7 the knight checks g8 and attacks the rook on a8",
+          "It attacks the a8-rook",
           "It checks Black's king while attacking the queen on c6",
-          "The knight moves away from White's king to defend Black's queen on c6"
+          "It protects the c6-queen"
         ],
         "explanation": "From e7 the knight checks the king on g8 and attacks the queen on c6 simultaneously."
       },
@@ -333,8 +333,8 @@ const LESSON_REASONING = {
         "question": "黒ナイトd5がピンされているのはなぜ？",
         "options": [
           "動くとd1の白ルークがd8の黒キングへ王手をかけるから",
-          "ナイトd5が動くとc4の白ポーンがd8キングへ斜めに王手するから",
-          "ナイトd5はd1ルークへ反撃できるので動くと必ず取られるから"
+          "c4ポーンの王手",
+          "白ルークを守る手"
         ],
         "explanation": "黒ナイトd5がd筋から離れると、白ルークd1が黒キングd8を直線で攻撃するため、そのナイトは動かせない。"
       },
@@ -342,8 +342,8 @@ const LESSON_REASONING = {
         "question": "Why is Black's knight on d5 absolutely pinned?",
         "options": [
           "Moving it would expose the king on d8 to the rook on d1",
-          "Moving the knight lets the pawn on c4 check the king on d8 diagonally",
-          "Moving the knight invites capture because it could attack White's rook on d1"
+          "Pawn c4 gives check",
+          "Defending White's rook"
         ],
         "explanation": "If the knight leaves the d-file, the white rook on d1 attacks Black's king on d8."
       },
@@ -358,7 +358,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒はd5のナイトを動かしてcxd5を避けられる？",
         "options": [
-          "黒ナイトはc7へ下がればルークの射線を遮り続けられる",
+          "Nc7で逃げる",
           "できない。キングを王手にさらす移動は違法",
           "黒ナイトはe7へ逃げれば黒キングがルークの王手を受けずに済む"
         ],
@@ -367,7 +367,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "Can Black move the knight on d5 away from the pawn capture?",
         "options": [
-          "The knight may retreat to c7 and keep blocking the rook's line",
+          "Retreat to c7",
           "No, exposing its own king to check is illegal",
           "The knight can escape to e7 without exposing Black's king to the rook"
         ],
@@ -415,7 +415,7 @@ const LESSON_REASONING = {
         "question": "黒がRe1+に...Kd5と逃げたら、白の続きは？",
         "options": [
           "Rxe8でクイーンを取る",
-          "黒キングがd5へ逃げると白はRxe5で黒キングの跡を狙う",
+          "Rxe5で取る",
           "黒キングがd5へ逃げたので白はRe8+と王手を続ける"
         ],
         "explanation": "キングがe筋から逃げたので、ルークはe8のクイーンを取れる。これが串刺しの収穫じゃ。"
@@ -424,7 +424,7 @@ const LESSON_REASONING = {
         "question": "If Black answers Re1+ with ...Kd5, what can White do?",
         "options": [
           "Capture the queen with Rxe8",
-          "After Black's king moves to d5, White plays Rxe5 to target its old square",
+          "Capture with Rxe5",
           "Once the king moves to d5, White continues checking with Re8+"
         ],
         "explanation": "The king has left the e-file, allowing the rook to capture the queen on e8."
@@ -471,7 +471,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "この局面でRd8#を指されたあと、黒に合法な受けはある？",
         "options": [
-          "黒は...f6と指しg7のポーンを守りながら王手を遮れる",
+          "...f6で防ぐ",
           "黒は...Kh7でf7ポーンを避け、7段目へ脱出できる",
           "ない。すでにチェックメイト"
         ],
@@ -480,7 +480,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "After Rd8# in this exact position, does Black have a legal reply?",
         "options": [
-          "Black can block with ...f6 while keeping the g7-pawn defended",
+          "Block with ...f6",
           "Black may flee with ...Kh7, moving out beside its pawn on f7",
           "No, the position is already checkmate"
         ],
@@ -501,8 +501,8 @@ const LESSON_REASONING = {
         "question": "Qa4+が二重攻撃になるのはなぜ？",
         "options": [
           "黒キングへの王手とh4のビショップへの攻撃を同時に作るから",
-          "クイーンa4は黒キングを王手すると同時にd4の白ポーンも守るから",
-          "クイーンa4は黒キングだけに王手をかけ、h4ビショップには届かない"
+          "d4ポーンを守る王手",
+          "h4ビショップを守る王手"
         ],
         "explanation": "クイーンa4はe8のキングへ斜めに王手をかけ、h4のビショップへ横から利きを通している。"
       },
@@ -510,8 +510,8 @@ const LESSON_REASONING = {
         "question": "Why is Qa4+ a double attack?",
         "options": [
           "It checks the king while attacking the bishop on h4",
-          "The queen on a4 gives check while also defending White's pawn on d4",
-          "The queen on a4 checks the king but has no attack along the fourth rank"
+          "Check and guard d4",
+          "Check and guard h4"
         ],
         "explanation": "From a4, the queen checks along the diagonal toward e8 and attacks the bishop on h4 along the fourth rank."
       },
@@ -528,7 +528,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒がQa4+に...Kf8と応じたら、白は何を取れる？",
         "options": [
-          "黒キングがf8へ逃げると白はQxa7でa7ポーンを取れる",
+          "Qxa7で取る",
           "...Kf8のあと白クイーンはQe8+で王手を続ける",
           "Qxh4でビショップを取れる"
         ],
@@ -537,7 +537,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "After ...Kf8 in reply to Qa4+, what can White capture?",
         "options": [
-          "After the king goes to f8, White can take Black's a7-pawn with Qxa7",
+          "Capture with Qxa7",
           "After ...Kf8 the queen gives another check with Qe8+",
           "The bishop with Qxh4"
         ],
@@ -558,18 +558,18 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Nc6+が『発見王手』なのはなぜ？",
         "options": [
-          "ナイトc6自身が黒キングe8へL字の王手をかけるから",
+          "c6ナイト自身の王手",
           "ナイトがe筋を離れてe1のルークの王手を開くから",
-          "ナイトがc6へ動くことで白ビショップの対角線がe8へ通るから"
+          "白ビショップの発見王手"
         ],
         "explanation": "ナイトe5がc6へ動くと、白ルークe1から黒キングe8への縦の利きが開く。ナイトもd8のクイーンを狙う。"
       },
       "en": {
         "question": "Why is Nc6+ a discovered check?",
         "options": [
-          "The knight on c6 itself gives an L-shaped check to the king on e8",
+          "Knight itself gives check",
           "The knight leaves the e-file and uncovers the rook on e1",
-          "Moving the knight to c6 uncovers a bishop's diagonal toward e8"
+          "A bishop gives the check"
         ],
         "explanation": "The knight on e5 moves off the rook's e-file, uncovering a check on the king on e8 while attacking the queen on d8."
       },
@@ -587,7 +587,7 @@ const LESSON_REASONING = {
         "question": "黒がNc6+に...Qe7で王手を遮ったら、白は？",
         "options": [
           "Rxe7+でクイーンを取れる",
-          "黒の...Qe7に白はNxe7でナイトがクイーンを取る",
+          "Nxe7で取る",
           "...Qe7に対して白はRxe5でナイトのいた場所を守る"
         ],
         "explanation": "黒がクイーンをe7へ差し込んでも、白ルークがRxe7+でそのクイーンを取れる。この教材で示した...Kf8以外にも対応があるぞ。"
@@ -596,7 +596,7 @@ const LESSON_REASONING = {
         "question": "If Black blocks Nc6+ with ...Qe7, what can White play?",
         "options": [
           "Rxe7+ captures the queen",
-          "After ...Qe7 the knight captures the queen with Nxe7",
+          "Capture via Nxe7",
           "After ...Qe7 White plays Rxe5 to protect the knight's old square"
         ],
         "explanation": "The rook on e1 can capture the interposing queen with Rxe7+. This is a different reply from the displayed ...Kf8."
@@ -644,7 +644,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒はNe7+のダブルチェックを合駒だけで防げる？",
         "options": [
-          "黒はc7へビショップを置いてc1ルークだけの王手を防げる",
+          "c7に合駒する",
           "できない。キングを動かして二つの王手を同時に避ける",
           "黒はナイトを取れば残ったc1ルークの王手も遮れる"
         ],
@@ -653,7 +653,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "Can Black stop Ne7+ by blocking only the rook's line?",
         "options": [
-          "Black can interpose a bishop on c7 to block only the rook's attack",
+          "Block on c7",
           "No, the king must move out of both checks",
           "Capturing the knight also blocks the remaining check from the rook on c1"
         ],
@@ -757,7 +757,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Rh4#のあと黒キングがg8へ逃げられないのは？",
         "options": [
-          "黒キングはg8へ移れるが白ルークh4が次にg4へ回る",
+          "g8へ逃げられる",
           "白ナイトe7がg8を利かせているから",
           "ナイトe7はg6のみを守り、g8へのキング移動は可能"
         ],
@@ -766,7 +766,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "Why can't Black escape to g8 after Rh4#?",
         "options": [
-          "The king may reach g8, after which White shifts the rook to g4",
+          "The king can reach g8",
           "White's knight on e7 attacks g8",
           "The knight on e7 attacks g6 alone, leaving g8 open for the king"
         ],
@@ -1044,7 +1044,7 @@ const LESSON_REASONING = {
       "ja": {
         "question": "黒がNe4+を受けるとき、まず必要なのは？",
         "options": [
-          "黒はクイーンをe3に逃がせばキングへの王手も消せる",
+          "...Qe3で逃げる",
           "黒キングはナイトe4を取れるのでまず...Kxe4と進む",
           "王手を解消すること。たとえば...Ke7"
         ],
@@ -1053,7 +1053,7 @@ const LESSON_REASONING = {
       "en": {
         "question": "What must Black do first after Ne4+?",
         "options": [
-          "Black can save its queen with ...Qe3, which also ends the check",
+          "Save queen with ...Qe3",
           "The black king can capture the knight directly with ...Kxe4",
           "Answer the check, for example with ...Ke7"
         ],
@@ -1130,8 +1130,8 @@ const LESSON_REASONING = {
       "ja": {
         "question": "Qxf7+で白クイーンがf7に進んでも守られているのは？",
         "options": [
-          "クイーンf7は白キングg1から対角線で直接守られている",
-          "白ルークf1は黒キングの王手を受けておりクイーンを守れない",
+          "白王がf7を守る",
+          "f7クイーンの自衛",
           "f1の白ルークがf筋を通してクイーンを支えるから"
         ],
         "explanation": "白のルークはf1からf7のクイーンを守っている。クイーンが前へ出るときには味方の支援を確認しよう。"
@@ -1139,8 +1139,8 @@ const LESSON_REASONING = {
       "en": {
         "question": "What protects White's queen after Qxf7+?",
         "options": [
-          "The queen on f7 is defended directly by White's king along a diagonal",
-          "The rook on f1 is pinned by Black's king and cannot defend the queen",
+          "White king guards f7",
+          "Queen defends itself",
           "The rook on f1 supports the queen along the f-file"
         ],
         "explanation": "The rook on f1 defends the queen on f7 up the open f-file."
