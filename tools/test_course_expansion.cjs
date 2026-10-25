@@ -70,3 +70,5 @@ assert.equal(gamePlies,695);
 const p=Learning.restoreProgress('{"op_london":"mastered","opera":"studied","fake":"mastered"}',ids);
 assert.equal(p.op_london,'mastered');assert.equal(p.opera,'studied');assert.equal(p.fake,undefined);
 console.log(JSON.stringify({lessons:80,chapters:counts,legacyPractice:legacyPractices,allPractice:practices,lessonPlies,famousGames:15,gamePlies,progress:'PASS'}));
+// The regular course CI must also validate the reasoning catalog and storage. 
+require('./test_lesson_reasoning.cjs');
