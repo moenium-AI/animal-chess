@@ -210,7 +210,7 @@ const selected=LESSON_REASONING;
   assert.ok(epaulette.moves().includes('Kf8'));
   const queen=new Chess(all.get('eg_queen').fen);
   assert.ok(queen.move('Qe7'));
-  assert.deepEqual(queen.moves(),['Kh8']);
+  assert.deepEqual(Array.from(queen.moves()),['Kh8']);
   const escort=new Chess(all.get('eg_kingescort').fen);
   assert.ok(escort.move('Kd5'));
   assert.ok(!escort.moves().includes('Ke6'),'opposing king cannot step into protected e6');
