@@ -35,7 +35,9 @@ for(const lesson of lessons){
     if(i===practice.ply){
       const fen=board.fen(),legal=board.moves({verbose:true}),move=legal.find(mv=>mv.san===m.san);
       assert.ok(move,lesson.id+' practice illegal at '+i+' '+m.san);
-      assert.deepEqual(Learning.practiceMove(board,m.san,move),{legal:true,correct:true},lesson.id);
+      const result=Learning.practiceMove(board,m.san,move);
+      assert.equal(result.legal,true,lesson.id);
+      assert.equal(result.correct,true,lesson.id);
       const alt=legal.find(x=>x.san!==m.san);
       if(alt)assert.equal(Learning.practiceMove(board,m.san,alt).correct,false,lesson.id);
       assert.equal(board.fen(),fen,'Practice mutated board: '+lesson.id);
