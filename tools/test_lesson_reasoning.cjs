@@ -3,17 +3,20 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const ctx = vm.createContext({console});
-for (const name of ['chess', 'learning', 'lessons', 'intro_lessons', 'extra_lessons', 'lesson_comparisons', 'lesson_reasoning'])
+for (const name of ['chess', 'learning', 'lessons', 'intro_lessons', 'extra_lessons', 'lesson_comparisons', 'lesson_reasoning', 'lesson_reasoning_endgames'])
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../js', name+'.js'), 'utf8'), ctx);
 const {Chess, Learning, LESSONS, INTRO_LESSONS, EXTRA_LESSONS, LESSON_COMPARISONS, LESSON_REASONING} =
   vm.runInContext('({Chess,Learning,LESSONS,INTRO_LESSONS,EXTRA_LESSONS,LESSON_COMPARISONS,LESSON_REASONING})',ctx);
 const all = new Map([...LESSONS, ...INTRO_LESSONS, ...EXTRA_LESSONS].map(lesson => [lesson.id, lesson]));
-const tacticIds=[...LESSONS,...INTRO_LESSONS,...EXTRA_LESSONS].filter(lesson=>lesson.cat==='combo').map(lesson=>lesson.id);
+const lessonCatalog=[...LESSONS,...INTRO_LESSONS,...EXTRA_LESSONS];
+const tacticIds=lessonCatalog.filter(lesson=>lesson.cat==='combo').map(lesson=>lesson.id);
+const endgameIds=lessonCatalog.filter(lesson=>lesson.cat==='endgame').map(lesson=>lesson.id);
 assert.equal(tacticIds.length,21,'all tactical lessons must be covered');
-const expected = ['bk_stalemate','bk_castling',...tacticIds];
+assert.equal(endgameIds.length,18,'all endgame lessons must be covered');
+const expected = ['bk_stalemate','bk_castling',...tacticIds,...endgameIds];
 assert.deepEqual(Object.keys(LESSON_REASONING).sort(), expected.slice().sort(), 'unexpected/missing reasoning lessons');
 const original=['bk_stalemate','bk_castling','cb_windmill','cb_smother','cb_decoy','cb_interference'];
-let checked = 0, proofed = 0;
+let checked = 0, proofed = 0, endgameProofs=0;
 for (const id of expected) {
   assert.ok(all.has(id), 'Unknown lesson '+id);
   if (original.includes(id)) assert.ok(LESSON_COMPARISONS[id], 'Missing audited comparison for '+id);
@@ -41,9 +44,11 @@ for (const id of expected) {
       }
       if(evidence.terminal==='checkmate') assert.equal(board.in_checkmate(),true,id+'/'+kind+' mate');
       else if(evidence.terminal==='insufficient') assert.equal(board.insufficient_material(),true,id+'/'+kind+' draw');
+      else if(evidence.terminal==='stalemate') assert.equal(board.in_stalemate(),true,id+'/'+kind+' stalemate');
       else assert.equal(evidence.terminal,undefined,id+'/'+kind+' unsupported outcome');
       assert.equal(evidence.line[0],lesson.moves[0].san,id+'/'+kind+' must anchor the demonstrated move');
       proofed++;
+      if (endgameIds.includes(id)) endgameProofs++;
     }
     assert.equal(Learning.gradeReasoning(q, q.answer),true,id+'/'+kind);
     assert.equal(Learning.gradeReasoning(q, (q.answer+1)%3),false,id+'/'+kind);
@@ -82,4 +87,19 @@ const mate=get('cb_backrank');mate.move('Rd8#');
 assert.equal(mate.moves().length,0,'back-rank mate permits no replies');
 const kingFlight=get('cb_rookfile');kingFlight.move('Ra8+');
 assert.deepEqual([...kingFlight.moves()],['Kh7'],'long-range check escape squares changed');
-console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,questions:checked,verifiedExampleLines:proofed,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
+// Validate historical tablebase evidence underpinning the three expert endings.
+const snapshots=JSON.parse(fs.readFileSync(path.join(__dirname,'../docs/learning-fixes-tablebase.json'),'utf8'));
+const expectedTB={lucena:16,philidor:12,triangulation:16};
+const tbCounts={lucena:0,philidor:0,triangulation:0};
+for (const item of snapshots) {
+  assert.ok(Object.hasOwn(expectedTB,item.lesson),'unknown tablebase snapshot');
+  const lesson=all.get('eg_'+item.lesson),board=new Chess(lesson.fen);
+  for(let ply=0;ply<item.ply;ply++) assert.ok(board.move(lesson.moves[ply].san),'snapshot illegal ply');
+  assert.equal(board.fen(),item.fen,'saved tablebase FEN drift '+item.lesson+'/'+item.ply);
+  const expectedCategory=item.lesson==='philidor'?'draw':board.turn()==='w'?'win':'loss';
+  assert.equal(item.response.category,expectedCategory,'tablebase result changed');
+  tbCounts[item.lesson]++;
+}
+for(const [key,count] of Object.entries(expectedTB)) assert.equal(tbCounts[key],count,'saved tablebase snapshot coverage '+key);
+assert.equal(endgameProofs,36,'two replayed evidence lines per endgame');
+console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,endgames:endgameIds.length,questions:checked,verifiedExampleLines:proofed,endgameProofs,tablebaseSnapshots:snapshots.length,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
