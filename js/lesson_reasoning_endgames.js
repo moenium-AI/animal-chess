@@ -622,22 +622,22 @@ const ENDGAME_REASONING = {
     "defense": {
       "answer": 0,
       "ja": {
-        "question": "教材の...Rc1+に白がRc4と応じる狙いは？",
+        "question": "黒の...Rc1+に白がRc4と応じると、どうやって王手が止まる？",
         "options": [
-          "c筋の王手を合駒で止め、キングでルークを支える",
-          "Rc4で黒ルークの王手を避けるため白キングはc6へ移る",
-          "Rc4で黒ルークを取らず白キングc5が無防備なまま残る"
+          "白ルークをc4に置いて王手を遮り、キングc5がそのルークを守る",
+          "c4へ動きながら黒ルークc1も取り、王手を消す",
+          "c4からe7ポーンを守れば、王手を放置できる"
         ],
-        "explanation": "Rc4でチェックの射線を遮り、キングc5がルークc4を支える。ここでは黒が...Rxc4+と交換する一例が続く。"
+        "explanation": "黒ルークはc1から白キングc5を狙っている。Rc4は黒ルークを取る手ではなく、白ルークを間に入れて王手を止める手。c4のルークは白キングc5が守り、黒が...Rxc4+と取ればKxc4で取り返せる。王手を無視してポーンを進めることはできない。"
       },
       "en": {
-        "question": "Why is Rc4 useful against ...Rc1+ in the Lucena line?",
+        "question": "How does Rc4 stop the check from ...Rc1+ in this Lucena line?",
         "options": [
-          "It blocks the check while the king supports the rook",
-          "Rc4 forces White's king to move to c6 to escape the checking rook",
-          "Rc4 blocks the rook but leaves White's king on c5 undefended"
+          "The rook interposes on c4, protected by the king on c5",
+          "Rc4 also captures Black's rook on c1, ending the check",
+          "From c4 the rook guards the e7-pawn, so White can ignore the check"
         ],
-        "explanation": "Rc4 interposes the rook on the c-file, protected by White's king on c5. The shown reply ...Rxc4+ is one example."
+        "explanation": "Black's rook on c1 checks the king on c5. Rc4 interposes White's rook; it does not capture the black rook. The king protects the rook on c4, so after ...Rxc4+ White can recapture with Kxc4. A check cannot be ignored to protect a pawn."
       },
       "evidence": {
         "line": [
