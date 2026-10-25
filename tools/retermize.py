@@ -62,8 +62,8 @@ TITLE_FIXES = [
     ("四角形の法則(ポーンを追いつけるか)", "スクエアルール(四角形の法則)"),
     ("二枚のルークで階段メイト", "ラダーメイト(二枚のルークの階段)"),
     ("【きほん】タダの駒を見のがさない", "【きほん】ハンギングピース(タダの駒)"),
-    # Restore double-check titles so the Japanese translation remains Japanese. / ダブルチェックのタイトルは(和訳)側を日本語のまま残すのが狙いなので復元する
-    ("ダブルチェック(ダブルチェック)", "ダブルチェック(両王手)"),
+    # Restore double-check titles so the Japanese translation remains Japanese. / ダブルチェックの補足はチェス初心者に意味がわかる説明にする
+    ("ダブルチェック(ダブルチェック)", "ダブルチェック(2枚の駒によるチェック)"),
 ]
 
 
