@@ -17,6 +17,12 @@ let pendingGuests = 0;       // Pieces in transit by carriage, not yet shown at 
 let graphicsRevision = 0;    // Cancel obsolete carriage callbacks when graphics change. / 表示切替前の馬車コールバックを無効化。
 let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotation: null };
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
+// Lesson progress remains separate from puzzle records and settings.
+let learnedProgress = {};
+let lessonPractice = null; // { id, ply, san, hintShown }
+let lessonFeedback = '';
+let lessonFeedbackKind = '';
+const LEARNING_STORAGE_KEY = 'animalchess_learning_v1';
 let pendingPromotion = null;
 let gameGeneration = 0;
 let gameOverTimer = null;
@@ -130,6 +136,24 @@ function saveSolved() {
   try { localStorage.setItem('animalchess_solved_v4', JSON.stringify([...solvedPuzzles])); } catch (error) {}
 }
 
+function allLearningLessons() {
+  return [...(typeof INTRO_LESSONS !== 'undefined' ? INTRO_LESSONS : []),
+    ...(typeof LESSONS !== 'undefined' ? LESSONS : [])];
+}
+function loadLearningProgress() {
+  try {
+    learnedProgress = Learning.restoreProgress(localStorage.getItem(LEARNING_STORAGE_KEY),
+      allLearningLessons().map(lesson => lesson.id));
+  } catch (error) { console.warn('Could not restore lesson progress', error); learnedProgress = {}; }
+}
+function noteLessonProgress(id, state) {
+  const next = Learning.markProgress(learnedProgress, id, state);
+  if (next === learnedProgress) return;
+  learnedProgress = next;
+  try { localStorage.setItem(LEARNING_STORAGE_KEY, JSON.stringify(learnedProgress)); }
+  catch (error) { console.warn('Could not save lesson progress', error); }
+  renderLearnList();
+}
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
 const isMiniature = () => settings.viewMode === 'miniature';
 const isIllustrated = () => isMiniature() || settings.viewMode === '3d';
@@ -1536,6 +1560,7 @@ function setupUI() {
 
 // ===== Startup / 起動 =====
 loadSaved();
+loadLearningProgress();
 I18N.setLanguage(settings.language, false);
 setupUI();
 newGame();
