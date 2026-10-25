@@ -378,13 +378,13 @@ with sync_playwright() as pw:
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1') || '{}').eg_rook === undefined")
     page.locator('#study-reasoning-options button').nth(1).click(force=True) # why
     page.locator('#btn-reason-defense').click(force=True)
-    page.locator('#study-reasoning-options button').nth(2).click(force=True) # mate
+    page.locator('#study-reasoning-options button').nth(2).click(force=True) # counterfactual escape square
     assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
     assert '2 / 36' in page.locator('#learn-progress').inner_text()
     assert page.locator('#replay-counter').inner_text()==before_counter
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1') || '{}').eg_rook !== 'mastered'")
     page.locator('#sel-language').select_option('en')
-    assert 'respond' in page.locator('#study-reasoning-question').inner_text().lower()
+    assert 'g8' in page.locator('#study-reasoning-question').inner_text().lower()
     assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
     page.locator('#sel-language').select_option('ja')
 
