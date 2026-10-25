@@ -39,7 +39,7 @@
 - `js/lesson_reasoning_openings.js`：開局17教材。
 - `js/lesson_reasoning_endgames.js`：終盤18教材。
 - 正答の配列番号も維持したため、既存Playwrightの回答操作と、正答済み履歴 `animalchess_reasoning_v1` の互換性を維持する。
-- UI・動物演出・棋力AI・Web Worker・HTML・CSSは変更しないため、このPRではキャッシュ版番号の更新を別途検討する（**データJSのキャッシュ更新は必須**）。
+- UI構造・動物演出・棋力AI・Web Worker・CSSは変更しない。HTMLは**４本の教材JSのキャッシュ版数だけ更新**し、旧選択肢がブラウザに残らないようにする。
 
 ## 自動監査の強化
 
