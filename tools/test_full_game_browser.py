@@ -122,6 +122,9 @@ with sync_playwright() as pw:
     assert page.locator('#learn-cats .chip').count()==6
     assert page.locator('#learn-list .study-item').count()==14
     page.locator('#learn-list .study-item').first.click(force=True)
+    assert '考えてみよう' in page.locator('#study-reasoning-heading').inner_text()
+    assert 'ポイント' in page.locator('#btn-reason-why').inner_text()
+    assert 'もう一歩' in page.locator('#btn-reason-defense').inner_text()
     page.locator('#btn-replay-last').click(force=True)
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_board")=='studied'
     page.locator('#btn-study-practice').click(force=True)
@@ -135,6 +138,8 @@ with sync_playwright() as pw:
     assert page.locator('#replay-counter').inner_text().startswith('0 /')
     assert '違う' in page.locator('#study-practice-feedback').inner_text()
     page.locator('#sel-language').select_option('en')
+    assert 'Think it through' in page.locator('#study-reasoning-heading').inner_text()
+    assert 'Think further' in page.locator('#btn-reason-defense').inner_text()
     assert 'pawn' in page.locator('#study-practice-prompt').inner_text().lower()
     page.locator('#btn-study-practice-hint').click(force=True)
     assert 'Hint:' in page.locator('#study-practice-feedback').inner_text()
@@ -154,11 +159,45 @@ with sync_playwright() as pw:
     move(page,'e5','d6')
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_enpassant")=='mastered'
 
-    # L-03: connect lesson themes to the existing, already curated puzzles.
-    page.locator('#learn-list .study-item').nth(7).click(force=True)
+    # L-03: related puzzles must preserve the source lesson's exact replay,
+    # selected reasoning question, answer and progress when returning.
+    page.locator('#learn-list .study-item').nth(7).click(force=True) # bk_capture
+    page.locator('#btn-replay-last').click(force=True)
+    source_counter=page.locator('#replay-counter').inner_text()
+    page.locator('#btn-reason-defense').click(force=True)
+    page.locator('#study-reasoning-options button').nth(1).click(force=True)  # wrong, preserve original progress totals
+    source_fen=page.locator('#study-reasoning-position-board').get_attribute('data-fen')
+    assert page.locator('#btn-return-lesson').is_hidden()
     page.locator('#btn-study-puzzle').click(force=True)
     assert page.locator('#tab-puzzle').evaluate("(node) => node.classList.contains('active')")
     assert page.locator('#puzzle-list .puzzle-item').count()>0
+    assert page.locator('#btn-return-lesson').is_visible()
+    assert page.locator('#related-lesson-title').inner_text()==page.evaluate("INTRO_LESSONS.find(l=>l.id==='bk_capture').title")
+    page.locator('#sel-language').select_option('en')
+    assert 'Back to lesson' in page.locator('#btn-return-lesson').inner_text()
+    page.locator('#btn-return-lesson').click(force=True)
+    assert page.locator('#tab-learn').evaluate("(node) => node.classList.contains('active')")
+    assert page.locator('#study-panel').is_visible()
+    assert page.locator('#replay-counter').inner_text()==source_counter
+    assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==source_fen
+    assert 'Think again' in page.locator('#study-reasoning-feedback').inner_text()
+    assert page.locator('#btn-return-lesson').is_hidden()
+    page.locator('#sel-language').select_option('ja')
+
+    # A brand-new game discards the return target. Unrelated puzzles should
+    # not grow a stale button from a previous learning session.
+    page.locator('#btn-study-practice').click(force=True)
+    assert page.locator('#btn-study-practice-hint').is_visible()
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('#btn-return-lesson').click(force=True)
+    assert page.locator('#btn-study-practice-hint').is_visible(), 'active move practice was not restored'
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('.tab[data-tab="settings"]').click(force=True)
+    page.locator('#btn-new').click(force=True)
+    assert page.locator('#btn-return-lesson').is_hidden()
 
     # L-04: old 44 lessons are also interactive and a challenge does not
     # mutate position when graded. Quiz status survives navigation.
@@ -233,6 +272,20 @@ with sync_playwright() as pw:
     page.locator('#btn-replay-next').click(force=True)
     assert page.locator('#replay-counter').inner_text()=='2 / 2'
     page.locator('#btn-compare-main').click(force=True)
+    assert page.locator('#replay-counter').inner_text()=='0 / 1'
+    # Related puzzles must also restore an alternative replay branch.
+    page.locator('#btn-compare-other').click(force=True)
+    page.locator('#btn-replay-next').click(force=True)
+    page.locator('#btn-reason-defense').click(force=True)
+    assert page.locator('#replay-counter').inner_text()=='1 / 2'
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('#btn-return-lesson').click(force=True)
+    assert page.locator('#btn-compare-other').get_attribute('aria-pressed')=='true'
+    assert page.locator('#replay-counter').inner_text()=='1 / 2'
+    assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
+    page.locator('#btn-compare-main').click(force=True)
+    page.locator('#btn-reason-why').click(force=True)
     assert page.locator('#replay-counter').inner_text()=='0 / 1'
 
     # L-04d: reasoning questions are separate from move mastery and do not
@@ -510,6 +563,29 @@ with sync_playwright() as pw:
     assert page.locator('#btn-reason-after').is_disabled()
     assert page.locator('#study-reasoning-position-board .reasoning-position-square').count()==64
 
+    # L-04j: stepping through a long replay scrolls only its move list,
+    # never the outer page. Use DOM clicks to exclude Playwright's own
+    # automatic scroll-into-view behavior from the measurement.
+    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    windmill_idx=page.evaluate("LESSONS.filter(l=>l.cat==='combo').findIndex(l=>l.id==='cb_windmill')")
+    assert windmill_idx>=0
+    page.locator('#learn-list .study-item').nth(windmill_idx).click(force=True)
+    page.evaluate("window.scrollTo(0, 260)")
+    page.wait_for_timeout(80)
+    before_scroll=page.evaluate("window.scrollY")
+    assert before_scroll>0
+    for _ in range(10):
+        page.evaluate("document.getElementById('btn-replay-next').click()")
+        assert abs(page.evaluate("window.scrollY")-before_scroll)<=2, 'replay navigation moved the page'
+    assert page.locator('#replay-counter').inner_text()=='10 / 11'
+    list_metrics=page.locator('#replay-movelist').evaluate(
+        "(node) => ({top:node.scrollTop, height:node.clientHeight, content:node.scrollHeight})")
+    if list_metrics['content']>list_metrics['height']:
+        assert list_metrics['top']>0, 'overflowed move list did not scroll internally'
+    for _ in range(5):
+        page.evaluate("document.getElementById('btn-replay-prev').click()")
+        assert abs(page.evaluate("window.scrollY")-before_scroll)<=2, 'replay rewind moved the page'
+
     # L-05: famous games moved from record tabs to the sixth learning chapter;
     # viewing the last ply saves viewed state, language refreshes annotations.
     page.locator('#learn-cats .chip').nth(5).click(force=True)
@@ -519,7 +595,11 @@ with sync_playwright() as pw:
     page.locator('#learn-list .study-item').first.click(force=True)
     assert 'hidden' in page.locator('#study-reasoning').get_attribute('class'), 'famous games should not inherit a course quiz'
     assert 'hidden' in page.locator('#study-practice').get_attribute('class')
-    page.locator('#btn-replay-last').click(force=True)
+    page.evaluate("window.scrollTo(0, 260)")
+    original_y=page.evaluate("window.scrollY")
+    page.evaluate("document.getElementById('btn-replay-last').click()")
+    assert abs(page.evaluate("window.scrollY")-original_y)<=2, 'famous game replay scrolled whole page'
+    assert page.locator('#replay-movelist').evaluate("(node) => node.scrollTop")>0, 'long replay did not scroll inside its list'
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).opera")=='studied'
     page.locator('#sel-language').select_option('en')
     assert 'Opera' in page.locator('#study-title').inner_text()

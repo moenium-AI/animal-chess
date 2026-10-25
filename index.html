@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" type="image/png" href="favicon.png">
 <!-- ?v= is a cache-busting version; increment it whenever the file contents change. / ?v= は更新時にキャッシュを切り替える版数。内容を変えたら増やす。 -->
-<link rel="stylesheet" href="css/style.css?v=23">
+<link rel="stylesheet" href="css/style.css?v=24">
 </head>
 <body>
 
@@ -85,11 +85,11 @@
         </div>
       </div>
       <section id="study-reasoning" class="study-reasoning hidden" aria-labelledby="study-reasoning-heading">
-        <div id="study-reasoning-heading" class="study-reasoning-heading" data-i18n="learn.reasonTitle">🧠 なぜ？どう防ぐ？</div>
+        <div id="study-reasoning-heading" class="study-reasoning-heading" data-i18n="learn.reasonTitle">🧠 考えてみよう</div>
         <p id="study-reasoning-progress" class="study-reasoning-progress"></p>
         <div class="study-reasoning-tabs" role="group" aria-labelledby="study-reasoning-heading">
-          <button id="btn-reason-why" type="button" class="btn" aria-pressed="true" data-i18n="learn.reasonWhy">なぜその手？</button>
-          <button id="btn-reason-defense" type="button" class="btn" aria-pressed="false" data-i18n="learn.reasonDefense">どう防ぐ？</button>
+          <button id="btn-reason-why" type="button" class="btn" aria-pressed="true" data-i18n="learn.reasonWhy">① ポイント</button>
+          <button id="btn-reason-defense" type="button" class="btn" aria-pressed="false" data-i18n="learn.reasonDefense">② もう一歩</button>
         </div>
         <p id="study-reasoning-question" class="study-reasoning-question"></p>
         <div class="reasoning-position" aria-labelledby="study-reasoning-position-label">
@@ -169,6 +169,10 @@
 
       <!-- Puzzles / パズル -->
       <div id="tab-puzzle" class="tab-page" data-group="ctrl">
+        <div id="related-lesson-return" class="related-lesson-return hidden">
+          <button id="btn-return-lesson" type="button" class="btn" data-i18n="learn.returnToLesson">↩ 元の学習に戻る</button>
+          <span id="related-lesson-title" class="related-lesson-title"></span>
+        </div>
         <div id="puzzle-info" class="puzzle-info">
           <div id="puzzle-title" class="puzzle-title"></div>
           <div id="puzzle-goal" class="puzzle-goal"></div>
@@ -269,8 +273,8 @@
 <script src="js/lesson_reasoning_foundations.js?v=2"></script>
 <script src="js/games.js?v=16"></script>
 <script src="js/engine.js?v=20"></script>
-<script src="js/i18n.js?v=13"></script>
+<script src="js/i18n.js?v=14"></script>
 <script src="js/learning.js?v=4"></script>
-<script src="js/app.js?v=31"></script>
+<script src="js/app.js?v=32"></script>
 </body>
 </html>
