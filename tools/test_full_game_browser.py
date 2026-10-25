@@ -235,6 +235,41 @@ with sync_playwright() as pw:
     page.locator('#btn-compare-main').click(force=True)
     assert page.locator('#replay-counter').inner_text()=='0 / 1'
 
+    # L-04d: reasoning questions are separate from move mastery and do not
+    # change the chessboard. Wrong answers cannot award understanding credit.
+    assert page.locator('#study-reasoning').is_visible()
+    counter_before=page.locator('#replay-counter').inner_text()
+    assert '0 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    page.locator('#study-reasoning-options button').nth(0).click(force=True)  # wrong
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1') || '{}').bk_stalemate === undefined")
+    assert page.locator('#replay-counter').inner_text()==counter_before
+    page.locator('#study-reasoning-options button').nth(1).click(force=True)  # why
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).bk_stalemate.why===true")
+    page.locator('#btn-reason-defense').click(force=True)
+    assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
+    page.locator('#study-reasoning-options button').nth(2).click(force=True)
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).bk_stalemate.defense===true")
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert page.locator('#replay-counter').inner_text()==counter_before
+    page.locator('#sel-language').select_option('en')
+    assert 'If White' in page.locator('#study-reasoning-question').inner_text()
+    assert 'Correct' in page.locator('#study-reasoning-feedback').inner_text()
+    assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
+    page.locator('#sel-language').select_option('ja')
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert page.locator('#replay-counter').inner_text()==counter_before
+    # Switching the comparison does not erase reasoning, and an unrelated
+    # lesson must not inherit its answer.
+    page.locator('#btn-compare-other').click(force=True)
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).bk_stalemate.defense===true")
+    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    page.locator('#learn-list .study-item').first.click(force=True)
+    assert 'hidden' in page.locator('#study-reasoning').get_attribute('class')
+    page.locator('#learn-cats .chip').first.click(force=True)
+    page.locator('#learn-list .study-item').nth(13).click(force=True)
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert '理解チェック' in page.locator('#learn-progress').inner_text()
+
     # L-05: famous games moved from record tabs to the sixth learning chapter;
     # viewing the last ply saves viewed state, language refreshes annotations.
     page.locator('#learn-cats .chip').nth(5).click(force=True)
