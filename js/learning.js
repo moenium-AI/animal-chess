@@ -35,6 +35,37 @@ const Learning = (() => {
     if (current[id] === 'mastered') return current;
     return { ...current, [id]: state };
   }
+  // Understanding checks are independent of the existing studied/mastered record.
+  // Never trust persisted IDs, answer values, or unexpected object properties.
+  function restoreReasoningProgress(raw, ids) {
+    let parsed;
+    try { parsed = JSON.parse(raw); } catch (_) { return {}; }
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    const out = {};
+    for (const id of ids) {
+      if (!Object.prototype.hasOwnProperty.call(parsed, id)) continue;
+      const progress = parsed[id];
+      if (!progress || typeof progress !== 'object' || Array.isArray(progress)) continue;
+      const valid = {};
+      if (progress.why === true) valid.why = true;
+      if (progress.defense === true) valid.defense = true;
+      if (Object.keys(valid).length) out[id] = valid;
+    }
+    return out;
+  }
+  function markReasoningProgress(current, id, kind) {
+    if (!['why', 'defense'].includes(kind) || typeof id !== 'string')
+      throw new Error('Invalid reasoning progress');
+    if (current[id] && current[id][kind] === true) return current;
+    return { ...current, [id]: { ...(current[id] || {}), [kind]: true } };
+  }
+  function gradeReasoning(question, selectedIndex) {
+    if (!question || !Number.isInteger(question.answer) ||
+      !Number.isInteger(selectedIndex) || selectedIndex < 0 ||
+      selectedIndex >= 3 || question.answer < 0 || question.answer >= 3)
+      throw new Error('Invalid reasoning choice');
+    return selectedIndex === question.answer;
+  }
   // Grade from currently LEGAL moves without modifying the lesson position.
   // Only the exact SAN of the demonstrated answer earns mastery; different
   // legal alternatives are not globally judged bad chess moves.
@@ -54,5 +85,5 @@ const Learning = (() => {
       throw new Error('Invalid legacy lesson for practice');
     return lesson.cat === 'opening' ? Math.min(4, lesson.moves.length - 1) : 0;
   }
-  return { moveLabel, puzzleMoves, restoreProgress, markProgress, practiceMove, legacyPly };
+  return { moveLabel, puzzleMoves, restoreProgress, markProgress, restoreReasoningProgress, markReasoningProgress, gradeReasoning, practiceMove, legacyPly };
 })();
