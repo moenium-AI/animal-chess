@@ -154,11 +154,38 @@ with sync_playwright() as pw:
     move(page,'e5','d6')
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_enpassant")=='mastered'
 
-    # L-03: connect lesson themes to the existing, already curated puzzles.
-    page.locator('#learn-list .study-item').nth(7).click(force=True)
+    # L-03: related puzzles must preserve the source lesson's exact replay,
+    # selected reasoning question, answer and progress when returning.
+    page.locator('#learn-list .study-item').nth(7).click(force=True) # bk_capture
+    page.locator('#btn-replay-last').click(force=True)
+    source_counter=page.locator('#replay-counter').inner_text()
+    page.locator('#btn-reason-defense').click(force=True)
+    page.locator('#study-reasoning-options button').nth(0).click(force=True)
+    source_fen=page.locator('#study-reasoning-position-board').get_attribute('data-fen')
+    assert page.locator('#btn-return-lesson').is_hidden()
     page.locator('#btn-study-puzzle').click(force=True)
     assert page.locator('#tab-puzzle').evaluate("(node) => node.classList.contains('active')")
     assert page.locator('#puzzle-list .puzzle-item').count()>0
+    assert page.locator('#btn-return-lesson').is_visible()
+    assert '64' not in page.locator('#related-lesson-title').inner_text() # original is captures
+    page.locator('#sel-language').select_option('en')
+    assert 'Back to lesson' in page.locator('#btn-return-lesson').inner_text()
+    page.locator('#btn-return-lesson').click(force=True)
+    assert page.locator('#tab-learn').evaluate("(node) => node.classList.contains('active')")
+    assert page.locator('#study-panel').is_visible()
+    assert page.locator('#replay-counter').inner_text()==source_counter
+    assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
+    assert page.locator('#study-reasoning-position-board').get_attribute('data-fen')==source_fen
+    assert 'Correct' in page.locator('#study-reasoning-feedback').inner_text()
+    assert page.locator('#btn-return-lesson').is_hidden()
+    page.locator('#sel-language').select_option('ja')
+
+    # A brand-new game discards the return target. Unrelated puzzles should
+    # not grow a stale button from a previous learning session.
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('#btn-new').click(force=True)
+    assert page.locator('#btn-return-lesson').is_hidden()
 
     # L-04: old 44 lessons are also interactive and a challenge does not
     # mutate position when graded. Quiz status survives navigation.
@@ -509,6 +536,26 @@ with sync_playwright() as pw:
     page.locator('#learn-list .study-item').nth(8).click(force=True)
     assert page.locator('#btn-reason-after').is_disabled()
     assert page.locator('#study-reasoning-position-board .reasoning-position-square').count()==64
+
+    # L-04j: stepping through a long replay scrolls only its move list,
+    # never the outer page. Use DOM clicks to exclude Playwright's own
+    # automatic scroll-into-view behavior from the measurement.
+    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    windmill_idx=page.evaluate("LESSONS.filter(l=>l.cat==='combo').findIndex(l=>l.id==='cb_windmill')")
+    assert windmill_idx>=0
+    page.locator('#learn-list .study-item').nth(windmill_idx).click(force=True)
+    page.evaluate("window.scrollTo(0, 260)")
+    page.wait_for_timeout(80)
+    before_scroll=page.evaluate("window.scrollY")
+    assert before_scroll>0
+    for _ in range(10):
+        page.evaluate("document.getElementById('btn-replay-next').click()")
+        assert abs(page.evaluate("window.scrollY")-before_scroll)<=2, 'replay navigation moved the page'
+    assert page.locator('#replay-counter').inner_text()=='10 / 11'
+    assert page.locator('#replay-movelist').evaluate("(node) => node.scrollTop")>0
+    for _ in range(5):
+        page.evaluate("document.getElementById('btn-replay-prev').click()")
+        assert abs(page.evaluate("window.scrollY")-before_scroll)<=2, 'replay rewind moved the page'
 
     # L-05: famous games moved from record tabs to the sixth learning chapter;
     # viewing the last ply saves viewed state, language refreshes annotations.
