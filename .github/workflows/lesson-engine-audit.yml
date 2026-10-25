@@ -5,6 +5,8 @@ on:
     paths:
       - 'js/lessons.js'
       - 'js/extra_lessons.js'
+      - 'tools/lessons_gen.py'
+      - 'tools/lessons_en.py'
       - 'tools/audit_lesson_engine.py'
       - 'docs/learning-fixes-tablebase.json'
       - '.github/workflows/lesson-engine-audit.yml'
