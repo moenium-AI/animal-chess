@@ -10,7 +10,13 @@ const {Chess,LESSONS,INTRO_LESSONS,EXTRA_LESSONS,LESSON_COMPARISONS}=
   vm.runInContext('({Chess,LESSONS,INTRO_LESSONS,EXTRA_LESSONS,LESSON_COMPARISONS})',ctx);
 const byId=new Map([...LESSONS,...INTRO_LESSONS,...EXTRA_LESSONS].map(l=>[l.id,l]));
 const keys=Object.keys(LESSON_COMPARISONS);
-assert.ok(keys.length>=10,'sufficient substantive examples');
+// Stable coverage: dropping a curated comparison must fail the regression.
+const EXPECTED_COMPARISONS = [
+  'bk_stalemate','bk_mate','bk_castling','bk_enpassant','op_london',
+  'pr_pin','cb_checkcapture','cb_knightfork2','cb_rookfile',
+  'eg_rookbehind','eg_passadvance','pr_trade'
+];
+assert.deepEqual(keys.sort(), EXPECTED_COMPARISONS.sort(), 'comparison catalog changed without review');
 const positions={};
 for(const id of keys){
   const l=byId.get(id),c=LESSON_COMPARISONS[id];
