@@ -268,6 +268,20 @@ with sync_playwright() as pw:
     assert page.locator('#replay-counter').inner_text()=='2 / 2'
     page.locator('#btn-compare-main').click(force=True)
     assert page.locator('#replay-counter').inner_text()=='0 / 1'
+    # Related puzzles must also restore an alternative replay branch.
+    page.locator('#btn-compare-other').click(force=True)
+    page.locator('#btn-replay-next').click(force=True)
+    page.locator('#btn-reason-defense').click(force=True)
+    assert page.locator('#replay-counter').inner_text()=='1 / 2'
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('#btn-return-lesson').click(force=True)
+    assert page.locator('#btn-compare-other').get_attribute('aria-pressed')=='true'
+    assert page.locator('#replay-counter').inner_text()=='1 / 2'
+    assert page.locator('#btn-reason-defense').get_attribute('aria-pressed')=='true'
+    page.locator('#btn-compare-main').click(force=True)
+    page.locator('#btn-reason-why').click(force=True)
+    assert page.locator('#replay-counter').inner_text()=='0 / 1'
 
     # L-04d: reasoning questions are separate from move mastery and do not
     # change the chessboard. Wrong answers cannot award understanding credit.
