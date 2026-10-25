@@ -674,6 +674,40 @@ with sync_playwright() as pw:
     page.locator('#btn-new').click(force=True)
     page.locator('#btn-hint').click(force=True)
     page.wait_for_function("document.querySelector('#status-bar').textContent.indexOf('考え中') < 0",timeout=7000)
+    # P-80: verify that the corrected Japanese / English catalog reaches
+    # the actual puzzle UI, including both mate sequences.
+    page.locator('.tab[data-tab="puzzle"]').click(force=True)
+    page.locator('#puzzle-cats .chip.lv').first.click(force=True)
+    page.locator('#puzzle-cats .chip:not(.lv)').first.click(force=True)
+    rook_idx=page.evaluate("PUZZLES.findIndex(p=>p.id==='mate-rook-knight-coordination')")
+    assert rook_idx>=0
+    page.locator(f'#puzzle-list .puzzle-item[data-puzzle-index="{rook_idx}"]').click(force=True)
+    assert 'おうまさんのまちぶせ' in page.locator('#puzzle-title').inner_text()
+    assert page.evaluate("""() => {
+      const p=PUZZLES.find(x=>x.id==='mate-rook-knight-coordination');
+      const game=new Chess(p.fen),noKnight=new Chess(p.fen);
+      noKnight.remove('b5');
+      game.move('Rf8#');
+      noKnight.move('Rf8#');
+      return game.in_checkmate() && !noKnight.in_checkmate();
+    }"""), 'knight does not matter for published rook mate'
+    move(page,'f4','f8')
+    assert page.locator('#puzzle-completion').is_visible(), 'rook/knight mate not accepted in browser'
+
+    queen_idx=page.evaluate("PUZZLES.findIndex(p=>p.id==='mate-queen-knight-endgame')")
+    page.locator(f'#puzzle-list .puzzle-item[data-puzzle-index="{queen_idx}"]').click(force=True)
+    assert 'おうさまとおうまのさんぽ' in page.locator('#puzzle-title').inner_text()
+    move(page,'g5','g6')
+    page.wait_for_timeout(850)  # deterministic black response to the puzzle line
+    move(page,'h4','d8')
+    assert page.locator('#puzzle-completion').is_visible(), 'queen/knight mate not accepted'
+
+    finish_idx=page.evaluate("PUZZLES.findIndex(p=>p.id==='puzzle-035')")
+    page.locator(f'#puzzle-list .puzzle-item[data-puzzle-index="{finish_idx}"]').click(force=True)
+    assert 'ルークのメイトへ、あと一歩' in page.locator('#puzzle-title').inner_text()
+    page.locator('#sel-language').select_option('en')
+    assert 'One Step to Rook Mate' in page.locator('#puzzle-title').inner_text()
+    page.locator('#sel-language').select_option('ja')
     assert not JSERR,JSERR
     print(json.dumps({'result':'PASS','gameOverReset':True,'modalFocus':True,'invalidSettings':True,'workerSearchResponsiveMs':round(elapsed),'cpuCancelResponsiveMs':round(elapsed_reset),'errors':JSERR}))
     context2.close();context.close();browser.close()
