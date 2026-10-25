@@ -100,16 +100,47 @@ def verify_zwischenzug(lesson: dict) -> None:
 
 
 def verify_windmill(lesson: dict) -> None:
-    """Keep the demonstrated non-king defense factual and bilingual."""
+    """Verify all immediate defenses and the instructional wins after interpositions."""
+    initial = chess.Board(lesson["fen"])
+    if initial.piece_at(chess.F8) != chess.Piece(chess.KNIGHT, chess.BLACK):
+        raise AssertionError("Windmill requires Black's knight on f8")
+    initial.push_san("Rxc7+")
+    replies = {initial.san(move) for move in initial.legal_moves}
+    if replies != {"Kg8", "Qc3", "Qe5"}:
+        raise AssertionError(f"Unaccounted-for windmill defense: {sorted(replies)}")
+    if "Qc3" not in lesson["intro"] or "Qc3" not in lesson["en"]["intro"]:
+        raise AssertionError("Both languages must explain the queen interposition")
+    for answer, capture in (("Qc3", "Bxc3+"), ("Qe5", "Bxe5+")):
+        board = initial.copy()
+        board.push_san(answer)
+        board.push_san(capture)
+        white_piece = board.piece_at(chess.C3 if answer == "Qc3" else chess.E5)
+        if white_piece != chess.Piece(chess.BISHOP, chess.WHITE) or not board.is_check():
+            raise AssertionError(f"{answer} must lose the queen with check")
+        if any(piece.piece_type == chess.QUEEN and piece.color == chess.BLACK
+               for piece in board.piece_map().values()):
+            raise AssertionError(f"Black queen escaped after {answer}")
+    demo = initial.copy()
+    for san in ("Kg8", "Rg7+", "Kh8", "Rxb7+", "Kg8", "Rg7+", "Kh8"):
+        demo.push_san(san)
+
+
+
+def verify_windmill_engine(engine: chess.engine.SimpleEngine, lesson: dict) -> None:
+    """An independent search must not find a refutation of the practised move.
+
+    The depth limit is deterministic; this guards a sound attack, not a claim
+    that Rxc7+ is the fastest mate (Stockfish may prefer a quicker line).
+    """
     board = chess.Board(lesson["fen"])
-    board.push_san("Rxc7+")
-    if "Rf6" not in [board.san(move) for move in board.legal_moves]:
-        raise AssertionError("The windmill's ...Rf6 alternative must be legal")
-    board.push_san("Rf6")
-    if board.is_attacked_by(chess.WHITE, board.king(chess.BLACK)):
-        raise AssertionError("...Rf6 must actually stop the discovered check")
-    if "Rf6" not in lesson["intro"] or "Rf6" not in lesson["en"]["intro"]:
-        raise AssertionError("Both windmill introductions must mention the defense")
+    expected_move = board.parse_san("Rxc7+")
+    info = engine.analyse(board, chess.engine.Limit(depth=16),
+                          root_moves=[expected_move])
+    score = info["score"].pov(chess.WHITE).score(mate_score=20000)
+    if score is None or score < 500:
+        raise AssertionError(
+            f"Windmill Rxc7+ must be winning against best defense: {score}"
+        )
 
 
 def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
@@ -121,7 +152,8 @@ def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
             raise AssertionError("Wrong-color bishop demonstration must end in stalemate")
     elif lesson_id in ("cb_smother", "cb_backrank", "cb_deflection",
                        "eg_rook", "eg_tworooks", "eg_queen",
-                       "cb_boden", "cb_anastasia", "cb_epaulette"):
+                       "cb_boden", "cb_anastasia", "cb_epaulette",
+                       "cb_windmill"):
         if not board.is_checkmate():
             raise AssertionError(f"{lesson_id}: published mate no longer holds")
 
@@ -177,6 +209,8 @@ def main() -> None:
                 verify_zwischenzug(lesson)
             if lesson["id"] == "cb_windmill":
                 verify_windmill(lesson)
+                if engine:
+                    verify_windmill_engine(engine, lesson)
             if len(lesson["moves"]) != len(lesson["en"]["moves"]):
                 raise AssertionError(f"Bilingual ply count differs: {lesson['id']}")
             for index, (item, translated) in enumerate(

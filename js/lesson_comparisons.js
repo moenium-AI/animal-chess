@@ -124,6 +124,22 @@ const LESSON_COMPARISONS = {
     },
     "theme": "fork"
   },
+  "cb_windmill": {
+    "ply": 1,
+    "alternative": [
+      "Qc3",
+      "Bxc3+"
+    ],
+    "main": {
+      "ja": "黒が...Kg8と逃げると、白はRg7+から風車を回し、ポーンを取りながら攻められます。ほかの応手でも同じ手順になるわけではありません。",
+      "en": "After ...Kg8, White can return with Rg7+ and continue the windmill to collect pawns. Other defenses lead to different lines."
+    },
+    "other": {
+      "ja": "黒が...Qc3で発見王手を遮っても、Bxc3+で白ビショップがクイーンを取ります。...Qe5もBxe5+で同様です。風車の連続王手は止まっても、攻めを防ぎきれません。",
+      "en": "Black can block the discovered check with ...Qc3, but Bxc3+ captures the queen. Likewise ...Qe5 allows Bxe5+. The repeated windmill stops, but the attack still succeeds."
+    },
+    "theme": "defense"
+  },
   "cb_rookfile": {
     "ply": 0,
     "alternative": [

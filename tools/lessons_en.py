@@ -321,9 +321,9 @@ EN = {
   ),
   "cb_windmill": E(
     "Windmill",
-    "This illustrates a windmill against selected king moves. After Rxc7+, Black can block the discovered check with ...Rf6. The displayed line is neither forced nor a claim of best play.",
-    "When a piece blocks a bishop or rook, consider a discovered check. Repeat check, capture, and check when the position allows it; do not assume every reply is forced.",
-    "The rook takes c7 with discovered check. Black can interpose ...Rf6, but this line chooses ...Kg8 to show the pattern.",
+    "With a knight on f8, White's Rxc7+ begins a sound attack. If Black plays ...Kg8, the rook can collect pawns using the windmill. If Black blocks with ...Qc3 or ...Qe5, the bishop wins the queen. This line illustrates king moves; the windmill itself is not forced against every defense.",
+    "A windmill combines discovered checks with a rook's return. Calculate not only king moves but also interpositions and queen sacrifices; a sound tactic must survive the opponent's best defense.",
+    "The rook captures c7 with discovered check. ...Qc3 Bxc3+ or ...Qe5 Bxe5+ loses the queen, so this line follows ...Kg8.",
     "The h7 pawn blocks the corner, so the king escapes to g8 in this line.",
     "The rook returns with check. The bishop protects it, so the king moves away.",
     "The king is pushed back to h8.",
@@ -333,7 +333,7 @@ EN = {
     "The king goes back to the corner.",
     "The rook moves to the fifth rank, revealing the bishop's check and attacking the queen on a5.",
     "This line interposes the queen on e5 to stop the diagonal check.",
-    "The rook captures the queen in this selected line. In a real game, examine defenses such as ...Rf6 rather than assuming the sequence is forced.",
+    "Bxe5# captures the queen with checkmate. Earlier interpositions ...Qc3 or ...Qe5 stop the windmill, but the bishop still wins the queen.",
   ),
   "eg_stalemate": E(
     "Watch for Stalemate",

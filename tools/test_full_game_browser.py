@@ -29,7 +29,7 @@ def load_inline(page, settings):
     page.evaluate("""data => { const cache=new Map(); Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>cache.get(k)||null,setItem:(k,v)=>cache.set(k,v),removeItem:k=>cache.delete(k)}});localStorage.setItem('animalchess_settings',JSON.stringify(data)); }""",settings)
     # The restricted browser cannot fetch localhost. Bundle the actual Worker source
     # into a blob so it still executes on a real independent Worker thread.
-    worker_content='\n'.join((ROOT/f).read_text() for f in ('js/chess.js','js/lessons.js','js/engine.js'))+'\n'+(ROOT/'js/engine_worker.js').read_text().replace("importScripts('chess.js?v=2', 'lessons.js?v=19', 'engine.js?v=20');",'')
+    worker_content='\n'.join((ROOT/f).read_text() for f in ('js/chess.js','js/lessons.js','js/engine.js'))+'\n'+(ROOT/'js/engine_worker.js').read_text().replace("importScripts('chess.js?v=2', 'lessons.js?v=20', 'engine.js?v=20');",'')
     page.evaluate("""source => { const NativeWorker=window.Worker; window.Worker=function(path) { const url=URL.createObjectURL(new Blob([source],{type:'application/javascript'}));const w=new NativeWorker(url);const terminate=w.terminate.bind(w);w.terminate=()=>{terminate();URL.revokeObjectURL(url)};return w;}; }""",worker_content)
     for source in scripts:page.add_script_tag(content=(ROOT/source.split('?')[0]).read_text())
 
