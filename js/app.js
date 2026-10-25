@@ -1590,6 +1590,14 @@ function renderLearnList() {
     const stateEl = document.createElement('span');
     stateEl.className = 'learn-state';
     stateEl.textContent = tr(label);
+    // Show which tactical lessons still have reasoning questions to explore.
+    if (typeof LESSON_REASONING !== 'undefined' &&
+        Object.prototype.hasOwnProperty.call(LESSON_REASONING, l.id)) {
+      const done = reasoningProgress[l.id] || {};
+      stateEl.textContent += ' · ' + tr('learn.reasonProgress', {
+        done: Number(done.why === true) + Number(done.defense === true)
+      });
+    }
     b.append(title, detail, stateEl);
     b.addEventListener('click', () => {
       loadAnnotated(l, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[l.cat] });

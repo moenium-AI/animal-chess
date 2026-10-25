@@ -262,13 +262,55 @@ with sync_playwright() as pw:
     # lesson must not inherit its answer.
     page.locator('#btn-compare-other').click(force=True)
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).bk_stalemate.defense===true")
-    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    # Tactics now have reasoning; use an endgame that is not in this release.
+    page.locator('#learn-cats .chip').nth(3).click(force=True)
     page.locator('#learn-list .study-item').first.click(force=True)
     assert 'hidden' in page.locator('#study-reasoning').get_attribute('class')
     page.locator('#learn-cats .chip').first.click(force=True)
     page.locator('#learn-list .study-item').nth(13).click(force=True)
     assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
     assert '理解チェック' in page.locator('#learn-progress').inner_text()
+
+    # L-04e: all 21 tactical lessons have two bilingual reasoning checks.
+    # Confirm a brand-new old lesson, a mate lesson, and a persisted reload.
+    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    assert page.locator('#learn-list .study-item').count()==21
+    assert '0 / 42' in page.locator('#learn-progress').inner_text()
+    page.locator('#learn-list .study-item').first.click(force=True)  # cb_fork
+    assert page.locator('#study-reasoning').is_visible()
+    assert 'Ne7+' in page.locator('#study-reasoning-question').inner_text()
+    replay_before=page.locator('#replay-counter').inner_text()
+    page.locator('#study-reasoning-options button').nth(1).click(force=True) # why
+    page.locator('#btn-reason-defense').click(force=True)
+    page.locator('#study-reasoning-options button').nth(2).click(force=True) # draw
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert '2 / 42' in page.locator('#learn-progress').inner_text()
+    assert page.locator('#replay-counter').inner_text()==replay_before
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_reasoning_v1')).cb_fork.defense===true")
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).cb_fork==='mastered'")
+    page.locator('#sel-language').select_option('en')
+    assert 'result' in page.locator('#study-reasoning-question').inner_text().lower()
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    page.locator('#sel-language').select_option('ja')
+
+    page.locator('#learn-list .study-item').nth(3).click(force=True) # cb_backrank
+    assert '0 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).cb_backrank === undefined")
+    page.locator('#study-reasoning-options button').nth(1).click(force=True)
+    page.locator('#btn-reason-defense').click(force=True)
+    page.locator('#study-reasoning-options button').nth(2).click(force=True)
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    assert '4 / 42' in page.locator('#learn-progress').inner_text()
+    # Correct understanding must not silently award the old move-mastered state.
+    assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).cb_backrank === undefined")
+    page.reload(wait_until='load')
+    page.locator('.tab[data-tab="learn"]').click(force=True)
+    page.locator('#learn-cats .chip').nth(2).click(force=True)
+    assert '4 / 42' in page.locator('#learn-progress').inner_text()
+    page.locator('#learn-list .study-item').first.click(force=True)
+    assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
+    page.locator('#btn-reason-defense').click(force=True)
+    assert page.locator('#study-reasoning-options button').count()==3
 
     # L-05: famous games moved from record tabs to the sixth learning chapter;
     # viewing the last ply saves viewed state, language refreshes annotations.
