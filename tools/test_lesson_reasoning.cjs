@@ -81,5 +81,5 @@ assert.ok(doubleCheck.moves({verbose:true}).every(m=>m.piece==='k'),'double-chec
 const mate=get('cb_backrank');mate.move('Rd8#');
 assert.equal(mate.moves().length,0,'back-rank mate permits no replies');
 const kingFlight=get('cb_rookfile');kingFlight.move('Ra8+');
-assert.deepEqual(kingFlight.moves(),['Kh7'],'long-range check escape squares changed');
+assert.deepEqual([...kingFlight.moves()],['Kh7'],'long-range check escape squares changed');
 console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,questions:checked,verifiedExampleLines:proofed,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
