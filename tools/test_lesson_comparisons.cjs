@@ -14,6 +14,7 @@ const keys=Object.keys(LESSON_COMPARISONS);
 const EXPECTED_COMPARISONS = [
   'bk_stalemate','bk_mate','bk_castling','bk_enpassant','op_london',
   'pr_pin','cb_checkcapture','cb_knightfork2','cb_rookfile','cb_windmill',
+  'cb_smother','cb_decoy','cb_interference',
   'eg_rookbehind','eg_passadvance','pr_trade'
 ];
 assert.deepEqual(keys.sort(), EXPECTED_COMPARISONS.sort(), 'comparison catalog changed without review');
@@ -65,4 +66,13 @@ assert.equal(positions.cb_windmill.main.get('g8').type,'k','windmill king escape
 assert.equal(positions.cb_windmill.other.get('c3').type,'b','bishop takes the queen after ...Qc3');
 assert.equal(positions.cb_windmill.other.get('c3').color,'w','white wins queen with bishop');
 assert.equal(positions.cb_windmill.other.in_check(),true,'queen capture must give check');
+assert.equal(positions.cb_smother.main.get('g8').type,'k','smother king line');
+assert.equal(positions.cb_smother.other.get('f7').type,'q','Qxf7 wins black rook');
+assert.equal(positions.cb_smother.other.get('f7').color,'w','white queen on f7');
+assert.equal(positions.cb_decoy.main.get('h8').type,'k','king lured to h8');
+assert.equal(positions.cb_decoy.other.get('d5').type,'b','bishop captures queen on d5');
+assert.equal(positions.cb_decoy.other.get('d5').color,'w','white bishop on d5');
+assert.equal(positions.cb_interference.main.get('c7').type,'r','black rook takes advanced pawn');
+assert.equal(positions.cb_interference.other.get('c8').type,'q','pawn promotes after ...Kf7');
+assert.equal(positions.cb_interference.other.get('c8').color,'w','white promotion queen');
 console.log(JSON.stringify({comparedLessons:keys.length,legality:'PASS',criticalOutcomes:'PASS',sourceLessons:byId.size}));
