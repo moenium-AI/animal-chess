@@ -101,5 +101,17 @@ for (const item of snapshots) {
   tbCounts[item.lesson]++;
 }
 for(const [key,count] of Object.entries(expectedTB)) assert.equal(tbCounts[key],count,'saved tablebase snapshot coverage '+key);
+// Guard the alternative outcomes described by two particularly easy-to-misread questions.
+const egStalemate=new Chess(all.get('eg_stalemate').fen);
+assert.equal(egStalemate.move('Qg6').san,'Qg6');
+assert.equal(egStalemate.in_stalemate(),true,'Qg6 must draw by stalemate');
+const egTriangulation=new Chess(all.get('eg_triangulation').fen);
+for(const san of ['Ke5','Kc6','Kd4','Kd7','Kd5']) assert.ok(egTriangulation.move(san));
+assert.equal(egTriangulation.turn(),'b','triangulation must hand move to Black');
+const originalPlacement=all.get('eg_triangulation').fen.split(' ')[0];
+assert.equal(egTriangulation.fen().split(' ')[0],originalPlacement,'triangulation should return to same placement');
+const wrongBishop=new Chess(all.get('eg_wrongbishop').fen);
+for(const san of ['Kg6','Kg8','h7+','Kh8','Kh6']) assert.ok(wrongBishop.move(san));
+assert.equal(wrongBishop.in_stalemate(),true,'wrong-colored rook pawn ending must draw in displayed line');
 assert.equal(endgameProofs,36,'two replayed evidence lines per endgame');
 console.log(JSON.stringify({lessons:expected.length,tactical:tacticIds.length,endgames:endgameIds.length,questions:checked,verifiedExampleLines:proofed,endgameProofs,tablebaseSnapshots:snapshots.length,bilingual:'PASS',grading:'PASS',storage:'PASS'}));
