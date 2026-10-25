@@ -143,6 +143,73 @@ def verify_windmill_engine(engine: chess.engine.SimpleEngine, lesson: dict) -> N
         )
 
 
+
+def verify_other_tactic_defenses(lesson: dict) -> None:
+    """Ensure the advertised defenses and concrete captures remain sound."""
+    lesson_id = lesson["id"]
+    board = chess.Board(lesson["fen"])
+    if lesson_id == "cb_smother":
+        board.push_san("Nf7+")
+        expected = {"Kg8", "Rxf7"}
+        replies = {board.san(move) for move in board.legal_moves}
+        if replies != expected:
+            raise AssertionError(f"Unaccounted smothered-mate defense: {replies}")
+        board.push_san("Rxf7")
+        board.push_san("Qxf7")
+        if board.piece_at(chess.F7) != chess.Piece(chess.QUEEN, chess.WHITE):
+            raise AssertionError("Smothered-mate alternative must win the rook")
+        if any(p.color == chess.BLACK and p.piece_type == chess.ROOK
+               for p in board.piece_map().values()):
+            raise AssertionError("Black rook survives Qxf7")
+    elif lesson_id == "cb_decoy":
+        if board.piece_at(chess.F8) != chess.Piece(chess.BISHOP, chess.BLACK):
+            raise AssertionError("Decoy must have black bishop f8")
+        if board.piece_at(chess.F1) != chess.Piece(chess.ROOK, chess.WHITE):
+            raise AssertionError("Decoy requires White rook f1")
+        board.push_san("Bb3+")
+        replies = {board.san(m) for m in board.legal_moves}
+        if replies != {"Kh8", "Qd5"}:
+            raise AssertionError(f"Unexpected defense to Bb3+: {replies}")
+        for response, continuation in (("Kh8", ["Nf7+", "Kg8", "Nxd8+"]),
+                                       ("Qd5", ["Bxd5+"])):
+            branch = board.copy()
+            branch.push_san(response)
+            for san in continuation:
+                branch.push_san(san)
+            if any(p.color == chess.BLACK and p.piece_type == chess.QUEEN
+                   for p in branch.piece_map().values()):
+                raise AssertionError(f"Decoy queen survives ...{response}")
+    elif lesson_id == "cb_interference":
+        if board.piece_at(chess.D1) != chess.Piece(chess.ROOK, chess.WHITE):
+            raise AssertionError("Interference needs White rook d1")
+        if board.piece_at(chess.E5) != chess.Piece(chess.BISHOP, chess.WHITE):
+            raise AssertionError("Interference needs White bishop e5")
+        board.push_san("c7")
+        for response, continuation, square, kind in (
+            ("Rxc7", ["dxc7", "Bd8", "cxd8=Q+"], chess.D8, chess.QUEEN),
+            ("Bxd6", ["Rxd6"], chess.D6, chess.ROOK),
+            ("Kf7", ["c8=Q"], chess.C8, chess.QUEEN),
+        ):
+            branch = board.copy()
+            branch.push_san(response)
+            for san in continuation:
+                branch.push_san(san)
+            if branch.piece_at(square) != chess.Piece(kind, chess.WHITE):
+                raise AssertionError(f"Interference fails against ...{response}")
+
+
+def verify_tactic_engine(engine: chess.engine.SimpleEngine, lesson: dict) -> None:
+    """Guard each practised tactic against a serious engine refutation."""
+    if lesson["id"] not in ("cb_smother", "cb_decoy", "cb_interference"):
+        return
+    board = chess.Board(lesson["fen"])
+    move = board.parse_san(lesson["moves"][0]["san"])
+    result = engine.analyse(board, chess.engine.Limit(depth=16), root_moves=[move])
+    score = result["score"].pov(chess.WHITE).score(mate_score=20000)
+    if score is None or score < 200:
+        raise AssertionError(f"{lesson['id']} loses its advantage under defense: {score}")
+
+
 def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
     if lesson_id in ("cb_fork", "eg_underpromo"):
         if not board.is_insufficient_material():
@@ -211,6 +278,10 @@ def main() -> None:
                 verify_windmill(lesson)
                 if engine:
                     verify_windmill_engine(engine, lesson)
+            if lesson["id"] in ("cb_smother", "cb_decoy", "cb_interference"):
+                verify_other_tactic_defenses(lesson)
+                if engine:
+                    verify_tactic_engine(engine, lesson)
             if len(lesson["moves"]) != len(lesson["en"]["moves"]):
                 raise AssertionError(f"Bilingual ply count differs: {lesson['id']}")
             for index, (item, translated) in enumerate(
