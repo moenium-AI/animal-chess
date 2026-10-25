@@ -548,22 +548,22 @@
       "id": "mate-rook-knight-coordination",
       "title": "おうまさんのまちぶせ",
       "theme": "knight",
-      "idea": "ルークで王手する前に、ナイトとキングがどこをおさえているか確認しよう。",
-      "fen": "1k6/8/1K6/8/2N2R2/8/8/8 w - - 0 1",
+      "idea": "ナイトがa7への逃げ道をふさぎ、白キングはb7とc7を押さえている。ルークで最後の王手をかけよう。",
+      "fen": "1k6/8/2K5/1N6/5R2/8/8/8 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
       "solutions": [
         "Rf8#"
       ],
       "continuations": {
-        "1k6/8/1K6/8/2N2R2/8/8/8 w - - 0 1|1": [
+        "1k6/8/2K5/1N6/5R2/8/8/8 w - - 0 1|1": [
           "Rf8#"
         ]
       },
       "objective": "mate",
       "en": {
         "title": "The Pony's Ambush",
-        "idea": "Before checking with the rook, look at the knight and king’s coverage."
+        "idea": "The knight covers the a7 escape square while White’s king controls b7 and c7. Find the rook's finishing check."
       }
     },
     {
@@ -866,31 +866,28 @@
       "id": "mate-queen-knight-endgame",
       "title": "おうさまとおうまのさんぽ",
       "theme": "knight",
-      "idea": "キングを寄せ、クイーンとナイトが協力して詰める道筋を読もう。",
-      "fen": "5k2/8/4Q3/6K1/8/p1N5/8/8 w - - 0 1",
+      "idea": "白キングがクイーンの斜めの道をふさいでいる。キングを動かして道を開き、e8への逃げ道を見張るナイトと協力して詰めよう。",
+      "fen": "5k2/6N1/8/6K1/7Q/p7/8/8 w - - 0 1",
       "mateIn": 2,
       "turn": "w",
       "solutions": [
-        "Kf6",
         "Kg6"
       ],
       "continuations": {
-        "5k2/8/4Q3/6K1/8/p1N5/8/8 w - - 0 1|2": [
-          "Kf6",
+        "5k2/6N1/8/6K1/7Q/p7/8/8 w - - 0 1|2": [
           "Kg6"
         ],
-        "5k2/8/4QK2/8/8/2N5/p7/8 w - - 0 2|1": [
-          "Qc8#",
-          "Qf7#"
+        "6k1/6N1/6K1/8/7Q/p7/8/8 w - - 2 2|1": [
+          "Qd8#"
         ],
-        "5k2/8/4Q1K1/8/8/2N5/p7/8 w - - 0 2|1": [
-          "Qf7#"
+        "5k2/6N1/6K1/8/7Q/8/p7/8 w - - 0 2|1": [
+          "Qd8#"
         ]
       },
       "objective": "mate",
       "en": {
         "title": "A Royal Pony Walk",
-        "idea": "Calculate the king’s approach and the queen–knight follow-up."
+        "idea": "White's king blocks the queen's diagonal. Move the king to clear it, while the knight guards Black's escape on e8."
       }
     },
     {
@@ -929,9 +926,9 @@
       }
     },
     {
-      "title": "ルークでしとめる",
+      "title": "ルークのメイトへ、あと一歩",
       "theme": "endgame",
-      "idea": "「おうさまのおてつだい」の一段前から始める応用編。まずキングを近づけ、残り二手の詰みにつなげよう。",
+      "idea": "ルークだけではまだ詰まない。まずキングを近づけ、ルークの最後の一撃につながる3手詰めを考えよう。",
       "fen": "6k1/8/4K3/8/8/8/8/R7 w - - 0 1",
       "mateIn": 3,
       "turn": "w",
@@ -965,8 +962,8 @@
       "id": "puzzle-035",
       "objective": "mate",
       "en": {
-        "title": "Finish with the Rook",
-        "idea": "An extended challenge starting one move before “The King Helps.” Bring your king closer and complete the two-move mating net."
+        "title": "One Step to Rook Mate",
+        "idea": "The rook cannot mate yet. Bring the king closer first, then calculate the three-move line ending with the rook."
       }
     },
     {
@@ -2149,7 +2146,7 @@
       "id": "tactic-defender-bishop-2",
       "title": "ふくろうさんにごようじん",
       "theme": "defender",
-      "idea": "ルークを守るビショップをポーンで取り、ビショップの斜めの利きを通そう。",
+      "idea": "g4の黒ビショップがd7のルークを守っている。a4の白ビショップはすでにルークを狙っているので、まず守りのビショップを取り除こう。",
       "fen": "6k1/3r4/8/8/B5b1/7P/8/1K6 w - - 0 1",
       "mateIn": 1,
       "turn": "w",
@@ -2164,7 +2161,7 @@
       "objective": "tactic",
       "en": {
         "title": "Watch Out for the Owl",
-        "idea": "Capture the bishop defending the rook, opening your bishop’s diagonal attack."
+        "idea": "Black's bishop on g4 defends the rook on d7. White's bishop on a4 already attacks that rook, so remove its defender first."
       }
     },
     {
