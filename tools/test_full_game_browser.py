@@ -331,7 +331,7 @@ with sync_playwright() as pw:
     assert page.locator('#replay-counter').inner_text()==before_counter
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1') || '{}').eg_rook !== 'mastered'")
     page.locator('#sel-language').select_option('en')
-    assert 'legal' in page.locator('#study-reasoning-question').inner_text().lower()
+    assert 'respond' in page.locator('#study-reasoning-question').inner_text().lower()
     assert '2 / 2' in page.locator('#study-reasoning-progress').inner_text()
     page.locator('#sel-language').select_option('ja')
 
