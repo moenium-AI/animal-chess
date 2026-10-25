@@ -20,7 +20,7 @@ Open the link and start playing. It works on both phones and desktop computers.
 - **Computer opponent** — Strength levels 1–10, with opening knowledge, endgame technique, and tactics introduced gradually. The levels are tuned to stay approachable.
 - **Two-player mode** — Take turns on the same screen.
 - **💡 Hints** — The AI suggests a move and explains why it is useful.
-- **🎓 Learn** — Study openings, combinations, and endgames one move at a time with original annotations.
+- **🎓 Learn** — Follow a five-chapter, 68-lesson path: 14 beginner lessons, 10 basic-strategy lessons, plus 44 existing tactics, endgames and opening lessons. Read move-by-move notes, reproduce the demonstrated move on the actual board, save studied/mastered progress locally, and open related puzzles.
 - **🌐 Japanese / English** — Switch languages from the menu in the upper-right corner. The choice is saved in the browser.
 - **🏆 Famous games** — Replay historic games with original move-by-move notes. Every move is machine-checked.
 - **📜 PGN loading** — Paste or load a PGN file, click any move to replay from that point, and resume a game from the selected position.
@@ -54,7 +54,7 @@ The game makes no external network requests. Settings and puzzle progress are st
 - **コンピューター対戦** — 強さはレベル1〜10。オープニング定跡・終盤の寄せ・戦術を段階的に使用し、強すぎない範囲に調整しています。
 - **ふたりで遊ぶ** — 同じ画面で交互に操作できます。
 - **💡 ヒント機能** — AIが次の一手と、その手が有効な理由を説明します。
-- **🎓 まなぶ** — オープニング定跡・コンビネーション（戦術）・エンドゲームを、独自解説付きで一手ずつ学べます。
+- **🎓 まなぶ** — 5章・全68教材。入門14本＋基本戦略10本＋従来の戦術・終盤・定跡44本。指し手の解説を読んだ後、実際の盤面で一手を再現。学習済み・習得の進捗をブラウザに保存し、関連パズルにも挑戦できます。
 - **🌐 日本語 / English** — 画面右上の言語メニューから切り替えられます。設定はブラウザ内に保存されます。
 - **🏆 名局** — 歴史的な名勝負を独自の一手解説付きで鑑賞できます。すべての指し手を機械検証済みです。
 - **📜 棋譜（PGN）読み込み** — 貼り付け・ファイル読み込みに対応。手をクリックして任意の位置から再生し、選んだ局面から対局を再開できます。
