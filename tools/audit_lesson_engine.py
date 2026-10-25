@@ -152,7 +152,8 @@ def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
             raise AssertionError("Wrong-color bishop demonstration must end in stalemate")
     elif lesson_id in ("cb_smother", "cb_backrank", "cb_deflection",
                        "eg_rook", "eg_tworooks", "eg_queen",
-                       "cb_boden", "cb_anastasia", "cb_epaulette"):
+                       "cb_boden", "cb_anastasia", "cb_epaulette",
+                       "cb_windmill"):
         if not board.is_checkmate():
             raise AssertionError(f"{lesson_id}: published mate no longer holds")
 
