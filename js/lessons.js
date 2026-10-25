@@ -2257,13 +2257,13 @@ const LESSONS = [
   "id": "cb_windmill",
   "cat": "combo",
   "title": "【上級】ウィンドミル(風車)",
-  "fen": "5r1k/1pp3Rp/8/q7/8/8/1B6/6K1 w - - 0 1",
-  "intro": "風車の形を学ぶために、黒がキング移動を選ぶ実演です。初手Rxc7+には黒が...Rf6で発見王手を遮る手もあり、表示手順は強制でも最善手の保証でもありません。",
-  "takeaway": "大駒の前に自分の駒があるとき、それを動かせばディスカバードチェックになる。チェック→駒取り→またチェックを繰り返し、相手の駒を刈り取っていく。",
+  "fen": "5n1k/1pp3Rp/8/q7/8/8/1B6/6K1 w - - 0 1",
+  "intro": "f8がナイトのこの配置では、Rxc7+から白の攻めが成立します。黒が...Kg8なら風車でポーンを取り、...Qc3や...Qe5で王手を遮ればビショップがクイーンを取れます。掲載手順はキング移動を選んだ変化であり、すべての応手で風車が続くわけではありません。",
+  "takeaway": "風車は発見王手とルークの往復で駒を取る手筋。逃げる応手だけでなく、合駒やクイーンの犠牲を調べ、相手が最善に受けても攻めが成立するか考えよう。",
   "moves": [
    {
     "san": "Rxc7+",
-    "note": "ルークがc7のポーンを取り、ビショップの発見王手を開く。黒は...Rf6で王手を遮ることもできるが、ここでは形を見るため...Kg8を選ぶ。"
+    "note": "ルークがc7を取り、ビショップの発見王手を開く。...Qc3ならBxc3+、...Qe5ならBxe5+でクイーンを取れる。ここでは...Kg8の変化を追う。"
    },
    {
     "san": "Kg8",
@@ -2303,17 +2303,17 @@ const LESSONS = [
    },
    {
     "san": "Rxe5",
-    "note": "選んだ応手ではクイーンを取れる。ただし実戦では...Rf6のような合駒も読む必要があり、この手順は強制ではない。"
+    "note": "この変化ではクイーンを取れた。黒が最初に...Qc3や...Qe5を選べば、風車は止まる代わりにビショップでクイーンを取れる。"
    }
   ],
   "en": {
    "title": "Windmill",
-   "intro": "This illustrates a windmill against selected king moves. After Rxc7+, Black can block the discovered check with ...Rf6. The displayed line is neither forced nor a claim of best play.",
-   "takeaway": "When a piece blocks a bishop or rook, consider a discovered check. Repeat check, capture, and check when the position allows it; do not assume every reply is forced.",
+   "intro": "With a knight on f8, White's Rxc7+ begins a sound attack. If Black plays ...Kg8, the rook can collect pawns using the windmill. If Black blocks with ...Qc3 or ...Qe5, the bishop wins the queen. This line illustrates king moves; the windmill itself is not forced against every defense.",
+   "takeaway": "A windmill combines discovered checks with a rook's return. Calculate not only king moves but also interpositions and queen sacrifices; a sound tactic must survive the opponent's best defense.",
    "moves": [
     {
      "san": "Rxc7+",
-     "note": "The rook takes c7 with discovered check. Black can interpose ...Rf6, but this line chooses ...Kg8 to show the pattern."
+     "note": "The rook captures c7 with discovered check. ...Qc3 Bxc3+ or ...Qe5 Bxe5+ loses the queen, so this line follows ...Kg8."
     },
     {
      "san": "Kg8",
@@ -2353,7 +2353,7 @@ const LESSONS = [
     },
     {
      "san": "Rxe5",
-     "note": "The rook captures the queen in this selected line. In a real game, examine defenses such as ...Rf6 rather than assuming the sequence is forced."
+     "note": "This line wins the queen. If Black blocks earlier with ...Qc3 or ...Qe5, the windmill stops but the bishop can take the queen instead."
     }
    ]
   }
