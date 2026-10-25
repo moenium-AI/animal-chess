@@ -19,6 +19,10 @@ let replay = { baseFen: null, sans: [], notes: [], idx: 0, meta: null, annotatio
 let puzzle = { idx: -1, movesLeft: 0, busy: false };
 // Lesson progress remains separate from puzzle records and settings.
 let learnedProgress = {};
+let reasoningProgress = {};
+let reasoningKind = 'why';
+let reasoningChoice = null;
+const REASONING_STORAGE_KEY = 'animalchess_reasoning_v1';
 let lessonPractice = null; // { id, ply, san, hintShown }
 let lessonFeedback = '';
 let lessonFeedbackKind = '';
@@ -147,6 +151,21 @@ function loadLearningProgress() {
       [...allLearningLessons().map(lesson => lesson.id),
         ...(typeof FAMOUS_GAMES !== 'undefined' ? FAMOUS_GAMES.map(g => g.id) : [])]);
   } catch (error) { console.warn('Could not restore lesson progress', error); learnedProgress = {}; }
+}
+function loadReasoningProgress() {
+  try {
+    const ids = typeof LESSON_REASONING === 'undefined' ? [] : Object.keys(LESSON_REASONING);
+    reasoningProgress = Learning.restoreReasoningProgress(
+      localStorage.getItem(REASONING_STORAGE_KEY), ids);
+  } catch (error) { console.warn('Could not restore reasoning progress', error); reasoningProgress = {}; }
+}
+function noteReasoningProgress(id, kind) {
+  const next = Learning.markReasoningProgress(reasoningProgress, id, kind);
+  if (next === reasoningProgress) return;
+  reasoningProgress = next;
+  try { localStorage.setItem(REASONING_STORAGE_KEY, JSON.stringify(reasoningProgress)); }
+  catch (error) { console.warn('Could not save reasoning progress', error); }
+  renderLearnList();
 }
 function noteLessonProgress(id, state) {
   const next = Learning.markProgress(learnedProgress, id, state);
@@ -1174,6 +1193,8 @@ function enterStudy(study) {
   replay.annotation = study.annotation || null;
   replay.comparison = 'main';
   replay.idx = 0;
+  reasoningKind = 'why';
+  reasoningChoice = null;
   lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'replay';
   updatePuzzleCompletion();
@@ -1335,6 +1356,59 @@ function goToNextLesson() {
   loadAnnotated(next, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[next.cat] });
 }
 
+// Two short reasoning questions complement the move-reproduction task. Quiz
+// state never changes the replay Chess position or legacy mastery progress.
+function currentReasoning() {
+  const lesson = currentLesson();
+  return lesson && typeof LESSON_REASONING !== 'undefined'
+    ? LESSON_REASONING[lesson.id] || null : null;
+}
+function renderReasoningQuiz() {
+  const data = currentLesson(), quiz = currentReasoning(), wrap = $('study-reasoning');
+  wrap.classList.toggle('hidden', !quiz);
+  if (!quiz) return;
+  const completed = reasoningProgress[data.id] || {};
+  const done = Number(completed.why === true) + Number(completed.defense === true);
+  $('study-reasoning-progress').textContent = tr('learn.reasonProgress', { done });
+  $('btn-reason-why').setAttribute('aria-pressed', String(reasoningKind === 'why'));
+  $('btn-reason-defense').setAttribute('aria-pressed', String(reasoningKind === 'defense'));
+  const question = quiz[reasoningKind];
+  const localized = question[I18N.language] || question.ja;
+  $('study-reasoning-question').textContent = localized.question;
+  const opts = $('study-reasoning-options');
+  opts.replaceChildren();
+  localized.options.forEach((label, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn';
+    button.textContent = label;
+    button.setAttribute('aria-pressed', String(reasoningChoice === index));
+    if (reasoningChoice === index) button.classList.add(
+      index === question.answer ? 'is-correct' : 'is-incorrect');
+    button.addEventListener('click', () => answerReasoningQuiz(index));
+    opts.appendChild(button);
+  });
+  const feedback = $('study-reasoning-feedback');
+  if (reasoningChoice === null) feedback.textContent = '';
+  else feedback.textContent = tr(reasoningChoice === question.answer ?
+    'learn.reasonCorrect' : 'learn.reasonWrong') +
+    (reasoningChoice === question.answer ? ' ' + localized.explanation : '');
+}
+function switchReasoningKind(kind) {
+  if (!currentReasoning() || !['why', 'defense'].includes(kind)) return;
+  reasoningKind = kind;
+  reasoningChoice = null;
+  renderReasoningQuiz();
+}
+function answerReasoningQuiz(index) {
+  const data = currentLesson(), quiz = currentReasoning();
+  if (!data || !quiz) return;
+  const correct = Learning.gradeReasoning(quiz[reasoningKind], index);
+  reasoningChoice = index;
+  if (correct) noteReasoningProgress(data.id, reasoningKind);
+  renderReasoningQuiz();
+}
+
 // Side-by-side study branches. They are curated variations, never a live
 // evaluation of all alternative moves. Both paths share the original Chess
 // implementation and are rebuilt from legal SAN on each navigation step.
@@ -1416,6 +1490,7 @@ function replayGoTo(idx) {
   renderReplayMovelist();
   renderPracticeControls();
   renderStudyComparison();
+  renderReasoningQuiz();
 }
 function renderReplayMovelist() {
   const ol = $('replay-movelist');
@@ -1492,7 +1567,14 @@ function renderLearnList() {
   const mastered = list.filter(l => learnedProgress[l.id] === 'mastered').length;
   const studied = list.filter(l => learnedProgress[l.id] === 'studied').length;
   $('learn-chapter-desc').textContent = tr(CAT_DESC[learnCat]);
-  $('learn-progress').textContent = tr('learn.progressSummary', { mastered, studied, total: list.length });
+  const reasoningLessons = list.filter(l => typeof LESSON_REASONING !== 'undefined' &&
+    Object.prototype.hasOwnProperty.call(LESSON_REASONING, l.id));
+  const understood = reasoningLessons.reduce((count, lesson) => {
+    const progress = reasoningProgress[lesson.id] || {};
+    return count + Number(progress.why === true) + Number(progress.defense === true);
+  }, 0);
+  $('learn-progress').textContent = tr('learn.progressSummary', { mastered, studied, total: list.length }) +
+    (reasoningLessons.length ? ' ' + tr('learn.reasonChapter', { done: understood, total: reasoningLessons.length * 2 }) : '');
   list.forEach((l) => {
     const b = document.createElement('button');
     b.className = 'study-item';
@@ -1583,6 +1665,7 @@ function refreshLanguage() {
     const comparisonMode = replay.comparison;
     const activePractice = lessonPractice && { ...lessonPractice };
     const feedback = lessonFeedback, kind = lessonFeedbackKind;
+    const activeReasoningKind = reasoningKind, activeReasoningChoice = reasoningChoice;
     loadAnnotated(source.data, source.meta);
     if (comparisonMode === 'other' && currentComparison()) chooseStudyComparison('other', idx);
     else replayGoTo(idx);
@@ -1593,6 +1676,8 @@ function refreshLanguage() {
     }
     lessonFeedback = feedback; lessonFeedbackKind = kind;
     renderPracticeControls();
+    reasoningKind = activeReasoningKind; reasoningChoice = activeReasoningChoice;
+    renderReasoningQuiz();
   } else if (mode === 'replay') {
     showStudyNote();
   }
@@ -1775,6 +1860,8 @@ function setupUI() {
   $('btn-study-next').addEventListener('click', goToNextLesson);
   $('btn-compare-main').addEventListener('click', () => chooseStudyComparison('main'));
   $('btn-compare-other').addEventListener('click', () => chooseStudyComparison('other'));
+  $('btn-reason-why').addEventListener('click', () => switchReasoningKind('why'));
+  $('btn-reason-defense').addEventListener('click', () => switchReasoningKind('defense'));
 
   // Lessons and famous games. / まなぶ・名局。
   renderLearnCats();
@@ -1799,6 +1886,7 @@ function setupUI() {
 // ===== Startup / 起動 =====
 loadSaved();
 loadLearningProgress();
+loadReasoningProgress();
 I18N.setLanguage(settings.language, false);
 setupUI();
 newGame();

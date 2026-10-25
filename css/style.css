@@ -574,6 +574,28 @@ html, body {
 .practice-feedback.is-incorrect { color: #955039; }
 
 
+/* Small reasoning check inside the existing lesson panel. */
+.study-reasoning {
+  margin: 0 0 10px; padding: 10px;
+  background: #f9f5ec; border: 1.5px solid #d8cbb2; border-radius: 10px;
+}
+.study-reasoning-heading { font-size: .89rem; font-weight: 700; color: #665039; }
+.study-reasoning-progress { margin: 4px 0 7px; font-size: .75rem; color: #826e56; }
+.study-reasoning-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 7px; }
+.study-reasoning-tabs .btn { font-size: .8rem; padding: 6px 9px; }
+.study-reasoning-tabs .btn[aria-pressed="true"] { border-color: #8d7145; background: #eee3d0; font-weight: 700; }
+.study-reasoning-question { font-size: .83rem; font-weight: 650; line-height: 1.5; margin: 7px 0; color: #524639; }
+.study-reasoning-options { display: grid; gap: 6px; }
+.study-reasoning-options .btn {
+  display: block; width: 100%; text-align: left; white-space: normal;
+  font-size: .8rem; line-height: 1.45; padding: 7px 9px;
+}
+.study-reasoning-options .btn[aria-pressed="true"] { border-color: #8d7145; background: #eee3d0; }
+.study-reasoning-options .btn.is-correct { border-color: #60866d; }
+.study-reasoning-options .btn.is-incorrect { border-color: #b98575; }
+.study-reasoning-feedback { min-height: 1.2em; color: #655443; font-size: .79rem; line-height: 1.55; margin: 7px 0 4px; }
+.study-reasoning-caution { color: #877964; font-size: .72rem; line-height: 1.45; margin: 5px 0 0; }
+
 /* ===== Learn and famous-game lists / まなぶ・名局リスト ===== */
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .chip {
