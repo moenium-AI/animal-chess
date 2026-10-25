@@ -159,8 +159,8 @@ with sync_playwright() as pw:
     page.locator('#btn-study-puzzle').click(force=True)
     assert page.locator('#tab-puzzle').evaluate("(node) => node.classList.contains('active')")
     assert page.locator('#puzzle-list .puzzle-item').count()>0
-    page.locator('#btn-new').click(force=True)
     page.locator('.tab[data-tab="settings"]').click(force=True)
+    page.locator('#btn-new').click(force=True)
     # A-01: terminal dialog callback must not outlive the game.
     for a,b in [('f2','f3'),('e7','e5'),('g2','g4'),('d8','h4')]:move(page,a,b)
     assert page.locator('#movelist li').count()==4
