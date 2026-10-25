@@ -589,7 +589,8 @@ function turnBadge() {
 }
 function renderStatus() {
   if (mode === 'replay') {
-    statusEl.innerHTML = tr('status.replay', { current: replay.idx, total: replay.sans.length }) + ' · ' + turnBadge();
+    statusEl.innerHTML = lessonPractice ? tr('learn.practiceStatus') + ' · ' + turnBadge()
+      : tr('status.replay', { current: replay.idx, total: replay.sans.length }) + ' · ' + turnBadge();
     return;
   }
   if (mode === 'puzzle') {
@@ -702,7 +703,7 @@ function maybeCpuMove() {
 // ===== Click interaction / クリック操作 =====
 function playerCanMoveNow() {
   if (cpuThinking || puzzle.busy || (mode === 'puzzle' && puzzle.complete)) return false;
-  if (mode === 'replay') return false;
+  if (mode === 'replay') return !!lessonPractice && replay.idx === lessonPractice.ply && !game.game_over();
   if (game.game_over()) return false;
   if (mode === 'puzzle') {
     const p = PUZZLES[puzzle.idx];
@@ -733,6 +734,10 @@ function onSquareClick(sq) {
 
 function tryPlayerMove(moveArg) {
   if (mode === 'puzzle') { puzzleTryMove(moveArg); return; }
+  if (mode === 'replay') {
+    if (lessonPractice) tryLessonPracticeMove(moveArg);
+    return;
+  }
   applyMove(moveArg);
 }
 
