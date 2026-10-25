@@ -13,7 +13,7 @@ const keys=Object.keys(LESSON_COMPARISONS);
 // Stable coverage: dropping a curated comparison must fail the regression.
 const EXPECTED_COMPARISONS = [
   'bk_stalemate','bk_mate','bk_castling','bk_enpassant','op_london',
-  'pr_pin','cb_checkcapture','cb_knightfork2','cb_rookfile',
+  'pr_pin','cb_checkcapture','cb_knightfork2','cb_rookfile','cb_windmill',
   'eg_rookbehind','eg_passadvance','pr_trade'
 ];
 assert.deepEqual(keys.sort(), EXPECTED_COMPARISONS.sort(), 'comparison catalog changed without review');
@@ -24,7 +24,7 @@ for(const id of keys){
   assert.ok(Number.isInteger(c.ply) && c.ply>=0 && c.ply<l.moves.length,'bad ply '+id);
   assert.ok(Array.isArray(c.alternative) && c.alternative.length>0 && c.alternative.length<=4,id);
   assert.ok(c.main.ja&&c.main.en&&c.other.ja&&c.other.en,id);
-  assert.ok(['stalemate','kingSafety','castle','enpassant','plans','pin','capture','fork','check','tempo'].includes(c.theme),id);
+  assert.ok(['stalemate','kingSafety','castle','enpassant','plans','pin','capture','fork','check','tempo','defense'].includes(c.theme),id);
   const root=new Chess(l.fen||undefined);
   for(let i=0;i<c.ply;i++)assert.ok(root.move(l.moves[i].san),id+' root illegal '+i);
   const fen=root.fen();
@@ -61,4 +61,8 @@ assert.equal(positions.eg_rookbehind.other.get('b8').type,'r','rook checked');
 assert.equal(positions.eg_passadvance.main.get('a7').type,'p','passed pawn advances');
 assert.equal(positions.eg_passadvance.other.get('a6').type,'p','pawn is not advanced');
 assert.equal(positions.pr_trade.other.get('e4').color,'b','...dxe4 captures e4 pawn');
+assert.equal(positions.cb_windmill.main.get('g8').type,'k','windmill king escapes to g8');
+assert.equal(positions.cb_windmill.other.get('c3').type,'b','bishop takes the queen after ...Qc3');
+assert.equal(positions.cb_windmill.other.get('c3').color,'w','white wins queen with bishop');
+assert.equal(positions.cb_windmill.other.in_check(),true,'queen capture must give check');
 console.log(JSON.stringify({comparedLessons:keys.length,legality:'PASS',criticalOutcomes:'PASS',sourceLessons:byId.size}));
