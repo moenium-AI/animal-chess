@@ -19,7 +19,8 @@
 原因は `renderReplayMovelist()` から毎回呼ばれる `Element.scrollIntoView({block:'nearest'})`。これは棋譜リスト以外のスクロール祖先やウィンドウまで移動し得た。
 
 - `scrollInsideList(container, item)` を新設し、**対象がリストの表示範囲から外れた場合だけリスト自身の `scrollTop` を更新**。
-- 棋譜の再描画前にリスト内のスクロール位置を保存・復元。
+- 棋譜の再描画前にリスト内のスクロール位置を保存・復元。加えて、解説や学習進捗の再描画で外側のウィンドウ位置が変化した場合は、`replayGoTo()` 終了時に元の `scrollX / scrollY` に復元する。
+- 「一手ためす」で盤面にフォーカスを移すときも `focus({preventScroll:true})` を指定し、ページを動かさない。
 - `goToNextPuzzle()` のパズル一覧ジャンプも同じ方式に統一。
 - 可変長の学習ノートがブラウザのスクロールアンカーを動かさないよう、`.study-panel` に `overflow-anchor: none` を設定。
 - Playwrightで長い風車の教材を一手ずつ進め、戻しても `window.scrollY` が変わらず、**棋譜一覧自体は必要に応じてスクロールする**ことを確認。
