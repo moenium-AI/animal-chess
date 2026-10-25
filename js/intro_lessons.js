@@ -537,5 +537,627 @@ const INTRO_LESSONS = [
       }
     },
     "puzzleTheme": "stalemate"
+  },
+  {
+    "id": "pr_center",
+    "cat": "principles",
+    "fen": null,
+    "title": "中央を支配する",
+    "intro": "序盤では中央の4マスを大切にします。中央で戦うと駒の動きが活発になります。",
+    "takeaway": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+      },
+      {
+        "san": "e5",
+        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+      },
+      {
+        "san": "Nf3",
+        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+      },
+      {
+        "san": "Nc6",
+        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+      },
+      {
+        "san": "d4",
+        "note": "d4を突いて中央の戦いを始めます。相手から取られる可能性も考えましょう。"
+      }
+    ],
+    "practice": {
+      "ply": 4,
+      "prompt": "d2のポーンをd4へ進めよう。",
+      "hint": "初手のポーンを2マス中央へ。"
+    },
+    "en": {
+      "title": "Control the center",
+      "intro": "The four central squares matter because pieces gain space and mobility.",
+      "takeaway": "d4 challenges Black in the center. Be ready for captures.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "d4 challenges Black in the center. Be ready for captures."
+        },
+        {
+          "san": "e5",
+          "note": "d4 challenges Black in the center. Be ready for captures."
+        },
+        {
+          "san": "Nf3",
+          "note": "d4 challenges Black in the center. Be ready for captures."
+        },
+        {
+          "san": "Nc6",
+          "note": "d4 challenges Black in the center. Be ready for captures."
+        },
+        {
+          "san": "d4",
+          "note": "d4 challenges Black in the center. Be ready for captures."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the pawn from d2 to d4.",
+        "hint": "Advance two squares into the center."
+      }
+    },
+    "puzzleTheme": null
+  },
+  {
+    "id": "pr_develop",
+    "cat": "principles",
+    "fen": null,
+    "title": "駒を早く展開する",
+    "intro": "序盤は同じ駒を何度も動かすより、ナイトやビショップを働かせるのが基本です。",
+    "takeaway": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。"
+      },
+      {
+        "san": "e5",
+        "note": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。"
+      },
+      {
+        "san": "Nf3",
+        "note": "g1のナイトをf3へ動かし、e5を攻撃しながら展開します。"
+      }
+    ],
+    "practice": {
+      "ply": 2,
+      "prompt": "g1のナイトをf3へ展開しよう。",
+      "hint": "ナイトがe5を攻撃できる位置を探します。"
+    },
+    "en": {
+      "title": "Develop pieces early",
+      "intro": "In the opening, develop knights and bishops rather than repeatedly moving one piece.",
+      "takeaway": "Nf3 develops a knight while attacking e5.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "Nf3 develops a knight while attacking e5."
+        },
+        {
+          "san": "e5",
+          "note": "Nf3 develops a knight while attacking e5."
+        },
+        {
+          "san": "Nf3",
+          "note": "Nf3 develops a knight while attacking e5."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the knight from g1 to f3.",
+        "hint": "Develop while attacking e5."
+      }
+    },
+    "puzzleTheme": null
+  },
+  {
+    "id": "pr_defend",
+    "cat": "principles",
+    "fen": null,
+    "title": "攻撃された駒を守る",
+    "intro": "相手に狙われた駒がないか、指す前に確認しましょう。",
+    "takeaway": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+      },
+      {
+        "san": "e5",
+        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+      },
+      {
+        "san": "Nf3",
+        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+      },
+      {
+        "san": "Nc6",
+        "note": "白ナイトがe5の黒ポーンを狙ったので、黒はNc6で守ります。"
+      }
+    ],
+    "practice": {
+      "ply": 3,
+      "prompt": "黒のナイトをb8からc6へ動かそう。",
+      "hint": "c6のナイトはe5へ利きます。"
+    },
+    "en": {
+      "title": "Defend threatened pieces",
+      "intro": "Before moving, check whether any piece or pawn is attacked.",
+      "takeaway": "Black's ...Nc6 defends the e5 pawn while developing.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+        },
+        {
+          "san": "e5",
+          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+        },
+        {
+          "san": "Nf3",
+          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+        },
+        {
+          "san": "Nc6",
+          "note": "Black's ...Nc6 defends the e5 pawn while developing."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the black knight from b8 to c6.",
+        "hint": "A knight on c6 protects e5."
+      }
+    },
+    "puzzleTheme": null
+  },
+  {
+    "id": "pr_castle",
+    "cat": "principles",
+    "fen": null,
+    "title": "キングの安全を優先",
+    "intro": "序盤はキングを安全な場所へ。キャスリング前にナイトとビショップの道を開きます。",
+    "takeaway": "白はナイトとビショップを展開したので、キング側にキャスリングできます。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      },
+      {
+        "san": "e5",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      },
+      {
+        "san": "Nf3",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      },
+      {
+        "san": "Nc6",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      },
+      {
+        "san": "Bc4",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      },
+      {
+        "san": "Bc5",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      },
+      {
+        "san": "O-O",
+        "note": "白はナイトとビショップを展開したので、キング側にキャスリングできます。"
+      }
+    ],
+    "practice": {
+      "ply": 6,
+      "prompt": "白キングをg1へ動かしてキャスリングしよう。",
+      "hint": "e1からg1へ2マス。"
+    },
+    "en": {
+      "title": "Put king safety first",
+      "intro": "Develop the knight and bishop before castling to shelter the king.",
+      "takeaway": "White's kingside pieces are developed, so castling is available.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "White's kingside pieces are developed, so castling is available."
+        },
+        {
+          "san": "e5",
+          "note": "White's kingside pieces are developed, so castling is available."
+        },
+        {
+          "san": "Nf3",
+          "note": "White's kingside pieces are developed, so castling is available."
+        },
+        {
+          "san": "Nc6",
+          "note": "White's kingside pieces are developed, so castling is available."
+        },
+        {
+          "san": "Bc4",
+          "note": "White's kingside pieces are developed, so castling is available."
+        },
+        {
+          "san": "Bc5",
+          "note": "White's kingside pieces are developed, so castling is available."
+        },
+        {
+          "san": "O-O",
+          "note": "White's kingside pieces are developed, so castling is available."
+        }
+      ],
+      "practice": {
+        "prompt": "Castle White by moving the king to g1.",
+        "hint": "Move the king from e1 to g1."
+      }
+    },
+    "puzzleTheme": null
+  },
+  {
+    "id": "pr_open",
+    "cat": "principles",
+    "fen": null,
+    "title": "中央のラインを開く",
+    "intro": "ポーンを交換するとラインが開き、ルークやビショップが働きやすくなることがあります。",
+    "takeaway": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。"
+      },
+      {
+        "san": "d5",
+        "note": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。"
+      },
+      {
+        "san": "exd5",
+        "note": "白はe4のポーンでd5を取り、中央を開きます。黒の取り返しも考えましょう。"
+      }
+    ],
+    "practice": {
+      "ply": 2,
+      "prompt": "白のe4ポーンでd5のポーンを取ろう。",
+      "hint": "ポーンは斜め前に取ります。"
+    },
+    "en": {
+      "title": "Open lines in the center",
+      "intro": "Pawn exchanges can open lines for rooks and bishops.",
+      "takeaway": "White captures on d5 to open the center; Black may recapture.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "White captures on d5 to open the center; Black may recapture."
+        },
+        {
+          "san": "d5",
+          "note": "White captures on d5 to open the center; Black may recapture."
+        },
+        {
+          "san": "exd5",
+          "note": "White captures on d5 to open the center; Black may recapture."
+        }
+      ],
+      "practice": {
+        "prompt": "Capture the pawn on d5 using e4.",
+        "hint": "Pawns capture diagonally."
+      }
+    },
+    "puzzleTheme": "capture"
+  },
+  {
+    "id": "pr_pin",
+    "cat": "principles",
+    "fen": null,
+    "title": "ピンを理解する",
+    "intro": "ピンとは、駒が動くと後ろのもっと大切な駒が攻撃される配置です。",
+    "takeaway": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。",
+    "moves": [
+      {
+        "san": "d4",
+        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+      },
+      {
+        "san": "d5",
+        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+      },
+      {
+        "san": "Nf3",
+        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+      },
+      {
+        "san": "Nf6",
+        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+      },
+      {
+        "san": "Bg5",
+        "note": "白のビショップがg5へ出て、f6のナイトをd8のクイーンに対してピンします。これはキングへのピンではありません。"
+      }
+    ],
+    "practice": {
+      "ply": 4,
+      "prompt": "白ビショップをc1からg5へ動かそう。",
+      "hint": "d2のポーンはすでに動き、斜めの道が空いています。"
+    },
+    "en": {
+      "title": "Understand a pin",
+      "intro": "A pinned piece cannot move freely without exposing a more valuable piece behind it.",
+      "takeaway": "Bg5 pins the f6 knight to the queen on d8, not to the king.",
+      "moves": [
+        {
+          "san": "d4",
+          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+        },
+        {
+          "san": "d5",
+          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+        },
+        {
+          "san": "Nf3",
+          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+        },
+        {
+          "san": "Nf6",
+          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+        },
+        {
+          "san": "Bg5",
+          "note": "Bg5 pins the f6 knight to the queen on d8, not to the king."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the bishop from c1 to g5.",
+        "hint": "The d-pawn has cleared the diagonal."
+      }
+    },
+    "puzzleTheme": "pin"
+  },
+  {
+    "id": "pr_fork",
+    "cat": "principles",
+    "fen": null,
+    "title": "フォークを探す準備",
+    "intro": "一手で複数の相手の駒を同時に狙うのがフォークです。特にナイトが得意です。",
+    "takeaway": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+      },
+      {
+        "san": "e5",
+        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+      },
+      {
+        "san": "Nf3",
+        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+      },
+      {
+        "san": "Nc6",
+        "note": "Nf3はe5を狙いますが、まだフォークではありません。フォークは関連パズルで実践しよう。"
+      }
+    ],
+    "practice": {
+      "ply": 2,
+      "prompt": "g1のナイトをf3へ動かそう。",
+      "hint": "まずナイトの着地点と攻撃できるマスを覚えよう。"
+    },
+    "en": {
+      "title": "Prepare to find forks",
+      "intro": "A fork attacks two targets at once, often using a knight.",
+      "takeaway": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+        },
+        {
+          "san": "e5",
+          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+        },
+        {
+          "san": "Nf3",
+          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+        },
+        {
+          "san": "Nc6",
+          "note": "Nf3 attacks e5 but is NOT itself a fork. Try fork puzzles afterward."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the knight from g1 to f3.",
+        "hint": "Identify the knight's target squares."
+      }
+    },
+    "puzzleTheme": "fork"
+  },
+  {
+    "id": "pr_trade",
+    "cat": "principles",
+    "fen": null,
+    "title": "交換の先まで読む",
+    "intro": "取った駒が相手に取り返されるなら、単純な駒得とは限りません。",
+    "takeaway": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+      },
+      {
+        "san": "d5",
+        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+      },
+      {
+        "san": "exd5",
+        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+      },
+      {
+        "san": "Qxd5",
+        "note": "白がd5のポーンを取っても、黒クイーンが取り返せます。取る前に交換の続きを考えましょう。"
+      }
+    ],
+    "practice": {
+      "ply": 2,
+      "prompt": "e4のポーンでd5を取ろう。",
+      "hint": "次に黒がQxd5と取り返すことを想像しよう。"
+    },
+    "en": {
+      "title": "Look ahead in exchanges",
+      "intro": "A capture is not automatically a gain if the enemy can recapture.",
+      "takeaway": "White captures on d5, but Black's queen can recapture immediately.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "White captures on d5, but Black's queen can recapture immediately."
+        },
+        {
+          "san": "d5",
+          "note": "White captures on d5, but Black's queen can recapture immediately."
+        },
+        {
+          "san": "exd5",
+          "note": "White captures on d5, but Black's queen can recapture immediately."
+        },
+        {
+          "san": "Qxd5",
+          "note": "White captures on d5, but Black's queen can recapture immediately."
+        }
+      ],
+      "practice": {
+        "prompt": "Capture the pawn on d5 with e4.",
+        "hint": "Think about ...Qxd5 afterward."
+      }
+    },
+    "puzzleTheme": "capture"
+  },
+  {
+    "id": "pr_threat",
+    "cat": "principles",
+    "fen": null,
+    "title": "相手の脅威を確認",
+    "intro": "指す前には相手の王手や駒取りの可能性を確かめましょう。",
+    "takeaway": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。",
+    "moves": [
+      {
+        "san": "f3",
+        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+      },
+      {
+        "san": "e5",
+        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+      },
+      {
+        "san": "g4",
+        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+      },
+      {
+        "san": "Qh4#",
+        "note": "白のf3・g4でキングが弱くなり、黒クイーンのQh4#が決まります。"
+      }
+    ],
+    "practice": {
+      "ply": 3,
+      "prompt": "黒クイーンをd8からh4へ動かしてみよう。",
+      "hint": "斜めのラインが開いています。"
+    },
+    "en": {
+      "title": "Watch for opponent threats",
+      "intro": "Before moving, look for opposing checks and captures.",
+      "takeaway": "White's f3 and g4 permit the quick ...Qh4#.",
+      "moves": [
+        {
+          "san": "f3",
+          "note": "White's f3 and g4 permit the quick ...Qh4#."
+        },
+        {
+          "san": "e5",
+          "note": "White's f3 and g4 permit the quick ...Qh4#."
+        },
+        {
+          "san": "g4",
+          "note": "White's f3 and g4 permit the quick ...Qh4#."
+        },
+        {
+          "san": "Qh4#",
+          "note": "White's f3 and g4 permit the quick ...Qh4#."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the black queen from d8 to h4.",
+        "hint": "The diagonal is open."
+      }
+    },
+    "puzzleTheme": "backrank"
+  },
+  {
+    "id": "pr_plan",
+    "cat": "principles",
+    "fen": null,
+    "title": "一手先の計画を立てる",
+    "intro": "良い手には次の目的があります。中央を取る、駒を展開する、キングを守る順序を意識しましょう。",
+    "takeaway": "白はBc4でビショップを展開し、次のキャスリングに近づきます。",
+    "moves": [
+      {
+        "san": "e4",
+        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+      },
+      {
+        "san": "e5",
+        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+      },
+      {
+        "san": "Nf3",
+        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+      },
+      {
+        "san": "Nc6",
+        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+      },
+      {
+        "san": "Bc4",
+        "note": "白はBc4でビショップを展開し、次のキャスリングに近づきます。"
+      }
+    ],
+    "practice": {
+      "ply": 4,
+      "prompt": "f1のビショップをc4へ出そう。",
+      "hint": "ビショップを動かすとキング側の道が空きます。"
+    },
+    "en": {
+      "title": "Make a simple plan",
+      "intro": "Ask what the next move is for. Occupy the center, develop and protect the king.",
+      "takeaway": "Bc4 develops the bishop and prepares to castle soon.",
+      "moves": [
+        {
+          "san": "e4",
+          "note": "Bc4 develops the bishop and prepares to castle soon."
+        },
+        {
+          "san": "e5",
+          "note": "Bc4 develops the bishop and prepares to castle soon."
+        },
+        {
+          "san": "Nf3",
+          "note": "Bc4 develops the bishop and prepares to castle soon."
+        },
+        {
+          "san": "Nc6",
+          "note": "Bc4 develops the bishop and prepares to castle soon."
+        },
+        {
+          "san": "Bc4",
+          "note": "Bc4 develops the bishop and prepares to castle soon."
+        }
+      ],
+      "practice": {
+        "prompt": "Move the bishop from f1 to c4.",
+        "hint": "Developing the bishop clears the path for castling."
+      }
+    },
+    "puzzleTheme": null
   }
 ];
