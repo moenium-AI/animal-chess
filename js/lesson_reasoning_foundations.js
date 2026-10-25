@@ -7,7 +7,7 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "e4というマス名の意味は？",
         "options": [
-          "e列の2段目",
+          "e列の5段目",
           "e列の4段目",
           "白から数えた4番目の縦の列を指す記号"
         ],
@@ -16,7 +16,7 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "What is square e4?",
         "options": [
-          "File e, rank 2",
+          "File e, rank 5",
           "File e, rank 4",
           "The fourth file counted from White's left side"
         ],
@@ -622,7 +622,7 @@ const FOUNDATION_REASONING = {
       "en": {
         "question": "Why may White play exd6 just after ...d5?",
         "options": [
-          "Black stopped on d6",
+          "Black first reached d6",
           "Black's pawn moved two squares next to White's e5-pawn",
           "The right to capture remains available on any later turn after ...d5"
         ],
@@ -744,7 +744,7 @@ const FOUNDATION_REASONING = {
         "options": [
           "It moves the knight to f3 and attacks e5",
           "The knight gives check",
-          "The knight gives check"
+          "It protects e4"
         ],
         "explanation": "Developing the knight creates pressure on e5."
       },
@@ -977,7 +977,7 @@ const FOUNDATION_REASONING = {
       "ja": {
         "question": "Bg5でf6ナイトの後ろにある価値の高い駒は？",
         "options": [
-          "黒キングe8",
+          "黒ルークh8",
           "黒クイーンd8",
           "ビショップg5はf6を攻撃するが、その後ろの駒には利かない"
         ],
