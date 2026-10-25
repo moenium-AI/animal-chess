@@ -22,6 +22,7 @@ let learnedProgress = {};
 let reasoningProgress = {};
 let reasoningKind = 'why';
 let reasoningChoice = null;
+let reasoningPreviewAfter = false;
 const REASONING_STORAGE_KEY = 'animalchess_reasoning_v1';
 let lessonPractice = null; // { id, ply, san, hintShown }
 let lessonFeedback = '';
@@ -1195,6 +1196,7 @@ function enterStudy(study) {
   replay.idx = 0;
   reasoningKind = 'why';
   reasoningChoice = null;
+  reasoningPreviewAfter = false;
   lessonPractice = null; lessonFeedback = ''; lessonFeedbackKind = '';
   mode = 'replay';
   updatePuzzleCompletion();
@@ -1363,6 +1365,72 @@ function currentReasoning() {
   return lesson && typeof LESSON_REASONING !== 'undefined'
     ? LESSON_REASONING[lesson.id] || null : null;
 }
+// Show the position on a SEPARATE board: the annotated replay, comparison,
+// practice Chess instance and progress are never advanced by a quiz preview.
+function renderReasoningPosition() {
+  const lesson = currentLesson(), quiz = currentReasoning();
+  const frame = $('study-reasoning-position-board');
+  const question = quiz && quiz[reasoningKind];
+  const position = lesson && question && ReasoningPositions.resolve(Chess, lesson, reasoningKind, question);
+  if (!position) {
+    frame.replaceChildren();
+    frame.setAttribute('aria-label', '');
+    $('btn-reason-after').disabled = true;
+    return;
+  }
+  const solved = reasoningChoice === question.answer;
+  const after = solved && reasoningPreviewAfter;
+  const chessboard = new Chess(after ? position.afterFen : position.beforeFen);
+  const state = after ? tr('learn.positionAfter', { move: position.san }) : tr('learn.positionBefore');
+  $('study-reasoning-position-label').textContent = state;
+  const beforeButton = $('btn-reason-before'), afterButton = $('btn-reason-after');
+  beforeButton.textContent = tr('learn.positionBeforeButton');
+  afterButton.textContent = tr('learn.positionAfterButton');
+  beforeButton.setAttribute('aria-pressed', String(!after));
+  afterButton.setAttribute('aria-pressed', String(after));
+  beforeButton.disabled = !after;
+  afterButton.disabled = !solved || after;
+  const glyphs = {
+    w: { k: '♔', q: '♕', r: '♖', b: '♗', n: '♘', p: '♙' },
+    b: { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' },
+  };
+  const names = { k: 'King', q: 'Queen', r: 'Rook', b: 'Bishop', n: 'Knight', p: 'Pawn' };
+  const cells = document.createDocumentFragment();
+  const pieceNames = [];
+  chessboard.board().forEach((rank, row) => {
+    rank.forEach((piece, col) => {
+      const square = 'abcdefgh'[col] + (8 - row);
+      const cell = document.createElement('span');
+      cell.className = 'reasoning-position-square ' + ((row + col) % 2 ? 'dark' : 'light');
+      if (after && (square === position.from || square === position.to))
+        cell.classList.add('reasoning-position-move');
+      if (piece) {
+        cell.textContent = glyphs[piece.color][piece.type];
+        cell.classList.add(piece.color === 'w' ? 'white-piece' : 'black-piece');
+        const color = tr(piece.color === 'w' ? 'learn.positionPieceWhite' : 'learn.positionPieceBlack', {
+          piece: tr('learn.position' + names[piece.type]),
+        });
+        pieceNames.push(square + ': ' + color);
+      }
+      cells.appendChild(cell);
+    });
+  });
+  frame.replaceChildren(cells);
+  frame.setAttribute('aria-label', state + '。' + tr('learn.positionBoard', {
+    turn: tr(chessboard.turn() === 'w' ? 'learn.positionTurnWhite' : 'learn.positionTurnBlack'),
+    pieces: pieceNames.join(', '),
+  }));
+  // The FEN exposed here always matches the VISIBLE position; an unsolved
+  // question does not place the answer move or its SAN in the page.
+  frame.dataset.fen = chessboard.fen();
+}
+function showReasoningPosition(after) {
+  const quiz = currentReasoning();
+  if (!quiz || (after && reasoningChoice !== quiz[reasoningKind].answer)) return;
+  reasoningPreviewAfter = after;
+  renderReasoningPosition();
+}
+
 function renderReasoningQuiz() {
   const data = currentLesson(), quiz = currentReasoning(), wrap = $('study-reasoning');
   wrap.classList.toggle('hidden', !quiz);
@@ -1393,11 +1461,13 @@ function renderReasoningQuiz() {
   else feedback.textContent = tr(reasoningChoice === question.answer ?
     'learn.reasonCorrect' : 'learn.reasonWrong') +
     (reasoningChoice === question.answer ? ' ' + localized.explanation : '');
+  renderReasoningPosition();
 }
 function switchReasoningKind(kind) {
   if (!currentReasoning() || !['why', 'defense'].includes(kind)) return;
   reasoningKind = kind;
   reasoningChoice = null;
+  reasoningPreviewAfter = false;
   renderReasoningQuiz();
 }
 function answerReasoningQuiz(index) {
@@ -1405,6 +1475,7 @@ function answerReasoningQuiz(index) {
   if (!data || !quiz) return;
   const correct = Learning.gradeReasoning(quiz[reasoningKind], index);
   reasoningChoice = index;
+  reasoningPreviewAfter = correct;
   if (correct) noteReasoningProgress(data.id, reasoningKind);
   renderReasoningQuiz();
 }
@@ -1674,6 +1745,7 @@ function refreshLanguage() {
     const activePractice = lessonPractice && { ...lessonPractice };
     const feedback = lessonFeedback, kind = lessonFeedbackKind;
     const activeReasoningKind = reasoningKind, activeReasoningChoice = reasoningChoice;
+    const activeReasoningPreviewAfter = reasoningPreviewAfter;
     loadAnnotated(source.data, source.meta);
     if (comparisonMode === 'other' && currentComparison()) chooseStudyComparison('other', idx);
     else replayGoTo(idx);
@@ -1685,6 +1757,7 @@ function refreshLanguage() {
     lessonFeedback = feedback; lessonFeedbackKind = kind;
     renderPracticeControls();
     reasoningKind = activeReasoningKind; reasoningChoice = activeReasoningChoice;
+    reasoningPreviewAfter = activeReasoningPreviewAfter;
     renderReasoningQuiz();
   } else if (mode === 'replay') {
     showStudyNote();
@@ -1870,6 +1943,8 @@ function setupUI() {
   $('btn-compare-other').addEventListener('click', () => chooseStudyComparison('other'));
   $('btn-reason-why').addEventListener('click', () => switchReasoningKind('why'));
   $('btn-reason-defense').addEventListener('click', () => switchReasoningKind('defense'));
+  $('btn-reason-before').addEventListener('click', () => showReasoningPosition(false));
+  $('btn-reason-after').addEventListener('click', () => showReasoningPosition(true));
 
   // Lessons and famous games. / まなぶ・名局。
   renderLearnCats();
