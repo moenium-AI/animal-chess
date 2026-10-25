@@ -167,7 +167,7 @@ with sync_playwright() as pw:
     assert page.locator('#tab-puzzle').evaluate("(node) => node.classList.contains('active')")
     assert page.locator('#puzzle-list .puzzle-item').count()>0
     assert page.locator('#btn-return-lesson').is_visible()
-    assert '64' not in page.locator('#related-lesson-title').inner_text() # original is captures
+    assert page.locator('#related-lesson-title').inner_text()==page.evaluate("INTRO_LESSONS.find(l=>l.id==='bk_capture').title")
     page.locator('#sel-language').select_option('en')
     assert 'Back to lesson' in page.locator('#btn-return-lesson').inner_text()
     page.locator('#btn-return-lesson').click(force=True)
@@ -182,8 +182,15 @@ with sync_playwright() as pw:
 
     # A brand-new game discards the return target. Unrelated puzzles should
     # not grow a stale button from a previous learning session.
+    page.locator('#btn-study-practice').click(force=True)
+    assert page.locator('#btn-study-practice-hint').is_visible()
     page.locator('#btn-study-puzzle').click(force=True)
     assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('#btn-return-lesson').click(force=True)
+    assert page.locator('#btn-study-practice-hint').is_visible(), 'active move practice was not restored'
+    page.locator('#btn-study-puzzle').click(force=True)
+    assert page.locator('#btn-return-lesson').is_visible()
+    page.locator('.tab[data-tab="settings"]').click(force=True)
     page.locator('#btn-new').click(force=True)
     assert page.locator('#btn-return-lesson').is_hidden()
 
