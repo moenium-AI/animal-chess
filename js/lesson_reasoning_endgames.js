@@ -45,7 +45,7 @@ const ENDGAME_REASONING = {
         "question": "How can Black respond after Ra8#?",
         "options": [
           "Escape with ...Kd7",
-          "Black can retreat to f7, moving away from White's approaching king",
+          "Black can flee to f7",
           "There is no legal response"
         ],
         "explanation": "The white king and rook cover all escape squares. Ra8# is checkmate."
