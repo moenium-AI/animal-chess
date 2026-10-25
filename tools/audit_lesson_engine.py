@@ -79,6 +79,26 @@ def check_saved_tablebase(lessons: list[dict]) -> dict:
             "source": "saved 2026-10-16 responses (no fresh probe)"}
 
 
+def verify_zwischenzug(lesson: dict) -> None:
+    """The example must show the useful intermezzo, not an accidental mate in one."""
+    board = chess.Board(lesson["fen"])
+    for move in board.legal_moves:
+        trial = board.copy()
+        trial.push(move)
+        if trial.is_checkmate():
+            raise AssertionError("Zwischenzug setup has a mate-in-one alternative")
+    board.push_san("Bxh2+")
+    replies = [board.san(mv) for mv in board.legal_moves]
+    if replies != ["Kh1"]:
+        raise AssertionError(f"Unexpected defense after Bxh2+: {replies}")
+    board.push_san("Kh1")
+    if board.piece_at(chess.D8) != chess.Piece(chess.QUEEN, chess.WHITE):
+        raise AssertionError("White queen no longer on d8")
+    board.push_san("Rxd8")
+    if board.piece_at(chess.D8) != chess.Piece(chess.ROOK, chess.BLACK):
+        raise AssertionError("Intermezzo must still win the queen")
+
+
 def verify_outcomes(lesson_id: str, board: chess.Board) -> None:
     if lesson_id in ("cb_fork", "eg_underpromo"):
         if not board.is_insufficient_material():
@@ -106,6 +126,8 @@ def main() -> None:
                         help="Stockfish UCI binary path (autodetected if omitted)")
     parser.add_argument("--time-per-search", type=float, default=0.15,
                         help="Seconds for each best/forced root search (default: 0.15)")
+    parser.add_argument("--practice-time", type=float, default=0.6,
+                        help="Seconds per search for one practised move per lesson")
     parser.add_argument("--output", type=Path, default=None,
                         help="Optional JSON report path")
     parser.add_argument("--no-engine", action="store_true",
@@ -114,6 +136,8 @@ def main() -> None:
     if not 0.02 <= args.time_per_search <= 10:
         parser.error("time-per-search must be between 0.02 and 10 seconds")
 
+    if not 0.02 <= args.practice_time <= 10:
+        parser.error("practice-time must be between 0.02 and 10 seconds")
     lessons = lessons_to_audit()
     tablebase = check_saved_tablebase(lessons)
     binary = args.stockfish or shutil.which("stockfish") or (
@@ -136,6 +160,8 @@ def main() -> None:
             board = chess.Board(lesson.get("fen") or chess.STARTING_FEN)
             if not board.is_valid():
                 raise AssertionError(f"Invalid lesson starting FEN: {lesson['id']}")
+            if lesson["id"] == "cb_zwischenzug":
+                verify_zwischenzug(lesson)
             if len(lesson["moves"]) != len(lesson["en"]["moves"]):
                 raise AssertionError(f"Bilingual ply count differs: {lesson['id']}")
             for index, (item, translated) in enumerate(
@@ -149,19 +175,21 @@ def main() -> None:
                     raise AssertionError(f"Noncanonical SAN: {lesson['id']} {san}")
                 if board.is_game_over():
                     raise AssertionError(f"Moves follow terminal position: {lesson['id']}")
+                practice_ply = lesson.get("practice", {}).get("ply", 0)
+                practised = index == practice_ply
                 if engine:
                     side = board.turn
                     root = board.fen()
-                    best = engine.analyse(board, chess.engine.Limit(
-                        time=args.time_per_search))
+                    search_time = args.practice_time if practised else args.time_per_search
+                    best = engine.analyse(board, chess.engine.Limit(time=search_time))
                     forced = engine.analyse(board, chess.engine.Limit(
-                        time=args.time_per_search), root_moves=[move])
+                        time=search_time), root_moves=[move])
                     best_cp, forced_cp = score_cp(best, side), score_cp(forced, side)
                     best_pv = best.get("pv") or []
                     best_san = board.san(best_pv[0]) if best_pv else None
                     scores.append({
                         "id": lesson["id"], "chapter": lesson["cat"],
-                        "ply": index, "fen": root, "san": san,
+                        "ply": index, "practice_move": practised, "fen": root, "san": san,
                         "best_san": best_san,
                         "best_cp": best_cp, "forced_cp": forced_cp,
                         "loss_cp": (max(0, best_cp - forced_cp)
@@ -195,6 +223,7 @@ def main() -> None:
                    "Stockfish time limits are shallow and mate scores saturate. "
                    "Deliberate mistakes and illustrative responses are included.",
         "large_score_differences": alerts,
+        "practice_moves": [row for row in scores if row["practice_move"]],
         "all_plies": scores
     }
     if args.output:
@@ -206,7 +235,8 @@ def main() -> None:
         "plies": report["scope"]["plies"], "tablebase_snapshots": tablebase["positions"],
         "end_positions": dict(outcomes), "large_score_differences": len(alerts),
         "top_examples": [{k: item[k] for k in (
-            "id", "ply", "san", "best_san", "loss_cp", "best_depth", "forced_depth")}
+            "id", "ply", "san", "best_san", "best_cp", "forced_cp",
+            "loss_cp", "best_depth", "forced_depth")}
             for item in alerts[:30]]
     }, ensure_ascii=False))
     print("PASS: 39 published lessons, terminal assertions, and 44 saved tablebase states")
