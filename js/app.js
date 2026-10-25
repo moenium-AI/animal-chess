@@ -1379,12 +1379,21 @@ function replayToPlay() {
 
 // ===== Learn lessons / まなぶ（レッスン） =====
 const LEARN_CATS = [
-  { key: 'opening', labelKey: 'learn.opening' },
+  { key: 'basics', labelKey: 'learn.basics' },
+  { key: 'principles', labelKey: 'learn.principles' },
   { key: 'combo', labelKey: 'learn.combo' },
   { key: 'endgame', labelKey: 'learn.endgame' },
+  { key: 'opening', labelKey: 'learn.opening' },
 ];
-const CAT_KEY = { opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame' };
-let learnCat = 'opening';
+const CAT_KEY = {
+  basics: 'learn.catBasics', principles: 'learn.catPrinciples',
+  opening: 'learn.catOpening', combo: 'learn.catCombo', endgame: 'learn.catEndgame'
+};
+const CAT_DESC = {
+  basics: 'learn.descBasics', principles: 'learn.descPrinciples',
+  opening: 'learn.descOpening', combo: 'learn.descCombo', endgame: 'learn.descEndgame'
+};
+let learnCat = 'basics';
 
 function renderLearnCats() {
   const wrap = $('learn-cats');
@@ -1400,12 +1409,27 @@ function renderLearnCats() {
 function renderLearnList() {
   const wrap = $('learn-list');
   wrap.innerHTML = '';
-  const list = (typeof LESSONS !== 'undefined' ? LESSONS : []).filter((l) => l.cat === learnCat);
+  const list = allLearningLessons().filter((l) => l.cat === learnCat);
+  const mastered = list.filter(l => learnedProgress[l.id] === 'mastered').length;
+  const studied = list.filter(l => learnedProgress[l.id] === 'studied').length;
+  $('learn-chapter-desc').textContent = tr(CAT_DESC[learnCat]);
+  $('learn-progress').textContent = tr('learn.progressSummary', { mastered, studied, total: list.length });
   list.forEach((l) => {
     const b = document.createElement('button');
     b.className = 'study-item';
     const text = lessonText(l);
-    b.innerHTML = `<span class="study-item-title">${text.title}</span><span class="study-item-sub">${text.intro.slice(0, I18N.language === 'en' ? 72 : 32)}…</span>`;
+    const state = learnedProgress[l.id];
+    const label = state === 'mastered' ? 'learn.mastered' : state === 'studied' ? 'learn.studied' : 'learn.notStarted';
+    const title = document.createElement('span');
+    title.className = 'study-item-title';
+    title.textContent = text.title;
+    const detail = document.createElement('span');
+    detail.className = 'study-item-sub';
+    detail.textContent = text.intro.slice(0, I18N.language === 'en' ? 72 : 32) + '…';
+    const stateEl = document.createElement('span');
+    stateEl.className = 'learn-state';
+    stateEl.textContent = tr(label);
+    b.append(title, detail, stateEl);
     b.addEventListener('click', () => {
       loadAnnotated(l, { titleKey: 'learn.studyTitle', subKey: CAT_KEY[l.cat] });
       toast(tr('toast.studyOpened', { title: text.title }));
