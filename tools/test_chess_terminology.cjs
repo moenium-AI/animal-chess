@@ -24,6 +24,8 @@ for(const name of files) {
 const source=fs.readFileSync(path.join(root,'tools/lessons_gen.py'),'utf8');
 assert.ok(!source.includes('最終列'),'lesson generator still uses columns for ranks');
 assert.ok(!source.includes('e筋(バックランク)'),'lesson generator confuses files and ranks');
+const converter=fs.readFileSync(path.join(root,'tools/retermize.py'),'utf8');
+assert.ok(!converter.includes('"ダブルチェック(両王手)"'),'terminology converter must not restore shogi labels');
 const catalog=JSON.parse(fs.readFileSync(path.join(root,'tools/puzzle_catalog.json'),'utf8'));
 assert.equal(catalog.puzzles.length,80);
 assert.ok(!JSON.stringify(catalog.puzzles).includes('最終列'));
