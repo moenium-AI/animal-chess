@@ -20,6 +20,8 @@ The new extra sheet is derived from the user-approved six-figure art sheet, with
 
 `js/royal_sprite_loader.js` validates and decodes both PNGs before making any frame available. When one image fails to load, has incorrect dimensions, or canvas cropping fails, no partial royal art is published: all types fall back to the deterministic `js/pixel_hd.js` renderer. The fallback horse's branching antlers were changed to short horse ears.
 
+**Horse blink correction:** The original generated closed-eye frames for the horse mistakenly painted over the cheek and mane. `js/royal_horse_blink.js` now rebuilds only those two frames from the approved open-eye art using RGB adjustments bounded to the two eyes; all other frames and carriage portraits remain unchanged. The invalid generated horse blink atlas cells are ignored at runtime. When source assets are next regenerated, bake this fix into the PNG atlas and remove the runtime compatibility patch.
+
 The same render path supplies:
 - chessboard and promotion,
 - carriage passengers (a separate 16×20 portrait), and
