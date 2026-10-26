@@ -50,7 +50,11 @@ const RoyalSpriteLoader = (() => {
               const type = types[i], team = j ? 'b' : 'w', key = type + '|' + team;
               if (nextFrames[key + '|o']) throw new Error('Duplicate royal type');
               nextFrames[key + '|o'] = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
-              nextFrames[key + '|c'] = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
+              const closed = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
+              // The generated horse closed-eye row mistakenly covers its cheeks.
+              // Rebuild from the intact open-eye image with eye-only pixel updates.
+              nextFrames[key + '|c'] = type === 'n'
+                ? RoyalHorseBlink.apply(closed, nextFrames[key + '|o'], team) : closed;
               nextRiders[key] = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
             }
           }
