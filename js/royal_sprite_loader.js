@@ -49,13 +49,15 @@ const RoyalSpriteLoader = (() => {
               const col = i * 2 + j;
               const type = types[i], team = j ? 'b' : 'w', key = type + '|' + team;
               if (nextFrames[key + '|o']) throw new Error('Duplicate royal type');
-              nextFrames[key + '|o'] = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
+              const open = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
               const closed = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
-              // The generated horse closed-eye row mistakenly covers its cheeks.
-              // Rebuild from the intact open-eye image with eye-only pixel updates.
-              nextFrames[key + '|c'] = type === 'n'
-                ? RoyalHorseBlink.apply(closed, nextFrames[key + '|o'], team) : closed;
-              nextRiders[key] = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
+              const rider = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
+              // Finish all six of the newer expressions, even on cache misses.
+              // Errors keep the entire preexisting PixelHD fallback, atomically.
+              const polished = RoyalSpriteFinish.finish(open, closed, rider, type, team);
+              nextFrames[key + '|o'] = polished.open;
+              nextFrames[key + '|c'] = polished.closed;
+              nextRiders[key] = polished.rider;
             }
           }
         }
