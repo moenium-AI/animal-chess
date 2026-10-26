@@ -1,0 +1,24 @@
+name: HD pixel sprite integrity
+on:
+  pull_request:
+    paths:
+      - 'assets/pixel_royal_hd/**'
+      - 'js/royal_hd_loader.js'
+      - 'js/sprites.js'
+      - 'index.html'
+      - 'css/style.css'
+      - 'tools/test_royal_hd_art.cjs'
+      - '.github/workflows/royal-hd-check.yml'
+  workflow_dispatch:
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check js/royal_hd_loader.js
+      - run: node --check js/sprites.js
+      - run: node tools/test_royal_hd_art.cjs
+      - run: node tools/test_royal_sprite_art.cjs
