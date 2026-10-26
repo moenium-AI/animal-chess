@@ -20,7 +20,13 @@ The new extra sheet is derived from the user-approved six-figure art sheet, with
 
 `js/royal_sprite_loader.js` validates and decodes both PNGs before making any frame available. When one image fails to load, has incorrect dimensions, or canvas cropping fails, no partial royal art is published: all types fall back to the deterministic `js/pixel_hd.js` renderer. The fallback horse's branching antlers were changed to short horse ears.
 
-**Horse blink correction:** The original generated closed-eye frames for the horse mistakenly painted over the cheek and mane. `js/royal_horse_blink.js` now rebuilds only those two frames from the approved open-eye art using RGB adjustments bounded to the two eyes; all other frames and carriage portraits remain unchanged. The invalid generated horse blink atlas cells are ignored at runtime. When source assets are next regenerated, bake this fix into the PNG atlas and remove the runtime compatibility patch.
+**Finished artwork:** `royal_extra.png` now directly contains the six approved new
+characters in both poses, including natural, bold smiling eyes, the darker
+gray-faced black owl and the anthropomorphic horse knight. No JavaScript
+per-pixel eye painting, cheek patch or feather tint runs during loading.
+The two image atlases are independent of the Miniature mode assets
+(`assets/pieces/miniature-atlas.png` and `js/piece_atlas.js`), which are
+unchanged.
 
 The same render path supplies:
 - chessboard and promotion,
@@ -35,18 +41,11 @@ The existing carriage trip, arrival sequencing, dining/drinking/sleeping animati
 
 The user-approved original artwork files and editable per-sprite transparent PNGs are held in the authoring pack; runtime requires only the two local atlases. These are project-generated assets, not hotlinked external resources.
 
-## Matching the three original smiling blinks (2026-10-26)
+## Final integration (2026-10-26)
 
-The original king/cat/chick blink silhouettes are the visual reference: a bold,
-curved, dark closed eye, not a faint thin lash or retained open pupil. The
-`js/royal_sprite_finish.js` code now derives cheerful closed eyes for both
-teams' bear, owl, and anthropomorphic horse. Horse blink starts from the intact
-open-eye frame, so the previously faulty cheek overlay is never used. The
-black-side owl receives a cooler, deeper gray facial feather shade (including
-its guest blink and carriage thumbnail), but its gold/blue clothing and eyes
-are protected. The three previously approved roles are untouched.
-
-The source PNG `royal_extra.png` is kept as-is for binary compatibility in this
-change; the loader performs a bounded canvas finishing pass before publishing
-all frames atomically. When a final binary sprite atlas is committed, replace
-the source with reviewed exported pixels and remove this finishing pass.
+The six new closed-eye faces come from the approved original artwork, not
+painted-on CSS strokes or `CanvasRenderingContext2D` retouching.
+The loader crops the finished normal/blink/rider cells after PNG decode and
+atomically publishes all 36 frames. Failure in either sheet leaves the
+complete deterministic fallback unchanged. The original lion, cat and chick
+atlas remains byte-for-byte unchanged. Only the Pixel art extra sheet changed.
