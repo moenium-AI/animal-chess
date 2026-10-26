@@ -1,0 +1,58 @@
+name: One-time merged PR branch cleanup
+on:
+  push:
+    branches:
+      - chore/repository-housekeeping-20261027
+    paths:
+      - .github/workflows/housekeeping-prune.yml
+permissions:
+  contents: write
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Delete only unchanged heads of merged PRs 1 through 48
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const { data: open } = await github.rest.pulls.list({ owner, repo, state: 'open', per_page: 100 });
+            const inUse = new Set(open.map(p => p.head.ref));
+            const protectedNames = new Set(['main',
+              'experiment/full-time-ai-balance-20261024',
+              'experiment/heldout-ai-balance-20261024',
+              'chore/repository-housekeeping-20261027']);
+            const outcome = { deleted: [], skipped: [] };
+            for (let number = 1; number <= 48; number++) {
+              const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: number });
+              const branch = pr.head.ref;
+              const eligible = Boolean(pr.merged_at) && pr.base.ref === 'main' &&
+                pr.head.repo?.full_name === owner + '/' + repo &&
+                branch && !protectedNames.has(branch) && !inUse.has(branch);
+              if (!eligible) {
+                outcome.skipped.push({ number, branch, reason: 'not eligible or in use' });
+                continue;
+              }
+              let ref;
+              try {
+                ({ data: ref } = await github.rest.git.getRef({ owner, repo, ref: 'heads/' + branch }));
+              } catch (error) {
+                if (error.status === 404) {
+                  outcome.skipped.push({ number, branch, reason: 'already deleted' });
+                  continue;
+                }
+                throw error;
+              }
+              if (ref.object.sha !== pr.head.sha) {
+                outcome.skipped.push({ number, branch, reason: 'branch advanced since merge' });
+                continue;
+              }
+              await github.rest.git.deleteRef({ owner, repo, ref: 'heads/' + branch });
+              outcome.deleted.push({ number, branch });
+              core.info('Deleted merged PR #' + number + ': ' + branch);
+            }
+            core.info(JSON.stringify({ deleted: outcome.deleted.length, skipped: outcome.skipped }, null, 2));
+            if (outcome.skipped.length) {
+              core.warning('Some branches were left intact; inspect job log before further cleanup.');
+            }
