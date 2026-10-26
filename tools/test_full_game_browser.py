@@ -91,6 +91,59 @@ with sync_playwright() as pw:
         assert len(royal)==12,royal
         assert all(v['w']==627 and v['h']==627 and v['hd']=='1'
                    and v['rider'] and v['blink'] for v in royal.values()),royal
+        # Verify that the approved closed-eye images differ, and that
+        # drawing a passenger actually changes the carriage pixels.
+        visuals = page.evaluate("""() => {
+          let changedEyes=0;
+          for (const type of ['k','q','r','b','n','p']) {
+            for (const team of ['w','b']) {
+              const ordinary=RoyalHDSprites.frame(type,team,false);
+              const blink=RoyalHDSprites.frame(type,team,true);
+              const a=ordinary.getContext('2d').getImageData(0,0,627,627).data;
+              const b=blink.getContext('2d').getImageData(0,0,627,627).data;
+              let different=false;
+              for(let i=0;i<a.length;i+=4) {
+                if(a[i]!==b[i]||a[i+1]!==b[i+1]||a[i+2]!==b[i+2]||a[i+3]!==b[i+3]) {
+                  different=true;break;
+                }
+              }
+              if(different)changedEyes++;
+            }
+          }
+          const occupied=document.createElement('canvas'),empty=document.createElement('canvas');
+          Sprites.drawCarriage(occupied,0,'p','b',false,'3d');
+          Sprites.drawCarriage(empty,0,null,null,false,'3d');
+          const a=occupied.getContext('2d').getImageData(0,0,occupied.width,occupied.height).data;
+          const b=empty.getContext('2d').getImageData(0,0,empty.width,empty.height).data;
+          return {changedEyes,passengerVisible:a.some((v,i)=>v!==b[i])};
+        }""")
+        assert visuals['changedEyes']==12 and visuals['passengerVisible'],visuals
+        # A real capture must put an HD character in the correct banquet hall.
+        move(page,'e2','e4')
+        move(page,'d7','d5')
+        move(page,'e4','d5')
+        page.locator('.bq-guest canvas.spr[data-hd="1"]').first.wait_for(timeout=3000)
+        assert page.locator('.bq-guest canvas.spr[data-hd="1"]').count()==1
+        page.locator('#btn-new').click(force=True)
+        assert page.locator('#board .p3d canvas[data-hd="1"]').count()==32
+        # A 320px-wide screen must retain all 32 HD sprites within the board.
+        page.set_viewport_size({'width':320,'height':700})
+        mobile=page.evaluate("""() => {
+          const b=document.querySelector('#board').getBoundingClientRect();
+          const pieces=[...document.querySelectorAll('#board .p3d canvas[data-hd="1"]')];
+          return {withinScreen:b.left>=-1&&b.right<=innerWidth+1,
+            count:pieces.length,
+            contained:pieces.every(c=>{
+              const a=c.getBoundingClientRect(),s=c.closest('.square').getBoundingClientRect();
+              return a.left>=s.left-.5&&a.top>=s.top-.5&&a.right<=s.right+.5&&a.bottom<=s.bottom+.5;
+            })};
+        }""")
+        assert mobile['withinScreen'] and mobile['count']==32 and mobile['contained'],mobile
+        page.set_viewport_size({'width':1280,'height':900})
+        # The HD atlas may not leak into Miniature mode.
+        page.locator('#sel-view').select_option('miniature')
+        assert page.locator('#board canvas[data-style="miniature"]').count()==32
+        assert page.locator('#board canvas[data-hd="1"]').count()==0
         page.locator('#sel-view').select_option('simple')
     # B-01: desktop moves the *single* live status node to the sidebar,
     # freeing space to enlarge the board. Both banquet titles remain ABOVE
@@ -196,9 +249,12 @@ with sync_playwright() as pw:
     # L-02: promotion and en passant are validated through the normal board.
     page.locator('#learn-list .study-item').nth(11).click(force=True)
     page.locator('#btn-study-practice').click(force=True)
+    page.locator('#sel-view').select_option('3d')
     move(page,'a7','a8')
     page.locator('#promo-modal:not(.hidden)').wait_for(timeout=2000)
+    assert page.locator('#promo-choices canvas[data-hd="1"]').count()==4
     page.locator('#promo-choices button').first.click(force=True)
+    page.locator('#sel-view').select_option('simple')
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_promotion")=='mastered'
     page.locator('#learn-list .study-item').nth(12).click(force=True)
     page.locator('#btn-study-practice').click(force=True)
