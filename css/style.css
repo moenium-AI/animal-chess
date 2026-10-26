@@ -677,3 +677,13 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Royal character art: contain within existing board square; never scale outside.
+   The chick occupies ~80% of its common transparent frame to read as a pawn. */
+.mode-3d .p3d canvas[data-royal="1"] {
+  width: auto; height: 84%; max-height: 84%; max-width: 84%;
+  object-fit: contain; image-rendering: auto;
+}
+.venue.v3d .bq-guest canvas.spr[data-royal="1"] {
+  image-rendering: auto;
+}
