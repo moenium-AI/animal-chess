@@ -82,46 +82,117 @@ for(const team of ['w','b']){
   assert.ok(pawn.height/king.height<=0.90,'pawn should be distinctly shorter '+team);
 }
 
-async function checkLoader(geometryValid,canvasFails=false) {
-  let decoded=0,draws=0,created=0,warns=0;
+
+// New artwork lives in a separate atlas so the accepted k/q/p bitmap never
+// gets re-quantized. New roles use the same column/row geometry.
+const extra=decodeIndexedPng(read('assets/pixel_royal/royal_extra.png'));
+for(let i=0;i<6;i++){
+  const type=['r','r','b','b','n','n'][i],team=i%2?'b':'w',key=type+'|'+team;
+  const open=extra.bbox(i*96,0,96,124);
+  const closed=extra.bbox(i*96,124,96,124);
+  const rider=extra.bbox(i*96,248,16,20);
+  assert.ok(open.left>=3&&open.right<=92,key+' crosses horizontal safe margin');
+  assert.ok(open.top>=8&&open.bottom<=120,key+' crosses vertical safe margin');
+  assert.ok(closed.left>=3&&closed.right<=92,key+' blink outside safe margin');
+  assert.ok(rider.left>=0&&rider.right<16&&rider.top>=0&&rider.bottom<20,key+' rider clipped');
+  assert.ok(open.width>55&&open.height>67,key+' too small');
+  assert.ok(rider.width>=10&&rider.height>=9,key+' rider face is undersized');
+  let changed=false;
+  for(let y=0;y<124;y++)for(let x=0;x<96;x++){
+    if(extra.rows[y][i*96+x]!==extra.rows[y+124][i*96+x])changed=true;
+  }
+  assert.ok(changed,key+' lacks blink frame');
+}
+
+async function checkLoader(failure='none') {
+  let decoded=0,draws=0,created=0,warns=0,patched=0;
   const scope=vm.createContext({
     console:{warn:()=>warns++},
+    atob:(data)=>Buffer.from(data,'base64').toString('binary'),
     Image:class {
-      naturalWidth=geometryValid?576:575; naturalHeight=268;
-      async decode(){decoded++;}
+      _url='';
+      set src(v){this._url=v;}
+      get naturalWidth(){return failure==='extraSize'&&this._url.includes('royal_extra')?575:576;}
+      get naturalHeight(){return 268;}
+      async decode(){decoded++;if(failure==='extraDecode'&&this._url.includes('royal_extra'))throw new Error('decode');}
     },
     document:{createElement(tag){
       assert.equal(tag,'canvas');created++;
       return {width:0,height:0,getContext(){
-        if(canvasFails&&created===9)return null;
-        return {imageSmoothingEnabled:false,drawImage(...args){
-          draws++;assert.equal(args.length,9);
-          assert.ok(args[1]>=0&&args[2]>=0&&args[3]>0&&args[4]>0);
-        }};
+        if(failure==='cropFailure'&&created===23)return null;
+        return {imageSmoothingEnabled:false,
+          clearRect(){},
+          getImageData(x,y,w,h){
+            assert.equal(w,96);assert.equal(h,124);
+            return {data:new Uint8ClampedArray(w*h*4)};
+          },
+          putImageData(image){patched++;assert.equal(image.data.length,96*124*4);},
+          drawImage(...args){
+            draws++;assert.ok(args.length===9||args.length===3);
+            if(args.length===9)assert.ok(args[1]>=0&&args[2]>=0&&args[3]>0&&args[4]>0);
+          }
+        };
       }};
     }}
   });
+  vm.runInContext(read('js/royal_horse_blink.js').toString('utf8'),scope);
   vm.runInContext(read('js/royal_sprite_loader.js').toString('utf8'),scope);
   const actual=await vm.runInContext('RoyalSpriteLoader.load()',scope);
-  assert.equal(actual,geometryValid&&!canvasFails);
+  assert.equal(actual,failure==='none',failure);
   assert.equal(await vm.runInContext('RoyalSpriteLoader.load()',scope),actual);
-  assert.equal(decoded,1);
+  assert.equal(decoded,2,'each atlas decodes once');
   if(actual){
-    assert.equal(created,18);assert.equal(draws,18);
-    assert.equal(vm.runInContext("RoyalSpriteLoader.frame('p','b',true).height",scope),124);
-    assert.equal(vm.runInContext("RoyalSpriteLoader.rider('k','w').width",scope),16);
-    assert.equal(vm.runInContext("RoyalSpriteLoader.frame('b','w')",scope),null);
+    assert.equal(created,36,'12 roles across three frame types');
+    assert.equal(draws,38,'two horse blink reconstructions copy the open eye frame');
+    assert.equal(patched,2,'only the two horse closed-eye frames are repaired');
+    for(const type of ['k','q','p','r','b','n'])for(const team of ['w','b']){
+      assert.equal(vm.runInContext("RoyalSpriteLoader.frame('"+type+"','"+team+"',true).height",scope),124);
+      assert.equal(vm.runInContext("RoyalSpriteLoader.rider('"+type+"','"+team+"').width",scope),16);
+    }
+    assert.equal(vm.runInContext("RoyalSpriteLoader.frame('missing','w')",scope),null);
   }else{
     assert.ok(warns>=1);
+    // A failure in the extra PNG must not leave the first three types visible.
     assert.equal(vm.runInContext("RoyalSpriteLoader.frame('k','w')",scope),null);
+    assert.equal(vm.runInContext("RoyalSpriteLoader.frame('n','b')",scope),null);
   }
 }
 (async()=>{
-  await checkLoader(true);
-  await checkLoader(false);
-  await checkLoader(true,true);
-  console.log(JSON.stringify({royalFrames:12,riders:6,
+  await checkLoader();
+  await checkLoader('extraSize');
+  await checkLoader('extraDecode');
+  await checkLoader('cropFailure');
+  // The pixel patch must stay within the eye area. Previous art accidentally
+  // painted a large brown ellipse on the cheeks while leaving pupils open.
+  const horseScope=vm.createContext({atob:(v)=>Buffer.from(v,'base64').toString('binary')});
+  vm.runInContext(read('js/royal_horse_blink.js').toString('utf8'),horseScope);
+  for(const team of ['w','b']){
+    const expected=team==='w'?227:216;
+    let modified=0;const original=new Uint8ClampedArray(96*124*4);
+    original.fill(177);
+    const target={width:96,height:124,getContext(){
+      return {clearRect(){},drawImage(){},
+        getImageData(){return {data:original.slice()};},
+        putImageData(image){
+          for(let y=0;y<124;y++)for(let x=0;x<96;x++){
+            const p=(y*96+x)*4;
+            const changed=image.data[p]!==177||image.data[p+1]!==177||image.data[p+2]!==177;
+            if(changed){
+              modified++;
+              assert.ok(x>=18&&x<=54&&y>=45&&y<=71,'horse blink escaped the face');
+            }
+          }
+        }
+      };
+    }};
+    horseScope.target=target;
+    horseScope.open={width:96,height:124};
+    vm.runInContext("RoyalHorseBlink.apply(target,open,'"+team+"')",horseScope);
+    assert.ok(modified>=expected-6&&modified<=expected,
+      'expected only small eye-region edits for '+team);
+  }
+  console.log(JSON.stringify({royalFrames:24,riders:12,
     whitePawnWidthRatio:+(areas['p|w'].width/areas['k|w'].width).toFixed(3),
     blackPawnWidthRatio:+(areas['p|b'].width/areas['k|b'].width).toFixed(3),
-    geometry:'PASS',atomicLoader:'PASS',fallback:'PASS'}));
+    geometry:'PASS',blinking:'PASS',atomicLoader:'PASS',fallback:'PASS'}));
 })().catch(e=>{console.error(e);process.exitCode=1;});

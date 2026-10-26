@@ -73,6 +73,24 @@ with sync_playwright() as pw:
         assert visual['k']==[96,124] and visual['p']==[96,124],visual
         assert .75<=visual['ratio']<=.86,visual
         assert visual['count']>=1 and visual['inside'],visual
+        # Both the already-approved and new sprites have the same render path.
+        royal=page.evaluate("""() => {
+          const list=['k','q','p','r','b','n'], result={};
+          for(const role of list) for(const team of ['w','b']){
+            const key=role+'|'+team;
+            const sprite=Sprites.makePiece(role,team,'3d');
+            const rider=RoyalSpriteLoader.rider(role,team);
+            const closed=RoyalSpriteLoader.frame(role,team,true);
+            result[key]={w:sprite.width,h:sprite.height,
+              royal:sprite.dataset.royal,
+              rider:!!rider&&rider.width===16&&rider.height===20,
+              blink:!!closed&&closed.width===96&&closed.height===124};
+          }
+          return result;
+        }""")
+        assert len(royal)==12,royal
+        assert all(v['w']==96 and v['h']==124 and v['royal']=='1'
+                   and v['rider'] and v['blink'] for v in royal.values()),royal
         page.locator('#sel-view').select_option('simple')
     # B-01: desktop moves the *single* live status node to the sidebar,
     # freeing space to enlarge the board. Both banquet titles remain ABOVE

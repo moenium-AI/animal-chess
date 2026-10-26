@@ -134,12 +134,14 @@ const PixelHD = (() => {
   }
   function knight(ctx,c,f,blink){
     const [shade,face,hi,ink]=f;
-    for(const side of [-1,1]){
-      const a=20+side*8,b=20+side*12;
-      line(ctx,a,17,a,9,shade,2);line(ctx,a,11,b,6,shade,2);
-      line(ctx,b,6,b,3,hi,2);line(ctx,b,10,b+side*3,6,hi,2);
-      line(ctx,a,14,a-side*3,7,hi);
-    }
+    // Horse ears and a short flowing mane: no forked deer antlers, even if
+    // the illustrated atlas fails and this deterministic fallback is used.
+    poly(ctx,[[10,19],[11,9],[15,8],[19,19]],ink);
+    poly(ctx,[[13,16],[13,11],[16,12],[17,18]],hi);
+    poly(ctx,[[23,18],[25,9],[29,9],[30,21]],ink);
+    poly(ctx,[[26,16],[27,12],[28,14],[28,18]],face);
+    dot(ctx,10,18,5,3,shade);dot(ctx,9,21,4,4,ink);
+    dot(ctx,8,24,4,3,shade);
     poly(ctx,[[9,24],[10,17],[16,13],[23,13],[31,18],[32,27],[27,32],[13,32]],ink);
     poly(ctx,[[11,22],[12,18],[16,15],[23,15],[29,20],[29,27],[25,30],[14,29]],shade);
     oval(ctx,19,23,10,9,face);dot(ctx,12,18,3,7,hi);
