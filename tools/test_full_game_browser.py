@@ -249,12 +249,20 @@ with sync_playwright() as pw:
     # L-02: promotion and en passant are validated through the normal board.
     page.locator('#learn-list .study-item').nth(11).click(force=True)
     page.locator('#btn-study-practice').click(force=True)
-    page.locator('#sel-view').select_option('3d')
+    # Learning tab hides Settings, so exercise the actual change handler
+    # without asking Playwright to click an invisible select element.
+    page.evaluate("""() => {
+      const sel=document.getElementById('sel-view');
+      sel.value='3d';sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }""")
     move(page,'a7','a8')
     page.locator('#promo-modal:not(.hidden)').wait_for(timeout=2000)
     assert page.locator('#promo-choices canvas[data-hd="1"]').count()==4
     page.locator('#promo-choices button').first.click(force=True)
-    page.locator('#sel-view').select_option('simple')
+    page.evaluate("""() => {
+      const sel=document.getElementById('sel-view');
+      sel.value='simple';sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }""")
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_promotion")=='mastered'
     page.locator('#learn-list .study-item').nth(12).click(force=True)
     page.locator('#btn-study-practice').click(force=True)
