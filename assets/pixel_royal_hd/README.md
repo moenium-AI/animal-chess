@@ -1,7 +1,7 @@
 # Approved HD pixel-art sprite set (2026-10-27)
 
-Status: **binary art awaiting upload to the staging PR**. This directory
-must contain all six approved, full-color RGBA sheets before merging.
+Status: **all six approved binary sheets are committed to staging PR #48**.
+Their Git blob IDs and SHA-256 values match the approved ZIP, and the HD integrity CI passes.
 
 ## Source files
 Use `animal_chess_hd_approved_ready_to_copy.zip` from the ChatGPT
@@ -36,7 +36,7 @@ PNG files fails, all 24 HD frames are withheld and the complete
 existing royal sprite set is used.
 
 ## Acceptance before merging
-- Upload all six PNG files **on the same staging branch**.
+- Verify all six PNG files on the staging branch match approved source SHA-256.
 - Pass the HD artwork test and existing sprite/unit suites.
 - Visually test normal/blink, promotions, carriage rider, captured guests,
   dining, sleeping, board reversal, 320px mobile board and Miniature mode.
