@@ -106,6 +106,8 @@ const Sprites = (() => {
   function charCanvas(type, team, blink = false, style = 'miniature') {
     if (style === 'miniature' && detailed) return detailed[`${type}|${team}`];
     if (style === '3d') {
+      const royal = typeof RoyalSpriteLoader !== 'undefined' ? RoyalSpriteLoader.frame(type, team, blink) : null;
+      if (royal) return royal;
       const frames = loadPixelFrames();
       if (frames) return frames[`${type}|${team}|${blink ? 'c' : 'o'}`];
     }
@@ -142,11 +144,13 @@ const Sprites = (() => {
     return c;
   }
   function redrawPiece(c, blink) {
+    c.dataset.blink = blink ? '1' : '0';
     const source = charCanvas(c.dataset.type, c.dataset.team, blink, c.dataset.style);
     if (c.width !== source.width || c.height !== source.height) {
       c.width = source.width; c.height = source.height;
     }
     c.dataset.render = c.dataset.style === 'miniature' && detailed ? 'miniature' : 'pixel';
+    c.dataset.royal = c.dataset.style === '3d' && source.width === 96 && source.height === 124 ? '1' : '0';
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.drawImage(source, 0, 0);
@@ -169,7 +173,9 @@ const Sprites = (() => {
     if (faceLeft) { ctx.translate(W, 0); ctx.scale(-1, 1); }
     // Passenger on the cart; the lower body is hidden by the cart. / 荷台の上の乗客。下半身は荷台で隠れる。
     if (riderType) {
-      const source = charCanvas(riderType, riderTeam, false, style);
+      const rider = style === '3d' && typeof RoyalSpriteLoader !== 'undefined'
+        ? RoyalSpriteLoader.rider(riderType, riderTeam) : null;
+      const source = rider || charCanvas(riderType, riderTeam, false, style);
       ctx.drawImage(source, 2, 0, 15, 20);
     }
     drawArt(ctx, art, SPRITE_DATA.carriage.pal, { oy: PAD_TOP });
@@ -177,7 +183,19 @@ const Sprites = (() => {
     c.dataset.render = 'pixel';
   }
 
+  // Repaint live canvases once the all-or-nothing royal atlas is decoded.
+  // Do not change turn, moves, captured piece history or blinking state.
+  function loadRoyalArt() {
+    if (typeof RoyalSpriteLoader === 'undefined') return Promise.resolve(false);
+    return RoyalSpriteLoader.load().then(ok => {
+      if (!ok) return false;
+      document.querySelectorAll('canvas[data-style="3d"][data-type][data-team]')
+        .forEach(c => { if (c.isConnected) redrawPiece(c, c.dataset.blink === '1'); });
+      return true;
+    });
+  }
+
   const charName = (type) => SPRITE_DATA.chars[type].name;
 
-  return { makePiece, redrawPiece, itemCanvas, drawCarriage, charName, loadDetailed };
+  return { makePiece, redrawPiece, itemCanvas, drawCarriage, charName, loadDetailed, loadRoyalArt };
 })();
