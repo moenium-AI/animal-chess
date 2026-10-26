@@ -1,5 +1,7 @@
 # Pixel-art HD: production specification (2026-10-26)
 
+> **Implementation update:** This was the initial 40×52-code-art proposal before the 96×124 royal images landed in PR #43. The horse knight now replaces the deer in Pixel art mode. See [the production-ready bear/ owl/ horse brief](pixel-royal-rook-bishop-horse-art-spec-2026-10-26.md) for current sizes and species. Keep this document as historic context, not authoritative coordinates.
+
 ## Goal
 Refine **only the existing Pixel art mode**, internally `settings.viewMode === '3d'`.
 Preserve the near-orthographic top-down chessboard and its exact 8x8 geometry.
