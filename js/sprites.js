@@ -153,7 +153,7 @@ const Sprites = (() => {
     }
     c.dataset.render = c.dataset.style === 'miniature' && detailed ? 'miniature' : 'pixel';
     c.dataset.royal = c.dataset.style === '3d' && source.width === 96 && source.height === 124 ? '1' : '0';
-    c.dataset.hd = c.dataset.style === '3d' && source.width === 320 && source.height === 320 ? '1' : '0';
+    c.dataset.hd = c.dataset.style === '3d' && source.width === 627 && source.height === 627 ? '1' : '0';
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.drawImage(source, 0, 0);
