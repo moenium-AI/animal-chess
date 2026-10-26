@@ -135,16 +135,15 @@ async function checkLoader(failure='none') {
       }};
     }}
   });
-  vm.runInContext(read('js/royal_sprite_finish.js').toString('utf8'),scope);
   vm.runInContext(read('js/royal_sprite_loader.js').toString('utf8'),scope);
   const actual=await vm.runInContext('RoyalSpriteLoader.load()',scope);
   assert.equal(actual,failure==='none',failure);
   assert.equal(await vm.runInContext('RoyalSpriteLoader.load()',scope),actual);
   assert.equal(decoded,2,'each atlas decodes once');
   if(actual){
-    assert.equal(created,42,'36 atlas crops plus 6 smiling-eye canvases');
-    assert.equal(draws,42,'all six eyes start from the approved original source');
-    assert.equal(patched,5,'three owl feather recolors and two horse iris removal passes');
+    assert.equal(created,36,'all 12 piece and team pairs have open, blink and rider frames');
+    assert.equal(draws,36,'every frame is cropped without painting');
+    assert.equal(patched,0,'art must not be repainted after image decode');
     for(const type of ['k','q','p','r','b','n'])for(const team of ['w','b']){
       assert.equal(vm.runInContext("RoyalSpriteLoader.frame('"+type+"','"+team+"',true).height",scope),124);
       assert.equal(vm.runInContext("RoyalSpriteLoader.rider('"+type+"','"+team+"').width",scope),16);
@@ -162,19 +161,15 @@ async function checkLoader(failure='none') {
   await checkLoader('extraSize');
   await checkLoader('extraDecode');
   await checkLoader('cropFailure');
-  // Test exact preservation for approved pieces and fail-fast dimensions for
-  // supplementary sprites. The real browser run exercises Canvas 2D curves.
-  const extraScope=vm.createContext({});
-  vm.runInContext(read('js/royal_sprite_finish.js').toString('utf8'),extraScope);
-  extraScope.a={width:96,height:124};
-  extraScope.b={width:96,height:124};
-  extraScope.c={width:16,height:20};
-  const original=vm.runInContext("RoyalSpriteFinish.finish(a,b,c,'k','w')",extraScope);
-  assert.equal(original.open,extraScope.a);
-  assert.equal(original.closed,extraScope.b);
-  assert.equal(original.rider,extraScope.c);
-  assert.throws(()=>vm.runInContext("RoyalSpriteFinish.finish(a,{width:3,height:3},c,'n','b')",extraScope),
-    /dimensions/);
+  // The finished smile is part of the PNG. No eye or feather overlays.
+  assert.ok(!read('js/royal_sprite_loader.js').toString('utf8').includes('RoyalSpriteFinish'));
+  assert.ok(!read('index.html').toString('utf8').includes('royal_sprite_finish.js'));
+  assert.ok(read('js/sprites.js').toString('utf8').includes("if (style === 'miniature' && detailed)"));
+  assert.ok(read('js/sprites.js').toString('utf8').includes("if (style === '3d')"));
+  assert.equal(require('node:crypto').createHash('sha256')
+    .update(read('assets/pixel_royal/royal_extra.png')).digest('hex'),
+    '3140073e795b2aa43e4e1b73986486ff4b8402149bd5056c9793c5f0761a455e',
+    'shipped extra atlas must match the reviewed 12 expressions and six riders');
   console.log(JSON.stringify({royalFrames:24,riders:12,
     whitePawnWidthRatio:+(areas['p|w'].width/areas['k|w'].width).toFixed(3),
     blackPawnWidthRatio:+(areas['p|b'].width/areas['k|b'].width).toFixed(3),
