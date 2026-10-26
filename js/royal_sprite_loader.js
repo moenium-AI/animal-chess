@@ -8,7 +8,7 @@ const RoyalSpriteLoader = (() => {
   const ATLAS_WIDTH = WIDTH * 6, ATLAS_HEIGHT = HEIGHT * 2 + RIDER_HEIGHT;
   const SOURCES = [
     {url:'assets/pixel_royal/royal_atlas.png?v=1', types:['k', 'q', 'p']},
-    {url:'assets/pixel_royal/royal_extra.png?v=1', types:['r', 'b', 'n']},
+    {url:'assets/pixel_royal/royal_extra.png?v=2', types:['r', 'b', 'n']},
   ];
   let frames = null, riders = null, pending = null;
 
@@ -49,15 +49,10 @@ const RoyalSpriteLoader = (() => {
               const col = i * 2 + j;
               const type = types[i], team = j ? 'b' : 'w', key = type + '|' + team;
               if (nextFrames[key + '|o']) throw new Error('Duplicate royal type');
-              const open = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
-              const closed = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
-              const rider = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
-              // Finish all six of the newer expressions, even on cache misses.
-              // Errors keep the entire preexisting PixelHD fallback, atomically.
-              const polished = RoyalSpriteFinish.finish(open, closed, rider, type, team);
-              nextFrames[key + '|o'] = polished.open;
-              nextFrames[key + '|c'] = polished.closed;
-              nextRiders[key] = polished.rider;
+              // Frames are finished in the PNG itself; no painting after decode.
+              nextFrames[key + '|o'] = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
+              nextFrames[key + '|c'] = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
+              nextRiders[key] = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
             }
           }
         }
