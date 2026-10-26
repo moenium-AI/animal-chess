@@ -46,17 +46,19 @@ with sync_playwright() as pw:
     page=context.new_page();page.on('pageerror',lambda e: JSERR.append(str(e)))
     load_inline(page,{'opponent':'human','sound':False,'bgm':False,'viewMode':'simple','set':'classic'})
     assert page.locator('#board .square').count()==64
-    # Royal art: only Pixel art mode, normalized pawns, no square overflow.
-    # HTTP mode permits loading the real local PNG and verifying browser decode.
+    # Royal HD art belongs only to Pixel art mode. Native 627x627 source pixels
+    # remain unquantized while the browser scales their CSS display size.
     if HTTP:
         page.locator('#sel-view').select_option('3d')
-        page.wait_for_function("typeof RoyalSpriteLoader !== 'undefined' && !!RoyalSpriteLoader.frame('k','w')",timeout=10000)
+        page.wait_for_function(
+            "typeof RoyalHDSprites !== 'undefined' && !!RoyalHDSprites.frame('k','w')"
+            " && !!document.querySelector('#board .p3d canvas[data-hd=\"1\"]')",
+            timeout=15000)
         visual=page.evaluate("""() => {
           const king=Sprites.makePiece('k','w','3d'),pawn=Sprites.makePiece('p','w','3d');
-          const boxes=[...document.querySelectorAll('#board .p3d canvas[data-royal="1"]')].map(c=>{
+          const boxes=[...document.querySelectorAll('#board .p3d canvas[data-hd="1"]')].map(c=>{
             const a=c.getBoundingClientRect(),b=c.closest('.square').getBoundingClientRect();
-            return {inside:a.left>=b.left-.5&&a.top>=b.top-.5&&a.right<=b.right+.5&&a.bottom<=b.bottom+.5,
-              w:a.width,h:a.height};
+            return {inside:a.left>=b.left-.5&&a.top>=b.top-.5&&a.right<=b.right+.5&&a.bottom<=b.bottom+.5};
           });
           function bbox(c) {
             const data=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
@@ -70,26 +72,24 @@ with sync_playwright() as pw:
           return {k:[king.width,king.height],p:[pawn.width,pawn.height],
             ratio:bbox(pawn)/bbox(king),count:boxes.length,inside:boxes.every(b=>b.inside)};
         }""")
-        assert visual['k']==[96,124] and visual['p']==[96,124],visual
-        assert .75<=visual['ratio']<=.86,visual
+        assert visual['k']==[627,627] and visual['p']==[627,627],visual
+        assert .75<=visual['ratio']<=.90,visual
         assert visual['count']>=1 and visual['inside'],visual
-        # Both the already-approved and new sprites have the same render path.
         royal=page.evaluate("""() => {
           const list=['k','q','p','r','b','n'], result={};
           for(const role of list) for(const team of ['w','b']){
-            const key=role+'|'+team;
-            const sprite=Sprites.makePiece(role,team,'3d');
-            const rider=RoyalSpriteLoader.rider(role,team);
-            const closed=RoyalSpriteLoader.frame(role,team,true);
+            const key=role+'|'+team, sprite=Sprites.makePiece(role,team,'3d');
+            const rider=RoyalHDSprites.rider(role,team);
+            const closed=RoyalHDSprites.frame(role,team,true);
             result[key]={w:sprite.width,h:sprite.height,
-              royal:sprite.dataset.royal,
+              hd:sprite.dataset.hd,
               rider:!!rider&&rider.width===16&&rider.height===20,
-              blink:!!closed&&closed.width===96&&closed.height===124};
+              blink:!!closed&&closed.width===627&&closed.height===627};
           }
           return result;
         }""")
         assert len(royal)==12,royal
-        assert all(v['w']==96 and v['h']==124 and v['royal']=='1'
+        assert all(v['w']==627 and v['h']==627 and v['hd']=='1'
                    and v['rider'] and v['blink'] for v in royal.values()),royal
         page.locator('#sel-view').select_option('simple')
     # B-01: desktop moves the *single* live status node to the sidebar,
