@@ -1,15 +1,22 @@
-// Royal Pixel illustrations: selected lion, cat, and chick art, white and black.
-// Entirely optional and limited to Pixel art mode; original PixelHD art is fallback.
+// Pixel art mode: the original lion/cat/chick sheet and the complementary
+// bear/owl/horse sheet. Both atlases must decode before any frame is published.
+// This preserves existing approved art byte-for-byte and never mixes old/new
+// artwork if one network request or a crop fails.
 const RoyalSpriteLoader = (() => {
   'use strict';
-  const TYPES = ['k', 'q', 'p'];
-  const TEAMS = ['w', 'b'];
   const WIDTH = 96, HEIGHT = 124, RIDER_WIDTH = 16, RIDER_HEIGHT = 20;
   const ATLAS_WIDTH = WIDTH * 6, ATLAS_HEIGHT = HEIGHT * 2 + RIDER_HEIGHT;
-  const URL = 'assets/pixel_royal/royal_atlas.png?v=1';
+  const SOURCES = [
+    {url:'assets/pixel_royal/royal_atlas.png?v=1', types:['k', 'q', 'p']},
+    {url:'assets/pixel_royal/royal_extra.png?v=1', types:['r', 'b', 'n']},
+  ];
   let frames = null, riders = null, pending = null;
 
   function crop(image, sx, sy, sw, sh) {
+    if (sw <= 0 || sh <= 0 || sx < 0 || sy < 0 ||
+        sx + sw > image.naturalWidth || sy + sh > image.naturalHeight) {
+      throw new Error('Royal pixel crop outside atlas');
+    }
     const c = document.createElement('canvas');
     c.width = sw; c.height = sh;
     const ctx = c.getContext('2d');
@@ -23,26 +30,40 @@ const RoyalSpriteLoader = (() => {
     if (pending) return pending;
     pending = (async () => {
       try {
-        const image = new Image();
-        image.decoding = 'async';
-        image.src = URL;
-        await image.decode();
-        if (image.naturalWidth !== ATLAS_WIDTH || image.naturalHeight !== ATLAS_HEIGHT) {
-          throw new Error('Unexpected royal pixel atlas geometry');
-        }
+        const images = await Promise.all(SOURCES.map(async source => {
+          const image = new Image();
+          image.decoding = 'async';
+          image.src = source.url;
+          await image.decode();
+          if (image.naturalWidth !== ATLAS_WIDTH ||
+              image.naturalHeight !== ATLAS_HEIGHT) {
+            throw new Error('Unexpected royal pixel atlas geometry');
+          }
+          return {image, types:source.types};
+        }));
+
         const nextFrames = Object.create(null), nextRiders = Object.create(null);
-        for (let i = 0; i < TYPES.length; i++) for (let j = 0; j < TEAMS.length; j++) {
-          const col = i * 2 + j, type = TYPES[i], team = TEAMS[j];
-          nextFrames[type + '|' + team + '|o'] = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
-          nextFrames[type + '|' + team + '|c'] = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
-          nextRiders[type + '|' + team] = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
+        for (const {image, types} of images) {
+          for (let i = 0; i < types.length; i++) {
+            for (let j = 0; j < 2; j++) {
+              const col = i * 2 + j;
+              const type = types[i], team = j ? 'b' : 'w', key = type + '|' + team;
+              if (nextFrames[key + '|o']) throw new Error('Duplicate royal type');
+              nextFrames[key + '|o'] = crop(image, col * WIDTH, 0, WIDTH, HEIGHT);
+              nextFrames[key + '|c'] = crop(image, col * WIDTH, HEIGHT, WIDTH, HEIGHT);
+              nextRiders[key] = crop(image, col * WIDTH, HEIGHT * 2, RIDER_WIDTH, RIDER_HEIGHT);
+            }
+          }
         }
-        // No mixed partly-loaded characters: all 18 images publish in one step.
+        if (Object.keys(nextFrames).length !== 24 ||
+            Object.keys(nextRiders).length !== 12) {
+          throw new Error('Incomplete royal sprite set');
+        }
         frames = nextFrames;
         riders = nextRiders;
         return true;
       } catch (error) {
-        console.warn('Royal pixel artwork unavailable; preserving original animals.', error);
+        console.warn('Royal pixel artwork unavailable; using complete original sprite set.', error);
         return false;
       }
     })();
@@ -52,5 +73,5 @@ const RoyalSpriteLoader = (() => {
   const frame = (type, team, blink = false) =>
     frames ? frames[type + '|' + team + '|' + (blink ? 'c' : 'o')] || null : null;
   const rider = (type, team) => riders ? riders[type + '|' + team] || null : null;
-  return { load, frame, rider };
+  return {load, frame, rider};
 })();
