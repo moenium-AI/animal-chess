@@ -387,6 +387,10 @@ html, body {
   transition: transform 0.15s ease-out;
 }
 .p3d canvas[data-render="pixel"] { width: auto; height: 84%; image-rendering: pixelated; }
+/* HD source pixels stay lossless in canvas; downscale smoothly for 8x8 boards. */
+.p3d canvas[data-hd="1"], .bq-guest canvas.spr[data-hd="1"],
+.promo-choices canvas[data-hd="1"] { image-rendering: auto; }
+
 .mode-3d .square.selected .p3d canvas { transform: translateY(-2%); }
 @keyframes bob3d {
   0%, 48% { transform: translateY(0); }

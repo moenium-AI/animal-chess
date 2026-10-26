@@ -106,6 +106,8 @@ const Sprites = (() => {
   function charCanvas(type, team, blink = false, style = 'miniature') {
     if (style === 'miniature' && detailed) return detailed[`${type}|${team}`];
     if (style === '3d') {
+      const hd = typeof RoyalHDSprites !== 'undefined' ? RoyalHDSprites.frame(type, team, blink) : null;
+      if (hd) return hd;
       const royal = typeof RoyalSpriteLoader !== 'undefined' ? RoyalSpriteLoader.frame(type, team, blink) : null;
       if (royal) return royal;
       const frames = loadPixelFrames();
@@ -151,6 +153,7 @@ const Sprites = (() => {
     }
     c.dataset.render = c.dataset.style === 'miniature' && detailed ? 'miniature' : 'pixel';
     c.dataset.royal = c.dataset.style === '3d' && source.width === 96 && source.height === 124 ? '1' : '0';
+    c.dataset.hd = c.dataset.style === '3d' && source.width === 627 && source.height === 627 ? '1' : '0';
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.drawImage(source, 0, 0);
@@ -173,8 +176,10 @@ const Sprites = (() => {
     if (faceLeft) { ctx.translate(W, 0); ctx.scale(-1, 1); }
     // Passenger on the cart; the lower body is hidden by the cart. / 荷台の上の乗客。下半身は荷台で隠れる。
     if (riderType) {
-      const rider = style === '3d' && typeof RoyalSpriteLoader !== 'undefined'
-        ? RoyalSpriteLoader.rider(riderType, riderTeam) : null;
+      const hdRider = style === '3d' && typeof RoyalHDSprites !== 'undefined'
+        ? RoyalHDSprites.rider(riderType, riderTeam) : null;
+      const rider = hdRider || (style === '3d' && typeof RoyalSpriteLoader !== 'undefined'
+        ? RoyalSpriteLoader.rider(riderType, riderTeam) : null);
       const source = rider || charCanvas(riderType, riderTeam, false, style);
       ctx.drawImage(source, 2, 0, 15, 20);
     }
@@ -187,8 +192,9 @@ const Sprites = (() => {
   // Do not change turn, moves, captured piece history or blinking state.
   function loadRoyalArt() {
     if (typeof RoyalSpriteLoader === 'undefined') return Promise.resolve(false);
-    return RoyalSpriteLoader.load().then(ok => {
-      if (!ok) return false;
+    const hd = typeof RoyalHDSprites !== 'undefined' ? RoyalHDSprites.load() : Promise.resolve(false);
+    return Promise.all([RoyalSpriteLoader.load(), hd]).then(([oldOK, hdOK]) => {
+      if (!oldOK && !hdOK) return false;
       document.querySelectorAll('canvas[data-style="3d"][data-type][data-team]')
         .forEach(c => { if (c.isConnected) redrawPiece(c, c.dataset.blink === '1'); });
       return true;

@@ -46,17 +46,19 @@ with sync_playwright() as pw:
     page=context.new_page();page.on('pageerror',lambda e: JSERR.append(str(e)))
     load_inline(page,{'opponent':'human','sound':False,'bgm':False,'viewMode':'simple','set':'classic'})
     assert page.locator('#board .square').count()==64
-    # Royal art: only Pixel art mode, normalized pawns, no square overflow.
-    # HTTP mode permits loading the real local PNG and verifying browser decode.
+    # Royal HD art belongs only to Pixel art mode. Native 627x627 source pixels
+    # remain unquantized while the browser scales their CSS display size.
     if HTTP:
         page.locator('#sel-view').select_option('3d')
-        page.wait_for_function("typeof RoyalSpriteLoader !== 'undefined' && !!RoyalSpriteLoader.frame('k','w')",timeout=10000)
+        page.wait_for_function(
+            "typeof RoyalHDSprites !== 'undefined' && !!RoyalHDSprites.frame('k','w')"
+            " && !!document.querySelector('#board .p3d canvas[data-hd=\"1\"]')",
+            timeout=15000)
         visual=page.evaluate("""() => {
           const king=Sprites.makePiece('k','w','3d'),pawn=Sprites.makePiece('p','w','3d');
-          const boxes=[...document.querySelectorAll('#board .p3d canvas[data-royal="1"]')].map(c=>{
+          const boxes=[...document.querySelectorAll('#board .p3d canvas[data-hd="1"]')].map(c=>{
             const a=c.getBoundingClientRect(),b=c.closest('.square').getBoundingClientRect();
-            return {inside:a.left>=b.left-.5&&a.top>=b.top-.5&&a.right<=b.right+.5&&a.bottom<=b.bottom+.5,
-              w:a.width,h:a.height};
+            return {inside:a.left>=b.left-.5&&a.top>=b.top-.5&&a.right<=b.right+.5&&a.bottom<=b.bottom+.5};
           });
           function bbox(c) {
             const data=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
@@ -70,27 +72,78 @@ with sync_playwright() as pw:
           return {k:[king.width,king.height],p:[pawn.width,pawn.height],
             ratio:bbox(pawn)/bbox(king),count:boxes.length,inside:boxes.every(b=>b.inside)};
         }""")
-        assert visual['k']==[96,124] and visual['p']==[96,124],visual
-        assert .75<=visual['ratio']<=.86,visual
+        assert visual['k']==[627,627] and visual['p']==[627,627],visual
+        assert .75<=visual['ratio']<=.90,visual
         assert visual['count']>=1 and visual['inside'],visual
-        # Both the already-approved and new sprites have the same render path.
         royal=page.evaluate("""() => {
           const list=['k','q','p','r','b','n'], result={};
           for(const role of list) for(const team of ['w','b']){
-            const key=role+'|'+team;
-            const sprite=Sprites.makePiece(role,team,'3d');
-            const rider=RoyalSpriteLoader.rider(role,team);
-            const closed=RoyalSpriteLoader.frame(role,team,true);
+            const key=role+'|'+team, sprite=Sprites.makePiece(role,team,'3d');
+            const rider=RoyalHDSprites.rider(role,team);
+            const closed=RoyalHDSprites.frame(role,team,true);
             result[key]={w:sprite.width,h:sprite.height,
-              royal:sprite.dataset.royal,
+              hd:sprite.dataset.hd,
               rider:!!rider&&rider.width===16&&rider.height===20,
-              blink:!!closed&&closed.width===96&&closed.height===124};
+              blink:!!closed&&closed.width===627&&closed.height===627};
           }
           return result;
         }""")
         assert len(royal)==12,royal
-        assert all(v['w']==96 and v['h']==124 and v['royal']=='1'
+        assert all(v['w']==627 and v['h']==627 and v['hd']=='1'
                    and v['rider'] and v['blink'] for v in royal.values()),royal
+        # Verify that the approved closed-eye images differ, and that
+        # drawing a passenger actually changes the carriage pixels.
+        visuals = page.evaluate("""() => {
+          let changedEyes=0;
+          for (const type of ['k','q','r','b','n','p']) {
+            for (const team of ['w','b']) {
+              const ordinary=RoyalHDSprites.frame(type,team,false);
+              const blink=RoyalHDSprites.frame(type,team,true);
+              const a=ordinary.getContext('2d').getImageData(0,0,627,627).data;
+              const b=blink.getContext('2d').getImageData(0,0,627,627).data;
+              let different=false;
+              for(let i=0;i<a.length;i+=4) {
+                if(a[i]!==b[i]||a[i+1]!==b[i+1]||a[i+2]!==b[i+2]||a[i+3]!==b[i+3]) {
+                  different=true;break;
+                }
+              }
+              if(different)changedEyes++;
+            }
+          }
+          const occupied=document.createElement('canvas'),empty=document.createElement('canvas');
+          Sprites.drawCarriage(occupied,0,'p','b',false,'3d');
+          Sprites.drawCarriage(empty,0,null,null,false,'3d');
+          const a=occupied.getContext('2d').getImageData(0,0,occupied.width,occupied.height).data;
+          const b=empty.getContext('2d').getImageData(0,0,empty.width,empty.height).data;
+          return {changedEyes,passengerVisible:a.some((v,i)=>v!==b[i])};
+        }""")
+        assert visuals['changedEyes']==12 and visuals['passengerVisible'],visuals
+        # A real capture must put an HD character in the correct banquet hall.
+        move(page,'e2','e4')
+        move(page,'d7','d5')
+        move(page,'e4','d5')
+        page.locator('.bq-guest canvas.spr[data-hd="1"]').first.wait_for(timeout=3000)
+        assert page.locator('.bq-guest canvas.spr[data-hd="1"]').count()==1
+        page.locator('#btn-new').click(force=True)
+        assert page.locator('#board .p3d canvas[data-hd="1"]').count()==32
+        # A 320px-wide screen must retain all 32 HD sprites within the board.
+        page.set_viewport_size({'width':320,'height':700})
+        mobile=page.evaluate("""() => {
+          const b=document.querySelector('#board').getBoundingClientRect();
+          const pieces=[...document.querySelectorAll('#board .p3d canvas[data-hd="1"]')];
+          return {withinScreen:b.left>=-1&&b.right<=innerWidth+1,
+            count:pieces.length,
+            contained:pieces.every(c=>{
+              const a=c.getBoundingClientRect(),s=c.closest('.square').getBoundingClientRect();
+              return a.left>=s.left-.5&&a.top>=s.top-.5&&a.right<=s.right+.5&&a.bottom<=s.bottom+.5;
+            })};
+        }""")
+        assert mobile['withinScreen'] and mobile['count']==32 and mobile['contained'],mobile
+        page.set_viewport_size({'width':1280,'height':900})
+        # The HD atlas may not leak into Miniature mode.
+        page.locator('#sel-view').select_option('miniature')
+        assert page.locator('#board canvas[data-style="miniature"]').count()==32
+        assert page.locator('#board canvas[data-hd="1"]').count()==0
         page.locator('#sel-view').select_option('simple')
     # B-01: desktop moves the *single* live status node to the sidebar,
     # freeing space to enlarge the board. Both banquet titles remain ABOVE
@@ -196,9 +249,20 @@ with sync_playwright() as pw:
     # L-02: promotion and en passant are validated through the normal board.
     page.locator('#learn-list .study-item').nth(11).click(force=True)
     page.locator('#btn-study-practice').click(force=True)
+    # Learning tab hides Settings, so exercise the actual change handler
+    # without asking Playwright to click an invisible select element.
+    page.evaluate("""() => {
+      const sel=document.getElementById('sel-view');
+      sel.value='3d';sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }""")
     move(page,'a7','a8')
     page.locator('#promo-modal:not(.hidden)').wait_for(timeout=2000)
+    assert page.locator('#promo-choices canvas[data-hd="1"]').count()==4
     page.locator('#promo-choices button').first.click(force=True)
+    page.evaluate("""() => {
+      const sel=document.getElementById('sel-view');
+      sel.value='simple';sel.dispatchEvent(new Event('change',{bubbles:true}));
+    }""")
     assert page.evaluate("JSON.parse(localStorage.getItem('animalchess_learning_v1')).bk_promotion")=='mastered'
     page.locator('#learn-list .study-item').nth(12).click(force=True)
     page.locator('#btn-study-practice').click(force=True)
