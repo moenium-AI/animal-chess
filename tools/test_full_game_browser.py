@@ -46,6 +46,34 @@ with sync_playwright() as pw:
     page=context.new_page();page.on('pageerror',lambda e: JSERR.append(str(e)))
     load_inline(page,{'opponent':'human','sound':False,'bgm':False,'viewMode':'simple','set':'classic'})
     assert page.locator('#board .square').count()==64
+    # Royal art: only Pixel art mode, normalized pawns, no square overflow.
+    # HTTP mode permits loading the real local PNG and verifying browser decode.
+    if HTTP:
+        page.locator('#sel-view').select_option('3d')
+        page.wait_for_function("typeof RoyalSpriteLoader !== 'undefined' && !!RoyalSpriteLoader.frame('k','w')",timeout=10000)
+        visual=page.evaluate("""() => {
+          const king=Sprites.makePiece('k','w','3d'),pawn=Sprites.makePiece('p','w','3d');
+          const boxes=[...document.querySelectorAll('#board .p3d canvas[data-royal="1"]')].map(c=>{
+            const a=c.getBoundingClientRect(),b=c.closest('.square').getBoundingClientRect();
+            return {inside:a.left>=b.left-.5&&a.top>=b.top-.5&&a.right<=b.right+.5&&a.bottom<=b.bottom+.5,
+              w:a.width,h:a.height};
+          });
+          function bbox(c) {
+            const data=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+            let minX=c.width,maxX=-1;
+            for(let y=0;y<c.height;y++) for(let x=0;x<c.width;x++){
+              if(data[(y*c.width+x)*4+3]<32)continue;
+              minX=Math.min(minX,x);maxX=Math.max(maxX,x);
+            }
+            return maxX-minX+1;
+          }
+          return {k:[king.width,king.height],p:[pawn.width,pawn.height],
+            ratio:bbox(pawn)/bbox(king),count:boxes.length,inside:boxes.every(b=>b.inside)};
+        }""")
+        assert visual['k']==[96,124] and visual['p']==[96,124],visual
+        assert .75<=visual['ratio']<=.86,visual
+        assert visual['count']>=1 and visual['inside'],visual
+        page.locator('#sel-view').select_option('simple')
     # B-01: desktop moves the *single* live status node to the sidebar,
     # freeing space to enlarge the board. Both banquet titles remain ABOVE
     # the artwork. A narrower viewport puts the status below the board again.
