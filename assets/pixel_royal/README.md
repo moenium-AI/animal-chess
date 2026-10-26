@@ -1,44 +1,34 @@
-# Royal pixel sprite integration
+# Royal pixel art for Animal Chess
 
-This is the selected chibi animal artwork from the project's approved design
-sheet, adapted for the existing **Pixel art** mode only.
+The six animal roles in **Pixel art** mode use two locally bundled sheets.
+The original approved lion/cat/chick artwork remains byte-for-byte unchanged.
 
-- `royal_atlas.png`: 576 × 268 transparent indexed PNG, one local image.
-- Columns 0–5: white/black lion king, white/black cat queen, white/black
-  chick pawn.
-- Rows 0–123: 96 × 124 open-eye frames.
-- Rows 124–247: 96 × 124 closed-eye frames.
-- Rows 248–267: 16 × 20 carriage rider portraits at each column's left edge.
+| File | Roles (left to right) | Image size |
+| --- | --- | --- |
+| `royal_atlas.png` | white lion, black lion, white cat, black cat, white chick, black chick | 576 × 268 PNG |
+| `royal_extra.png` | white bear rook, black bear rook, white owl bishop, black owl bishop, white **anthropomorphic horse** knight, black horse knight | 576 × 268 PNG |
 
-### Size and safety
+Each sheet has six 96px-wide columns. Rows y=0..123 are the ordinary 96×124 poses; rows y=124..247 are closed-eye variants; y=248..267 holds independent 16×20 carriage passengers at the left of each column. Alpha transparency is preserved. The PNG sources are indexed to reduce transfer size.
 
-All 96 × 124 frames share identical canvas dimensions and foot alignment.
-The actual chick figure was resized to **80%** of its source size and centered
-against the same baseline; the king/queen were not stretched. Transparent
-outside margins and the existing board's `overflow:hidden` prevent pieces from
-overlapping adjacent squares. CSS `max-width/max-height:84%` provides a second
-limit. The source remains sharper than 40 × 52, with smooth downsampling at
-normal display size.
+## Visual hierarchy
 
-PNG colors are a restrained indexed palette for small download size; the
-source package retains the full-resolution RGBA cutouts for further art edits.
+The chicks deliberately occupy roughly 80% of the king's visual width. The bear, owl and horse have approximately the king's height or less and fit inside a single chess square; all board canvases are constrained to at most 84% square width/height and their squares clip overflow. The horse is a **clothed, upright knight character**, not a four-legged horse or a deer. Its small ears, rounded muzzle and flowing mane preserve that identity.
 
-`js/royal_sprite_loader.js` validates atlas geometry and publishes all 18
-images in one step. If decoding or canvas creation fails, the shipped
-`js/pixel_hd.js` animals continue to work. Rook, bishop and knight are
-unmodified. Miniature and simple modes are unmodified.
+The new extra sheet is derived from the user-approved six-figure art sheet, with the image's drawn checkerboard removed, opaque figures alpha-matted, and backgrounds left transparent. It is not a screenshot. Existing approved `royal_atlas.png` data was **not re-quantized** or overwritten.
 
-### Acceptance and deferred changes
+## Loader and gameplay
 
-`node tools/test_royal_sprite_art.cjs` checks PNG geometry, transparent
-margins, real pawn-to-king width ratio, blink differences, rider cells,
-atomic load and failure fallback. The HTTP Playwright test checks the 96 × 124
-actual canvases fit within squares and the pawn visual footprint.
+`js/royal_sprite_loader.js` validates and decodes both PNGs before making any frame available. When one image fails to load, has incorrect dimensions, or canvas cropping fails, no partial royal art is published: all types fall back to the deterministic `js/pixel_hd.js` renderer. The fallback horse's branching antlers were changed to short horse ears.
 
-The capture/carriage/banquet animations and existing food overlays are
-unchanged. A full banquet-only eating artwork layer is **not** included,
-because the concept illustration embeds food and would duplicate the
-independent edible items already shown by the game.
+The same render path supplies:
+- chessboard and promotion,
+- carriage passengers (a separate 16×20 portrait), and
+- banquet guests, blinking and sleeping.
 
-The artwork is user-supplied/project-generated. No third-party online
-asset is downloaded during runtime.
+The existing carriage trip, arrival sequencing, dining/drinking/sleeping animations, table, food layers, history and chess logic remain unchanged. Dedicated food-in-hand poses may be introduced separately after visual review; food is not baked into this first atlas to avoid double display.
+
+## Validation
+
+`node tools/test_royal_sprite_art.cjs` verifies both actual PNGs, alpha margins, portraits, closed eyes, chick relative size and two-image atomic loading (including invalid geometry, decode failure and canvas failure). Playwright's HTTP browser test confirms all twelve roles render from the royal images.
+
+The user-approved original artwork files and editable per-sprite transparent PNGs are held in the authoring pack; runtime requires only the two local atlases. These are project-generated assets, not hotlinked external resources.
