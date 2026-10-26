@@ -13,6 +13,8 @@ on:
       - 'js/games.js'
       - 'tools/test_course_expansion.cjs'
       - 'tools/test_chess_terminology.cjs'
+      - 'tools/check_pixel_hd_source.py'
+      - 'tools/test_pixel_hd_source_checker.py'
       - 'tools/test_puzzle_theme_integrity.cjs'
       - 'js/learning.js'
       - 'js/i18n.js'
@@ -50,6 +52,8 @@ on:
       - 'js/games.js'
       - 'tools/test_course_expansion.cjs'
       - 'tools/test_chess_terminology.cjs'
+      - 'tools/check_pixel_hd_source.py'
+      - 'tools/test_pixel_hd_source_checker.py'
       - 'tools/test_puzzle_theme_integrity.cjs'
       - 'js/learning.js'
       - 'js/i18n.js'
@@ -106,6 +110,7 @@ jobs:
           node tools/test_learning_runtime.cjs
           node tools/test_intro_lessons.cjs
           node tools/test_course_expansion.cjs
+          python tools/test_pixel_hd_source_checker.py
           node tools/test_lesson_comparisons.cjs
           node tools/audit_runtime.cjs
       - name: Install browser tests
