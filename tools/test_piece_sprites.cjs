@@ -34,7 +34,7 @@ async function check(failure) {
     miniatureRides++;
   }};
   const context = vm.createContext({ document, Image:TestImage, MiniatureScene:scene, console:{warn(){}} });
-  for (const file of ['sprite_data', 'piece_atlas', 'sprites']) {
+  for (const file of ['sprite_data', 'piece_atlas', 'pixel_hd', 'sprites']) {
     vm.runInContext(fs.readFileSync(path.join(__dirname, '../js', file + '.js'), 'utf8'), context);
   }
   const sprites = vm.runInContext('Sprites', context);
@@ -53,13 +53,13 @@ async function check(failure) {
     assert.equal(piece.dataset.render, failure ? 'pixel' : 'miniature');
     const pixel = sprites.makePiece(type, team, '3d');
     assert.equal(pixel.dataset.render, 'pixel', '3D mode must retain original art after atlas decode');
-    assert.equal(pixel.width, 26);
+    assert.equal(pixel.width, 40);
     sprites.redrawPiece(pixel, true);
     assert.equal(pixel.dataset.render, 'pixel');
   }
   sprites.redrawPiece(legacy, false);
   assert.equal(legacy.dataset.render, 'pixel');
-  assert.equal(legacy.width, 26, 'existing legacy canvases must never upgrade');
+  assert.equal(legacy.width, 40, 'pixel-art canvases use the new native resolution');
   sprites.redrawPiece(existing, false);
   assert.equal(existing.width, failure ? 26 : 256);
   if (!failure) assert.equal(atlasDraws, 12, 'reuse decoded frames');
