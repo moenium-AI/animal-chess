@@ -7,6 +7,10 @@ on:
       - 'js/app.js'
       - 'js/sprites.js'
       - 'js/pixel_hd.js'
+      - 'js/royal_sprite_loader.js'
+      - 'js/royal_sprite_start.js'
+      - 'assets/pixel_royal/**'
+      - 'tools/test_royal_sprite_art.cjs'
       - 'js/sprite_data.js'
       - 'tools/test_pixel_hd.cjs'
       - 'tools/test_piece_sprites.cjs'
@@ -52,6 +56,10 @@ on:
       - 'js/app.js'
       - 'js/sprites.js'
       - 'js/pixel_hd.js'
+      - 'js/royal_sprite_loader.js'
+      - 'js/royal_sprite_start.js'
+      - 'assets/pixel_royal/**'
+      - 'tools/test_royal_sprite_art.cjs'
       - 'js/sprite_data.js'
       - 'tools/test_pixel_hd.cjs'
       - 'tools/test_piece_sprites.cjs'
@@ -118,6 +126,7 @@ jobs:
           node tools/summarize_ai_tournament.cjs docs/ai-selfplay-results-2026-10-24.json > /dev/null
           node tools/test_learning_async.cjs
           node tools/test_pixel_hd.cjs
+          node tools/test_royal_sprite_art.cjs
           node tools/test_piece_sprites.cjs
           node tools/test_graphics_lifecycle.cjs
           node tools/test_puzzle_navigation.cjs
