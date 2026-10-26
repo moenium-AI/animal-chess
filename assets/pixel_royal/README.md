@@ -34,3 +34,19 @@ The existing carriage trip, arrival sequencing, dining/drinking/sleeping animati
 `node tools/test_royal_sprite_art.cjs` verifies both actual PNGs, alpha margins, portraits, closed eyes, chick relative size and two-image atomic loading (including invalid geometry, decode failure and canvas failure). Playwright's HTTP browser test confirms all twelve roles render from the royal images.
 
 The user-approved original artwork files and editable per-sprite transparent PNGs are held in the authoring pack; runtime requires only the two local atlases. These are project-generated assets, not hotlinked external resources.
+
+## Matching the three original smiling blinks (2026-10-26)
+
+The original king/cat/chick blink silhouettes are the visual reference: a bold,
+curved, dark closed eye, not a faint thin lash or retained open pupil. The
+`js/royal_sprite_finish.js` code now derives cheerful closed eyes for both
+teams' bear, owl, and anthropomorphic horse. Horse blink starts from the intact
+open-eye frame, so the previously faulty cheek overlay is never used. The
+black-side owl receives a cooler, deeper gray facial feather shade (including
+its guest blink and carriage thumbnail), but its gold/blue clothing and eyes
+are protected. The three previously approved roles are untouched.
+
+The source PNG `royal_extra.png` is kept as-is for binary compatibility in this
+change; the loader performs a bounded canvas finishing pass before publishing
+all frames atomically. When a final binary sprite atlas is committed, replace
+the source with reviewed exported pixels and remove this finishing pass.
