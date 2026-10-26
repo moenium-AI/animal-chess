@@ -3,7 +3,7 @@ const Sprites = (() => {
   const TINT = [64, 68, 96];   // Dark-team cool tint. / 黒チームの寒色寄りの色調。
   const TINT_K = 0.25;
   const cache = {};            // key -> rendered canvas / key -> 描画済みcanvas
-  let detailed = null, loading = null;
+  let detailed = null, loading = null, pixelFrames = null;
 
   const CW = SPRITE_DATA.meta.width;
   const CH = SPRITE_DATA.meta.height;
@@ -78,9 +78,37 @@ const Sprites = (() => {
     return loading;
   }
 
+  // Build every high-detail frame before making any one visible. If native art
+  // fails at any point, use the complete 26x34 legacy set, never a mixed set.
+  function loadPixelFrames() {
+    if (pixelFrames !== null) return pixelFrames;
+    try {
+      if (typeof PixelHD === 'undefined') throw new Error('Pixel HD renderer missing');
+      const frames = Object.create(null);
+      for (const team of ['w', 'b']) for (const type of ['k', 'q', 'r', 'b', 'n', 'p']) {
+        for (const blink of [false, true]) {
+          const frame = PixelHD.makePiece(type, team, blink);
+          if (!frame || frame.width !== 40 || frame.height !== 52) {
+            throw new Error('Invalid pixel HD frame dimensions');
+          }
+          frames[`${type}|${team}|${blink ? 'c' : 'o'}`] = frame;
+        }
+      }
+      pixelFrames = frames;
+    } catch (error) {
+      pixelFrames = false;
+      console.warn('Pixel HD sprites unavailable; using original sprites.', error);
+    }
+    return pixelFrames;
+  }
+
   // Cached character canvas (open/closed eyes). / キャラクターのキャッシュ済みcanvas（目を開く・閉じる）。
   function charCanvas(type, team, blink = false, style = 'miniature') {
     if (style === 'miniature' && detailed) return detailed[`${type}|${team}`];
+    if (style === '3d') {
+      const frames = loadPixelFrames();
+      if (frames) return frames[`${type}|${team}|${blink ? 'c' : 'o'}`];
+    }
     const key = `${type}|${team}|${blink ? 'c' : 'o'}`;
     if (cache[key]) return cache[key];
     const def = SPRITE_DATA.chars[type];
