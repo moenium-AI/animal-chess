@@ -108,7 +108,6 @@ async function checkLoader(failure='none') {
   let decoded=0,draws=0,created=0,warns=0,patched=0;
   const scope=vm.createContext({
     console:{warn:()=>warns++},
-    atob:(data)=>Buffer.from(data,'base64').toString('binary'),
     Image:class {
       _url='';
       set src(v){this._url=v;}
@@ -122,11 +121,12 @@ async function checkLoader(failure='none') {
         if(failure==='cropFailure'&&created===23)return null;
         return {imageSmoothingEnabled:false,
           clearRect(){},
-          getImageData(x,y,w,h){
-            assert.equal(w,96);assert.equal(h,124);
+          getImageData(x,y,w,h) {
+            assert.ok(w===96||w===16);assert.ok(h===124||h===20);
             return {data:new Uint8ClampedArray(w*h*4)};
           },
-          putImageData(image){patched++;assert.equal(image.data.length,96*124*4);},
+          putImageData(image){patched++;assert.ok(image.data.length===96*124*4||image.data.length===16*20*4);},
+          beginPath(){},moveTo(){},bezierCurveTo(){},stroke(){},
           drawImage(...args){
             draws++;assert.ok(args.length===9||args.length===3);
             if(args.length===9)assert.ok(args[1]>=0&&args[2]>=0&&args[3]>0&&args[4]>0);
@@ -135,16 +135,16 @@ async function checkLoader(failure='none') {
       }};
     }}
   });
-  vm.runInContext(read('js/royal_horse_blink.js').toString('utf8'),scope);
+  vm.runInContext(read('js/royal_sprite_finish.js').toString('utf8'),scope);
   vm.runInContext(read('js/royal_sprite_loader.js').toString('utf8'),scope);
   const actual=await vm.runInContext('RoyalSpriteLoader.load()',scope);
   assert.equal(actual,failure==='none',failure);
   assert.equal(await vm.runInContext('RoyalSpriteLoader.load()',scope),actual);
   assert.equal(decoded,2,'each atlas decodes once');
   if(actual){
-    assert.equal(created,36,'12 roles across three frame types');
-    assert.equal(draws,38,'two horse blink reconstructions copy the open eye frame');
-    assert.equal(patched,2,'only the two horse closed-eye frames are repaired');
+    assert.equal(created,42,'36 atlas crops plus 6 smiling-eye canvases');
+    assert.equal(draws,42,'all six eyes start from the approved original source');
+    assert.equal(patched,5,'three owl feather recolors and two horse iris removal passes');
     for(const type of ['k','q','p','r','b','n'])for(const team of ['w','b']){
       assert.equal(vm.runInContext("RoyalSpriteLoader.frame('"+type+"','"+team+"',true).height",scope),124);
       assert.equal(vm.runInContext("RoyalSpriteLoader.rider('"+type+"','"+team+"').width",scope),16);
@@ -162,35 +162,19 @@ async function checkLoader(failure='none') {
   await checkLoader('extraSize');
   await checkLoader('extraDecode');
   await checkLoader('cropFailure');
-  // The pixel patch must stay within the eye area. Previous art accidentally
-  // painted a large brown ellipse on the cheeks while leaving pupils open.
-  const horseScope=vm.createContext({atob:(v)=>Buffer.from(v,'base64').toString('binary')});
-  vm.runInContext(read('js/royal_horse_blink.js').toString('utf8'),horseScope);
-  for(const team of ['w','b']){
-    const expected=team==='w'?227:216;
-    let modified=0;const original=new Uint8ClampedArray(96*124*4);
-    original.fill(177);
-    const target={width:96,height:124,getContext(){
-      return {clearRect(){},drawImage(){},
-        getImageData(){return {data:original.slice()};},
-        putImageData(image){
-          for(let y=0;y<124;y++)for(let x=0;x<96;x++){
-            const p=(y*96+x)*4;
-            const changed=image.data[p]!==177||image.data[p+1]!==177||image.data[p+2]!==177;
-            if(changed){
-              modified++;
-              assert.ok(x>=18&&x<=54&&y>=45&&y<=71,'horse blink escaped the face');
-            }
-          }
-        }
-      };
-    }};
-    horseScope.target=target;
-    horseScope.open={width:96,height:124};
-    vm.runInContext("RoyalHorseBlink.apply(target,open,'"+team+"')",horseScope);
-    assert.ok(modified>=expected-6&&modified<=expected,
-      'expected only small eye-region edits for '+team);
-  }
+  // Test exact preservation for approved pieces and fail-fast dimensions for
+  // supplementary sprites. The real browser run exercises Canvas 2D curves.
+  const extraScope=vm.createContext({});
+  vm.runInContext(read('js/royal_sprite_finish.js').toString('utf8'),extraScope);
+  extraScope.a={width:96,height:124};
+  extraScope.b={width:96,height:124};
+  extraScope.c={width:16,height:20};
+  const original=vm.runInContext("RoyalSpriteFinish.finish(a,b,c,'k','w')",extraScope);
+  assert.equal(original.open,extraScope.a);
+  assert.equal(original.closed,extraScope.b);
+  assert.equal(original.rider,extraScope.c);
+  assert.throws(()=>vm.runInContext("RoyalSpriteFinish.finish(a,{width:3,height:3},c,'n','b')",extraScope),
+    /dimensions/);
   console.log(JSON.stringify({royalFrames:24,riders:12,
     whitePawnWidthRatio:+(areas['p|w'].width/areas['k|w'].width).toFixed(3),
     blackPawnWidthRatio:+(areas['p|b'].width/areas['k|b'].width).toFixed(3),
