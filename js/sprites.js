@@ -172,6 +172,19 @@ const Sprites = (() => {
       c.dataset.render = 'miniature';
       return;
     }
+    if (style === '3d' && typeof RoyalCarriageSprites !== 'undefined' && RoyalCarriageSprites.ready()) {
+      // Crop heads of the captured animals from the already-approved HD art.
+      // The guest sits behind the cart's near panel, which is drawn last.
+      const portrait = riderType ? (
+        (typeof RoyalHDSprites !== 'undefined' ? RoyalHDSprites.rider(riderType, riderTeam) : null) ||
+        (typeof RoyalSpriteLoader !== 'undefined' ? RoyalSpriteLoader.rider(riderType, riderTeam) : null) ||
+        charCanvas(riderType, riderTeam, false, style)
+      ) : null;
+      if (RoyalCarriageSprites.draw(c, frame, portrait, faceLeft)) {
+        c.dataset.render = 'pixel';
+        return;
+      }
+    }
     const art = SPRITE_DATA.carriage.frames[frame % SPRITE_DATA.carriage.frames.length];
     const W = art[0].length, H = art.length;
     const PAD_TOP = 12;

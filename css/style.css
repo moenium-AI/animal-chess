@@ -486,6 +486,10 @@ html, body {
 }
 .carriage3d canvas { display: block; width: 128px; image-rendering: auto; }
 .carriage3d canvas[data-render="pixel"] { image-rendering: pixelated; }
+/* Do not flash placeholder pixel animals while the approved HD atlas decodes.
+   The board itself remains laid out and interactive during initialization. */
+.pixel-art-loading .mode-3d .p3d canvas,
+.pixel-art-loading .venue.v3d .bq-guest canvas.spr { visibility: hidden; }
 
 /* Miniature maple/walnut board and timber dining rooms. / ミニチュア専用の木製盤と食堂。 */
 .mode-miniature {
