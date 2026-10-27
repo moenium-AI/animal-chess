@@ -67,6 +67,14 @@ assert.match(app,/clearCarriages\(\);\s*settings\.viewMode = e\.target\.value; s
 assert.match(html,/<option value="classic" data-i18n="settings.viewClassic">/);
 assert.match(css,/\.venue\.v3d\.vclassic:not\(\.vmini\) \.venue-guests/);
 assert.match(css,/\.mode-3d:not\(\.mode-classic\) \.p3d canvas/);
+const scene = fs.readFileSync(path.join(root,'assets/scenery/banquet-classic-day.png'));
+assert.equal(scene.subarray(0,8).toString('hex'),'89504e470d0a1a0a','PNG signature');
+assert.equal(scene.readUInt32BE(16),640,'native room width');
+assert.equal(scene.readUInt32BE(20),188,'2 x 94px rooms');
+assert.match(css,/\.venue\.v3d\.vclassic:not\(\.vmini\)\[data-team="b"\] \.venue-guests/);
+assert.match(css,/\.venue\.v3d\.vclassic:not\(\.vmini\) \.bq-table,/);
+assert.match(css,/\.venue\.v3d\.vclassic:not\(\.vmini\) \.bq-deco \{ display: none; \}/);
+assert.match(css,/banquet-classic-day\.png/);
 assert.match(i18n,/ドット絵 クラシック/);
 assert.match(i18n,/Pixel Art Classic/);
 console.log('PASS: 2026-10-17 sprites, classic modes, art, food, horse cart, persistence and localizations');

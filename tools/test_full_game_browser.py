@@ -156,7 +156,35 @@ with sync_playwright() as pw:
           table:getComputedStyle(document.querySelector('#venue-top .bq-table')).display
         })""")
         assert classic['board'] and classic['piece']==[26,34] and classic['apple']==[8,8],classic
-        assert 'url(' not in classic['background'] and classic['table']!='none',classic
+        assert 'banquet-classic-day.png' in classic['background'] and classic['table']=='none',classic
+        # The red/blue Classic scenery has native 640x94 pixels per team,
+        # with architecture matching exactly outside the three fabric areas.
+        scene=page.evaluate("""async () => {
+          const image=new Image();
+          image.src='assets/scenery/banquet-classic-day.png';
+          await image.decode();
+          const canvas=document.createElement('canvas');
+          canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+          const ctx=canvas.getContext('2d',{willReadFrequently:true});
+          ctx.drawImage(image,0,0);
+          const rgba=ctx.getImageData(0,0,640,188).data;
+          let accents=0,misplaced=0;
+          for(let y=0;y<94;y++) for(let x=0;x<640;x++){
+            const a=(y*640+x)*4,b=((y+94)*640+x)*4;
+            if(rgba[a]===rgba[b]&&rgba[a+1]===rgba[b+1]&&rgba[a+2]===rgba[b+2])continue;
+            accents++;
+            if(!((x>=232&&x<=256&&y>=13&&y<=46)||
+                 (x>=385&&x<=409&&y>=13&&y<=46)||
+                 (x>=304&&x<=339&&y>=61&&y<=86)))misplaced++;
+          }
+          const gap=(y,x)=>Array.from(rgba.slice((y*640+x)*4,(y*640+x)*4+3));
+          return {width:image.naturalWidth,height:image.naturalHeight,
+                  accents,misplaced,crownGap:gap(35,320),
+                  blackGap:gap(129,320)};
+        }""")
+        assert scene['width']==640 and scene['height']==188,scene
+        assert 800<scene['accents']<2000 and scene['misplaced']==0,scene
+        assert scene['crownGap']==scene['blackGap'],scene
         # Switching modes midgame must preserve the move history/position.
         move(page,'e2','e4')
         assert page.locator('[data-square="e4"] canvas[data-style="classic"]').count()==1
