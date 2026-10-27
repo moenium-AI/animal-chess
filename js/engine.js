@@ -525,7 +525,7 @@ const Engine = (() => {
       return;
     }
     let worker;
-    try { worker = new Worker('js/engine_worker.js?v=3'); }
+    try { worker = new Worker('js/engine_worker.js?v=4'); }
     catch (_) { fallback(cb); return; }
     let done = false;
     const job = {
