@@ -10,7 +10,7 @@ vm.runInContext(fs.readFileSync(path.join(root,'js/chess.js'),'utf8'),context);
 let src = fs.readFileSync(path.join(root,'js/engine.js'),'utf8');
 const original = 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS };';
 assert.ok(src.includes(original));
-src = src.replace(original, 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS, _test:{quiesce,search,analyzeRoot,repetitionKey,sideEval,findImmediateMate,findForcedMateInTwo,sparseMatingEndgame} };');
+src = src.replace(original, 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS, _test:{quiesce,search,analyzeRoot,repetitionKey,sideEval,findImmediateMate,findForcedMateInTwo,sparseMatingEndgame,materialBalance,hangingMaterialLoss,safeCandidatePool} };');
 vm.runInContext(src,context);
 const {Chess,Engine} = vm.runInContext('({Chess,Engine})',context);
 const {quiesce,search,repetitionKey,sideEval,analyzeRoot} = Engine._test;
@@ -85,6 +85,45 @@ for (const reply of sparse.fast_moves()) {
 }
 sparse.undo();
 assert.equal(sparse.fen(), mateTwoFen, 'tactical preflight must restore the position');
+
+// Every level has access to the same basic opening knowledge.
+for(let level=1;level<=10;level++)assert.equal(Engine.LEVELS[level].book,true);
+
+// Regression: a queen move onto the rook's open file hangs the queen.
+const hanger = new Chess('4k3/8/8/3r4/8/8/4Q3/6K1 w - - 0 1');
+const hanging = hanger.fast_moves().find(m=>m.from==='e2'&&m.to==='d2');
+const safe = hanger.fast_moves().find(m=>m.from==='e2'&&m.to==='g4');
+assert.ok(hanging&&safe);
+const scoreBefore=Engine._test.materialBalance(hanger,hanger.turn());
+assert.ok(Engine._test.hangingMaterialLoss(hanger,hanging,scoreBefore,hanger.turn())>=800,
+ 'must see the opponent taking a hanging queen');
+const filtered=Engine._test.safeCandidatePool(hanger,[
+ {move:hanging,score:100},{move:safe,score:80}],90);
+assert.ok(filtered.length===1&&filtered[0].move===safe,
+ 'prefer a safe human-like move over a gratuitous queen drop');
+assert.equal(hanger.fen(),'4k3/8/8/3r4/8/8/4Q3/6K1 w - - 0 1',
+ 'safety evaluation must restore the board and clocks');
+
+// A defended-queen exchange is a fair trade, not a forbidden sacrifice.
+const trade=new Chess('3k4/4q3/8/8/8/8/4Q3/6K1 w - - 0 1');
+const take=trade.fast_moves().find(m=>m.from==='e2'&&m.to==='e7');
+assert.ok(take);
+assert.ok(Engine._test.hangingMaterialLoss(trade,take,
+ Engine._test.materialBalance(trade,trade.turn()),trade.turn())<250,
+ 'an equal queen exchange must not be rejected as a blunder');
+
+// Forced mates outrank material constraints: winning sacrifices are legal.
+const winning=Engine._test.safeCandidatePool(hanger,
+ [{move:hanging,score:99998},{move:safe,score:0}],90);
+assert.equal(winning[0].move,hanging,'proven mating score cannot be overridden');
+
+// Check the gate is bounded: all candidates are actual legal move objects.
+for(let i=0;i<10;i++){
+ const g=new Chess();
+ const legal=g.fast_moves(), results=legal.map((move,index)=>({move,score:100-index}));
+ Engine._test.safeCandidatePool(g,results,200);
+ assert.equal(g.fen(),new Chess().fen(),'repeated tactical checks must not mutate the game');
+}
 
 // Exercise the publicly exposed asynchronous selector repeatedly, including
 // low clock settings where ordinary iterative deepening cannot complete.
