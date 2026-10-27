@@ -10,7 +10,7 @@ vm.runInContext(fs.readFileSync(path.join(root,'js/chess.js'),'utf8'),context);
 let src = fs.readFileSync(path.join(root,'js/engine.js'),'utf8');
 const original = 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS };';
 assert.ok(src.includes(original));
-src = src.replace(original, 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS, _test:{quiesce,search,analyzeRoot,repetitionKey,sideEval,findImmediateMate,findForcedMateInTwo,sparseMatingEndgame,materialBalance,hangingMaterialLoss,safeCandidatePool} };');
+src = src.replace(original, 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS, _test:{quiesce,search,analyzeRoot,repetitionKey,sideEval,findImmediateMate,findForcedMateInTwo,sparseMatingEndgame,materialBalance,hangingMaterialLoss,safeCandidatePool,basicMatingEndgame} };');
 vm.runInContext(src,context);
 const {Chess,Engine} = vm.runInContext('({Chess,Engine})',context);
 const {quiesce,search,repetitionKey,sideEval,analyzeRoot} = Engine._test;
@@ -88,6 +88,19 @@ assert.equal(sparse.fen(), mateTwoFen, 'tactical preflight must restore the posi
 
 // Every level has access to the same basic opening knowledge.
 for(let level=1;level<=10;level++)assert.equal(Engine.LEVELS[level].book,true);
+
+// Stalemate is a draw, not a high material score when search times out.
+const nearStalemateFen='8/8/8/8/8/K7/Q7/k7 w - - 0 1';
+const nearStalemate=new Chess(nearStalemateFen);
+const staleMove=nearStalemate.fast_moves().find(m=>m.from==='a2'&&m.to==='b3');
+assert.ok(staleMove);
+const failSafe=analyzeRoot(nearStalemateFen,5,-1000,true,0);
+const staleScore=failSafe.find(r=>r.move.from==='a2'&&r.move.to==='b3').score;
+assert.equal(staleScore,0, 'root fallback must value stalemate as a draw');
+nearStalemate.move(failSafe[0].move);
+assert.ok(nearStalemate.in_checkmate(),'available checkmate must outrank stalemate');
+assert.equal(Engine._test.basicMatingEndgame(new Chess(nearStalemateFen)),true);
+assert.equal(Engine._test.basicMatingEndgame(new Chess()),false);
 
 // Regression: a queen move onto the rook's open file hangs the queen.
 const hanger = new Chess('4k3/8/8/3r4/8/8/4Q3/6K1 w - - 0 1');
