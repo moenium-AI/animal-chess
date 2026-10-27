@@ -188,6 +188,44 @@ with sync_playwright() as pw:
         assert boxes['labelPosition']=='static', f'banquet label must not overlay graphics: {boxes}'
         assert boxes['labelBottom'] < boxes['roomTop'], f'top banquet label overlaps room: {boxes}'
         assert boxes['lowerLabelBottom'] < boxes['lowerRoomTop'], f'bottom banquet label overlaps room: {boxes}'
+    # B-01a: Pixel art and Miniature must have identical board and venue
+    # boxes, including the playable 8x8 cells and two banquet interiors.
+    # Compare *rendered* geometry at desktop/tablet/mobile viewport widths;
+    # do not confuse smaller character art with a smaller chessboard.
+    for width,height in [(1503,840),(1280,900),(1099,840),(390,840),(320,700)]:
+        page.set_viewport_size({'width':width,'height':height})
+        geometry={}
+        for mode in ('miniature','3d'):
+            page.locator('#sel-view').select_option(mode)
+            geometry[mode]=page.evaluate("""() => {
+              const bounds = selector => {
+                const b=document.querySelector(selector).getBoundingClientRect();
+                return {x:b.x,y:b.y,width:b.width,height:b.height,right:b.right};
+              };
+              const top=bounds('#venue-top'), board=bounds('#board'),
+                    bottom=bounds('#venue-bottom');
+              return {top,board,bottom,
+                square:bounds('#board .square'),
+                topRoom:bounds('#venue-top .venue-guests'),
+                bottomRoom:bounds('#venue-bottom .venue-guests'),
+                topLabel:bounds('#venue-top .venue-title'),
+                bottomLabel:bounds('#venue-bottom .venue-title')};
+            }""")
+            g=geometry[mode]
+            assert g['board']['width']>0 and abs(g['board']['width']-g['board']['height'])<2,(width,mode,g)
+            for key in ('top','bottom'):
+                assert abs(g[key]['width']-g['board']['width'])<1,(width,mode,key,g)
+            for key in ('topRoom','bottomRoom'):
+                assert abs(g[key]['height']-94)<1,(width,mode,key,g)
+            assert g['board']['x']>=-1 and g['board']['right']<=width+1,(width,mode,g)
+        for key in ('top','board','bottom','square','topRoom','bottomRoom','topLabel','bottomLabel'):
+            a,b=geometry['miniature'][key],geometry['3d'][key]
+            for dimension in ('x','y','width','height'):
+                assert abs(a[dimension]-b[dimension])<1, (
+                    f'{key} {dimension} differs at {width}x{height}: '
+                    f'Miniature={a[dimension]}, Pixel={b[dimension]}')
+    page.set_viewport_size({'width':1280,'height':900})
+    page.locator('#sel-view').select_option('simple')
     # Status must follow the board when the sidebar falls below it, and return
     # to the desktop sidebar without duplicating or losing its live text.
     for width,height in [(1099,840),(390,840),(1280,900)]:
