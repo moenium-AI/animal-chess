@@ -444,7 +444,7 @@ const Engine = (() => {
     // Ratings are intentionally not given Elo labels without match evidence.
     // The middle levels reduce candidate-score variance without increasing CPU budgets;
     // calibrated on paired historical middlegame comparisons, not inferred Elo.
-    1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: false },
+    1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: true },
     2:  { depth: 1, timeMs: 220,  margin: 170, noise: 140, blunder: 0.45, quiesce: true, book: true },
     3:  { depth: 2, timeMs: 320,  margin: 110, noise: 90,  blunder: 0.30, quiesce: true, book: true },
     4:  { depth: 2, timeMs: 420,  margin: 90,  noise: 65,  blunder: 0.20, quiesce: true, book: true },
@@ -455,6 +455,65 @@ const Engine = (() => {
     9:  { depth: 4, timeMs: 1300, margin: 15,  noise: 5,   blunder: 0,    quiesce: true, book: true },
     10: { depth: 5, timeMs: 1650, margin: 0,   noise: 0,   blunder: 0,    quiesce: true, book: true },
   };
+
+  // Shared tactical safety rule for ALL strengths. Restrict randomness to
+  // reasonable inaccuracies, not unforced losses of a minor/major piece.
+  // Unlike a blanket "never sacrifice" rule, measure the *net* material
+  // after the opponent's legal capture and our best immediate recapture.
+  // Capturing a defended queen to trade queens is therefore not a blunder.
+  function materialBalance(game, side) {
+    let total = 0;
+    for (const row of game.board()) for (const piece of row) {
+      if (piece && piece.type !== 'k')
+        total += (piece.color === side ? 1 : -1) * VAL[piece.type];
+    }
+    return total;
+  }
+
+  function hangingMaterialLoss(game, candidate, baselineMaterial, side) {
+    game.move(candidate);
+    let greatestLoss = 0;
+    try {
+      // A king in check cannot simply ignore the check to take a piece:
+      // fast_moves() already returns only legal responses.
+      const enemyCaptures = game.fast_moves().filter(
+        m => (m.captured && VAL[m.captured] >= 300) || m.promotion);
+      for (const reply of enemyCaptures) {
+        game.move(reply);
+        try {
+          let bestAfterReply = materialBalance(game, side);
+          // One legal recapture is enough to recognize normal exchanges,
+          // including promotion captures. Do not forbid genuine sacrifices
+          // just because a valuable piece is temporarily en prise.
+          const recaptures = game.fast_moves().filter(
+            m => m.captured && m.to === reply.to);
+          for (const recapture of recaptures) {
+            game.move(recapture);
+            try { bestAfterReply = Math.max(bestAfterReply, materialBalance(game, side)); }
+            finally { game.undo(); }
+          }
+          greatestLoss = Math.max(greatestLoss, baselineMaterial - bestAfterReply);
+        } finally { game.undo(); }
+      }
+    } finally { game.undo(); }
+    return greatestLoss;
+  }
+
+  function safeCandidatePool(game, results, margin) {
+    // With one permitted choice, retain the engine's searched best move.
+    // Depth-based tactical wins also take precedence over this material screen.
+    const best = results[0].score;
+    if (best >= MATE - 1000) return [results[0]];
+    const eligible = results.filter(r => r.score >= best - margin);
+    if (eligible.length < 2) return eligible;
+    const baseline = materialBalance(game, game.turn());
+    // At most 12 candidate moves and only the opponent's immediate legal
+    // major/minor captures: bounded local verification on slower devices.
+    const checked = eligible.slice(0, 12);
+    const acceptable = checked.filter(r =>
+      hangingMaterialLoss(game, r.move, baseline, game.turn()) < 250);
+    return acceptable.length ? acceptable : [results[0]];
+  }
 
   // ===== Opening book / オープニングブック（定跡の知識） =====
   // Learn position → next-move patterns from lessons and common opening lines. / まなぶ教材と基本ラインから「局面→次の手」を覚える。
@@ -556,9 +615,11 @@ const Engine = (() => {
       // Apply this before the opening book and regardless of search timeout.
       const mateNow = findImmediateMate(position);
       if (mateNow) { cb(mateNow); return; }
-      if (Number(level) >= 4 && sparseMatingEndgame(position)) {
+      if (sparseMatingEndgame(position)) {
+        // Every level recognizes simple endgame patterns. The weaker levels
+        // use the same knowledge, not deliberate failure to spot short mates.
         const mateSoon = findForcedMateInTwo(position,
-          Date.now() + Math.min(200, Math.floor(cfg.timeMs * 0.45)));
+          Date.now() + Math.min(180, Math.floor(cfg.timeMs * 0.4)));
         if (mateSoon) { cb(mateSoon); return; }
       }
       // Use the opening book early for natural play. / 序盤は定跡ブックから自然な手を指す。
@@ -574,7 +635,7 @@ const Engine = (() => {
       if (best >= MATE - 1000) { cb(results[0].move); return; }
       // Keep only moves within margin of the best; even weak levels avoid suicidal piece losses. / 最善手からmargin以内の手だけを候補にし、弱いレベルでも駒損の自滅手は避ける。
       const margin = cfg.margin || 0;
-      let pool = results.filter((r) => r.score >= best - margin);
+      let pool = safeCandidatePool(position, results, margin);
       if (pool.length === 0) pool = [results[0]];
       let pick;
       if (cfg.blunder > 0 && pool.length > 1 && Math.random() < cfg.blunder) {
