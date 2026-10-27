@@ -98,6 +98,15 @@ async function regression() {
       assert.ok(g.move(selected), 'selector returned an illegal move');
       assert.ok(g.in_checkmate(), 'Lv4 must deliver mate regardless of random choice');
     }
+    Engine.LEVELS[4].timeMs = saved;
+    const m2Selected = await new Promise(resolve => Engine.chooseMove(mateTwoFen, 4, resolve));
+    const g = new Chess(mateTwoFen);
+    assert.ok(g.move(m2Selected), 'Lv4 mate-in-two choice must be legal');
+    for (const reply of g.fast_moves()) {
+      g.move(reply);
+      assert.ok(Engine._test.findImmediateMate(g), 'Lv4 should convert a sparse mate-in-two within budget');
+      g.undo();
+    }
   } finally { Engine.LEVELS[4].timeMs = saved; }
   console.log('PASS: check evasions, draws, root scoring, Lv4 immediate mate and bounded mate-in-two');
 }
