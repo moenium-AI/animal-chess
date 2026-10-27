@@ -90,12 +90,12 @@ assert.equal(sparse.fen(), mateTwoFen, 'tactical preflight must restore the posi
 for(let level=1;level<=10;level++)assert.equal(Engine.LEVELS[level].book,true);
 
 // Stalemate is a draw, not a high material score when search times out.
-const nearStalemateFen='8/8/8/8/8/K7/Q7/k7 w - - 0 1';
+const nearStalemateFen='8/8/8/8/Q7/K7/8/k7 w - - 0 1';
 const nearStalemate=new Chess(nearStalemateFen);
-const staleMove=nearStalemate.fast_moves().find(m=>m.from==='a2'&&m.to==='b3');
+const staleMove=nearStalemate.fast_moves().find(m=>m.from==='a4'&&m.to==='b5');
 assert.ok(staleMove);
 const failSafe=analyzeRoot(nearStalemateFen,5,-1000,true,0);
-const staleScore=failSafe.find(r=>r.move.from==='a2'&&r.move.to==='b3').score;
+const staleScore=failSafe.find(r=>r.move.from==='a4'&&r.move.to==='b5').score;
 assert.equal(staleScore,0, 'root fallback must value stalemate as a draw');
 nearStalemate.move(failSafe[0].move);
 assert.ok(nearStalemate.in_checkmate(),'available checkmate must outrank stalemate');
