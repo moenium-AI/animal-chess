@@ -421,12 +421,19 @@ html, body {
     linear-gradient(rgba(120, 80, 40, 0.42) 0 26px, transparent 26px),
     repeating-linear-gradient(0deg, #e2b876 0 12px, #d8ac66 12px 24px);
 }
-.venue.v3d .venue-guests::before {
-  content: "🏮"; position: absolute; top: 1px; left: 8px; font-size: 15px; z-index: 3;
+/* Pixel banquet atlas: 640x94 panels stacked vertically. Native-size
+   rendering crops the sides on narrow viewports without distorting furniture. */
+.venue.v3d .venue-guests {
+  background-image: url('../assets/scenery/banquet-feast-day.webp');
+  background-size: 640px 188px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  border-radius: 8px;
 }
-.venue.v3d .venue-guests::after {
-  content: "🏮"; position: absolute; top: 1px; right: 8px; font-size: 15px; z-index: 3;
-}
+.venue.v3d[data-team="b"] .venue-guests { background-position: center bottom; }
+/* Food and tables are painted into the scene; retain interactive guests. */
+.venue.v3d .bq-table, .venue.v3d .bq-deco { display: none; }
+.venue.v3d .venue-guests::before, .venue.v3d .venue-guests::after { content: none; }
 .bq-table {
   position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
   width: 110px; image-rendering: pixelated; z-index: 1;
