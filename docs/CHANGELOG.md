@@ -4,6 +4,14 @@ Animal Chess の主な変更を時系列でまとめています。日々の細�
 
 This page records notable changes. Consult the linked pull requests and reports for detailed implementation and validation history.
 
+## 2026-10-27 — 全レベルの自然な棋風 / Natural AI across all levels
+
+- 定跡・基本戦術探索・終盤評価を全レベルで共有。Lv1も序盤定跡を使い、明確な短手数のメイトは見逃さないようにしました。
+- 候補手の最終選択前に、相手の合法な駒取りと自分の取り返しを検査。通常の交換を妨げず、クイーン等の明白な無償損失を減らします。
+- 相手がキングだけになった基本的なクイーン・ルークの寄せでは、乱数による無目的な手選びを抑制し、ステイルメイトを引き分けとして評価します。
+- 探索深度と基本思考時間の10段階設定は維持。比較結果は限定局面の実測でありEloの証明ではありません。
+- [PR #51](https://github.com/moenium-AI/animal-chess/pull/51) · [開発と検証](dev-notes.md)
+
 ## 2026-10-27 — Lv4の詰み逃し対策 / Checkmate conversion
 
 - 即詰みの検出を定跡・探索時間切れ・難易度調整のランダム選択より優先するようにしました。
