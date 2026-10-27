@@ -446,6 +446,27 @@ html, body {
   right: -13px;
   bottom: 9px;
 }
+
+/* Classic pixel mode reproduces the original 2026-10-17 drawn-room style.
+   Keep the 94px geometry shared with the high-detail and miniature modes. */
+.venue.v3d.vclassic:not(.vmini) .venue-guests {
+  background:
+    linear-gradient(rgba(120, 80, 40, 0.42) 0 26px, transparent 26px),
+    repeating-linear-gradient(0deg, #e2b876 0 12px, #d8ac66 12px 24px);
+  background-size: auto;
+  background-position: initial;
+  border-radius: 10px;
+}
+.venue.v3d.vclassic:not(.vmini) .bq-table,
+.venue.v3d.vclassic:not(.vmini) .bq-deco { display: block; }
+.venue.v3d.vclassic:not(.vmini) .venue-guests::before,
+.venue.v3d.vclassic:not(.vmini) .venue-guests::after {
+  content: "🏮";
+  position: absolute; top: 1px; font-size: 15px; z-index: 3;
+}
+.venue.v3d.vclassic:not(.vmini) .venue-guests::before { left: 8px; }
+.venue.v3d.vclassic:not(.vmini) .venue-guests::after { right: 8px; }
+
 .bq-table {
   position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
   width: 110px; image-rendering: pixelated; z-index: 1;
@@ -488,8 +509,8 @@ html, body {
 .carriage3d canvas[data-render="pixel"] { image-rendering: pixelated; }
 /* Do not flash placeholder pixel animals while the approved HD atlas decodes.
    The board itself remains laid out and interactive during initialization. */
-.pixel-art-loading .mode-3d .p3d canvas,
-.pixel-art-loading .venue.v3d .bq-guest canvas.spr { visibility: hidden; }
+.pixel-art-loading .mode-3d:not(.mode-classic) .p3d canvas,
+.pixel-art-loading .venue.v3d:not(.vclassic):not(.vmini) .bq-guest canvas.spr { visibility: hidden; }
 
 /* Miniature maple/walnut board and timber dining rooms. / ミニチュア専用の木製盤と食堂。 */
 .mode-miniature {

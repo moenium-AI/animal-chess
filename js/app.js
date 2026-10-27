@@ -122,7 +122,7 @@ function loadSaved() {
       choose('set', Object.keys(PIECE_SETS));
       choose('opponent', ['cpu', 'human']);
       choose('playerColor', ['w', 'b']);
-      choose('viewMode', ['3d', 'miniature', 'simple']);
+      choose('viewMode', ['3d', 'classic', 'miniature', 'simple']);
       choose('language', ['ja', 'en']);
       choose('bgmSong', ['auto', ...Array.from({length: BGM.songNames().length}, (_, i) => String(i))]);
       if (Number.isInteger(savedSettings.level) && savedSettings.level >= 1 && savedSettings.level <= 10) settings.level = savedSettings.level;
@@ -180,7 +180,8 @@ function noteLessonProgress(id, state) {
 }
 const SET = () => PIECE_SETS[settings.set] || PIECE_SETS.classic;
 const isMiniature = () => settings.viewMode === 'miniature';
-const isIllustrated = () => isMiniature() || settings.viewMode === '3d';
+const isClassicPixel = () => settings.viewMode === 'classic';
+const isIllustrated = () => isMiniature() || settings.viewMode === '3d' || isClassicPixel();
 const isAnimal = () => isIllustrated() || !!SET().emoji;
 const pieceName = (type) => I18N.language === 'en'
   ? (isIllustrated() ? ({ k: 'lion', q: 'cat', r: 'bear', b: 'owl', n: 'horse', p: 'chick' }[type]) : ((SET().namesEn && SET().namesEn[type]) || I18N.t('piece.' + ({ k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }[type]))))
@@ -241,6 +242,7 @@ function buildBoard() {
   boardEl.setAttribute('aria-label', tr('board.label'));
   $('board-wrap').classList.toggle('mode-3d', isIllustrated());
   $('board-wrap').classList.toggle('mode-miniature', isMiniature());
+  $('board-wrap').classList.toggle('mode-classic', isClassicPixel());
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
       const sq = squareName(r, c);
@@ -361,6 +363,7 @@ function renderVenues() {
     const v = venueOf(color);
     v.classList.toggle('v3d', v3d);
     v.classList.toggle('vmini', isMiniature());
+    v.classList.toggle('vclassic', isClassicPixel());
     // The team palette does not depend on board orientation.
     v.dataset.team = color;
     const title = v.querySelector('.venue-title');
@@ -489,7 +492,7 @@ function setGuestState(g, s) {
     g.x = nx;
     g.until = now + dur * 1000 + 300;
   } else if (s === 'eat' || s === 'drink') {
-    const menu = isMiniature() ? ['meat', 'cake', 'apple'] : ['meat', 'cake', 'apple', 'grapes', 'bread'];
+    const menu = isMiniature() || isClassicPixel() ? ['meat', 'cake', 'apple'] : ['meat', 'cake', 'apple', 'grapes', 'bread'];
     const name = s === 'eat' ? menu[Math.floor(Math.random() * menu.length)] : 'mug';
     const src = Sprites.itemCanvas(name, settings.viewMode);
     g.itemEl.width = src.width; g.itemEl.height = src.height;
@@ -1909,7 +1912,7 @@ function setupUI() {
     if (focusedSquare) boardEl.querySelector(`[data-square="${focusedSquare}"]`)?.focus();
     // A promotion dialog can be open when graphics are changed. / 昇格候補も現在のモードに合わせる。
     if (pendingPromotion && !$('promo-modal').classList.contains('hidden')) showPromotion(pendingPromotion.from, pendingPromotion.to);
-    toast(tr(isMiniature() ? 'toast.viewMiniature' : isIllustrated() ? 'toast.view3d' : 'toast.viewSimple'));
+    toast(tr(isMiniature() ? 'toast.viewMiniature' : isClassicPixel() ? 'toast.viewClassic' : isIllustrated() ? 'toast.view3d' : 'toast.viewSimple'));
   });
   $('chk-badges').addEventListener('change', (e) => {
     settings.badges = e.target.checked; saveSettings();

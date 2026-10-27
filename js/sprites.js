@@ -113,6 +113,7 @@ const Sprites = (() => {
       const frames = loadPixelFrames();
       if (frames) return frames[`${type}|${team}|${blink ? 'c' : 'o'}`];
     }
+    // 'classic' deliberately uses the untouched 2026-10-17 SPRITE_DATA art.
     const key = `${type}|${team}|${blink ? 'c' : 'o'}`;
     if (cache[key]) return cache[key];
     const def = SPRITE_DATA.chars[type];
@@ -128,7 +129,7 @@ const Sprites = (() => {
     if (style === 'miniature') return MiniatureScene.itemCanvas(name);
     // Prefer the new food atlas when loaded; fall back to the original pixel
     // items if it is unavailable or a caller requests a non-food prop.
-    if (typeof BanquetFoodSprites !== 'undefined') {
+    if (style !== 'classic' && typeof BanquetFoodSprites !== 'undefined') {
       const enhanced = BanquetFoodSprites.frame(name);
       if (enhanced) return enhanced;
     }
