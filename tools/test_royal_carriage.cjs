@@ -40,7 +40,8 @@ async function test(failure) {
  const css=fs.readFileSync(path.join(__dirname,'../css/style.css'),'utf8');
  const app=fs.readFileSync(path.join(__dirname,'../js/app.js'),'utf8');
  const startup=fs.readFileSync(path.join(__dirname,'../js/royal_sprite_start.js'),'utf8');
- assert.match(css,/pixel-art-loading \.mode-3d \.p3d canvas/);
+ assert.match(css,/pixel-art-loading \.mode-3d:not\(\.mode-classic\) \.p3d canvas/);
+ assert.doesNotMatch(css,/pixel-art-loading \.mode-3d \.p3d canvas/);
  assert.match(app,/document\.documentElement\.classList\.add\('pixel-art-loading'\)/);
  assert.match(startup,/Promise\.allSettled\(\[art, carriage\]\)/);
  assert.match(startup,/classList\.remove\('pixel-art-loading'\)/);
