@@ -144,6 +144,26 @@ with sync_playwright() as pw:
         page.locator('#sel-view').select_option('miniature')
         assert page.locator('#board canvas[data-style="miniature"]').count()==32
         assert page.locator('#board canvas[data-hd="1"]').count()==0
+        # Restore the actual 2026-10-17 26x34 pixel art as a separate mode.
+        page.locator('#sel-view').select_option('classic')
+        assert page.locator('#board canvas[data-style="classic"]').count()==32
+        assert page.locator('#board canvas[data-hd="1"]').count()==0
+        classic=page.evaluate("""() => ({
+          board:document.querySelector('#board-wrap').classList.contains('mode-classic'),
+          piece:[Sprites.makePiece('k','w','classic').width,Sprites.makePiece('k','w','classic').height],
+          apple:[Sprites.itemCanvas('apple','classic').width,Sprites.itemCanvas('apple','classic').height],
+          background:getComputedStyle(document.querySelector('#venue-top .venue-guests')).backgroundImage,
+          table:getComputedStyle(document.querySelector('#venue-top .bq-table')).display
+        })""")
+        assert classic['board'] and classic['piece']==[26,34] and classic['apple']==[8,8],classic
+        assert 'url(' not in classic['background'] and classic['table']!='none',classic
+        # Switching modes midgame must preserve the move history/position.
+        move(page,'e2','e4')
+        assert page.locator('[data-square="e4"] canvas[data-style="classic"]').count()==1
+        page.locator('#sel-view').select_option('3d')
+        assert page.locator('[data-square="e4"] canvas[data-style="3d"]').count()==1
+        page.locator('#sel-view').select_option('classic')
+        assert page.locator('[data-square="e4"] canvas[data-style="classic"]').count()==1
         page.locator('#sel-view').select_option('simple')
     # B-01: desktop moves the *single* live status node to the sidebar,
     # freeing space to enlarge the board. Both banquet titles remain ABOVE
