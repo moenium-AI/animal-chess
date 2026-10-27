@@ -126,6 +126,12 @@ const Sprites = (() => {
 
   function itemCanvas(name, style = '3d') {
     if (style === 'miniature') return MiniatureScene.itemCanvas(name);
+    // Prefer the new food atlas when loaded; fall back to the original pixel
+    // items if it is unavailable or a caller requests a non-food prop.
+    if (typeof BanquetFoodSprites !== 'undefined') {
+      const enhanced = BanquetFoodSprites.frame(name);
+      if (enhanced) return enhanced;
+    }
     const key = `item|${name}`;
     if (cache[key]) return cache[key];
     const def = SPRITE_DATA.items[name];

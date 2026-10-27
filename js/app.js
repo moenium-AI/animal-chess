@@ -489,11 +489,15 @@ function setGuestState(g, s) {
     g.x = nx;
     g.until = now + dur * 1000 + 300;
   } else if (s === 'eat' || s === 'drink') {
-    const name = s === 'eat' ? ['meat', 'cake', 'apple'][Math.floor(Math.random() * 3)] : 'mug';
+    const menu = isMiniature() ? ['meat', 'cake', 'apple'] : ['meat', 'cake', 'apple', 'grapes', 'bread'];
+    const name = s === 'eat' ? menu[Math.floor(Math.random() * menu.length)] : 'mug';
     const src = Sprites.itemCanvas(name, settings.viewMode);
     g.itemEl.width = src.width; g.itemEl.height = src.height;
     g.itemEl.getContext('2d').drawImage(src, 0, 0);
-    g.itemEl.style.width = (isMiniature() ? src.width / 2 : src.width * 2) + 'px';
+    const enhanced = !isMiniature() && src.dataset.banquetFood === '1';
+    g.itemEl.classList.toggle('feast-art', enhanced);
+    g.itemEl.style.width = enhanced ? '27px' : (isMiniature() ? src.width / 2 : src.width * 2) + 'px';
+    g.itemEl.style.height = enhanced ? '27px' : '';
     g.el.classList.add(s === 'eat' ? 'eating' : 'drinking');
     g.until = now + 2500 + Math.random() * 3500;
   } else if (s === 'sleep') {
