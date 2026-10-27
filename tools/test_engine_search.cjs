@@ -10,7 +10,7 @@ vm.runInContext(fs.readFileSync(path.join(root,'js/chess.js'),'utf8'),context);
 let src = fs.readFileSync(path.join(root,'js/engine.js'),'utf8');
 const original = 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS };';
 assert.ok(src.includes(original));
-src = src.replace(original, 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS, _test:{quiesce,search,analyzeRoot,repetitionKey,sideEval} };');
+src = src.replace(original, 'return { chooseMove, bestMove, cancelPending, mateMoves, LEVELS, _test:{quiesce,search,analyzeRoot,repetitionKey,sideEval,findImmediateMate,findForcedMateInTwo,sparseMatingEndgame} };');
 vm.runInContext(src,context);
 const {Chess,Engine} = vm.runInContext('({Chess,Engine})',context);
 const {quiesce,search,repetitionKey,sideEval,analyzeRoot} = Engine._test;
@@ -53,4 +53,61 @@ for(let level=2;level<=10;level++){
  assert.ok(cur.margin<=prev.margin && cur.noise<=prev.noise && cur.blunder<=prev.blunder, 'strength noise regressed at '+level);
 }
 
-console.log('PASS: check evasions, checkmate at horizon, stalemate, repetition, fifty-move priority, exact root depth');
+// Lv4 must not voluntarily skip checkmate, even when no search pass can finish
+// and the normal strength configuration would choose a random near-best move.
+const mateFen = '6k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1';
+const matePosition = new Chess(mateFen);
+const mate = Engine._test.findImmediateMate(matePosition);
+assert.ok(mate, 'immediate mate must be recognized');
+assert.equal(matePosition.move(mate).san, 'Re8#');
+matePosition.undo();
+const aborted = analyzeRoot(mateFen, 6, -1000, true, 0);
+assert.ok(aborted.length>0);
+const fallbackMate = matePosition.move(aborted[0].move);
+assert.ok(fallbackMate && matePosition.in_checkmate(),
+  'even the time-expired static root must rank mate first');
+matePosition.undo();
+
+// Force mate in two in a sparse rook endgame. A non-checking king move
+// prepares the mate; a checks-only detector would fail this test.
+const mateTwoFen = '7k/8/5K2/8/8/8/8/R7 w - - 0 1';
+const sparse = new Chess(mateTwoFen);
+assert.equal(Engine._test.sparseMatingEndgame(sparse), true);
+assert.equal(Engine._test.findImmediateMate(sparse), null);
+const mateTwo = Engine._test.findForcedMateInTwo(sparse, Date.now() + 10000);
+assert.ok(mateTwo, 'forced mate in two should be found in sparse rook ending');
+sparse.move(mateTwo);
+assert.ok(!sparse.game_over(), 'the first move must not stalemate');
+for (const reply of sparse.fast_moves()) {
+  sparse.move(reply);
+  assert.ok(Engine._test.findImmediateMate(sparse), 'every defence must allow mate in one');
+  sparse.undo();
+}
+sparse.undo();
+assert.equal(sparse.fen(), mateTwoFen, 'tactical preflight must restore the position');
+
+// Exercise the publicly exposed asynchronous selector repeatedly, including
+// low clock settings where ordinary iterative deepening cannot complete.
+async function regression() {
+  const saved = Engine.LEVELS[4].timeMs;
+  try {
+    Engine.LEVELS[4].timeMs = -1;
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const selected = await new Promise(resolve => Engine.chooseMove(mateFen, 4, resolve));
+      const g = new Chess(mateFen);
+      assert.ok(g.move(selected), 'selector returned an illegal move');
+      assert.ok(g.in_checkmate(), 'Lv4 must deliver mate regardless of random choice');
+    }
+    Engine.LEVELS[4].timeMs = saved;
+    const m2Selected = await new Promise(resolve => Engine.chooseMove(mateTwoFen, 4, resolve));
+    const g = new Chess(mateTwoFen);
+    assert.ok(g.move(m2Selected), 'Lv4 mate-in-two choice must be legal');
+    for (const reply of g.fast_moves()) {
+      g.move(reply);
+      assert.ok(Engine._test.findImmediateMate(g), 'Lv4 should convert a sparse mate-in-two within budget');
+      g.undo();
+    }
+  } finally { Engine.LEVELS[4].timeMs = saved; }
+  console.log('PASS: check evasions, draws, root scoring, Lv4 immediate mate and bounded mate-in-two');
+}
+regression().catch(error => { console.error(error); process.exitCode = 1; });

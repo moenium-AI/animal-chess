@@ -4,6 +4,13 @@ Animal Chess の主な変更を時系列でまとめています。日々の細�
 
 This page records notable changes. Consult the linked pull requests and reports for detailed implementation and validation history.
 
+## 2026-10-27 — Lv4の詰み逃し対策 / Checkmate conversion
+
+- 即詰みの検出を定跡・探索時間切れ・難易度調整のランダム選択より優先するようにしました。
+- 探索で判明したメイトは最短手順を優先し、駒の少ないポーンなし終盤では応手をすべて確認する2手詰め検査を追加しました（追加検査の時間上限200ms）。
+- Lv1〜10の通常の探索深度・時間設定は維持しています。これは実戦Eloを再校正した変更ではありません。
+- [PR #50](https://github.com/moenium-AI/animal-chess/pull/50) · [AI検証方法](dev-notes.md)
+
 ## 2026-10-27 — 高精細ドット絵 / High-resolution pixel art
 
 - 承認済みの動物6種類について、白黒・通常/Blinkの計24フレームを採用。各シートは1254×1254px、各セルは627×627pxのRGBA原本です。

@@ -335,6 +335,58 @@ const Engine = (() => {
     } finally { popRepetition(repetition, ctx); }
   }
 
+  // Tactical wins must take precedence over strength-adjustment randomness.
+  // In particular, do not rely on a completed iterative-deepening pass to
+  // notice mate in one: under a tight clock, the root may use static fallback.
+  function findImmediateMate(game, deadline = Infinity) {
+    for (const move of game.fast_moves()) {
+      if (Date.now() >= deadline) return null;
+      game.move(move);
+      let mate;
+      try { mate = game.in_check() && game.fast_moves().length === 0; }
+      finally { game.undo(); }
+      if (mate) return move;
+    }
+    return null;
+  }
+
+  // A bounded extra check for *forced* mate in two in sparse, pawnless
+  // endgames (e.g. K+R vs K). This includes quiet preparatory moves: only
+  // considering checks would miss many fundamental mating patterns.
+  // Check EVERY legal defence before accepting a candidate. On timeout,
+  // abort without claiming a win; regular level-limited search still runs.
+  function sparseMatingEndgame(game) {
+    let others = 0;
+    for (const row of game.board()) for (const piece of row) {
+      if (!piece || piece.type === 'k') continue;
+      if (piece.type === 'p' || ++others > 3) return false;
+    }
+    return others > 0;
+  }
+  function findForcedMateInTwo(game, deadline) {
+    for (const first of game.fast_moves()) {
+      if (Date.now() >= deadline) return null;
+      game.move(first);
+      let forced = true;
+      try {
+        if (game.game_over()) { forced = false; }
+        else {
+          const replies = game.fast_moves();
+          if (replies.length === 0) forced = false;
+          for (const reply of replies) {
+            if (!forced || Date.now() >= deadline) { forced = false; break; }
+            game.move(reply);
+            try {
+              if (game.game_over() || !findImmediateMate(game, deadline)) forced = false;
+            } finally { game.undo(); }
+          }
+        }
+      } finally { game.undo(); }
+      if (forced) return first;
+    }
+    return null;
+  }
+
   // Every root move gets a full-window score; a PVS null-window result is
   // only a bound and cannot be compared fairly with a completed root score.
   // Only fully finished depths may replace the previous completed iteration.
@@ -348,7 +400,9 @@ const Engine = (() => {
     // even a single quiescence tree can be extremely large in checking lines.
     let results = rootMoves.map(m=>{
       game.move(m);
-      const score = -sideEval(game);
+      // A completed mate is a terminal win, not a positional evaluation.
+      // This remains true even when no search iteration finishes in time.
+      const score = game.in_checkmate() ? MATE - 1 : -sideEval(game);
       game.undo();
       return {move:m,score};
     }).sort((a,b)=>b.score-a.score);
@@ -471,7 +525,7 @@ const Engine = (() => {
       return;
     }
     let worker;
-    try { worker = new Worker('js/engine_worker.js?v=3'); }
+    try { worker = new Worker('js/engine_worker.js?v=4'); }
     catch (_) { fallback(cb); return; }
     let done = false;
     const job = {
@@ -496,6 +550,17 @@ const Engine = (() => {
   function chooseMoveLocal(fen, level, cb) {
     setTimeout(() => {
       const cfg = LEVELS[level] || LEVELS[5];
+      const position = new Chess(fen);
+      if (position.game_over()) { cb(null); return; }
+      // A clearly available checkmate is not a 'blunder opportunity'.
+      // Apply this before the opening book and regardless of search timeout.
+      const mateNow = findImmediateMate(position);
+      if (mateNow) { cb(mateNow); return; }
+      if (Number(level) >= 4 && sparseMatingEndgame(position)) {
+        const mateSoon = findForcedMateInTwo(position,
+          Date.now() + Math.min(200, Math.floor(cfg.timeMs * 0.45)));
+        if (mateSoon) { cb(mateSoon); return; }
+      }
       // Use the opening book early for natural play. / 序盤は定跡ブックから自然な手を指す。
       if (cfg.book) {
         const bm = bookMove(fen);
@@ -504,6 +569,9 @@ const Engine = (() => {
       const results = analyzeRoot(fen, cfg.depth, cfg.timeMs, cfg.quiesce, cfg.margin || 0);
       if (results.length === 0) { cb(null); return; }
       const best = results[0].score;
+      // Known forced mates outrank all noise and random candidate selection.
+      // A faster mate scores higher than a slower mate in the search.
+      if (best >= MATE - 1000) { cb(results[0].move); return; }
       // Keep only moves within margin of the best; even weak levels avoid suicidal piece losses. / 最善手からmargin以内の手だけを候補にし、弱いレベルでも駒損の自滅手は避ける。
       const margin = cfg.margin || 0;
       let pool = results.filter((r) => r.score >= best - margin);
