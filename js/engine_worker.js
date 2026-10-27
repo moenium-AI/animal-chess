@@ -1,6 +1,6 @@
 // CPU chess search in an isolated Worker. No network calls or UI access.
 'use strict';
-importScripts('chess.js?v=2', 'lessons.js?v=21', 'engine.js?v=21');
+importScripts('chess.js?v=2', 'lessons.js?v=21', 'engine.js?v=22');
 self.onmessage = event => {
   const { id, kind, fen, level } = event.data || {};
   if (!Number.isInteger(id) || typeof fen !== 'string') return;

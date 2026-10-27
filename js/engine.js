@@ -156,7 +156,11 @@ const Engine = (() => {
       const cmd = Math.min(Math.abs(lk[0] - 3), Math.abs(lk[0] - 4)) +
                   Math.min(Math.abs(lk[1] - 3), Math.abs(lk[1] - 4)); // Distance from center (0 center to 6 corner). / 中央からの距離（0が中央、6が隅）。
       const md = Math.abs(wk[0] - lk[0]) + Math.abs(wk[1] - lk[1]);   // Distance between the kings. / 両キング間の距離。
-      const bonus = 8 * cmd + 3 * (14 - md);  // Drive the enemy king to a corner and bring up your own king. / 相手キングを隅へ追い、自分のキングを近づける。
+      // Stronger direction when the opponent has a bare king: a weak
+      // level may overlook deep mates but should still know the technique.
+      const bareKing = (winner === 'w' ? bMat : wMat) === 0;
+      const bonus = (bareKing ? 13 : 8) * cmd +
+                    (bareKing ? 6 : 3) * (14 - md);
       score += winner === 'w' ? bonus : -bonus;
     }
     // Apply king safety in the middlegame to avoid reckless attacks with an exposed king. / 中盤はキングの安全性を評価し、露出したキングでの無謀な攻めを避ける。
@@ -402,7 +406,8 @@ const Engine = (() => {
       game.move(m);
       // A completed mate is a terminal win, not a positional evaluation.
       // This remains true even when no search iteration finishes in time.
-      const score = game.in_checkmate() ? MATE - 1 : -sideEval(game);
+      const score = game.in_checkmate() ? MATE - 1 :
+        (sparseMatingEndgame(game) && game.in_stalemate()) ? 0 : -sideEval(game);
       game.undo();
       return {move:m,score};
     }).sort((a,b)=>b.score-a.score);
@@ -444,7 +449,7 @@ const Engine = (() => {
     // Ratings are intentionally not given Elo labels without match evidence.
     // The middle levels reduce candidate-score variance without increasing CPU budgets;
     // calibrated on paired historical middlegame comparisons, not inferred Elo.
-    1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: false },
+    1:  { depth: 1, timeMs: 200,  margin: 200, noise: 180, blunder: 0.55, quiesce: true, book: true },
     2:  { depth: 1, timeMs: 220,  margin: 170, noise: 140, blunder: 0.45, quiesce: true, book: true },
     3:  { depth: 2, timeMs: 320,  margin: 110, noise: 90,  blunder: 0.30, quiesce: true, book: true },
     4:  { depth: 2, timeMs: 420,  margin: 90,  noise: 65,  blunder: 0.20, quiesce: true, book: true },
@@ -455,6 +460,79 @@ const Engine = (() => {
     9:  { depth: 4, timeMs: 1300, margin: 15,  noise: 5,   blunder: 0,    quiesce: true, book: true },
     10: { depth: 5, timeMs: 1650, margin: 0,   noise: 0,   blunder: 0,    quiesce: true, book: true },
   };
+
+  // Shared tactical safety rule for ALL strengths. Restrict randomness to
+  // reasonable inaccuracies, not unforced losses of a minor/major piece.
+  // Unlike a blanket "never sacrifice" rule, measure the *net* material
+  // after the opponent's legal capture and our best immediate recapture.
+  // Capturing a defended queen to trade queens is therefore not a blunder.
+  function materialBalance(game, side) {
+    let total = 0;
+    for (const row of game.board()) for (const piece of row) {
+      if (piece && piece.type !== 'k')
+        total += (piece.color === side ? 1 : -1) * VAL[piece.type];
+    }
+    return total;
+  }
+
+  function hangingMaterialLoss(game, candidate, baselineMaterial, side) {
+    game.move(candidate);
+    let greatestLoss = 0;
+    try {
+      // A king in check cannot simply ignore the check to take a piece:
+      // fast_moves() already returns only legal responses.
+      const enemyCaptures = game.fast_moves().filter(
+        m => (m.captured && VAL[m.captured] >= 300) || m.promotion);
+      for (const reply of enemyCaptures) {
+        game.move(reply);
+        try {
+          let bestAfterReply = materialBalance(game, side);
+          // One legal recapture is enough to recognize normal exchanges,
+          // including promotion captures. Do not forbid genuine sacrifices
+          // just because a valuable piece is temporarily en prise.
+          const recaptures = game.fast_moves().filter(
+            m => m.captured && m.to === reply.to);
+          for (const recapture of recaptures) {
+            game.move(recapture);
+            try { bestAfterReply = Math.max(bestAfterReply, materialBalance(game, side)); }
+            finally { game.undo(); }
+          }
+          greatestLoss = Math.max(greatestLoss, baselineMaterial - bestAfterReply);
+        } finally { game.undo(); }
+      }
+    } finally { game.undo(); }
+    return greatestLoss;
+  }
+
+  function basicMatingEndgame(game) {
+    // All levels should finish a clearly won K+Q/K+R ending rather than
+    // intentionally wandering. This is an *identifiable* chess endgame,
+    // not a global upgrade to the search settings.
+    const us = game.turn();
+    let hasMatingHeavyPiece = false;
+    for (const row of game.board()) for (const piece of row) {
+      if (!piece || piece.type === 'k') continue;
+      if (piece.color !== us) return false;
+      if (piece.type === 'q' || piece.type === 'r') hasMatingHeavyPiece = true;
+    }
+    return hasMatingHeavyPiece;
+  }
+
+  function safeCandidatePool(game, results, margin) {
+    // With one permitted choice, retain the engine's searched best move.
+    // Depth-based tactical wins also take precedence over this material screen.
+    const best = results[0].score;
+    if (best >= MATE - 1000) return [results[0]];
+    const eligible = results.filter(r => r.score >= best - margin);
+    if (eligible.length < 2) return eligible;
+    const baseline = materialBalance(game, game.turn());
+    // At most 12 candidate moves and only the opponent's immediate legal
+    // major/minor captures: bounded local verification on slower devices.
+    const checked = eligible.slice(0, 12);
+    const acceptable = checked.filter(r =>
+      hangingMaterialLoss(game, r.move, baseline, game.turn()) < 250);
+    return acceptable.length ? acceptable : [results[0]];
+  }
 
   // ===== Opening book / オープニングブック（定跡の知識） =====
   // Learn position → next-move patterns from lessons and common opening lines. / まなぶ教材と基本ラインから「局面→次の手」を覚える。
@@ -525,7 +603,7 @@ const Engine = (() => {
       return;
     }
     let worker;
-    try { worker = new Worker('js/engine_worker.js?v=4'); }
+    try { worker = new Worker('js/engine_worker.js?v=5'); }
     catch (_) { fallback(cb); return; }
     let done = false;
     const job = {
@@ -556,9 +634,11 @@ const Engine = (() => {
       // Apply this before the opening book and regardless of search timeout.
       const mateNow = findImmediateMate(position);
       if (mateNow) { cb(mateNow); return; }
-      if (Number(level) >= 4 && sparseMatingEndgame(position)) {
+      if (sparseMatingEndgame(position)) {
+        // Every level recognizes simple endgame patterns. The weaker levels
+        // use the same knowledge, not deliberate failure to spot short mates.
         const mateSoon = findForcedMateInTwo(position,
-          Date.now() + Math.min(200, Math.floor(cfg.timeMs * 0.45)));
+          Date.now() + Math.min(180, Math.floor(cfg.timeMs * 0.4)));
         if (mateSoon) { cb(mateSoon); return; }
       }
       // Use the opening book early for natural play. / 序盤は定跡ブックから自然な手を指す。
@@ -573,13 +653,17 @@ const Engine = (() => {
       // A faster mate scores higher than a slower mate in the search.
       if (best >= MATE - 1000) { cb(results[0].move); return; }
       // Keep only moves within margin of the best; even weak levels avoid suicidal piece losses. / 最善手からmargin以内の手だけを候補にし、弱いレベルでも駒損の自滅手は避ける。
-      const margin = cfg.margin || 0;
-      let pool = results.filter((r) => r.score >= best - margin);
+      // A player who knows how to mate with a queen or rook should keep
+      // pursuing the finish, even at Lv1. Reserve deliberate inaccuracies
+      // for strategic positions, not basic mate-conversion technique.
+      const converting = basicMatingEndgame(position);
+      const margin = converting ? 0 : (cfg.margin || 0);
+      let pool = safeCandidatePool(position, results, margin);
       if (pool.length === 0) pool = [results[0]];
       let pick;
-      if (cfg.blunder > 0 && pool.length > 1 && Math.random() < cfg.blunder) {
+      if (!converting && cfg.blunder > 0 && pool.length > 1 && Math.random() < cfg.blunder) {
         pick = pool[Math.floor(Math.random() * pool.length)];
-      } else if (cfg.noise > 0 && pool.length > 1) {
+      } else if (!converting && cfg.noise > 0 && pool.length > 1) {
         const noisy = pool.map((r) => ({ move: r.move, score: r.score + Math.random() * cfg.noise }));
         noisy.sort((a, b) => b.score - a.score);
         pick = noisy[0];
