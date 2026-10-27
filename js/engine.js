@@ -156,7 +156,11 @@ const Engine = (() => {
       const cmd = Math.min(Math.abs(lk[0] - 3), Math.abs(lk[0] - 4)) +
                   Math.min(Math.abs(lk[1] - 3), Math.abs(lk[1] - 4)); // Distance from center (0 center to 6 corner). / 中央からの距離（0が中央、6が隅）。
       const md = Math.abs(wk[0] - lk[0]) + Math.abs(wk[1] - lk[1]);   // Distance between the kings. / 両キング間の距離。
-      const bonus = 8 * cmd + 3 * (14 - md);  // Drive the enemy king to a corner and bring up your own king. / 相手キングを隅へ追い、自分のキングを近づける。
+      // Stronger direction when the opponent has a bare king: a weak
+      // level may overlook deep mates but should still know the technique.
+      const bareKing = (winner === 'w' ? bMat : wMat) === 0;
+      const bonus = (bareKing ? 13 : 8) * cmd +
+                    (bareKing ? 6 : 3) * (14 - md);
       score += winner === 'w' ? bonus : -bonus;
     }
     // Apply king safety in the middlegame to avoid reckless attacks with an exposed king. / 中盤はキングの安全性を評価し、露出したキングでの無謀な攻めを避ける。
@@ -402,7 +406,8 @@ const Engine = (() => {
       game.move(m);
       // A completed mate is a terminal win, not a positional evaluation.
       // This remains true even when no search iteration finishes in time.
-      const score = game.in_checkmate() ? MATE - 1 : -sideEval(game);
+      const score = game.in_checkmate() ? MATE - 1 :
+        (sparseMatingEndgame(game) && game.in_stalemate()) ? 0 : -sideEval(game);
       game.undo();
       return {move:m,score};
     }).sort((a,b)=>b.score-a.score);
@@ -497,6 +502,20 @@ const Engine = (() => {
       }
     } finally { game.undo(); }
     return greatestLoss;
+  }
+
+  function basicMatingEndgame(game) {
+    // All levels should finish a clearly won K+Q/K+R ending rather than
+    // intentionally wandering. This is an *identifiable* chess endgame,
+    // not a global upgrade to the search settings.
+    const us = game.turn();
+    let hasMatingHeavyPiece = false;
+    for (const row of game.board()) for (const piece of row) {
+      if (!piece || piece.type === 'k') continue;
+      if (piece.color !== us) return false;
+      if (piece.type === 'q' || piece.type === 'r') hasMatingHeavyPiece = true;
+    }
+    return hasMatingHeavyPiece;
   }
 
   function safeCandidatePool(game, results, margin) {
@@ -634,13 +653,17 @@ const Engine = (() => {
       // A faster mate scores higher than a slower mate in the search.
       if (best >= MATE - 1000) { cb(results[0].move); return; }
       // Keep only moves within margin of the best; even weak levels avoid suicidal piece losses. / 最善手からmargin以内の手だけを候補にし、弱いレベルでも駒損の自滅手は避ける。
-      const margin = cfg.margin || 0;
+      // A player who knows how to mate with a queen or rook should keep
+      // pursuing the finish, even at Lv1. Reserve deliberate inaccuracies
+      // for strategic positions, not basic mate-conversion technique.
+      const converting = basicMatingEndgame(position);
+      const margin = converting ? 0 : (cfg.margin || 0);
       let pool = safeCandidatePool(position, results, margin);
       if (pool.length === 0) pool = [results[0]];
       let pick;
-      if (cfg.blunder > 0 && pool.length > 1 && Math.random() < cfg.blunder) {
+      if (!converting && cfg.blunder > 0 && pool.length > 1 && Math.random() < cfg.blunder) {
         pick = pool[Math.floor(Math.random() * pool.length)];
-      } else if (cfg.noise > 0 && pool.length > 1) {
+      } else if (!converting && cfg.noise > 0 && pool.length > 1) {
         const noisy = pool.map((r) => ({ move: r.move, score: r.score + Math.random() * cfg.noise }));
         noisy.sort((a, b) => b.score - a.score);
         pick = noisy[0];
