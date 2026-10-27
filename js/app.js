@@ -579,9 +579,9 @@ function carriageRide(move) {
     Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft, rideStyle);
     spin = setInterval(() => {
       if (revision !== graphicsRevision || !el.isConnected) { clearInterval(spin); return; }
-      frame ^= 1;
+      frame = (frame + 1) % (rideStyle === '3d' ? 4 : 2);
       Sprites.drawCarriage(cv, frame, capturedType, victim, faceLeft, rideStyle);
-    }, 160);
+    }, rideStyle === '3d' ? 125 : 160);
   } else {
     el.className = 'carriage';
     el.innerHTML = `<span class="pony">🐴</span><span class="cart"><span class="rider">${SET().glyphs[capturedType]}</span><span class="wheel w1"></span><span class="wheel w2"></span></span>`;
@@ -2039,6 +2039,9 @@ function setupUI() {
 
 // ===== Startup / 起動 =====
 loadSaved();
+// Initial art loading should never expose the old 26x34 pixel placeholders.
+// Hide only pixel piece canvases, not the board or miniature view.
+document.documentElement.classList.add('pixel-art-loading');
 loadLearningProgress();
 loadReasoningProgress();
 I18N.setLanguage(settings.language, false);
