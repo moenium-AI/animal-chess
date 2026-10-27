@@ -361,6 +361,7 @@ function renderVenues() {
     const v = venueOf(color);
     v.classList.toggle('v3d', v3d);
     v.classList.toggle('vmini', isMiniature());
+    v.dataset.venueTeam = color;
     const title = v.querySelector('.venue-title');
     const area = v.querySelector('.venue-guests');
     const list = guests[color];
@@ -407,6 +408,53 @@ function clearCarriages() {
 }
 
 // ===== 3D banquet venues / 3D宴会会場 =====
+// One shared art source: recolor only fabric tones for Black.
+// Static scene canvases sit beneath existing guest/food animations.
+const banquetRoomImage = new Image();
+banquetRoomImage.decoding = 'async';
+banquetRoomImage.src = 'assets/scenery/banquet-feast-white.webp';
+function attachBanquetRoom(area, color) {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'bq-room-scene';
+  canvas.width = 640;
+  canvas.height = 94;
+  canvas.setAttribute('aria-hidden', 'true');
+  area.prepend(canvas);
+  const paint = () => {
+    if (!canvas.isConnected || !banquetRoomImage.naturalWidth) return;
+    const ctx = canvas.getContext('2d', { willReadFrequently: color === 'b' });
+    if (!ctx) return;
+    ctx.drawImage(banquetRoomImage, 0, 0, 640, 94);
+    if (color === 'b') {
+      const pixels = ctx.getImageData(0, 0, 640, 94);
+      const p = pixels.data;
+      const cloth = (x, y) => (
+        (y < 41 && ((x >= 100 && x < 132) || (x >= 219 && x < 252) ||
+          (x >= 283 && x < 324) || (x >= 356 && x < 388) || (x >= 476 && x < 514))) ||
+        (y >= 34 && y < 68 && ((x >= 39 && x < 62) || (x >= 97 && x < 119) ||
+          (x >= 480 && x < 506) || (x >= 545 && x < 572))) ||
+        (y >= 49 && y < 76 && ((x >= 222 && x < 269) || (x >= 279 && x < 331) ||
+          (x >= 348 && x < 398))) ||
+        (y >= 62 && y < 80 && x >= 159 && x < 449)
+      );
+      for (let y = 0; y < 94; y++) {
+        for (let x = 0; x < 640; x++) {
+          if (!cloth(x, y)) continue;
+          const i = (y * 640 + x) * 4;
+          const r = p[i], g = p[i + 1], b = p[i + 2];
+          if (r <= 37 || g >= r * 0.67 || b >= r * 0.75) continue;
+          p[i] = Math.min(255, Math.round(0.26 * r + 0.12 * g));
+          p[i + 1] = Math.min(255, Math.round(0.30 * r + 0.69 * g));
+          p[i + 2] = Math.min(255, Math.round(0.69 * r + 0.27 * b));
+        }
+      }
+      ctx.putImageData(pixels, 0, 0);
+    }
+    canvas.dataset.ready = '1';
+  };
+  if (banquetRoomImage.complete && banquetRoomImage.naturalWidth) paint();
+  else banquetRoomImage.addEventListener('load', paint, { once: true });
+}
 let banquets = {}; // color -> { area, guests: [{el, spr, itemEl, type, team, state, until, x}] }
 
 function banquetSync(color, area, list) {
@@ -414,6 +462,7 @@ function banquetSync(color, area, list) {
   if (!bq || bq.area !== area) {
     area.innerHTML = '';
     area.dataset.bq = '1';
+    if (!isMiniature()) attachBanquetRoom(area, color);
     // Table and food. / テーブルとごちそう。
     const table = document.createElement('canvas');
     table.className = 'bq-table';
