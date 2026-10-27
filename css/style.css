@@ -447,25 +447,24 @@ html, body {
   bottom: 9px;
 }
 
-/* Classic pixel mode reproduces the original 2026-10-17 drawn-room style.
-   Keep the 94px geometry shared with the high-detail and miniature modes. */
+/* Classic art uses a distinct 640x188 sheet: two 640x94 scenes.
+   Walls, furniture, cake and wood are identical; only hanging textiles and
+   the table runner have red/blue palettes. Native-size center cropping
+   preserves crisp proportions on mobile without vertical stretching. */
 .venue.v3d.vclassic:not(.vmini) .venue-guests {
-  background:
-    linear-gradient(rgba(120, 80, 40, 0.42) 0 26px, transparent 26px),
-    repeating-linear-gradient(0deg, #e2b876 0 12px, #d8ac66 12px 24px);
-  background-size: auto;
-  background-position: initial;
-  border-radius: 10px;
+  background: #ead6b6 url('../assets/scenery/banquet-classic-day.png')
+    center top / 640px 188px no-repeat;
+  border-radius: 8px;
 }
+.venue.v3d.vclassic:not(.vmini)[data-team="b"] .venue-guests {
+  background-position: center bottom;
+}
+/* Food and table are part of this scene. Keep the captured animals and their
+   animated handheld food as separate layers, but don't double the furniture. */
 .venue.v3d.vclassic:not(.vmini) .bq-table,
-.venue.v3d.vclassic:not(.vmini) .bq-deco { display: block; }
+.venue.v3d.vclassic:not(.vmini) .bq-deco { display: none; }
 .venue.v3d.vclassic:not(.vmini) .venue-guests::before,
-.venue.v3d.vclassic:not(.vmini) .venue-guests::after {
-  content: "🏮";
-  position: absolute; top: 1px; font-size: 15px; z-index: 3;
-}
-.venue.v3d.vclassic:not(.vmini) .venue-guests::before { left: 8px; }
-.venue.v3d.vclassic:not(.vmini) .venue-guests::after { right: 8px; }
+.venue.v3d.vclassic:not(.vmini) .venue-guests::after { content: none; }
 
 .bq-table {
   position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
