@@ -361,6 +361,8 @@ function renderVenues() {
     const v = venueOf(color);
     v.classList.toggle('v3d', v3d);
     v.classList.toggle('vmini', isMiniature());
+    // The team palette does not depend on board orientation.
+    v.dataset.team = color;
     const title = v.querySelector('.venue-title');
     const area = v.querySelector('.venue-guests');
     const list = guests[color];
