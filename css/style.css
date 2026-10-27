@@ -20,6 +20,8 @@
   --board-size: min(54vw, 660px, max(360px, calc(100dvh - 352px)));
   --side-w: 360px;
   --cell: calc(var(--board-size) / 8);
+  /* The two illustrated views share identical banquet-room geometry. */
+  --illustrated-room-height: 94px;
 }
 
 html, body {
@@ -62,7 +64,7 @@ html, body {
 .board-col { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 .side-col { display: flex; flex-direction: column; gap: 16px; width: var(--side-w); flex-shrink: 0; }
 
-.board-wrap { position: relative; }
+.board-wrap { position: relative; width: var(--board-size); }
 .board {
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -372,7 +374,7 @@ html, body {
 .type-badge.b { background: rgba(70, 56, 46, 0.95); color: #fff6e0; box-shadow: 0 0 0 1px #2c211a; }
 
 /* Square cells and contained miniatures, including selection. / 選択中も正方形のマス内に収める。 */
-.mode-3d .board { border-color: #7c6248; }
+.mode-3d .board { border: 8px solid #7c6248; }
 .board .square { overflow: hidden; }
 .p3d {
   position: absolute; inset: 2%;
@@ -397,10 +399,23 @@ html, body {
   52%, 100% { transform: translateY(-4%); }
 }
 
+/* Illustrated board/banquet layout is independent of the art style.
+   Keep the Miniature geometry as the reference for both illustrated modes. */
+.venue.v3d, .venue.vmini { padding: 6px 8px 8px; }
+.venue.v3d .venue-title, .venue.vmini .venue-title {
+  position: static; display: block; margin: 0 4px 3px; padding: 0;
+  background: transparent; border: 0; font-size: 9px;
+  line-height: 1.2; letter-spacing: 0;
+}
+.venue.v3d .venue-guests, .venue.vmini .venue-guests {
+  height: var(--illustrated-room-height);
+  min-height: var(--illustrated-room-height);
+}
+
 /* ===== 3D banquet venues / 3D宴会会場 ===== */
 .venue.v3d { background: linear-gradient(#f8e2b8, #eac98e); border-color: #d8b070; }
 .venue.v3d .venue-guests {
-  display: block; position: relative; height: 64px; overflow: hidden;
+  display: block; position: relative; overflow: hidden;
   border-radius: 10px;
   background:
     linear-gradient(rgba(120, 80, 40, 0.42) 0 26px, transparent 26px),
@@ -479,26 +494,12 @@ html, body {
 .mode-miniature .square:focus-visible { outline-color: #1d5458; }
 .venue.vmini {
   position: relative;
-  padding: 6px 8px 8px;
   background: linear-gradient(#f4e7ca, #dac3a0);
   border: 2px solid #b4976a;
   box-shadow: inset 0 1px 0 #fff5de, 0 2px 3px #61452c1a;
 }
-.venue.vmini .venue-title {
-  /* Keep the tiny title above the room: no text overlays furniture or guests. */
-  position: static;
-  display: block;
-  margin: 0 4px 3px;
-  padding: 0;
-  color: #624a32;
-  background: transparent;
-  border: 0;
-  font-size: 9px;
-  line-height: 1.2;
-  letter-spacing: 0;
-}
+.venue.vmini .venue-title { color: #624a32; }
 .venue.vmini .venue-guests {
-  min-height: 94px; height: 94px;
   background: #bd9c70 url('../assets/scenery/banquet-room.svg') center top / cover no-repeat;
   border: 1px solid #7b5d3e; border-radius: 9px;
   box-shadow: inset 0 2px 6px #49362430;
