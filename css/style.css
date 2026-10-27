@@ -374,7 +374,7 @@ html, body {
 .type-badge.b { background: rgba(70, 56, 46, 0.95); color: #fff6e0; box-shadow: 0 0 0 1px #2c211a; }
 
 /* Square cells and contained miniatures, including selection. / 選択中も正方形のマス内に収める。 */
-.mode-3d .board { border-color: #7c6248; }
+.mode-3d .board { border: 8px solid #7c6248; }
 .board .square { overflow: hidden; }
 .p3d {
   position: absolute; inset: 2%;
