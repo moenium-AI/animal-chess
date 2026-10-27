@@ -421,19 +421,31 @@ html, body {
     linear-gradient(rgba(120, 80, 40, 0.42) 0 26px, transparent 26px),
     repeating-linear-gradient(0deg, #e2b876 0 12px, #d8ac66 12px 24px);
 }
-/* Pixel banquet atlas: 640x94 panels stacked vertically. Native-size
-   rendering crops the sides on narrow viewports without distorting furniture. */
-.venue.v3d .venue-guests {
-  background-image: url('../assets/scenery/banquet-feast-day.webp');
+/* Matched day banquet rooms: 640x94 native-resolution frames, stacked in a
+   single atlas. Mobile widths crop at the sides without squashing furniture.
+   :not(.vmini) is essential: miniature rooms also carry the v3d class. */
+.venue.v3d:not(.vmini) .venue-guests {
+  background-image: url('../assets/scenery/banquet-day-atlas.webp');
   background-size: 640px 188px;
   background-repeat: no-repeat;
   background-position: center top;
   border-radius: 8px;
 }
-.venue.v3d[data-team="b"] .venue-guests { background-position: center bottom; }
-/* Food and tables are painted into the scene; retain interactive guests. */
-.venue.v3d .bq-table, .venue.v3d .bq-deco { display: none; }
-.venue.v3d .venue-guests::before, .venue.v3d .venue-guests::after { content: none; }
+.venue.v3d:not(.vmini)[data-team="b"] .venue-guests {
+  background-position: center bottom;
+}
+/* The feast is already part of the pixel background. Leave miniature props
+   visible, and avoid placing redundant food over the pixel-art table. */
+.venue.v3d:not(.vmini) .bq-table,
+.venue.v3d:not(.vmini) .bq-deco { display: none; }
+.venue.v3d:not(.vmini) .venue-guests::before,
+.venue.v3d:not(.vmini) .venue-guests::after { content: none; }
+/* HD food is downscaled smoothly and displayed in front of the guests. */
+.venue.v3d:not(.vmini) .bq-guest canvas.item.feast-art {
+  image-rendering: auto;
+  right: -13px;
+  bottom: 9px;
+}
 .bq-table {
   position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
   width: 110px; image-rendering: pixelated; z-index: 1;
