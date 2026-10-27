@@ -427,6 +427,18 @@ html, body {
 .venue.v3d .venue-guests::after {
   content: "🏮"; position: absolute; top: 1px; right: 8px; font-size: 15px; z-index: 3;
 }
+/* Royal pixel-art banquet room: a 640x94 master is centered without stretching.
+   Narrow screens reveal the central feast rather than squashing the furniture. */
+.venue.v3d .venue-guests::before, .venue.v3d .venue-guests::after { content: none; }
+.venue.v3d .bq-room-scene {
+  display: block; position: absolute; top: 0; left: 50%; z-index: 0;
+  transform: translateX(-50%); width: 640px; height: 94px;
+  image-rendering: auto; pointer-events: none;
+}
+/* The banquet table and food are now baked into the pixel-art scenery.
+   Miniature mode continues to render its original interactive table/decor. */
+.venue.v3d .bq-table, .venue.v3d .bq-deco { display: none; }
+.venue.v3d[data-venue-team="b"] .venue-title { color: #5a7190; }
 .bq-table {
   position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
   width: 110px; image-rendering: pixelated; z-index: 1;
