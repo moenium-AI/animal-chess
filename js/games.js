@@ -10,8 +10,8 @@ const FAMOUS_GAMES = [
   "event": "パリ・オペラ座",
   "result": "1-0",
   "opening": "フィリドール・ディフェンス",
-  "intro": "オペラ鑑賞中に指されたという逸話で知られる、攻めの手本のような一局。モーフィーは手数をかけず全ての駒を最短で使い、相手が駒を遊ばせている隙に仕留めます。",
-  "takeaway": "駒は『数』ではなく『働き』。全部の駒を攻めに参加させ、遅れている相手を一気に攻略する。",
+  "intro": "1858年のパリで、モーフィーが二人の相談相手と指した一局。素早く駒を展開し、中央に残った黒キングを攻めます。観劇中の対局だったとも伝えられます。",
+  "takeaway": "駒の展開とキングの安全を見比べ、攻めに参加する駒を連携させましょう。",
   "moves": [
    {
     "san": "e4",
@@ -27,7 +27,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "d6",
-    "note": "ポーンを守ったが受け身。黒のビショップの活動が狭くなる。"
+    "note": "黒はdポーンをd6へ進め、e5のポーンを支える。"
    },
    {
     "san": "d4",
@@ -43,11 +43,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxf3",
-    "note": "取り返さないとポーンを損するため応じるが、白の駒得の呼び水になる。"
+    "note": "黒のビショップがf3のナイトを取る。白はどう取り返すだろう。"
    },
    {
     "san": "Qxf3",
-    "note": "クイーンで取り返し、f7とb7をにらむ好位置に自然と出る。"
+    "note": "白のクイーンがf3でビショップを取り返し、f7のポーンを見張る。"
    },
    {
     "san": "dxe5",
@@ -63,7 +63,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qb3",
-    "note": "b7とf7を同時ににらむ二重の狙い。守りにくい二つの的を作る。"
+    "note": "白のクイーンはb7を攻める。c4のビショップもf7を見張っている。"
    },
    {
     "san": "Qe7",
@@ -75,11 +75,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "c6",
-    "note": "b7とd5を守る。受けに追われ黒は攻めに一切手が回らない。"
+    "note": "黒はcポーンをc6へ進め、d5を見張る。クイーンもb7のポーンを守れる。"
    },
    {
     "san": "Bg5",
-    "note": "最後の軽い駒も展開し、f6のナイトにピンをかけて攻めの網を絞る。"
+    "note": "白のビショップがg5へ展開。f6のナイトをe7のクイーンに対してピンする。"
    },
    {
     "san": "b5",
@@ -91,11 +91,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "cxb5",
-    "note": "取れば白の攻めが加速する。取らなくても不利で、黒に選択肢はない。"
+    "note": "黒のcポーンがb5のナイトを取る。"
    },
    {
     "san": "Bxb5+",
-    "note": "チェックをかけつつd7を狙う。黒はまだキングを囲えていない。"
+    "note": "白のビショップがb5のポーンを取ってチェック。d7のマスも見張る。"
    },
    {
     "san": "Nbd7",
@@ -115,27 +115,27 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rxd7",
-    "note": "取り返すしかないが、d列のピンは解けない。"
+    "note": "黒のルークがd7で白ルークを取り返す。"
    },
    {
     "san": "Rd1",
-    "note": "もう一台のルークもd列に重ね、ピンされた駒への圧力を倍にする。"
+    "note": "白は残ったルークをd1へ。d7の黒ルークに圧力をかける。"
    },
    {
     "san": "Qe6",
-    "note": "d7を支えつつ逃げ道を探すが、白の仕上げは目前。"
+    "note": "黒のクイーンはe6へ。d7のルークを守り、b3の白クイーンも狙う。"
    },
    {
     "san": "Bxd7+",
-    "note": "またも捨ててピンを維持。黒のキングを裸にする最後の布石。"
+    "note": "白のビショップがd7のルークを取り、チェックをかける。"
    },
    {
     "san": "Nxd7",
-    "note": "取り返すが、これで黒のd7は動けないピン駒になる。"
+    "note": "黒のナイトがd7のビショップを取る。d筋では白ルークの前に立つ形。"
    },
    {
     "san": "Qb8+",
-    "note": "クイーンを捨てる決め手。取れば動けないナイトが退く。"
+    "note": "白はクイーンをb8に出してチェック。ナイトが取るとd筋が空く。"
    },
    {
     "san": "Nxb8",
@@ -143,7 +143,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rd8#",
-    "note": "ルークがd8に入りチェックメイト。全ての駒を働かせた者が、遊ばせた者に勝つ典型。"
+    "note": "白のルークがd8に入りチェックメイト。g5のビショップがルークを支える。"
    }
   ],
   "en": {
@@ -151,8 +151,8 @@ const FAMOUS_GAMES = [
    "white": "Paul Morphy",
    "black": "Duke of Brunswick & Count Isouard",
    "opening": "Philidor Defense",
-   "intro": "Known for the story that it was played during an opera performance, this game is a model attacking lesson. Morphy develops every piece quickly and punishes Black while several pieces remain out of play.",
-   "takeaway": "Chess is about activity, not just material. Bring every piece into the attack before the opponent can coordinate.",
+   "intro": "In Paris in 1858, Morphy faced two opponents consulting together. He developed quickly and attacked the black king in the center; the game is also associated with a visit to the opera.",
+   "takeaway": "Compare development and king safety, then look for ways to coordinate the attacking pieces.",
    "moves": [
     {
      "san": "e4",
@@ -168,7 +168,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "d6",
-     "note": "The pawn is defended, but the move is passive and restricts Black's bishop."
+     "note": "Black advances the d-pawn to d6, supporting the pawn on e5."
     },
     {
      "san": "d4",
@@ -184,11 +184,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxf3",
-     "note": "Black chooses to recapture, but this helps White gain time and activity."
+     "note": "Black's bishop captures the knight on f3. How will White recapture?"
     },
     {
      "san": "Qxf3",
-     "note": "The queen recaptures and reaches a useful square, eyeing f7 and b7."
+     "note": "White's queen recaptures the bishop on f3 and eyes the pawn on f7."
     },
     {
      "san": "dxe5",
@@ -204,7 +204,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qb3",
-     "note": "The queen attacks b7 and f7 at the same time, creating two difficult targets."
+     "note": "White's queen attacks b7, while the bishop on c4 also eyes f7."
     },
     {
      "san": "Qe7",
@@ -216,11 +216,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "c6",
-     "note": "Black protects b7 and d5, but is forced into defense instead of an active plan."
+     "note": "Black advances the c-pawn to c6, controls d5, and opens the queen's line to the b7-pawn."
     },
     {
      "san": "Bg5",
-     "note": "The last minor piece joins in and pins the f6-knight to the queen on d8."
+     "note": "White develops the bishop to g5, pinning the f6-knight to the queen on e7."
     },
     {
      "san": "b5",
@@ -232,11 +232,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "cxb5",
-     "note": "This is the selected line. Accepting the sacrifice lets White's attack accelerate; other choices would lead to different defenses."
+     "note": "Black's c-pawn captures the knight on b5."
     },
     {
      "san": "Bxb5+",
-     "note": "The bishop checks while targeting d7. Black's king still has no safe castling position."
+     "note": "White's bishop captures the pawn on b5 with check and also controls d7."
     },
     {
      "san": "Nbd7",
@@ -256,27 +256,27 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rxd7",
-     "note": "Black recaptures in this line, but the pressure on the d-file remains."
+     "note": "Black's rook recaptures the white rook on d7."
     },
     {
      "san": "Rd1",
-     "note": "The second rook joins the d-file, doubling the pressure on the pinned piece."
+     "note": "White brings the remaining rook to d1 and attacks Black's rook on d7."
     },
     {
      "san": "Qe6",
-     "note": "The queen supports d7 and looks for a way to survive, but White's finish is close."
+     "note": "Black's queen moves to e6, defending the rook on d7 and attacking White's queen on b3."
     },
     {
      "san": "Bxd7+",
-     "note": "White gives up another piece to preserve the pin and expose the black king."
+     "note": "White's bishop captures the rook on d7 with check."
     },
     {
      "san": "Nxd7",
-     "note": "Black recaptures, leaving the d7-knight pinned and unable to move safely."
+     "note": "Black's knight captures the bishop on d7, standing in front of White's rook on the d-file."
     },
     {
      "san": "Qb8+",
-     "note": "The queen sacrifice is the final combination. If Black takes, the pinned knight must move and the d-file opens."
+     "note": "White offers the queen on b8 with check. If the knight takes it, the d-file opens."
     },
     {
      "san": "Nxb8",
@@ -284,7 +284,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rd8#",
-     "note": "The rook mates on d8. White's active army overwhelms Black's pieces, which never had time to coordinate."
+     "note": "White's rook mates on d8, supported along the diagonal by the bishop on g5."
     }
    ]
   }
@@ -298,16 +298,16 @@ const FAMOUS_GAMES = [
   "event": "ロンドン",
   "result": "1-0",
   "opening": "キングズ・ギャンビット",
-  "intro": "ロマン派チェスの象徴。アンデルセンはビショップ・ルーク2枚・クイーンまで惜しみなく捨て、残った軽い駒だけで詰め上げます。物量ではなく働きと狙いがすべてを決めることを示した歴史的名局。",
-  "takeaway": "捨てるのは損ではなく、相手の駒を『邪魔な位置』へ押しやり、詰みの網を作るための投資になりうる。",
+  "intro": "1851年、アンデルセンがクイーンと二枚のルークを失いながら攻めを続けた一局。最後はビショップとナイトの連携でチェックメイトになります。",
+  "takeaway": "駒の数だけでなく、チェックや駒の利きがどこに集まっているかを見てみましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "e5",
-    "note": "対称に応じる。"
+    "note": "黒はeポーンをe5へ進める。"
    },
    {
     "san": "f4",
@@ -323,7 +323,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qh4+",
-    "note": "チェックでf1のキングを動かし、白のキャスリング権を奪う。"
+    "note": "黒のクイーンがh4からチェック。白はキングを守る応手を選ぶ。"
    },
    {
     "san": "Kf1",
@@ -359,11 +359,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nh4",
-    "note": "f5への進出とクイーンへの圧力を狙う。"
+    "note": "白のナイトがh4へ移り、f5へ跳べる位置に立つ。"
    },
    {
     "san": "Qg5",
-    "note": "クイーンで的を避けるが、なお働きに乏しい。"
+    "note": "黒のクイーンはg5へ。h4のナイトとb5のビショップに当てる。"
    },
    {
     "san": "Nf5",
@@ -371,7 +371,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "c6",
-    "note": "ビショップを追う。"
+    "note": "黒はcポーンをc6へ進める。b5のビショップに当てる。"
    },
    {
     "san": "g4",
@@ -379,11 +379,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf6",
-    "note": "端のナイトが戻る。"
+    "note": "黒のナイトがf6へ移る。e4のポーンに当てる。"
    },
    {
     "san": "Rg1",
-    "note": "ルークを開いたg列に備える。次の犠牲の伏線。"
+    "note": "白のルークがg1へ移り、キング側の筋に置かれる。"
    },
    {
     "san": "cxb5",
@@ -391,11 +391,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "h4",
-    "note": "クイーンを追い立て、h列も攻めに使う。"
+    "note": "白のhポーンが進み、g5のクイーンを追う。"
    },
    {
     "san": "Qg6",
-    "note": "逃げ場を探すクイーン。"
+    "note": "黒のクイーンがg6へ移る。f5のナイトに当てる。"
    },
    {
     "san": "h5",
@@ -403,11 +403,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qg5",
-    "note": "戻るしかない。"
+    "note": "黒のクイーンがg5へ移る。f5のナイトに当てる。"
    },
    {
     "san": "Qf3",
-    "note": "f6のナイトを狙い、f7方面の攻めも見る二重の圧力。"
+    "note": "白のクイーンがf3へ出て、f4の黒ポーンを狙う。"
    },
    {
     "san": "Ng8",
@@ -419,7 +419,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qf6",
-    "note": "クイーンを守りに使う。"
+    "note": "黒のクイーンがf6へ移る。f5のナイトに当てる。"
    },
    {
     "san": "Nc3",
@@ -435,23 +435,23 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qxb2",
-    "note": "ルークを取りにいく黒。だがこれで黒クイーンは戦場から完全に離れる。"
+    "note": "黒のクイーンがb2のポーンを取り、a1のルークを狙う。"
    },
    {
     "san": "Bd6",
-    "note": "ビショップを捨てる一手。黒のビショップの利きを断ち、詰めへの布石を敷く。"
+    "note": "白のビショップはd6へ進み、c5の黒ビショップに当てる。黒はg1のルークも狙っている。"
    },
    {
     "san": "Bxg1",
-    "note": "黒はルークを取るが、白の攻め駒は着々と急所へ集まる。"
+    "note": "黒のビショップがg1のルークを取る。"
    },
    {
     "san": "e5",
-    "note": "ポーンを突いて黒クイーンの帰り道を封鎖する。守りは間に合わない。"
+    "note": "白のeポーンがe5へ進み、d6のビショップを支える。黒クイーンがb2から戻る斜めも遮る。"
    },
    {
     "san": "Qxa1+",
-    "note": "黒はもう一台のルークまで取るが、これらの駒は詰みに一切関与できない。"
+    "note": "黒のクイーンがa1のルークを取り、チェックをかける。"
    },
    {
     "san": "Ke2",
@@ -459,7 +459,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Na6",
-    "note": "遅ればせの受けを試みるが遅い。"
+    "note": "黒のナイトがa6へ移る。"
    },
    {
     "san": "Nxg7+",
@@ -467,15 +467,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kd8",
-    "note": "逃げるしかない。"
+    "note": "黒キングはd8へ。ここではほかにチェックをかわす合法手がない。"
    },
    {
     "san": "Qf6+",
-    "note": "クイーンを捨てる決め手。取ればナイトが釘付けから離れる。"
+    "note": "白はクイーンをf6に差し出してチェック。22...Nxf6なら23.Be7#が続く。"
    },
    {
     "san": "Nxf6",
-    "note": "取るしかない。"
+    "note": "黒のナイトがf6のクイーンを取る。"
    },
    {
     "san": "Be7#",
@@ -487,16 +487,16 @@ const FAMOUS_GAMES = [
    "white": "Adolf Anderssen",
    "black": "Lionel Kieseritzky",
    "opening": "King's Gambit",
-   "intro": "A symbol of Romantic-era chess. Anderssen gives up a bishop, two rooks, and finally the queen, then mates with the remaining minor pieces. The game shows how activity and concrete threats can outweigh material in a forcing attack.",
-   "takeaway": "A sacrifice can be an investment: drive the enemy pieces into awkward roles and use the resulting coordination to build a mating net.",
+   "intro": "In this 1851 game, Anderssen continues the attack while giving up his queen and both rooks. A bishop and knights cooperate in the final checkmate.",
+   "takeaway": "Look beyond the number of pieces to the checks and squares controlled by the pieces that remain.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "e5",
-     "note": "Black replies symmetrically."
+     "note": "Black advances the e-pawn to e5."
     },
     {
      "san": "f4",
@@ -512,7 +512,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qh4+",
-     "note": "The queen checks, drives the king from f1, and removes White's castling option."
+     "note": "Black's queen checks from h4, requiring White to answer the attack on the king on e1."
     },
     {
      "san": "Kf1",
@@ -548,11 +548,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nh4",
-     "note": "Eyes an advance to f5 and puts pressure on the queen."
+     "note": "White's knight moves to h4, from where it can jump to f5."
     },
     {
      "san": "Qg5",
-     "note": "The queen sidesteps the threat but remains poorly placed."
+     "note": "Black's queen moves to g5, attacking the knight on h4 and the bishop on b5."
     },
     {
      "san": "Nf5",
@@ -560,7 +560,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "c6",
-     "note": "Black drives the bishop away."
+     "note": "Black advances the c-pawn to c6. It attacks the bishop on b5."
     },
     {
      "san": "g4",
@@ -568,11 +568,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf6",
-     "note": "The edge knight returns."
+     "note": "Black's knight moves to f6. It attacks the pawn on e4."
     },
     {
      "san": "Rg1",
-     "note": "The rook prepares to use the open g-file; this is a first hint of the coming sacrifice."
+     "note": "White's rook moves to g1, taking up a position on the kingside."
     },
     {
      "san": "cxb5",
@@ -580,11 +580,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "h4",
-     "note": "The pawn drives the queen and opens the h-file as another attacking route."
+     "note": "White advances the h-pawn and attacks the queen on g5."
     },
     {
      "san": "Qg6",
-     "note": "The queen searches for a safe square."
+     "note": "Black's queen moves to g6. It attacks the knight on f5."
     },
     {
      "san": "h5",
@@ -592,11 +592,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qg5",
-     "note": "The queen returns in the selected line."
+     "note": "Black's queen moves to g5. It attacks the knight on f5."
     },
     {
      "san": "Qf3",
-     "note": "The queen attacks the f6-knight and also eyes the f7-area, creating two pressures."
+     "note": "White's queen moves to f3 and attacks Black's pawn on f4."
     },
     {
      "san": "Ng8",
@@ -608,7 +608,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qf6",
-     "note": "The queen is pulled into defensive work."
+     "note": "Black's queen moves to f6. It attacks the knight on f5."
     },
     {
      "san": "Nc3",
@@ -624,23 +624,23 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qxb2",
-     "note": "Black takes the rook, moving the queen far away from the defense."
+     "note": "Black's queen captures the b2-pawn and attacks the rook on a1."
     },
     {
      "san": "Bd6",
-     "note": "White sacrifices the bishop to remove a defender and prepare the mating net."
+     "note": "White's bishop moves to d6 and attacks the black bishop on c5, which is also attacking the rook on g1."
     },
     {
      "san": "Bxg1",
-     "note": "Black takes the bishop, but White's attacking pieces are reaching their targets."
+     "note": "Black's bishop captures the rook on g1."
     },
     {
      "san": "e5",
-     "note": "The pawn blocks the queen's route back to the defense; Black cannot reorganize in time."
+     "note": "White advances the e-pawn to e5, supporting the bishop on d6 and blocking one diagonal back for Black's queen."
     },
     {
      "san": "Qxa1+",
-     "note": "Black takes the other rook, but those rooks are no longer relevant to the mating attack."
+     "note": "Black's queen captures the rook on a1 with check."
     },
     {
      "san": "Ke2",
@@ -648,7 +648,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Na6",
-     "note": "Black makes a late defensive attempt, but it is too slow."
+     "note": "Black's knight moves to a6."
     },
     {
      "san": "Nxg7+",
@@ -656,15 +656,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kd8",
-     "note": "The king moves in the selected line; other legal replies can lead to different continuations."
+     "note": "Black's king moves to d8, the only legal reply to the check."
     },
     {
      "san": "Qf6+",
-     "note": "The queen sacrifice is the final blow. If it is taken, the knight is freed from its pin."
+     "note": "White offers the queen on f6 with check. After 22...Nxf6, 23.Be7# follows."
     },
     {
      "san": "Nxf6",
-     "note": "Black accepts the queen in this line."
+     "note": "Black's knight captures the queen on f6."
     },
     {
      "san": "Be7#",
@@ -682,32 +682,32 @@ const FAMOUS_GAMES = [
   "event": "ベルリン",
   "result": "1-0",
   "opening": "エヴァンス・ギャンビット",
-  "intro": "『いつまでも色あせない』と讃えられた名局。終盤、白は連続犠牲から美しい詰みを決めます。攻めの流れの作り方と、犠牲を伴う組み合わせ(コンビネーション)の見本。",
-  "takeaway": "相手の弱い列や斜めに全ての攻め駒を向け、犠牲で守り駒を引きはがして一気に詰める。",
+  "intro": "1852年のベルリンで指された一局。アンデルセンはエヴァンス・ギャンビットから展開し、終盤にルークとクイーンを使った連続攻撃を見せます。",
+  "takeaway": "相手のキングへのチェックと、攻めに参加できる駒の位置を一緒に考えましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "e5",
-    "note": "対称。"
+    "note": "黒はeポーンをe5へ進める。"
    },
    {
     "san": "Nf3",
-    "note": "e5に当てて展開。"
+    "note": "白のナイトがf3へ移る。e5のポーンに当てる。"
    },
    {
     "san": "Nc6",
-    "note": "ポーンを守りつつ展開。"
+    "note": "黒のナイトがc6へ移る。e5の味方ポーンを支える。"
    },
    {
     "san": "Bc4",
-    "note": "f7をにらむ。"
+    "note": "白のビショップがc4へ移る。f7のポーンに当てる。"
    },
    {
     "san": "Bc5",
-    "note": "対称に展開。"
+    "note": "黒のビショップがc5へ移る。f2のポーンに当てる。"
    },
    {
     "san": "b4",
@@ -715,7 +715,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxb4",
-    "note": "受けて取る。"
+    "note": "黒のビショップがb4の白ポーンを取る。d2のポーンに当てる。"
    },
    {
     "san": "c3",
@@ -723,7 +723,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ba5",
-    "note": "ビショップを保つ。"
+    "note": "黒のビショップがa5へ移る。c3のポーンに当てる。"
    },
    {
     "san": "d4",
@@ -731,7 +731,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "exd4",
-    "note": "取る。"
+    "note": "黒はeポーンでd4の白ポーンを取る。c3のポーンに当てる。"
    },
    {
     "san": "O-O",
@@ -743,11 +743,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qb3",
-    "note": "f7とb7をにらむ二重の狙い。"
+    "note": "白のクイーンはb3へ移り、b7のポーンを狙う。"
    },
    {
     "san": "Qf6",
-    "note": "f7を守る。"
+    "note": "黒のクイーンがf6へ移る。f3のナイトに当てる。"
    },
    {
     "san": "e5",
@@ -755,11 +755,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qg6",
-    "note": "逃げる。"
+    "note": "黒のクイーンがg6へ移る。g2のポーンに当てる。"
    },
    {
     "san": "Re1",
-    "note": "ルークをe列に据え、開いた中央を支配する。"
+    "note": "白はルークをe1へ移し、e5の自分のポーンの後ろに置く。"
    },
    {
     "san": "Nge7",
@@ -767,11 +767,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ba3",
-    "note": "ビショップを長い斜めに置き、黒のキャスリングを妨げe7を狙う。"
+    "note": "白のビショップがa3へ出て、e7のナイトに当てる。"
    },
    {
     "san": "b5",
-    "note": "反撃を試みる。"
+    "note": "黒はbポーンをb5へ進める。c4のビショップに当てる。"
    },
    {
     "san": "Qxb5",
@@ -779,15 +779,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rb8",
-    "note": "クイーンを追う。"
+    "note": "黒のルークがb8へ移る。b5のクイーンに当てる。"
    },
    {
     "san": "Qa4",
-    "note": "退きつつd7とa5をにらむ。"
+    "note": "白のクイーンはa4へ移り、a5のビショップとc6のナイトを狙う。"
    },
    {
     "san": "Bb6",
-    "note": "ビショップを活用。"
+    "note": "黒のビショップがb6へ移る。f2のポーンに当てる。"
    },
    {
     "san": "Nbd2",
@@ -795,7 +795,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bb7",
-    "note": "黒も展開してf3のナイトをにらむ。"
+    "note": "黒はc8のビショップをb7へ展開する。"
    },
    {
     "san": "Ne4",
@@ -815,11 +815,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf6+",
-    "note": "ナイトでチェックし、gxf6と応じさせて黒のキングの前を開く。"
+    "note": "白のナイトがf6へ跳んでチェック。h5の黒クイーンにも当てる。"
    },
    {
     "san": "gxf6",
-    "note": "取るしかない。黒のキングの守りが崩れる。"
+    "note": "黒はgポーンでf6のナイトを取る。キングの前のポーン配置が変わる。"
    },
    {
     "san": "exf6",
@@ -827,11 +827,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rg8",
-    "note": "反撃を試み、g2を狙う。"
+    "note": "黒のルークがg8へ移る。g2のポーンに当てる。"
    },
    {
     "san": "Rad1",
-    "note": "最後のルークも中央に呼び、d7への犠牲を用意する伏線。"
+    "note": "白はa1のルークをd1へ移し、中央での働きに備える。"
    },
    {
     "san": "Qxf3",
@@ -839,11 +839,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rxe7+",
-    "note": "ルークを捨ててナイトを除去し、黒のキングを釣り出す。連続犠牲の第一撃。"
+    "note": "白のルークがe7のナイトを取り、チェックをかける。"
    },
    {
     "san": "Nxe7",
-    "note": "取るしかない。"
+    "note": "黒のナイトがe7でルークを取る。"
    },
    {
     "san": "Qxd7+",
@@ -851,7 +851,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kxd7",
-    "note": "取れば…"
+    "note": "黒のキングがd7の白クイーンを取る。"
    },
    {
     "san": "Bf5+",
@@ -859,7 +859,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ke8",
-    "note": "戻る。"
+    "note": "黒のキングがe8へ移る。"
    },
    {
     "san": "Bd7+",
@@ -867,7 +867,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kf8",
-    "note": "逃げ場はここだけ。"
+    "note": "黒キングはf8へ移り、チェックをかわす。"
    },
    {
     "san": "Bxe7#",
@@ -879,32 +879,32 @@ const FAMOUS_GAMES = [
    "white": "Adolf Anderssen",
    "black": "Jean Dufresne",
    "opening": "Evans Gambit",
-   "intro": "A game praised as one that never grows old. White finishes with a beautiful sequence of sacrifices, making it a useful example of building an attack and using combinations to remove defenders.",
-   "takeaway": "Aim every attacking piece at the opponent's weak files and diagonals. A sacrifice can pull defenders away and make the final mating net possible.",
+   "intro": "Played in Berlin in 1852, this game begins with the Evans Gambit and ends with Anderssen coordinating a rook, queen, and bishops in a sequence of attacks.",
+   "takeaway": "Consider checks against the king together with the positions of the pieces that can join the attack.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "e5",
-     "note": "Black mirrors the move."
+     "note": "Black advances the e-pawn to e5."
     },
     {
      "san": "Nf3",
-     "note": "Develops while attacking e5."
+     "note": "White's knight moves to f3. It attacks the pawn on e5."
     },
     {
      "san": "Nc6",
-     "note": "Develops while defending the pawn."
+     "note": "Black's knight moves to c6. It supports the friendly pawn on e5."
     },
     {
      "san": "Bc4",
-     "note": "The bishop targets f7."
+     "note": "White's bishop moves to c4. It attacks the pawn on f7."
     },
     {
      "san": "Bc5",
-     "note": "Black develops symmetrically."
+     "note": "Black's bishop moves to c5. It attacks the pawn on f2."
     },
     {
      "san": "b4",
@@ -912,7 +912,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxb4",
-     "note": "Black accepts the gambit."
+     "note": "Black's bishop captures the pawn on b4. It attacks the pawn on d2."
     },
     {
      "san": "c3",
@@ -920,7 +920,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ba5",
-     "note": "The bishop preserves itself."
+     "note": "Black's bishop moves to a5. It attacks the pawn on c3."
     },
     {
      "san": "d4",
@@ -928,7 +928,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "exd4",
-     "note": "Black captures in the center."
+     "note": "Black's e-pawn captures the pawn on d4. It attacks the pawn on c3."
     },
     {
      "san": "O-O",
@@ -940,11 +940,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qb3",
-     "note": "The queen attacks f7 and b7 at once."
+     "note": "White's queen moves to b3 and attacks the pawn on b7."
     },
     {
      "san": "Qf6",
-     "note": "The queen defends f7."
+     "note": "Black's queen moves to f6. It attacks the knight on f3."
     },
     {
      "san": "e5",
@@ -952,11 +952,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qg6",
-     "note": "The queen retreats."
+     "note": "Black's queen moves to g6. It attacks the pawn on g2."
     },
     {
      "san": "Re1",
-     "note": "The rook takes the open e-file and begins to control the center."
+     "note": "White brings the rook to e1, behind the white pawn on e5."
     },
     {
      "san": "Nge7",
@@ -964,11 +964,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ba3",
-     "note": "The bishop reaches a long diagonal, interferes with castling, and targets e7."
+     "note": "White's bishop develops to a3 and attacks the knight on e7."
     },
     {
      "san": "b5",
-     "note": "Black starts a counterattack."
+     "note": "Black advances the b-pawn to b5. It attacks the bishop on c4."
     },
     {
      "san": "Qxb5",
@@ -976,15 +976,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rb8",
-     "note": "Black attacks the queen."
+     "note": "Black's rook moves to b8. It attacks the queen on b5."
     },
     {
      "san": "Qa4",
-     "note": "The queen retreats while watching d7 and a5."
+     "note": "White's queen moves to a4 and attacks the bishop on a5 and the knight on c6."
     },
     {
      "san": "Bb6",
-     "note": "The bishop develops actively."
+     "note": "Black's bishop moves to b6. It attacks the pawn on f2."
     },
     {
      "san": "Nbd2",
@@ -992,7 +992,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bb7",
-     "note": "Black also develops and eyes the knight on f3."
+     "note": "Black develops the c8-bishop to b7."
     },
     {
      "san": "Ne4",
@@ -1012,11 +1012,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf6+",
-     "note": "The knight checks and invites gxf6, opening lines in front of the black king."
+     "note": "White's knight jumps to f6 with check, also attacking the black queen on h5."
     },
     {
      "san": "gxf6",
-     "note": "Black accepts the capture in the selected line, weakening the king."
+     "note": "Black's g-pawn captures the knight on f6, changing the pawn cover in front of the king."
     },
     {
      "san": "exf6",
@@ -1024,11 +1024,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rg8",
-     "note": "Black seeks counterplay against g2."
+     "note": "Black's rook moves to g8. It attacks the pawn on g2."
     },
     {
      "san": "Rad1",
-     "note": "The last rook joins the center and prepares a sacrifice on d7."
+     "note": "White brings the a1-rook to d1, preparing to use the central file."
     },
     {
      "san": "Qxf3",
@@ -1036,11 +1036,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rxe7+",
-     "note": "White sacrifices the rook to remove a defender and pull out the black king."
+     "note": "White's rook captures the knight on e7 with check."
     },
     {
      "san": "Nxe7",
-     "note": "Black recaptures in the selected line."
+     "note": "Black's knight captures the rook on e7."
     },
     {
      "san": "Qxd7+",
@@ -1048,7 +1048,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kxd7",
-     "note": "Black accepts in this line."
+     "note": "Black's king captures the queen on d7."
     },
     {
      "san": "Bf5+",
@@ -1056,7 +1056,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ke8",
-     "note": "The king returns."
+     "note": "Black's king moves to e8."
     },
     {
      "san": "Bd7+",
@@ -1064,7 +1064,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kf8",
-     "note": "The king moves to the selected square."
+     "note": "Black's king moves to f8 to escape the check."
     },
     {
      "san": "Bxe7#",
@@ -1082,12 +1082,12 @@ const FAMOUS_GAMES = [
   "event": "ウィーン",
   "result": "1-0",
   "opening": "カロ・カン風の展開",
-  "intro": "わずか11手。中央での小競り合いから、白は突然クイーンを捨てて相手のキングを引きずり出し、d8のビショップとd1のルークの連携で詰ませます。短手数コンビネーションの傑作。",
-  "takeaway": "相手のキングが中央に取り残されているときは、犠牲で釣り出してビショップとルークの連携で仕留められることがある。",
+  "intro": "1910年のウィーンで指された短い一局。レティはクイーンを差し出し、ビショップとルークを連携させて黒キングを詰ませます。",
+  "takeaway": "中央に残ったキングを攻めるときは、チェックへの応手と、次に使える駒を確かめましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "c6",
@@ -1095,11 +1095,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "d4",
-    "note": "中央を広げる。"
+    "note": "白はdポーンをd4へ進める。"
    },
    {
     "san": "d5",
-    "note": "予定通り中央に当てる。"
+    "note": "黒はdポーンをd5へ進める。e4のポーンに当てる。"
    },
    {
     "san": "Nc3",
@@ -1107,7 +1107,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "dxe4",
-    "note": "取る。"
+    "note": "黒はdポーンでe4の白ポーンを取る。"
    },
    {
     "san": "Nxe4",
@@ -1119,7 +1119,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd3",
-    "note": "あえてクイーンを前に出す。後の犠牲を見据えた伏線。"
+    "note": "白のクイーンがd3へ出て、e4のナイトを支える。"
    },
    {
     "san": "e5",
@@ -1135,7 +1135,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bd2",
-    "note": "チェックを受けつつ発展。"
+    "note": "白のビショップがd2へ移る。"
    },
    {
     "san": "Qxe5",
@@ -1163,11 +1163,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kc7",
-    "note": "逃げるが…"
+    "note": "黒のキングがc7へ移る。"
    },
    {
     "san": "Bd8#",
-    "note": "ビショップがd8に戻ってチェックメイト。クイーンを捨ててd8のビショップとd1のルークの連携で詰ませた鮮烈な幕切れ。"
+    "note": "白のビショップがd8に入りチェックメイト。d1のルークがビショップを支える。"
    }
   ],
   "en": {
@@ -1175,12 +1175,12 @@ const FAMOUS_GAMES = [
    "white": "Richard Réti",
    "black": "Savielly Tartakower",
    "opening": "Caro-Kann-style setup",
-   "intro": "In only eleven moves, White turns a central skirmish into a queen sacrifice that drags the black king into the open and finishes with the bishop on d8 and rook on d1. It is a compact lesson in forcing combinations.",
-   "takeaway": "When the enemy king is stranded in the center, a sacrifice can draw it onto a vulnerable square where a bishop and rook can coordinate a mate.",
+   "intro": "In this short 1910 game from Vienna, Réti gives up his queen and coordinates a bishop and rook to mate the black king.",
+   "takeaway": "When attacking a king in the center, check the replies to each check and the pieces available to continue the attack.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "c6",
@@ -1188,11 +1188,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "d4",
-     "note": "Expands in the center."
+     "note": "White advances the d-pawn to d4."
     },
     {
      "san": "d5",
-     "note": "Black challenges the center as planned."
+     "note": "Black advances the d-pawn to d5. It attacks the pawn on e4."
     },
     {
      "san": "Nc3",
@@ -1200,7 +1200,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "dxe4",
-     "note": "Black captures in the center."
+     "note": "Black's d-pawn captures the pawn on e4."
     },
     {
      "san": "Nxe4",
@@ -1212,7 +1212,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd3",
-     "note": "The queen moves forward deliberately, preparing the later sacrifice."
+     "note": "White's queen moves to d3 and supports the knight on e4."
     },
     {
      "san": "e5",
@@ -1228,7 +1228,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bd2",
-     "note": "White answers the check and develops."
+     "note": "White's bishop moves to d2."
     },
     {
      "san": "Qxe5",
@@ -1256,11 +1256,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kc7",
-     "note": "The king moves in the selected variation."
+     "note": "Black's king moves to c7."
     },
     {
      "san": "Bd8#",
-     "note": "The bishop returns to d8 and mates. White has given up the queen to finish with the bishop on d8 and rook on d1."
+     "note": "White's bishop mates on d8, supported by the rook on d1."
     }
    ]
   }
@@ -1274,12 +1274,12 @@ const FAMOUS_GAMES = [
   "event": "ロンドン",
   "result": "1-0",
   "opening": "オランダ・ディフェンス",
-  "intro": "クイーン犠牲から黒のキングを初手から相手陣の奥まで引きずり出し、盤を縦断させて詰ませる『キング・ハント』の代表作。キングが裸になったときの攻めの破壊力を示します。",
-  "takeaway": "キングの守りがはがれた瞬間に連続チェックで追い込めば、キング自身を盤の反対側まで歩かせて詰ませられる。",
+  "intro": "1912年のロンドンで指された一局。ラスカーはクイーンを差し出した後、連続チェックで黒キングを白陣まで追い、キングの移動で詰ませます。序盤の手順には複数の記録があります。",
+  "takeaway": "チェックのたびにキングが行けるマスを確かめ、ナイトやビショップ、ルークの働きを追いましょう。",
   "moves": [
    {
     "san": "d4",
-    "note": "中央を取る。"
+    "note": "白はdポーンをd4へ進め、中央に足場を作る。"
    },
    {
     "san": "e6",
@@ -1287,7 +1287,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf3",
-    "note": "自然に展開。"
+    "note": "白のナイトがf3へ移る。"
    },
    {
     "san": "f5",
@@ -1295,11 +1295,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nc3",
-    "note": "展開を続ける。"
+    "note": "白のナイトがc3へ移る。"
    },
    {
     "san": "Nf6",
-    "note": "対称に展開。"
+    "note": "黒のナイトがg8からf6へ展開する。"
    },
    {
     "san": "Bg5",
@@ -1307,7 +1307,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Be7",
-    "note": "ピンを外す準備。"
+    "note": "黒のビショップがe7へ移る。"
    },
    {
     "san": "Bxf6",
@@ -1315,7 +1315,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxf6",
-    "note": "取り返す。"
+    "note": "黒のビショップがf6の白ビショップを取る。d4のポーンに当てる。"
    },
    {
     "san": "e4",
@@ -1323,7 +1323,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "fxe4",
-    "note": "取る。"
+    "note": "黒はfポーンでe4の白ポーンを取る。f3のナイトに当てる。"
    },
    {
     "san": "Nxe4",
@@ -1343,19 +1343,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bd3",
-    "note": "h7を狙ってビショップを据える。攻めの照準完成。"
+    "note": "白のビショップがd3へ。e4のナイトが動けばh7へ向かう斜めが開く。"
    },
    {
     "san": "Bb7",
-    "note": "展開するが受けが間に合わない。"
+    "note": "黒のビショップがb7へ出て、e4のナイトを狙う。"
    },
    {
     "san": "Qh5",
-    "note": "h7を二重に狙い、決定的な犠牲を用意する。"
+    "note": "白のクイーンがh5へ出て、h7のポーンに当てる。"
    },
    {
     "san": "Qe7",
-    "note": "受けを試みるが遅い。"
+    "note": "黒のクイーンがe7へ移る。d7の味方ポーンを支える。"
    },
    {
     "san": "Qxh7+",
@@ -1371,7 +1371,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kh6",
-    "note": "逃げ道はここだけ。"
+    "note": "黒キングはh6へ移り、チェックをかわす。"
    },
    {
     "san": "Neg4+",
@@ -1391,11 +1391,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "g3+",
-    "note": "さらに追う。"
+    "note": "白はgポーンをg3へ進める。チェック。"
    },
    {
     "san": "Kf3",
-    "note": "キングは白陣深くへ。"
+    "note": "黒のキングがf3へ移る。g4のナイトに当てる。"
    },
    {
     "san": "Be2+",
@@ -1403,7 +1403,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kg2",
-    "note": "逃げ場が尽きてくる。"
+    "note": "黒のキングがg2へ移る。h1のルークに当てる。"
    },
    {
     "san": "Rh2+",
@@ -1411,11 +1411,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kg1",
-    "note": "キングは隅へ。"
+    "note": "黒のキングがg1へ移る。h2のルークに当てる。"
    },
    {
-    "san": "O-O-O#",
-    "note": "キャスリングでルークがd1に入り、盤を縦断してきたキングをチェックメイト。史上もっとも有名なキング狩りの完成。"
+    "san": "Kd2#",
+    "note": "白キングがd2へ移り、a1のルークの横筋を開いてチェックメイト。18.O-O-O#でも詰むが、実戦では指されていない。"
    }
   ],
   "en": {
@@ -1423,12 +1423,12 @@ const FAMOUS_GAMES = [
    "white": "Edward Lasker",
    "black": "George Thomas",
    "opening": "Dutch Defense",
-   "intro": "A classic king hunt: after a queen sacrifice, Black's king is driven from its shelter across the board and finally mated. It demonstrates the power of a coordinated attack against an exposed king.",
-   "takeaway": "Once the king's shelter has been broken, a sequence of checks can drive it far from safety. The attacking pieces must keep the escape squares controlled.",
+   "intro": "In this 1912 London game, Lasker gives up his queen and uses a series of checks to draw the black king across the board, finishing with a king move. Records differ on the opening move order.",
+   "takeaway": "At each check, examine the king's available squares and the roles of the knights, bishop, and rook.",
    "moves": [
     {
      "san": "d4",
-     "note": "Takes central space."
+     "note": "White advances the d-pawn to d4 and claims space in the center."
     },
     {
      "san": "e6",
@@ -1436,7 +1436,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf3",
-     "note": "Develops naturally."
+     "note": "White's knight moves to f3."
     },
     {
      "san": "f5",
@@ -1444,11 +1444,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nc3",
-     "note": "Continues development."
+     "note": "White's knight moves to c3."
     },
     {
      "san": "Nf6",
-     "note": "Develops symmetrically."
+     "note": "Black develops the g8-knight to f6."
     },
     {
      "san": "Bg5",
@@ -1456,7 +1456,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Be7",
-     "note": "Prepares to break the pin."
+     "note": "Black's bishop moves to e7."
     },
     {
      "san": "Bxf6",
@@ -1464,7 +1464,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxf6",
-     "note": "Black recaptures."
+     "note": "Black's bishop captures the bishop on f6. It attacks the pawn on d4."
     },
     {
      "san": "e4",
@@ -1472,7 +1472,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "fxe4",
-     "note": "Black takes in the center."
+     "note": "Black's f-pawn captures the pawn on e4. It attacks the knight on f3."
     },
     {
      "san": "Nxe4",
@@ -1492,19 +1492,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bd3",
-     "note": "The bishop takes aim at h7 and completes the attacking setup."
+     "note": "White's bishop moves to d3. If the e4-knight moves, the diagonal toward h7 will open."
     },
     {
      "san": "Bb7",
-     "note": "Black tries to defend, but the response is too slow."
+     "note": "Black's bishop develops to b7 and attacks the knight on e4."
     },
     {
      "san": "Qh5",
-     "note": "The queen attacks h7 twice and prepares the decisive sacrifice."
+     "note": "White's queen moves to h5 and attacks the pawn on h7."
     },
     {
      "san": "Qe7",
-     "note": "Black attempts to meet the threat."
+     "note": "Black's queen moves to e7. It supports the friendly pawn on d7."
     },
     {
      "san": "Qxh7+",
@@ -1520,7 +1520,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kh6",
-     "note": "The king moves in the selected variation; the position may offer other legal choices."
+     "note": "Black's king moves to h6 to escape the check."
     },
     {
      "san": "Neg4+",
@@ -1540,11 +1540,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "g3+",
-     "note": "Another pawn check continues the chase."
+     "note": "White advances the g-pawn to g3. The move gives check."
     },
     {
      "san": "Kf3",
-     "note": "The king moves farther into the attack."
+     "note": "Black's king moves to f3. It attacks the knight on g4."
     },
     {
      "san": "Be2+",
@@ -1552,7 +1552,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kg2",
-     "note": "The king moves toward the corner."
+     "note": "Black's king moves to g2. It attacks the rook on h1."
     },
     {
      "san": "Rh2+",
@@ -1560,11 +1560,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kg1",
-     "note": "The king reaches the corner."
+     "note": "Black's king moves to g1. It attacks the rook on h2."
     },
     {
-     "san": "O-O-O#",
-     "note": "Castling completes the combination: the rook arrives on d1 and mates the king that has crossed the board."
+     "san": "Kd2#",
+     "note": "White's king moves to d2, opening the a1-rook's rank for checkmate. 18.O-O-O# was also possible, but was not played."
     }
    ]
   }
@@ -1578,40 +1578,40 @@ const FAMOUS_GAMES = [
   "event": "パリ",
   "result": "1-0",
   "opening": "イタリアン風",
-  "intro": "『ルガールのメイト』として教材で必ず登場する古典。クイーンを取らせてでもナイトとビショップで詰ませる、ピンを逆用した罠の原型です。",
-  "takeaway": "ピンは万能ではない。詰みが見えているなら、ピンされた駒を動かしてでもナイトとビショップの連携で仕留められる。",
+  "intro": "「ルガールのメイト」として親しまれる詰み形。対局年や序盤の棋譜には諸説があるため、ここではピンを逆用する代表的な手順を紹介します。",
+  "takeaway": "ピンされた駒を動かす前に、相手がクイーンを取ったときのチェックを調べましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "e5",
-    "note": "対称。"
+    "note": "黒はeポーンをe5へ進める。"
    },
    {
     "san": "Nf3",
-    "note": "e5に当てる。"
+    "note": "白のナイトがf3へ移る。e5のポーンに当てる。"
    },
    {
     "san": "Nc6",
-    "note": "守る。"
+    "note": "黒のナイトがc6へ移る。e5の味方ポーンを支える。"
    },
    {
     "san": "Bc4",
-    "note": "f7をにらむ。"
+    "note": "白のビショップがc4へ移る。f7のポーンに当てる。"
    },
    {
     "san": "d6",
-    "note": "中央を固める受け身の手。"
+    "note": "黒はdポーンをd6へ進める。e5の味方ポーンを支える。"
    },
    {
     "san": "Nc3",
-    "note": "展開。"
+    "note": "白のナイトがc3へ移る。"
    },
    {
     "san": "Bg4",
-    "note": "f3のナイトにピンをかけ、クイーンを縛ったつもりになる。"
+    "note": "黒のビショップがg4へ出て、f3のナイトをクイーンに対してピンする。"
    },
    {
     "san": "h3",
@@ -1623,11 +1623,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nxe5",
-    "note": "ピンされているはずのナイトを動かす衝撃の一手。クイーンを取らせる誘い。"
+    "note": "白のナイトはピンを離れてe5のポーンを取る。黒はd1のクイーンを取れる。"
    },
    {
     "san": "Bxd1",
-    "note": "黒はクイーンを取って大喜びするが、これが敗着。"
+    "note": "黒のビショップがd1のクイーンを取る。白は次にチェックをかける。"
    },
    {
     "san": "Bxf7+",
@@ -1635,7 +1635,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ke7",
-    "note": "逃げ場はここだけ。"
+    "note": "黒のキングがe7へ移る。f7のビショップに当てる。"
    },
    {
     "san": "Nd5#",
@@ -1647,40 +1647,40 @@ const FAMOUS_GAMES = [
    "white": "Kermur de Legal",
    "black": "Saint Brie",
    "opening": "Italian-style opening",
-   "intro": "A classic pattern often taught as Legal's Mate. White allows the queen to be taken and then mates with the knights and bishop, turning a pin into a tactical resource.",
-   "takeaway": "A pin is not absolute. When a mating sequence is available, a pinned piece may move if the concrete calculation supports it.",
+   "intro": "An example of the mating pattern known as Légal's Mate. Accounts differ on the date and opening moves, so this score illustrates a familiar version of the trap.",
+   "takeaway": "Before moving a pinned piece, examine the checks available if the opponent takes the queen.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "e5",
-     "note": "Black mirrors the move."
+     "note": "Black advances the e-pawn to e5."
     },
     {
      "san": "Nf3",
-     "note": "Attacks e5."
+     "note": "White's knight moves to f3. It attacks the pawn on e5."
     },
     {
      "san": "Nc6",
-     "note": "Defends the pawn."
+     "note": "Black's knight moves to c6. It supports the friendly pawn on e5."
     },
     {
      "san": "Bc4",
-     "note": "The bishop targets f7."
+     "note": "White's bishop moves to c4. It attacks the pawn on f7."
     },
     {
      "san": "d6",
-     "note": "A solid, passive central defense."
+     "note": "Black advances the d-pawn to d6. It supports the friendly pawn on e5."
     },
     {
      "san": "Nc3",
-     "note": "Develops another piece."
+     "note": "White's knight moves to c3."
     },
     {
      "san": "Bg4",
-     "note": "The bishop pins the f3-knight and thinks the queen has been secured."
+     "note": "Black's bishop moves to g4, pinning the knight on f3 to the queen."
     },
     {
      "san": "h3",
@@ -1692,11 +1692,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nxe5",
-     "note": "The knight moves despite the pin and attacks the queen; White is offering it as bait."
+     "note": "White's knight leaves the pin and captures the pawn on e5. Black can now capture the queen on d1."
     },
     {
      "san": "Bxd1",
-     "note": "Black takes the queen, but this is the decisive mistake."
+     "note": "Black's bishop captures the queen on d1; White can now give check."
     },
     {
      "san": "Bxf7+",
@@ -1704,7 +1704,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ke7",
-     "note": "The king chooses the line shown in this study."
+     "note": "Black's king moves to e7. It attacks the bishop on f7."
     },
     {
      "san": "Nd5#",
@@ -1722,12 +1722,12 @@ const FAMOUS_GAMES = [
   "event": "ブダペスト(公開対局)",
   "result": "1-0",
   "opening": "スカンジナビア・ディフェンス",
-  "intro": "『ペルーのインモータル』と呼ばれる公開対局。白は両ルークを捨て、クイーンまで捨てて、最後はa6とf4の二枚のビショップの連携で詰ませます。早いキャスリングが必ずしも安全でないことも教えてくれます。",
-  "takeaway": "この対局では相手がクイーンサイドへキャスリングしたキングを攻める。斜めのラインが開くと、犠牲の連鎖で一気に詰むことがある。",
+  "intro": "1934年のブダペストでの公開対局として伝わる一局。カナルは二枚のルークとクイーンを差し出し、最後は二枚のビショップで詰ませます。",
+  "takeaway": "クイーンサイドにキャスリングしたキングの周りで、二枚のビショップが利く斜めに注目しましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "d5",
@@ -1735,7 +1735,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "exd5",
-    "note": "取る。"
+    "note": "白はeポーンでd5の黒ポーンを取る。"
    },
    {
     "san": "Qxd5",
@@ -1747,19 +1747,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qa5",
-    "note": "斜めに逃げる定番の位置。"
+    "note": "黒のクイーンがa5へ移る。c3のナイトに当てる。"
    },
    {
     "san": "d4",
-    "note": "中央を広げる。"
+    "note": "白はdポーンをd4へ進める。"
    },
    {
     "san": "c6",
-    "note": "b5やd5の逃げ道とビショップの帰り道を作る。"
+    "note": "黒はcポーンをc6へ進め、b5とd5を見張る。"
    },
    {
     "san": "Nf3",
-    "note": "展開。"
+    "note": "白のナイトがf3へ移る。"
    },
    {
     "san": "Bg4",
@@ -1771,15 +1771,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "e6",
-    "note": "ビショップの道を開ける。"
+    "note": "黒はeポーンをe6へ進める。"
    },
    {
     "san": "h3",
-    "note": "ピンのビショップに問う。"
+    "note": "白はhポーンを進め、f3のナイトをピンしているビショップに当てる。"
    },
    {
     "san": "Bxf3",
-    "note": "交換を選ぶ。"
+    "note": "黒のビショップがf3の白ナイトを取る。d1のクイーンに当てる。"
    },
    {
     "san": "Qxf3",
@@ -1787,7 +1787,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bb4",
-    "note": "ピンで反撃を試みる。"
+    "note": "黒のビショップがb4へ移る。c3のナイトに当てる。"
    },
    {
     "san": "Be2",
@@ -1795,11 +1795,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nd7",
-    "note": "展開。"
+    "note": "黒のナイトがd7へ移る。"
    },
    {
     "san": "a3",
-    "note": "ビショップに問う。"
+    "note": "白はaポーンをa3へ進める。b4のビショップに当てる。"
    },
    {
     "san": "O-O-O",
@@ -1811,15 +1811,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qxa1+",
-    "note": "黒はルークを取ってチェックだが、これは白の連続犠牲の呼び水。"
+    "note": "黒のクイーンがa1のルークを取り、チェックをかける。"
    },
    {
     "san": "Kd2",
-    "note": "チェックをキングでかわす。白は攻めに集中する。"
+    "note": "白キングはd2へ移り、クイーンからのチェックをかわす。"
    },
    {
     "san": "Qxh1",
-    "note": "黒はもう一台のルークまで取るが、これらの駒はキングを守りに戻れない。"
+    "note": "黒のクイーンがh1のルークも取る。白は次のチェックを探す。"
    },
    {
     "san": "Qxc6+",
@@ -1839,12 +1839,12 @@ const FAMOUS_GAMES = [
    "white": "Esteban Canal",
    "black": "Anonymous (NN)",
    "opening": "Scandinavian Defense",
-   "intro": "Known as the Peruvian Immortal, this attacking game ends with White sacrificing both rooks and the queen before mating with the bishops on a6 and f4 working together. It also shows why an early castle is not automatically safe when the attacking lines point toward it.",
-   "takeaway": "A castled king can still become a target. When a diagonal opens, a chain of sacrifices may suddenly make a mating attack possible.",
+   "intro": "In a game traditionally recorded as a 1934 simultaneous exhibition in Budapest, Canal gives up both rooks and the queen before mating with two bishops.",
+   "takeaway": "Watch the diagonals controlled by the two bishops around the king that castled queenside.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "d5",
@@ -1852,7 +1852,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "exd5",
-     "note": "White captures in the center."
+     "note": "White's e-pawn captures the pawn on d5."
     },
     {
      "san": "Qxd5",
@@ -1864,19 +1864,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qa5",
-     "note": "The queen retreats to a standard diagonal square."
+     "note": "Black's queen moves to a5. It attacks the knight on c3."
     },
     {
      "san": "d4",
-     "note": "Expands in the center."
+     "note": "White advances the d-pawn to d4."
     },
     {
      "san": "c6",
-     "note": "Creates an escape square for the queen and a route for the bishop."
+     "note": "Black advances the c-pawn to c6, controlling b5 and d5."
     },
     {
      "san": "Nf3",
-     "note": "Develops."
+     "note": "White's knight moves to f3."
     },
     {
      "san": "Bg4",
@@ -1888,15 +1888,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "e6",
-     "note": "Opens the bishop's diagonal."
+     "note": "Black advances the e-pawn to e6."
     },
     {
      "san": "h3",
-     "note": "Questions the pinned bishop."
+     "note": "White advances the h-pawn and attacks the bishop pinning the knight on f3."
     },
     {
      "san": "Bxf3",
-     "note": "Black chooses the exchange."
+     "note": "Black's bishop captures the knight on f3. It attacks the queen on d1."
     },
     {
      "san": "Qxf3",
@@ -1904,7 +1904,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bb4",
-     "note": "Black uses the pin to seek counterplay."
+     "note": "Black's bishop moves to b4. It attacks the knight on c3."
     },
     {
      "san": "Be2",
@@ -1912,11 +1912,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nd7",
-     "note": "Develops."
+     "note": "Black's knight moves to d7."
     },
     {
      "san": "a3",
-     "note": "The bishop is questioned again."
+     "note": "White advances the a-pawn to a3. It attacks the bishop on b4."
     },
     {
      "san": "O-O-O",
@@ -1928,15 +1928,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qxa1+",
-     "note": "Black takes a rook with check, but this is the first step in White's forcing sacrifice sequence."
+     "note": "Black's queen captures the rook on a1 with check."
     },
     {
      "san": "Kd2",
-     "note": "The king answers the check; White keeps the initiative."
+     "note": "White's king moves to d2 to escape the queen's check."
     },
     {
      "san": "Qxh1",
-     "note": "Black takes the second rook, but the captured rooks cannot return to defend the king."
+     "note": "Black's queen captures the other rook on h1. White can now look for a check."
     },
     {
      "san": "Qxc6+",
@@ -1962,12 +1962,12 @@ const FAMOUS_GAMES = [
   "event": "ブレスラウ",
   "result": "0-1",
   "opening": "フレンチ風の中央戦",
-  "intro": "黒番マーシャルの最終手が、あまりに美しく観客が盤上に金貨を投げたという伝説の一手で終わります(真偽は諸説あり)。三通りの取り方すべてが受からない、二股(フォーク)の妙。",
-  "takeaway": "最も安全そうなマスへの駒の投入が、実は複数の必殺の狙いを同時に生む『捨てて二股』になることがある。",
+  "intro": "1912年のブレスラウでの対局。マーシャルは最後に三つの白駒から取れるマスへクイーンを置きました。冒頭は1.e4から始まる記録もあり、ここでは1.d4からの手順を採用しています。",
+  "takeaway": "大きな駒を取れる場面でも、チェックや次の駒取りを一つずつ確かめましょう。",
   "moves": [
    {
     "san": "d4",
-    "note": "中央を取る。"
+    "note": "白はdポーンをd4へ進め、中央に足場を作る。"
    },
    {
     "san": "e6",
@@ -1975,35 +1975,35 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "e4",
-    "note": "中央をさらに広げる。"
+    "note": "白はeポーンをe4へ進める。"
    },
    {
     "san": "d5",
-    "note": "中央に当てる。"
+    "note": "黒はdポーンをd5へ進める。e4のポーンに当てる。"
    },
    {
     "san": "Nc3",
-    "note": "d5に当てて展開。"
+    "note": "白のナイトがc3へ移る。d5のポーンに当てる。"
    },
    {
     "san": "c5",
-    "note": "中央のd4を突いて反撃。"
+    "note": "黒はcポーンをc5へ進める。d4のポーンに当てる。"
    },
    {
     "san": "Nf3",
-    "note": "展開。"
+    "note": "白のナイトがf3へ移る。d4の味方ポーンを支える。"
    },
    {
     "san": "Nc6",
-    "note": "展開。"
+    "note": "黒のナイトがc6へ移る。d4のポーンに当てる。"
    },
    {
     "san": "exd5",
-    "note": "中央を整理する。"
+    "note": "白はeポーンでd5の黒ポーンを取る。c6のナイトに当てる。"
    },
    {
     "san": "exd5",
-    "note": "取り返し、中央が開く。"
+    "note": "黒はeポーンでd5の白ポーンを取る。"
    },
    {
     "san": "Be2",
@@ -2011,15 +2011,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf6",
-    "note": "展開。"
+    "note": "黒のナイトがf6へ移る。d5の味方ポーンを支える。"
    },
    {
     "san": "O-O",
-    "note": "キングを囲う。"
+    "note": "白はキング側にキャスリングする。"
    },
    {
     "san": "Be7",
-    "note": "展開。"
+    "note": "黒のビショップがe7へ移る。c5の味方ポーンを支える。"
    },
    {
     "san": "Bg5",
@@ -2027,7 +2027,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "O-O",
-    "note": "黒もキングを囲う。"
+    "note": "黒はキング側にキャスリングする。"
    },
    {
     "san": "dxc5",
@@ -2035,11 +2035,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Be6",
-    "note": "展開しつつd5を支える。"
+    "note": "黒のビショップがe6へ移る。d5の味方ポーンを支える。"
    },
    {
     "san": "Nd4",
-    "note": "中央のナイトを好位置へ。"
+    "note": "白のナイトがd4へ移る。e6のビショップに当てる。"
    },
    {
     "san": "Bxc5",
@@ -2047,7 +2047,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nxe6",
-    "note": "交換して黒の形を乱す。"
+    "note": "白のナイトがe6の黒ビショップを取る。d8のクイーンに当てる。"
    },
    {
     "san": "fxe6",
@@ -2055,15 +2055,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bg4",
-    "note": "e6を狙う。"
+    "note": "白のビショップがg4へ移る。e6のポーンに当てる。"
    },
    {
     "san": "Qd6",
-    "note": "クイーンを活用。"
+    "note": "黒のクイーンがd6へ移る。h2のポーンに当てる。"
    },
    {
     "san": "Bh3",
-    "note": "e6への圧力を保つ。"
+    "note": "白のビショップがh3へ移る。e6のポーンに当てる。"
    },
    {
     "san": "Rae8",
@@ -2071,7 +2071,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd2",
-    "note": "クイーンを整える。"
+    "note": "白のクイーンがd2へ移る。d5のポーンに当てる。"
    },
    {
     "san": "Bb4",
@@ -2079,7 +2079,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxf6",
-    "note": "ピンを外そうと交換する。"
+    "note": "白のビショップがf6の黒ナイトを取る。g7のポーンに当てる。"
    },
    {
     "san": "Rxf6",
@@ -2087,19 +2087,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rad1",
-    "note": "ルークをd列に。"
+    "note": "白のルークがd1へ移る。"
    },
    {
     "san": "Qc5",
-    "note": "クイーンでc3のナイトのピンを強め、攻めを加速。"
+    "note": "黒のクイーンはc5へ移り、c3のナイトとf2のポーンを攻める。"
    },
    {
     "san": "Qe2",
-    "note": "受けを試みる。"
+    "note": "白のクイーンがe2へ移る。e6のポーンに当てる。"
    },
    {
     "san": "Bxc3",
-    "note": "ピンされたナイトを取り、白の陣形を壊す。"
+    "note": "黒のビショップがc3のナイトを取る。"
    },
    {
     "san": "bxc3",
@@ -2111,7 +2111,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rxd5",
-    "note": "反撃してd5を取る。"
+    "note": "白のルークがd5の黒ポーンを取る。"
    },
    {
     "san": "Nd4",
@@ -2127,7 +2127,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Re5",
-    "note": "受けを試みる。"
+    "note": "白のルークがe5へ移る。e6のポーンに当てる。"
    },
    {
     "san": "Rh6",
@@ -2135,7 +2135,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qg5",
-    "note": "受ける。"
+    "note": "白のクイーンがg5へ移る。h6のルークに当てる。"
    },
    {
     "san": "Rxh3",
@@ -2147,7 +2147,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qg3",
-    "note": "空きマスへクイーンを『捨てる』伝説の一手。hxg3でもfxg3でもQxg3でも、いずれもNe2かNf3の二股や詰みが受からない。白は投了。"
+    "note": "黒のクイーンがg3へ。hxg3にはNe2#、fxg3にはNe2+、Kh1、Rxf1#、Qxg3にはNe2+のフォークがある。白は投了。"
    }
   ],
   "en": {
@@ -2155,12 +2155,12 @@ const FAMOUS_GAMES = [
    "white": "Stepan Levitsky",
    "black": "Frank Marshall",
    "opening": "French-style central battle",
-   "intro": "Marshall's final move was so striking that spectators were said to have thrown gold coins onto the board; the story is disputed. The move is a famous example of a queen sacrifice that creates several simultaneous tactical threats.",
-   "takeaway": "A piece placed on a seemingly safe square can create multiple mating or winning threats at once. Sometimes the strongest fork begins with a sacrifice.",
+   "intro": "In Breslau in 1912, Marshall ended the game by placing his queen on a square where three white pieces could capture it. Some records begin with 1.e4; this score follows the 1.d4 move order.",
+   "takeaway": "Even when a valuable piece can be captured, examine the checks and threats that may follow.",
    "moves": [
     {
      "san": "d4",
-     "note": "Takes central space."
+     "note": "White advances the d-pawn to d4 and claims space in the center."
     },
     {
      "san": "e6",
@@ -2168,35 +2168,35 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "e4",
-     "note": "Expands further in the center."
+     "note": "White advances the e-pawn to e4."
     },
     {
      "san": "d5",
-     "note": "Challenges the center."
+     "note": "Black advances the d-pawn to d5. It attacks the pawn on e4."
     },
     {
      "san": "Nc3",
-     "note": "Develops while attacking d5."
+     "note": "White's knight moves to c3. It attacks the pawn on d5."
     },
     {
      "san": "c5",
-     "note": "Counters by striking at d4."
+     "note": "Black advances the c-pawn to c5. It attacks the pawn on d4."
     },
     {
      "san": "Nf3",
-     "note": "Develops."
+     "note": "White's knight moves to f3. It supports the friendly pawn on d4."
     },
     {
      "san": "Nc6",
-     "note": "Develops."
+     "note": "Black's knight moves to c6. It attacks the pawn on d4."
     },
     {
      "san": "exd5",
-     "note": "White exchanges in the center."
+     "note": "White's e-pawn captures the pawn on d5. It attacks the knight on c6."
     },
     {
      "san": "exd5",
-     "note": "Black recaptures and opens the center."
+     "note": "Black's e-pawn captures the pawn on d5."
     },
     {
      "san": "Be2",
@@ -2204,15 +2204,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf6",
-     "note": "Develops."
+     "note": "Black's knight moves to f6. It supports the friendly pawn on d5."
     },
     {
      "san": "O-O",
-     "note": "White castles."
+     "note": "White castles kingside."
     },
     {
      "san": "Be7",
-     "note": "Black also develops."
+     "note": "Black's bishop moves to e7. It supports the friendly pawn on c5."
     },
     {
      "san": "Bg5",
@@ -2220,7 +2220,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "O-O",
-     "note": "Black castles."
+     "note": "Black castles kingside."
     },
     {
      "san": "dxc5",
@@ -2228,11 +2228,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Be6",
-     "note": "Develops while supporting d5."
+     "note": "Black's bishop moves to e6. It supports the friendly pawn on d5."
     },
     {
      "san": "Nd4",
-     "note": "The knight centralizes."
+     "note": "White's knight moves to d4. It attacks the bishop on e6."
     },
     {
      "san": "Bxc5",
@@ -2240,7 +2240,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nxe6",
-     "note": "White exchanges to damage Black's structure."
+     "note": "White's knight captures the bishop on e6. It attacks the queen on d8."
     },
     {
      "san": "fxe6",
@@ -2248,15 +2248,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bg4",
-     "note": "The bishop targets e6."
+     "note": "White's bishop moves to g4. It attacks the pawn on e6."
     },
     {
      "san": "Qd6",
-     "note": "The queen becomes active."
+     "note": "Black's queen moves to d6. It attacks the pawn on h2."
     },
     {
      "san": "Bh3",
-     "note": "The bishop keeps pressure on e6."
+     "note": "White's bishop moves to h3. It attacks the pawn on e6."
     },
     {
      "san": "Rae8",
@@ -2264,7 +2264,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd2",
-     "note": "The queen improves its position."
+     "note": "White's queen moves to d2. It attacks the pawn on d5."
     },
     {
      "san": "Bb4",
@@ -2272,7 +2272,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxf6",
-     "note": "White exchanges to remove the pin."
+     "note": "White's bishop captures the knight on f6. It attacks the pawn on g7."
     },
     {
      "san": "Rxf6",
@@ -2280,19 +2280,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rad1",
-     "note": "The rook reaches the d-file."
+     "note": "White's rook moves to d1."
     },
     {
      "san": "Qc5",
-     "note": "The queen strengthens the pin on the knight and accelerates the attack."
+     "note": "Black's queen moves to c5, attacking the knight on c3 and the pawn on f2."
     },
     {
      "san": "Qe2",
-     "note": "White tries to defend."
+     "note": "White's queen moves to e2. It attacks the pawn on e6."
     },
     {
      "san": "Bxc3",
-     "note": "Black captures the pinned knight and damages the pawn structure."
+     "note": "Black's bishop captures the knight on c3."
     },
     {
      "san": "bxc3",
@@ -2304,7 +2304,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rxd5",
-     "note": "White counterattacks by taking on d5."
+     "note": "White's rook captures the pawn on d5."
     },
     {
      "san": "Nd4",
@@ -2320,7 +2320,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Re5",
-     "note": "White tries to defend."
+     "note": "White's rook moves to e5. It attacks the pawn on e6."
     },
     {
      "san": "Rh6",
@@ -2328,7 +2328,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qg5",
-     "note": "White tries to defend again."
+     "note": "White's queen moves to g5. It attacks the rook on h6."
     },
     {
      "san": "Rxh3",
@@ -2340,7 +2340,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qg3",
-     "note": "The queen is offered on an apparently safe square. Each of the three captures leads to a decisive fork or mating attack; White resigns."
+     "note": "Black's queen moves to g3 and White resigns. After hxg3 comes Ne2#; after fxg3, Ne2+ Kh1 Rxf1#; after Qxg3, Ne2+ forks king and queen."
     }
    ]
   }
@@ -2354,8 +2354,8 @@ const FAMOUS_GAMES = [
   "event": "ニューヨーク(ローゼンワルド杯)",
   "result": "0-1",
   "opening": "グリュンフェルト・ディフェンス",
-  "intro": "13歳のフィッシャーが放った歴史的名局。クイーンを捨てながら、ビショップ・ナイト・ルークの完璧な連携で相手を縛り上げ、最後は自分のキングを安全に保ったまま相手のキングを追い詰めます。若き天才の構想力の証明。",
-  "takeaway": "クイーンより働く軽い駒たちの連携。相手のキングを終始危険にさらし続ければ、駒の質より『働きの総和』が勝る。",
+  "intro": "1956年のニューヨークで、13歳のフィッシャーが黒番で指した一局。クイーンを差し出した後、残った駒を連携させ、最後はルークで詰ませます。",
+  "takeaway": "クイーンを失った後も、ナイト、ビショップ、ルークのチェックと駒取りをつなげる手順を追ってみましょう。",
   "moves": [
    {
     "san": "Nf3",
@@ -2363,7 +2363,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf6",
-    "note": "対称に応じる。"
+    "note": "黒のナイトがf6へ移る。"
    },
    {
     "san": "c4",
@@ -2375,7 +2375,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nc3",
-    "note": "展開。"
+    "note": "白のナイトがc3へ移る。"
    },
    {
     "san": "Bg7",
@@ -2383,7 +2383,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "d4",
-    "note": "中央を占める。"
+    "note": "白はdポーンをd4へ進める。"
    },
    {
     "san": "O-O",
@@ -2399,7 +2399,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qb3",
-    "note": "d5とb7をにらむ。"
+    "note": "白のクイーンがb3へ移り、b7のポーンを狙う。"
    },
    {
     "san": "dxc4",
@@ -2407,11 +2407,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qxc4",
-    "note": "取り返す。"
+    "note": "白のクイーンがc4の黒ポーンを取る。c7のポーンに当てる。"
    },
    {
     "san": "c6",
-    "note": "b5やd5の準備をし、ビショップの帰り道も作る。"
+    "note": "黒はcポーンを進め、b5とd5を見張る。"
    },
    {
     "san": "e4",
@@ -2423,7 +2423,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rd1",
-    "note": "d列にルークを据える。"
+    "note": "白のルークがd1へ移る。"
    },
    {
     "san": "Nb6",
@@ -2431,7 +2431,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qc5",
-    "note": "クイーンを保つ。"
+    "note": "白のクイーンがc5へ移る。b6のナイトに当てる。"
    },
    {
     "san": "Bg4",
@@ -2439,7 +2439,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bg5",
-    "note": "反撃を試みる。"
+    "note": "白のビショップがg5へ移る。f6のナイトに当てる。"
    },
    {
     "san": "Na4",
@@ -2447,7 +2447,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qa3",
-    "note": "クイーンは逃げる。"
+    "note": "白のクイーンがa3へ移る。a4のナイトに当てる。"
    },
    {
     "san": "Nxc3",
@@ -2459,7 +2459,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nxe4",
-    "note": "中央のポーンを取る大胆な一手。ピンや反撃の網を張る。"
+    "note": "黒のナイトがe4のポーンを取り、g5の白ビショップに当てる。"
    },
    {
     "san": "Bxe7",
@@ -2467,19 +2467,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qb6",
-    "note": "クイーンを守りに使わず、逆に白のキング方面と中央を狙う。"
+    "note": "黒のクイーンはb6へ移り、d4のポーンを狙う。"
    },
    {
     "san": "Bc4",
-    "note": "受けを試みる。"
+    "note": "白のビショップがc4へ移る。f7のポーンに当てる。"
    },
    {
     "san": "Nxc3",
-    "note": "ナイトでチェックをかけ、コンビネーションの本番へ。"
+    "note": "黒のナイトがc3のポーンを取り、d1のルークに当てる。"
    },
    {
     "san": "Bc5",
-    "note": "白は苦しい受け。"
+    "note": "白のビショップがc5へ移り、b6のクイーンとf8のルークを攻める。"
    },
    {
     "san": "Rfe8+",
@@ -2487,11 +2487,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kf1",
-    "note": "逃げるしかない。"
+    "note": "白のキングがf1へ移る。"
    },
    {
     "san": "Be6",
-    "note": "驚愕の一手。白クイーンを取らせても構わないと、ビショップを差し出す。"
+    "note": "黒はクイーンを取られる位置に残したままビショップをe6へ動かし、c4の白ビショップを狙う。"
    },
    {
     "san": "Bxb6",
@@ -2499,11 +2499,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxc4+",
-    "note": "チェックをかけながら取り返し、黒の軽い駒が一斉に働き出す。"
+    "note": "黒のビショップがc4の白ビショップを取り、チェックをかける。"
    },
    {
     "san": "Kg1",
-    "note": "逃げる。"
+    "note": "白のキングがg1へ移る。"
    },
    {
     "san": "Ne2+",
@@ -2511,15 +2511,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kf1",
-    "note": "戻る。"
+    "note": "白のキングがf1へ移る。e2のナイトに当てる。"
    },
    {
     "san": "Nxd4+",
-    "note": "ポーンを取りながらチェック。駒得を重ねる。"
+    "note": "黒のナイトがd4のポーンを取り、チェックをかける。"
    },
    {
     "san": "Kg1",
-    "note": "戻る。"
+    "note": "白のキングがg1へ移る。"
    },
    {
     "san": "Ne2+",
@@ -2527,23 +2527,23 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kf1",
-    "note": "戻る。"
+    "note": "白のキングがf1へ移る。e2のナイトに当てる。"
    },
    {
     "san": "Nc3+",
-    "note": "ディスカバードチェック。白クイーンやルークへの利きも生む。"
+    "note": "黒のナイトがc3へ跳び、開いた斜めからビショップがチェック。ナイトはd1のルークも狙う。"
    },
    {
     "san": "Kg1",
-    "note": "戻る。"
+    "note": "白のキングがg1へ移る。"
    },
    {
     "san": "axb6",
-    "note": "落ち着いてビショップを回収。黒は駒得のうえ全駒が絶好調。"
+    "note": "黒のaポーンがb6のビショップを取る。"
    },
    {
     "san": "Qb4",
-    "note": "反撃を試みる。"
+    "note": "白のクイーンがb4へ移る。c4のビショップに当てる。"
    },
    {
     "san": "Ra4",
@@ -2551,11 +2551,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qxb6",
-    "note": "取るが…"
+    "note": "白のクイーンがb6の黒ポーンを取る。"
    },
    {
     "san": "Nxd1",
-    "note": "ルークを取り、黒の駒得は決定的になる。"
+    "note": "黒のナイトがd1の白ルークを取る。"
    },
    {
     "san": "h3",
@@ -2567,7 +2567,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kh2",
-    "note": "キングを逃がす。"
+    "note": "白のキングがh2へ移る。"
    },
    {
     "san": "Nxf2",
@@ -2575,7 +2575,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Re1",
-    "note": "反撃を試みる。"
+    "note": "白のルークがe1へ移る。e8のルークに当てる。"
    },
    {
     "san": "Rxe1",
@@ -2583,7 +2583,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd8+",
-    "note": "チェックで粘る。"
+    "note": "白のクイーンがd8へ移る。チェック。"
    },
    {
     "san": "Bf8",
@@ -2591,7 +2591,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nxe1",
-    "note": "取り返す。"
+    "note": "白のナイトがe1の黒ルークを取る。"
    },
    {
     "san": "Bd5",
@@ -2599,7 +2599,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf3",
-    "note": "白は逃げ回る。"
+    "note": "白のナイトがf3へ移る。"
    },
    {
     "san": "Ne4",
@@ -2615,15 +2615,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "h4",
-    "note": "白は的のないポーンを突くしかない。"
+    "note": "白はhポーンを進め、キング側に空間を作る。"
    },
    {
     "san": "h5",
-    "note": "黒も応じて陣形を保つ。"
+    "note": "黒はhポーンをh5へ進める。"
    },
    {
     "san": "Ne5",
-    "note": "白は最後の抵抗。"
+    "note": "白のナイトがe5へ移る。c6のポーンに当てる。"
    },
    {
     "san": "Kg7",
@@ -2631,7 +2631,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kg1",
-    "note": "白のキングは隅で震える。"
+    "note": "白キングはg1へ戻る。"
    },
    {
     "san": "Bc5+",
@@ -2639,7 +2639,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kf1",
-    "note": "逃げる。"
+    "note": "白のキングがf1へ移る。g2の味方ポーンを支える。"
    },
    {
     "san": "Ng3+",
@@ -2647,7 +2647,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ke1",
-    "note": "逃げる。"
+    "note": "白のキングがe1へ移る。"
    },
    {
     "san": "Bb4+",
@@ -2655,7 +2655,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kd1",
-    "note": "逃げる。"
+    "note": "白のキングがd1へ移る。"
    },
    {
     "san": "Bb3+",
@@ -2663,27 +2663,27 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kc1",
-    "note": "隅へ。"
+    "note": "白のキングがc1へ移る。"
    },
    {
     "san": "Ne2+",
-    "note": "チェック。"
+    "note": "黒のナイトがe2へ移る。チェック。"
    },
    {
     "san": "Kb1",
-    "note": "逃げ場が尽きる。"
+    "note": "白のキングがb1へ移る。a2のルークに当てる。"
    },
    {
     "san": "Nc3+",
-    "note": "チェックで位置を決める。"
+    "note": "黒のナイトがc3へ移る。チェック。"
    },
    {
     "san": "Kc1",
-    "note": "戻るしかない。"
+    "note": "白のキングがc1へ移る。"
    },
    {
     "san": "Rc2#",
-    "note": "ルークがc2に入りチェックメイト。13歳の少年が、クイーンを捨てて軽い駒だけで相手のキングを狩り切った、まさに世紀の一局。"
+    "note": "黒のルークがc2に入りチェックメイト。c3のナイトが逃げ道を押さえ、b3のビショップがルークを支える。"
    }
   ],
   "en": {
@@ -2691,8 +2691,8 @@ const FAMOUS_GAMES = [
    "white": "Donald Byrne",
    "black": "Bobby Fischer",
    "opening": "Grünfeld Defense",
-   "intro": "A historic game played by thirteen-year-old Bobby Fischer. He sacrifices the queen and uses the bishop, knight, and rooks so effectively that White's king remains under pressure while Black's own king stays safe.",
-   "takeaway": "Coordination can outweigh the nominal value of a queen. If the enemy king remains under lasting pressure, the activity of several lesser pieces may be decisive.",
+   "intro": "In New York in 1956, thirteen-year-old Fischer played Black and offered his queen. His remaining pieces then worked together, ending with a rook checkmate.",
+   "takeaway": "Follow how checks and captures by the knight, bishops, and rooks work together after the queen is given up.",
    "moves": [
     {
      "san": "Nf3",
@@ -2700,7 +2700,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf6",
-     "note": "Black replies symmetrically."
+     "note": "Black's knight moves to f6."
     },
     {
      "san": "c4",
@@ -2712,7 +2712,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nc3",
-     "note": "Develops."
+     "note": "White's knight moves to c3."
     },
     {
      "san": "Bg7",
@@ -2720,7 +2720,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "d4",
-     "note": "White occupies the center."
+     "note": "White advances the d-pawn to d4."
     },
     {
      "san": "O-O",
@@ -2736,7 +2736,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qb3",
-     "note": "The queen attacks d5 and b7."
+     "note": "White's queen moves to b3 and attacks the pawn on b7."
     },
     {
      "san": "dxc4",
@@ -2744,11 +2744,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qxc4",
-     "note": "White recaptures."
+     "note": "White's queen captures the pawn on c4. It attacks the pawn on c7."
     },
     {
      "san": "c6",
-     "note": "Prepares ...b5 or ...d5 and opens a route for the bishop."
+     "note": "Black advances the c-pawn, controlling b5 and d5."
     },
     {
      "san": "e4",
@@ -2760,7 +2760,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rd1",
-     "note": "The rook takes the d-file."
+     "note": "White's rook moves to d1."
     },
     {
      "san": "Nb6",
@@ -2768,7 +2768,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qc5",
-     "note": "The queen preserves itself."
+     "note": "White's queen moves to c5. It attacks the knight on b6."
     },
     {
      "san": "Bg4",
@@ -2776,7 +2776,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bg5",
-     "note": "White tries to create counterplay."
+     "note": "White's bishop moves to g5. It attacks the knight on f6."
     },
     {
      "san": "Na4",
@@ -2784,7 +2784,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qa3",
-     "note": "The queen retreats in the selected line."
+     "note": "White's queen moves to a3. It attacks the knight on a4."
     },
     {
      "san": "Nxc3",
@@ -2796,7 +2796,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nxe4",
-     "note": "Black takes the central pawn and sets tactical pressure around the pinned knight."
+     "note": "Black's knight captures the e4-pawn and attacks White's bishop on g5."
     },
     {
      "san": "Bxe7",
@@ -2804,19 +2804,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qb6",
-     "note": "The queen remains active instead of defending passively, attacking the center and the white king."
+     "note": "Black's queen moves to b6 and attacks the pawn on d4."
     },
     {
      "san": "Bc4",
-     "note": "White tries to hold the position together."
+     "note": "White's bishop moves to c4. It attacks the pawn on f7."
     },
     {
      "san": "Nxc3",
-     "note": "The knight checks and begins the forcing phase."
+     "note": "Black's knight captures the c3-pawn and attacks the rook on d1."
     },
     {
      "san": "Bc5",
-     "note": "White answers the check."
+     "note": "White's bishop moves to c5 and attacks the queen on b6 and rook on f8."
     },
     {
      "san": "Rfe8+",
@@ -2824,11 +2824,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kf1",
-     "note": "The king moves in the selected line."
+     "note": "White's king moves to f1."
     },
     {
      "san": "Be6",
-     "note": "The bishop offers itself, allowing White to take the queen while opening lines for Black's remaining pieces."
+     "note": "Black leaves the queen exposed and moves the bishop to e6, attacking White's bishop on c4."
     },
     {
      "san": "Bxb6",
@@ -2836,11 +2836,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxc4+",
-     "note": "The bishop recaptures with check and brings the light pieces into full activity."
+     "note": "Black's bishop captures White's bishop on c4 with check."
     },
     {
      "san": "Kg1",
-     "note": "The king moves."
+     "note": "White's king moves to g1."
     },
     {
      "san": "Ne2+",
@@ -2848,15 +2848,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kf1",
-     "note": "The king returns."
+     "note": "White's king moves to f1. It attacks the knight on e2."
     },
     {
      "san": "Nxd4+",
-     "note": "The knight captures with check and gains more material."
+     "note": "Black's knight captures the pawn on d4 with check."
     },
     {
      "san": "Kg1",
-     "note": "The king returns."
+     "note": "White's king moves to g1."
     },
     {
      "san": "Ne2+",
@@ -2864,23 +2864,23 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kf1",
-     "note": "The king returns."
+     "note": "White's king moves to f1. It attacks the knight on e2."
     },
     {
      "san": "Nc3+",
-     "note": "A discovered check also attacks the white queen and rook."
+     "note": "Black's knight jumps to c3, uncovering a bishop check and attacking the rook on d1."
     },
     {
      "san": "Kg1",
-     "note": "The king returns."
+     "note": "White's king moves to g1."
     },
     {
      "san": "axb6",
-     "note": "Black calmly recaptures the bishop. Black has material and every piece is active."
+     "note": "Black's a-pawn captures the bishop on b6."
     },
     {
      "san": "Qb4",
-     "note": "White searches for counterplay."
+     "note": "White's queen moves to b4. It attacks the bishop on c4."
     },
     {
      "san": "Ra4",
@@ -2888,11 +2888,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qxb6",
-     "note": "White takes the bishop, but Black wins a rook."
+     "note": "White's queen captures the black pawn on b6."
     },
     {
      "san": "Nxd1",
-     "note": "The knight captures the rook, making Black's material advantage decisive."
+     "note": "Black's knight captures the white rook on d1."
     },
     {
      "san": "h3",
@@ -2904,7 +2904,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kh2",
-     "note": "The king moves away."
+     "note": "White's king moves to h2."
     },
     {
      "san": "Nxf2",
@@ -2912,7 +2912,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Re1",
-     "note": "White tries to activate the rook."
+     "note": "White's rook moves to e1. It attacks the rook on e8."
     },
     {
      "san": "Rxe1",
@@ -2920,7 +2920,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd8+",
-     "note": "White checks to prolong the game."
+     "note": "White's queen moves to d8. The move gives check."
     },
     {
      "san": "Bf8",
@@ -2928,7 +2928,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nxe1",
-     "note": "White recaptures."
+     "note": "White's knight captures the rook on e1."
     },
     {
      "san": "Bd5",
@@ -2936,7 +2936,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf3",
-     "note": "White's knight searches for a square."
+     "note": "White's knight moves to f3."
     },
     {
      "san": "Ne4",
@@ -2952,15 +2952,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "h4",
-     "note": "White can only make a waiting pawn move."
+     "note": "White advances the h-pawn, gaining space on the kingside."
     },
     {
      "san": "h5",
-     "note": "Black preserves the formation."
+     "note": "Black advances the h-pawn to h5."
     },
     {
      "san": "Ne5",
-     "note": "White makes a final attempt."
+     "note": "White's knight moves to e5. It attacks the pawn on c6."
     },
     {
      "san": "Kg7",
@@ -2968,7 +2968,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kg1",
-     "note": "White's king returns to the corner."
+     "note": "White's king returns to g1."
     },
     {
      "san": "Bc5+",
@@ -2976,7 +2976,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kf1",
-     "note": "The king moves."
+     "note": "White's king moves to f1. It supports the friendly pawn on g2."
     },
     {
      "san": "Ng3+",
@@ -2984,7 +2984,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ke1",
-     "note": "The king moves."
+     "note": "White's king moves to e1."
     },
     {
      "san": "Bb4+",
@@ -2992,7 +2992,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kd1",
-     "note": "The king moves."
+     "note": "White's king moves to d1."
     },
     {
      "san": "Bb3+",
@@ -3000,27 +3000,27 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kc1",
-     "note": "The king moves toward the corner."
+     "note": "White's king moves to c1."
     },
     {
      "san": "Ne2+",
-     "note": "The knight checks."
+     "note": "Black's knight moves to e2. The move gives check."
     },
     {
      "san": "Kb1",
-     "note": "The king moves to b1."
+     "note": "White's king moves to b1. It attacks the rook on a2."
     },
     {
      "san": "Nc3+",
-     "note": "The knight checks and forces the king onto the mating route."
+     "note": "Black's knight moves to c3. The move gives check."
     },
     {
      "san": "Kc1",
-     "note": "The king returns."
+     "note": "White's king moves to c1."
     },
     {
      "san": "Rc2#",
-     "note": "The rook mates on c2. Fischer has sacrificed the queen and used the minor pieces to complete a legendary king hunt."
+     "note": "Black's rook mates on c2. The c3-knight controls escape squares, and the b3-bishop supports the rook."
     }
    ]
   }
@@ -3034,12 +3034,12 @@ const FAMOUS_GAMES = [
   "event": "IBMマン・マシン戦再戦・ニューヨーク 第6局",
   "result": "1-0",
   "opening": "カロ・カン・ディフェンス（シュタイニッツ・バリエーション、B17）",
-  "intro": "1997年5月11日にニューヨークで行われた、ディープ・ブルー対カスパロフ再戦の第6局です。7...h6の直後に、ディープ・ブルーは有名な8.Nxe6!のナイト犠牲を決め、19.c4のあとカスパロフが投了しました。",
-  "takeaway": "定跡は手順の丸暗記だけではない。8.Nxe6!のような犠牲は、駒得だけでなく相手キングの安全と自分の展開の速さを合わせて評価する。",
+  "intro": "1997年のディープ・ブルー対カスパロフ再戦、第6局。白は8.Nxe6でナイトを差し出し、黒キングが中央に残る局面を攻めます。",
+  "takeaway": "駒の損得に加えて、キングの安全、展開の速さ、開く筋を見比べましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "c6",
@@ -3047,7 +3047,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "d4",
-    "note": "堂々と中央を広げる。"
+    "note": "白はdポーンをd4へ進める。"
    },
    {
     "san": "d5",
@@ -3055,11 +3055,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nc3",
-    "note": "d5に当てて展開。"
+    "note": "白のナイトがc3へ移る。d5のポーンに当てる。"
    },
    {
     "san": "dxe4",
-    "note": "中央のポーンを交換する。"
+    "note": "黒はdポーンでe4の白ポーンを取る。"
    },
    {
     "san": "Nxe4",
@@ -3075,7 +3075,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ngf6",
-    "note": "もう一枚のナイトを展開し、g5のナイトに対応する。"
+    "note": "黒はg8のナイトをf6へ展開する。"
    },
    {
     "san": "Bd3",
@@ -3083,7 +3083,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "e6",
-    "note": "ビショップの利きを止め、陣形を整える。"
+    "note": "黒はeポーンを進め、f8のビショップの道を開く。"
    },
    {
     "san": "N1f3",
@@ -3111,7 +3111,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bg6+",
-    "note": "ビショップがチェック。黒キングは動かざるを得ず、キャスリング権も失う。"
+    "note": "白のビショップがg6からチェック。黒にはキングを動かすほか、Qf7で受ける手もある。"
    },
    {
     "san": "Kd8",
@@ -3119,7 +3119,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bf4",
-    "note": "ビショップを攻撃に加え、e6への圧力を強める。"
+    "note": "白はc1のビショップをf4へ出し、h6のポーンに当てる。"
    },
    {
     "san": "b5",
@@ -3143,7 +3143,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bg3",
-    "note": "ビショップを引きつつ、e5経由の圧力を保つ。"
+    "note": "白のビショップはナイトの攻撃を避け、g3へ退く。"
    },
    {
     "san": "Kc8",
@@ -3159,7 +3159,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd3",
-    "note": "クイーンも攻撃に加わり、b5とe6を同時に狙う。"
+    "note": "白のクイーンがd3へ出て、b5のポーンを狙う。"
    },
    {
     "san": "Bc6",
@@ -3179,7 +3179,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxe7",
-    "note": "ビショップでルークを取り返すが、白の攻撃と駒の働きは決定的。"
+    "note": "黒のビショップがe7でルークを取り返す。"
    },
    {
     "san": "c4",
@@ -3191,12 +3191,12 @@ const FAMOUS_GAMES = [
    "white": "Deep Blue",
    "black": "Garry Kasparov",
    "opening": "Caro-Kann Defense, Steinitz Variation (B17)",
-   "intro": "This is Game 6, the sixth and final game of the 1997 Deep Blue–Kasparov rematch in New York. After 7...h6, Deep Blue played the famous 8.Nxe6! knight sacrifice, and Kasparov resigned after 19.c4.",
-   "takeaway": "Opening moves are not just a sequence to memorize. The 8.Nxe6! sacrifice works because it combines pressure on the king with White's lead in development; evaluate material together with king safety and piece activity.",
+   "intro": "In game six of the 1997 Deep Blue–Kasparov rematch, White offers a knight with 8.Nxe6 and plays against the black king in the center.",
+   "takeaway": "Alongside the material count, compare king safety, development, and the files and diagonals that may open.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "c6",
@@ -3204,7 +3204,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "d4",
-     "note": "White expands confidently in the center."
+     "note": "White advances the d-pawn to d4."
     },
     {
      "san": "d5",
@@ -3212,11 +3212,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nc3",
-     "note": "Develops while attacking d5."
+     "note": "White's knight moves to c3. It attacks the pawn on d5."
     },
     {
      "san": "dxe4",
-     "note": "Black exchanges the central pawns."
+     "note": "Black's d-pawn captures the pawn on e4."
     },
     {
      "san": "Nxe4",
@@ -3232,7 +3232,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ngf6",
-     "note": "The other knight develops and addresses the g5-knight."
+     "note": "Black develops the g8-knight to f6."
     },
     {
      "san": "Bd3",
@@ -3240,7 +3240,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "e6",
-     "note": "Black blocks the bishop and strengthens the structure."
+     "note": "Black advances the e-pawn and opens a diagonal for the f8-bishop."
     },
     {
      "san": "N1f3",
@@ -3268,7 +3268,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bg6+",
-     "note": "The bishop checks; the black king must move and loses the right to castle."
+     "note": "White's bishop checks from g6. Black can move the king or interpose the queen with Qf7."
     },
     {
      "san": "Kd8",
@@ -3276,7 +3276,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bf4",
-     "note": "White brings another bishop into the attack and increases the pressure on e6."
+     "note": "White develops the c1-bishop to f4, attacking the pawn on h6."
     },
     {
      "san": "b5",
@@ -3300,7 +3300,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bg3",
-     "note": "The bishop retreats while preserving its pressure."
+     "note": "White's bishop retreats to g3, away from the knight's attack."
     },
     {
      "san": "Kc8",
@@ -3316,7 +3316,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd3",
-     "note": "The queen joins the attack and targets b5 and e6."
+     "note": "White's queen moves to d3 and attacks the pawn on b5."
     },
     {
      "san": "Bc6",
@@ -3336,7 +3336,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxe7",
-     "note": "Black recaptures the rook, but White's attack and piece activity are decisive."
+     "note": "Black's bishop recaptures the rook on e7."
     },
     {
      "san": "c4",
@@ -3354,12 +3354,12 @@ const FAMOUS_GAMES = [
   "event": "ホーホーフェンス・トーナメント(ウェイク・アーン・ゼー)",
   "result": "1-0",
   "opening": "ピルツ・ディフェンス",
-  "intro": "『カスパロフのイモータル』と讃えられる、史上屈指の大作。ルークを捨てて相手のキングを自陣から敵陣のすみずみまで引きずり回し、盤を横断するキング狩りで仕留めます。",
-  "takeaway": "決め手が見えたら駒の損得を超えて踏み込む。連続チェックで相手のキングを『逃げ道のある広い場所』へ誘い出し、正確な追撃で仕留める。",
+  "intro": "1999年のウェイク・アーン・ゼーでの一局。カスパロフのルーク犠牲から、黒キングが白陣まで進む複雑な戦いが始まります。",
+  "takeaway": "連続チェックだけでなく、その途中にあるクイーンやルークへの攻撃にも目を向けましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "d6",
@@ -3367,15 +3367,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "d4",
-    "note": "中央を広く占領する。"
+    "note": "白はdポーンをd4へ進める。"
    },
    {
     "san": "Nf6",
-    "note": "e4をけん制。"
+    "note": "黒のナイトがf6へ移る。e4のポーンに当てる。"
    },
    {
     "san": "Nc3",
-    "note": "展開しつつ中央を支える。"
+    "note": "白のナイトがc3へ移る。e4の味方ポーンを支える。"
    },
    {
     "san": "g6",
@@ -3403,7 +3403,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "b5",
-    "note": "反対側で反撃を開始。互いに逆方向へ攻める激しい将棋に。"
+    "note": "黒はbポーンを進め、クイーン側に空間を作る。"
    },
    {
     "san": "Nge2",
@@ -3415,11 +3415,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bh6",
-    "note": "にらみ合うビショップを交換し、黒のキングの守りを削る。"
+    "note": "白のビショップがh6へ進み、g7の黒ビショップに当てる。"
    },
    {
     "san": "Bxh6",
-    "note": "取り返すしかない。"
+    "note": "黒のビショップがh6の白ビショップを取る。"
    },
    {
     "san": "Qxh6",
@@ -3427,7 +3427,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bb7",
-    "note": "ビショップを長い斜めへ。中央のe4をにらむ。"
+    "note": "黒はc8のビショップをb7へ展開する。"
    },
    {
     "san": "a3",
@@ -3459,7 +3459,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "O-O-O",
-    "note": "黒も反対側へキングを囲う。両者のキングが左右に分かれ、総攻撃の号砲。"
+    "note": "黒もクイーンサイドへキャスリング。両方のキングが盤の同じ側に並ぶ。"
    },
    {
     "san": "Nb3",
@@ -3467,7 +3467,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "exd4",
-    "note": "中央を清算する。"
+    "note": "黒はeポーンでd4の白ポーンを取る。c3のナイトに当てる。"
    },
    {
     "san": "Rxd4",
@@ -3475,7 +3475,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "c5",
-    "note": "ルークに当てて追い返す。"
+    "note": "黒はcポーンをc5へ進める。d4のルークに当てる。"
    },
    {
     "san": "Rd1",
@@ -3531,11 +3531,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nbxd5",
-    "note": "取るしかない。"
+    "note": "黒のナイトがd5の白ナイトを取る。f4のクイーンに当てる。"
    },
    {
     "san": "exd5",
-    "note": "取り返し、e筋とd筋が黒のキングへ向かって開く。"
+    "note": "白のeポーンがd5のナイトを取り返す。"
    },
    {
     "san": "Qd6",
@@ -3547,7 +3547,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "cxd4",
-    "note": "取れば…"
+    "note": "黒はcポーンでd4の白ルークを取る。"
    },
    {
     "san": "Re7+",
@@ -3555,7 +3555,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kb6",
-    "note": "キングは前進を強いられる。"
+    "note": "黒キングはb6へ移り、a5の白ナイトに当てる。"
    },
    {
     "san": "Qxd4+",
@@ -3583,11 +3583,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ra7",
-    "note": "ルークが7段目を走り、a列のキングを狙う。"
+    "note": "白のルークがa7へ移り、a6のポーンとa8のビショップを狙う。"
    },
    {
     "san": "Bb7",
-    "note": "ビショップで受ける。"
+    "note": "黒のビショップがb7へ移る。白のルークが取れる位置に置かれた。"
    },
    {
     "san": "Rxb7",
@@ -3595,7 +3595,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qc4",
-    "note": "黒は反撃で紛れを求める。"
+    "note": "黒のクイーンがc4へ移る。c3のクイーンに当てる。"
    },
    {
     "san": "Qxf6",
@@ -3607,11 +3607,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qxa6+",
-    "note": "チェックで追い立てる。"
+    "note": "白のクイーンがa6の黒ポーンを取る。チェック。"
    },
    {
     "san": "Kxb4",
-    "note": "キングはさらに白陣へ。"
+    "note": "黒のキングがb4の白ポーンを取る。b5の味方ポーンを支える。"
    },
    {
     "san": "c3+",
@@ -3619,7 +3619,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kxc3",
-    "note": "取るしかない。"
+    "note": "黒のキングがc3の白ポーンを取る。"
    },
    {
     "san": "Qa1+",
@@ -3631,7 +3631,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qb2+",
-    "note": "追撃のチェック。"
+    "note": "白のクイーンがb2へ移る。チェック。"
    },
    {
     "san": "Kd1",
@@ -3639,11 +3639,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bf1",
-    "note": "ビショップが逃げ道をふさぐ静かな決め手。"
+    "note": "白のビショップがf1へ退き、c4の黒クイーンに当てる。"
    },
    {
     "san": "Rd2",
-    "note": "黒は必死の反撃を試みる。"
+    "note": "黒のルークがd2へ移る。b2のクイーンに当てる。"
    },
    {
     "san": "Rd7",
@@ -3651,7 +3651,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rxd7",
-    "note": "取り合う。"
+    "note": "黒のルークがd7の白ルークを取る。"
    },
    {
     "san": "Bxc4",
@@ -3659,7 +3659,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "bxc4",
-    "note": "取り返す。"
+    "note": "黒はbポーンでc4の白ビショップを取る。"
    },
    {
     "san": "Qxh8",
@@ -3667,11 +3667,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rd3",
-    "note": "黒は最後の粘り。"
+    "note": "黒のルークがd3へ移る。f3のポーンに当てる。"
    },
    {
     "san": "Qa8",
-    "note": "クイーンを引き、cポーンを止めにいく。"
+    "note": "白のクイーンはa8へ移り、次の動きに備える。"
    },
    {
     "san": "c3",
@@ -3679,11 +3679,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qa4+",
-    "note": "チェックで追いながらポーンを絡め取りにいく。"
+    "note": "白のクイーンがa4からチェック。黒キングに応手を迫る。"
    },
    {
     "san": "Ke1",
-    "note": "キングは逃げ続ける。"
+    "note": "黒のキングがe1へ移る。"
    },
    {
     "san": "f4",
@@ -3691,7 +3691,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "f5",
-    "note": "黒も応じる。"
+    "note": "黒はfポーンをf5へ進める。"
    },
    {
     "san": "Kc1",
@@ -3699,11 +3699,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rd2",
-    "note": "黒は食らいつく。"
+    "note": "黒のルークがd2へ移る。h2のポーンに当てる。"
    },
    {
     "san": "Qa7",
-    "note": "クイーンで受けと攻めを両立。黒に有効な手はなく、トパロフは投了。盤を端から端まで走ったキング狩りの名局。"
+    "note": "白のクイーンがa7へ移り、h7のポーンを狙う。黒はここで投了した。"
    }
   ],
   "en": {
@@ -3711,12 +3711,12 @@ const FAMOUS_GAMES = [
    "white": "Garry Kasparov",
    "black": "Veselin Topalov",
    "opening": "Pirc Defense",
-   "intro": "Often called Kasparov's Immortal, this is one of the great attacking games. Kasparov sacrifices a rook and drives the black king across the board before finishing the hunt with precise checks.",
-   "takeaway": "When the winning continuation is concrete, material is not the only measure. Use checks to drive the king into open space, then calculate the next net accurately.",
+   "intro": "In this 1999 Wijk aan Zee game, Kasparov's rook sacrifice leads to a complicated battle in which the black king travels deep into White's position.",
+   "takeaway": "Follow not only the checks, but also the attacks on queens and rooks between them.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "d6",
@@ -3724,15 +3724,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "d4",
-     "note": "White builds a broad center."
+     "note": "White advances the d-pawn to d4."
     },
     {
      "san": "Nf6",
-     "note": "The knight challenges e4."
+     "note": "Black's knight moves to f6. It attacks the pawn on e4."
     },
     {
      "san": "Nc3",
-     "note": "Develops and supports the center."
+     "note": "White's knight moves to c3. It supports the friendly pawn on e4."
     },
     {
      "san": "g6",
@@ -3760,7 +3760,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "b5",
-     "note": "Black starts a counterattack on the opposite wing; both sides are racing toward the enemy king."
+     "note": "Black advances the b-pawn, gaining queenside space."
     },
     {
      "san": "Nge2",
@@ -3772,11 +3772,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bh6",
-     "note": "White exchanges the dangerous bishop and removes a defender near the king."
+     "note": "White's bishop moves to h6 and attacks the black bishop on g7."
     },
     {
      "san": "Bxh6",
-     "note": "Black recaptures in the selected line."
+     "note": "Black's bishop captures the white bishop on h6."
     },
     {
      "san": "Qxh6",
@@ -3784,7 +3784,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bb7",
-     "note": "The bishop develops and watches e4 from the long diagonal."
+     "note": "Black develops the c8-bishop to b7."
     },
     {
      "san": "a3",
@@ -3816,7 +3816,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "O-O-O",
-     "note": "Black castles long; both kings are now on opposite wings and the attack becomes a race."
+     "note": "Black also castles queenside, placing both kings on the same side of the board."
     },
     {
      "san": "Nb3",
@@ -3824,7 +3824,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "exd4",
-     "note": "Black exchanges in the center."
+     "note": "Black's e-pawn captures the pawn on d4. It attacks the knight on c3."
     },
     {
      "san": "Rxd4",
@@ -3832,7 +3832,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "c5",
-     "note": "Black drives the rook away."
+     "note": "Black advances the c-pawn to c5. It attacks the rook on d4."
     },
     {
      "san": "Rd1",
@@ -3888,11 +3888,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nbxd5",
-     "note": "Black captures the knight in the selected line."
+     "note": "Black's knight captures the knight on d5. It attacks the queen on f4."
     },
     {
      "san": "exd5",
-     "note": "White recaptures, opening the e- and d-files toward the king."
+     "note": "White's e-pawn recaptures the knight on d5."
     },
     {
      "san": "Qd6",
@@ -3904,7 +3904,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "cxd4",
-     "note": "Black accepts the rook in the selected line."
+     "note": "Black's c-pawn captures the rook on d4."
     },
     {
      "san": "Re7+",
@@ -3912,7 +3912,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kb6",
-     "note": "The king is forced forward in the selected variation."
+     "note": "Black's king moves to b6 and attacks the white knight on a5."
     },
     {
      "san": "Qxd4+",
@@ -3940,11 +3940,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ra7",
-     "note": "The rook runs to the seventh rank and attacks the king on the a-file."
+     "note": "White's rook moves to a7 and attacks the pawn on a6 and bishop on a8."
     },
     {
      "san": "Bb7",
-     "note": "The bishop blocks the attack."
+     "note": "Black's bishop moves to b7, where White's rook can capture it."
     },
     {
      "san": "Rxb7",
@@ -3952,7 +3952,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qc4",
-     "note": "Black looks for counterplay."
+     "note": "Black's queen moves to c4. It attacks the queen on c3."
     },
     {
      "san": "Qxf6",
@@ -3964,11 +3964,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qxa6+",
-     "note": "The queen checks and keeps the king moving."
+     "note": "White's queen captures the pawn on a6. The move gives check."
     },
     {
      "san": "Kxb4",
-     "note": "The king moves still farther into White's camp."
+     "note": "Black's king captures the pawn on b4. It supports the friendly pawn on b5."
     },
     {
      "san": "c3+",
@@ -3976,7 +3976,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kxc3",
-     "note": "The king captures in the selected line."
+     "note": "Black's king captures the pawn on c3."
     },
     {
      "san": "Qa1+",
@@ -3988,7 +3988,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qb2+",
-     "note": "Another queen check drives the king toward the first rank."
+     "note": "White's queen moves to b2. The move gives check."
     },
     {
      "san": "Kd1",
@@ -3996,11 +3996,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bf1",
-     "note": "The bishop quietly seals an escape square."
+     "note": "White's bishop retreats to f1 and attacks the black queen on c4."
     },
     {
      "san": "Rd2",
-     "note": "Black makes a desperate counterattack."
+     "note": "Black's rook moves to d2. It attacks the queen on b2."
     },
     {
      "san": "Rd7",
@@ -4008,7 +4008,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rxd7",
-     "note": "Black exchanges rooks."
+     "note": "Black's rook captures the rook on d7."
     },
     {
      "san": "Bxc4",
@@ -4016,7 +4016,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "bxc4",
-     "note": "Black recaptures."
+     "note": "Black's b-pawn captures the bishop on c4."
     },
     {
      "san": "Qxh8",
@@ -4024,11 +4024,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rd3",
-     "note": "Black makes a final attempt."
+     "note": "Black's rook moves to d3. It attacks the pawn on f3."
     },
     {
      "san": "Qa8",
-     "note": "The queen retreats to stop the c-pawn."
+     "note": "White's queen moves to a8, preparing the next move."
     },
     {
      "san": "c3",
@@ -4036,11 +4036,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qa4+",
-     "note": "The queen checks while preparing to take the pawn."
+     "note": "White's queen checks from a4, requiring Black to respond."
     },
     {
      "san": "Ke1",
-     "note": "The king moves."
+     "note": "Black's king moves to e1."
     },
     {
      "san": "f4",
@@ -4048,7 +4048,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "f5",
-     "note": "Black replies."
+     "note": "Black advances the f-pawn to f5."
     },
     {
      "san": "Kc1",
@@ -4056,11 +4056,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rd2",
-     "note": "Black keeps trying to hold on."
+     "note": "Black's rook moves to d2. It attacks the pawn on h2."
     },
     {
      "san": "Qa7",
-     "note": "The queen balances defense and attack. Black has no useful move left and resigns after a king hunt from one side of the board to the other."
+     "note": "White's queen moves to a7 and attacks the h7-pawn. Black resigned here."
     }
    ]
   }
@@ -4074,28 +4074,28 @@ const FAMOUS_GAMES = [
   "event": "ニューヨーク(第1回アメリカ選手権)",
   "result": "0-1",
   "opening": "フォー・ナイツ・ゲーム",
-  "intro": "『チェスの魔術師』モーフィーの名を不朽にしたクイーン犠牲。守りに参加していない相手の駒を尻目に、クイーンをズバッと切って猛攻を繰り出します。",
-  "takeaway": "攻めは駒の『数』より『働きと速さ』。決め手が見えたらクイーンさえ捨て、相手が守りを整える前に一気に寄せる。",
+  "intro": "1857年のニューヨークでの対局。モーフィーはクイーンを差し出してg筋を開き、ルークとビショップを白キングの近くへ運びます。",
+  "takeaway": "クイーンを取った後に開く筋と、そこへ入れる相手の駒を確かめましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "e5",
-    "note": "対称に応じる。"
+    "note": "黒はeポーンをe5へ進める。"
    },
    {
     "san": "Nf3",
-    "note": "e5に当てて展開。"
+    "note": "白のナイトがf3へ移る。e5のポーンに当てる。"
    },
    {
     "san": "Nc6",
-    "note": "守りつつ展開。"
+    "note": "黒のナイトがc6へ移る。e5の味方ポーンを支える。"
    },
    {
     "san": "Nc3",
-    "note": "もう一枚のナイトも出す。"
+    "note": "白のナイトがc3へ移る。"
    },
    {
     "san": "Nf6",
@@ -4103,19 +4103,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bb5",
-    "note": "ナイトを間接的に狙う。"
+    "note": "白のビショップがb5へ出て、c6のナイトに当てる。"
    },
    {
     "san": "Bc5",
-    "note": "対称に展開。"
+    "note": "黒のビショップがc5へ出て、f2のポーンを見張る。"
    },
    {
     "san": "O-O",
-    "note": "まずキングを安全に。"
+    "note": "白はキング側にキャスリングする。"
    },
    {
     "san": "O-O",
-    "note": "黒も囲う。"
+    "note": "黒はキング側にキャスリングする。"
    },
    {
     "san": "Nxe5",
@@ -4127,7 +4127,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nxc6",
-    "note": "ナイトを清算する。"
+    "note": "白のナイトがc6の黒ナイトを取る。d8のクイーンに当てる。"
    },
    {
     "san": "dxc6",
@@ -4135,7 +4135,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bc4",
-    "note": "ビショップを引く。"
+    "note": "白のビショップがc4へ移る。f7のポーンに当てる。"
    },
    {
     "san": "b5",
@@ -4143,15 +4143,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Be2",
-    "note": "下がる。"
+    "note": "白のビショップがe2へ移る。b5のポーンに当てる。"
    },
    {
     "san": "Nxe4",
-    "note": "ポーンを取り返しつつ中央のナイトを消す。"
+    "note": "黒のナイトがe4のポーンを取り、c3のナイトを攻める。"
    },
    {
     "san": "Nxe4",
-    "note": "取り返す。"
+    "note": "白のナイトがe4の黒ナイトを取る。c5のビショップに当てる。"
    },
    {
     "san": "Rxe4",
@@ -4167,7 +4167,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "c3",
-    "note": "中央を支える。"
+    "note": "白はcポーンをc3へ進める。"
    },
    {
     "san": "Qd3",
@@ -4179,19 +4179,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bb6",
-    "note": "にらみを保って退く。"
+    "note": "黒のビショップがb6へ移る。f2のポーンに当てる。"
    },
    {
     "san": "a4",
-    "note": "端で反撃を試みる。"
+    "note": "白はaポーンをa4へ進める。b5のポーンに当てる。"
    },
    {
     "san": "bxa4",
-    "note": "取っておく。"
+    "note": "黒はbポーンでa4の白ポーンを取る。"
    },
    {
     "san": "Qxa4",
-    "note": "取り返す。"
+    "note": "白のクイーンがa4の黒ポーンを取る。c6のポーンに当てる。"
    },
    {
     "san": "Bd7",
@@ -4203,7 +4203,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rae8",
-    "note": "もう一枚のルークも参戦。全駒が白のキングを向く。"
+    "note": "黒はa8のルークをe8へ移し、e筋に配置する。"
    },
    {
     "san": "Qa6",
@@ -4211,11 +4211,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qxf3",
-    "note": "クイーンを切る衝撃の一撃!取ればg筋が開いて白のキングが裸になる。"
+    "note": "黒のクイーンがf3のビショップを取る。白はgポーンでクイーンを取れる。"
    },
    {
     "san": "gxf3",
-    "note": "取るしかない。"
+    "note": "白はgポーンでクイーンを取り、g筋が開く。"
    },
    {
     "san": "Rg6+",
@@ -4223,7 +4223,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kh1",
-    "note": "隅へ逃げる。"
+    "note": "白のキングがh1へ移る。"
    },
    {
     "san": "Bh3",
@@ -4231,7 +4231,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rd1",
-    "note": "懸命に受ける。"
+    "note": "白のルークがd1へ移る。"
    },
    {
     "san": "Bg2+",
@@ -4239,7 +4239,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kg1",
-    "note": "戻るしかない。"
+    "note": "白のキングがg1へ移る。g2のビショップに当てる。"
    },
    {
     "san": "Bxf3+",
@@ -4247,7 +4247,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kf1",
-    "note": "逃げる。"
+    "note": "白のキングがf1へ移る。f2の味方ポーンを支える。"
    },
    {
     "san": "Bg2+",
@@ -4255,15 +4255,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kg1",
-    "note": "戻る。"
+    "note": "白のキングがg1へ移る。g2のビショップに当てる。"
    },
    {
     "san": "Bh3+",
-    "note": "またチェック。逃げ道を一つずつ消していく。"
+    "note": "黒のビショップがh3へ動き、g筋のルークによる発見チェックになる。"
    },
    {
     "san": "Kh1",
-    "note": "隅へ。"
+    "note": "白のキングがh1へ移る。"
    },
    {
     "san": "Bxf2",
@@ -4271,15 +4271,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qf1",
-    "note": "最後の受け。"
+    "note": "白のクイーンがf1へ移る。f2のビショップに当てる。"
    },
    {
     "san": "Bxf1",
-    "note": "取る。"
+    "note": "黒のビショップがf1の白クイーンを取る。"
    },
    {
     "san": "Rxf1",
-    "note": "取り返す。"
+    "note": "白のルークがf1の黒ビショップを取る。f2のビショップに当てる。"
    },
    {
     "san": "Re2",
@@ -4287,19 +4287,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ra1",
-    "note": "受けにもがく。"
+    "note": "白のルークがa1へ移る。a7のポーンに当てる。"
    },
    {
     "san": "Rh6",
-    "note": "もう一枚のルークも呼び込み、h筋から止めを刺す態勢。"
+    "note": "黒はg6のルークをh6へ移し、h2のポーンを狙う。"
    },
    {
     "san": "d4",
-    "note": "苦し紛れの一手。"
+    "note": "白はdポーンをd4へ進める。"
    },
    {
     "san": "Be3",
-    "note": "ビショップが致命的な地点に入り、受けが尽きた白は投了。駒を捨てて速度で圧倒した、モーフィーらしい名局。"
+    "note": "黒のビショップがe3へ移り、c1のビショップとd4のポーンを攻める。白は投了。"
    }
   ],
   "en": {
@@ -4307,28 +4307,28 @@ const FAMOUS_GAMES = [
    "white": "Louis Paulsen",
    "black": "Paul Morphy",
    "opening": "Four Knights Game",
-   "intro": "This queen sacrifice helped make Morphy famous as a master of attack. He ignores pieces that are not helping the defense, gives up the queen, and finishes with a fast coordinated assault.",
-   "takeaway": "Attacking strength comes from activity and speed, not only material count. When the winning continuation is clear, even the queen can be sacrificed before the defender coordinates.",
+   "intro": "In New York in 1857, Morphy offers his queen and uses the opened g-file to bring a rook and bishops toward the white king.",
+   "takeaway": "After a queen is captured, check which files open and which opposing pieces can use them.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "e5",
-     "note": "Black replies symmetrically."
+     "note": "Black advances the e-pawn to e5."
     },
     {
      "san": "Nf3",
-     "note": "Develops while attacking e5."
+     "note": "White's knight moves to f3. It attacks the pawn on e5."
     },
     {
      "san": "Nc6",
-     "note": "Defends the pawn while developing."
+     "note": "Black's knight moves to c6. It supports the friendly pawn on e5."
     },
     {
      "san": "Nc3",
-     "note": "The second knight joins the game."
+     "note": "White's knight moves to c3."
     },
     {
      "san": "Nf6",
@@ -4336,19 +4336,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bb5",
-     "note": "The bishop indirectly pressures the knight."
+     "note": "White's bishop moves to b5 and attacks the knight on c6."
     },
     {
      "san": "Bc5",
-     "note": "Black develops symmetrically."
+     "note": "Black's bishop develops to c5 and eyes the pawn on f2."
     },
     {
      "san": "O-O",
-     "note": "White castles first and secures the king."
+     "note": "White castles kingside."
     },
     {
      "san": "O-O",
-     "note": "Black castles too."
+     "note": "Black castles kingside."
     },
     {
      "san": "Nxe5",
@@ -4360,7 +4360,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nxc6",
-     "note": "White exchanges one knight."
+     "note": "White's knight captures the knight on c6. It attacks the queen on d8."
     },
     {
      "san": "dxc6",
@@ -4368,7 +4368,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bc4",
-     "note": "The bishop retreats to a safer diagonal."
+     "note": "White's bishop moves to c4. It attacks the pawn on f7."
     },
     {
      "san": "b5",
@@ -4376,15 +4376,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Be2",
-     "note": "The bishop retreats."
+     "note": "White's bishop moves to e2. It attacks the pawn on b5."
     },
     {
      "san": "Nxe4",
-     "note": "Black recaptures the central pawn and removes the other knight."
+     "note": "Black's knight captures the e4-pawn and attacks the knight on c3."
     },
     {
      "san": "Nxe4",
-     "note": "White recaptures."
+     "note": "White's knight captures the knight on e4. It attacks the bishop on c5."
     },
     {
      "san": "Rxe4",
@@ -4400,7 +4400,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "c3",
-     "note": "Supports the center."
+     "note": "White advances the c-pawn to c3."
     },
     {
      "san": "Qd3",
@@ -4412,19 +4412,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bb6",
-     "note": "The bishop retreats while keeping its line."
+     "note": "Black's bishop moves to b6. It attacks the pawn on f2."
     },
     {
      "san": "a4",
-     "note": "White seeks counterplay on the wing."
+     "note": "White advances the a-pawn to a4. It attacks the pawn on b5."
     },
     {
      "san": "bxa4",
-     "note": "Black captures the pawn."
+     "note": "Black's b-pawn captures the pawn on a4."
     },
     {
      "san": "Qxa4",
-     "note": "White recaptures."
+     "note": "White's queen captures the pawn on a4. It attacks the pawn on c6."
     },
     {
      "san": "Bd7",
@@ -4436,7 +4436,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rae8",
-     "note": "The second rook joins the attack; all of Black's pieces point toward the king."
+     "note": "Black brings the a8-rook to e8, placing it on the e-file."
     },
     {
      "san": "Qa6",
@@ -4444,11 +4444,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qxf3",
-     "note": "The queen sacrifice opens the g-file. If White accepts, the king shelter is torn open."
+     "note": "Black's queen captures the bishop on f3; White can take the queen with the g-pawn."
     },
     {
      "san": "gxf3",
-     "note": "White accepts in the selected line."
+     "note": "White's g-pawn captures the queen, opening the g-file."
     },
     {
      "san": "Rg6+",
@@ -4456,7 +4456,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kh1",
-     "note": "The king moves to the corner."
+     "note": "White's king moves to h1."
     },
     {
      "san": "Bh3",
@@ -4464,7 +4464,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rd1",
-     "note": "White tries to defend."
+     "note": "White's rook moves to d1."
     },
     {
      "san": "Bg2+",
@@ -4472,7 +4472,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kg1",
-     "note": "The king returns in the selected line."
+     "note": "White's king moves to g1. It attacks the bishop on g2."
     },
     {
      "san": "Bxf3+",
@@ -4480,7 +4480,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kf1",
-     "note": "The king moves."
+     "note": "White's king moves to f1. It supports the friendly pawn on f2."
     },
     {
      "san": "Bg2+",
@@ -4488,15 +4488,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kg1",
-     "note": "The king returns."
+     "note": "White's king moves to g1. It attacks the bishop on g2."
     },
     {
      "san": "Bh3+",
-     "note": "The bishop checks again and removes another escape square."
+     "note": "Black's bishop moves to h3, uncovering a rook check along the g-file."
     },
     {
      "san": "Kh1",
-     "note": "The king moves to the corner."
+     "note": "White's king moves to h1."
     },
     {
      "san": "Bxf2",
@@ -4504,15 +4504,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qf1",
-     "note": "White makes a final defensive move."
+     "note": "White's queen moves to f1. It attacks the bishop on f2."
     },
     {
      "san": "Bxf1",
-     "note": "Black captures the defender."
+     "note": "Black's bishop captures the queen on f1."
     },
     {
      "san": "Rxf1",
-     "note": "White recaptures."
+     "note": "White's rook captures the bishop on f1. It attacks the bishop on f2."
     },
     {
      "san": "Re2",
@@ -4520,19 +4520,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ra1",
-     "note": "White struggles to defend."
+     "note": "White's rook moves to a1. It attacks the pawn on a7."
     },
     {
      "san": "Rh6",
-     "note": "The other rook joins from the h-file."
+     "note": "Black moves the g6-rook to h6 and attacks the h2-pawn."
     },
     {
      "san": "d4",
-     "note": "White makes a desperate pawn move."
+     "note": "White advances the d-pawn to d4."
     },
     {
      "san": "Be3",
-     "note": "The bishop reaches the decisive square; White has no defense and resigns."
+     "note": "Black's bishop moves to e3, attacking the bishop on c1 and pawn on d4. White resigned."
     }
    ]
   }
@@ -4546,24 +4546,24 @@ const FAMOUS_GAMES = [
   "event": "ヘイスティングス",
   "result": "1-0",
   "opening": "イタリアン・ゲーム",
-  "intro": "初代世界王者スタイニッツの代表作。取ることのできない絶妙の連続チェックで相手のキングを盤の端まで追い込む、『触れられないルーク』の名局です。",
-  "takeaway": "連続チェックでは、相手が取れない位置に駒を置き続けるのがコツ。キングに逃げ道を与えつつ、実は詰みの網を一枚ずつ張っていく。",
+  "intro": "1895年のヘイスティングスでの一局。スタイニッツはe7からルークで連続チェックをかけ、25.Rxh7+まで棋譜が残っています。",
+  "takeaway": "チェックを受けた側がルークを取れるかを調べ、取った後の反撃も考えましょう。",
   "moves": [
    {
     "san": "e4",
-    "note": "中央を取る。"
+    "note": "白はeポーンをe4へ進め、中央に足場を作る。"
    },
    {
     "san": "e5",
-    "note": "対称に応じる。"
+    "note": "黒はeポーンをe5へ進める。"
    },
    {
     "san": "Nf3",
-    "note": "e5に当てて展開。"
+    "note": "白のナイトがf3へ移る。e5のポーンに当てる。"
    },
    {
     "san": "Nc6",
-    "note": "守る。"
+    "note": "黒のナイトがc6へ移る。e5の味方ポーンを支える。"
    },
    {
     "san": "Bc4",
@@ -4571,23 +4571,23 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bc5",
-    "note": "対称に応じる。"
+    "note": "黒のビショップがc5へ移る。f2のポーンに当てる。"
    },
    {
     "san": "c3",
-    "note": "d4で中央を広げる準備。"
+    "note": "白はcポーンをc3へ進める。"
    },
    {
     "san": "Nf6",
-    "note": "e4をうかがう。"
+    "note": "黒のナイトがf6へ移る。e4のポーンに当てる。"
    },
    {
     "san": "d4",
-    "note": "中央を開く。"
+    "note": "白はdポーンをd4へ進める。c5のビショップに当てる。"
    },
    {
     "san": "exd4",
-    "note": "取る。"
+    "note": "黒はeポーンでd4の白ポーンを取る。c3のポーンに当てる。"
    },
    {
     "san": "cxd4",
@@ -4595,27 +4595,27 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bb4+",
-    "note": "チェックで駒を出す。"
+    "note": "黒のビショップがb4へ移る。チェック。"
    },
    {
     "san": "Nc3",
-    "note": "合い駒しつつ展開。"
+    "note": "白のナイトがc3へ移る。"
    },
    {
     "san": "d5",
-    "note": "中央で反撃する。"
+    "note": "黒はdポーンをd5へ進める。c4のビショップに当てる。"
    },
    {
     "san": "exd5",
-    "note": "取る。"
+    "note": "白はeポーンでd5の黒ポーンを取る。c6のナイトに当てる。"
    },
    {
     "san": "Nxd5",
-    "note": "取り返す。"
+    "note": "黒のナイトがd5の白ポーンを取る。c3のナイトに当てる。"
    },
    {
     "san": "O-O",
-    "note": "キングを安全にする。"
+    "note": "白はキング側にキャスリングする。"
    },
    {
     "san": "Be6",
@@ -4623,11 +4623,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bg5",
-    "note": "ピンをかけて圧力を強める。"
+    "note": "白のビショップがg5へ出て、d8の黒クイーンを直接攻める。"
    },
    {
     "san": "Be7",
-    "note": "ピンを外す。"
+    "note": "黒のビショップがe7に割って入り、d8のクイーンを守る。"
    },
    {
     "san": "Bxd5",
@@ -4635,19 +4635,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxd5",
-    "note": "取り返す。"
+    "note": "黒のビショップがd5の白ビショップを取る。f3のナイトに当てる。"
    },
    {
     "san": "Nxd5",
-    "note": "取る。"
+    "note": "白のナイトがd5の黒ビショップを取る。e7のビショップに当てる。"
    },
    {
     "san": "Qxd5",
-    "note": "クイーンで取り返す。"
+    "note": "黒のクイーンがd5の白ナイトを取る。g5のビショップに当てる。"
    },
    {
     "san": "Bxe7",
-    "note": "ビショップを清算し、キングを動かさせる。"
+    "note": "白のビショップがe7の黒ビショップを取る。"
    },
    {
     "san": "Nxe7",
@@ -4667,15 +4667,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd7",
-    "note": "受けを整える。"
+    "note": "黒のクイーンがd7へ移る。d4のポーンに当てる。"
    },
    {
     "san": "Rac1",
-    "note": "もう一枚のルークも好位置へ。全駒が黒のキングを向く。"
+    "note": "白はa1のルークをc1へ移し、c7のポーンを狙う。"
    },
    {
     "san": "c6",
-    "note": "d5の進出を防ぐ。"
+    "note": "黒はcポーンをc6へ進め、d5のマスを見張る。"
    },
    {
     "san": "d5",
@@ -4683,7 +4683,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "cxd5",
-    "note": "取る。"
+    "note": "黒はcポーンでd5の白ポーンを取る。"
    },
    {
     "san": "Nd4",
@@ -4703,11 +4703,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qg4",
-    "note": "クイーンを攻めに転換し、g7・d7をにらむ。"
+    "note": "白のクイーンがg4へ移り、g7のポーンを狙う。"
    },
    {
     "san": "g6",
-    "note": "受ける。"
+    "note": "黒はgポーンをg6へ進める。"
    },
    {
     "san": "Ng5+",
@@ -4715,35 +4715,35 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ke8",
-    "note": "キングは戻る。"
+    "note": "黒のキングがe8へ移る。"
    },
    {
     "san": "Rxe7+",
-    "note": "ルークを切ってチェック!取れば別の詰みが待つ、触れられないルーク。"
+    "note": "白のルークがe7のナイトを取ってチェック。黒はルークを取ることもできるが、Qxe7にはRxc8+という反撃がある。"
    },
    {
     "san": "Kf8",
-    "note": "取れずに逃げる。"
+    "note": "黒はキングをf8へ移し、チェックをかわす。"
    },
    {
     "san": "Rf7+",
-    "note": "ルークはそのままチェックを続ける。まだ取れない。"
+    "note": "白のルークがf7へ移り、再びチェックをかける。"
    },
    {
     "san": "Kg8",
-    "note": "逃げる。"
+    "note": "黒のキングがg8へ移る。f7のルークに当てる。"
    },
    {
     "san": "Rg7+",
-    "note": "さらに横へずれてチェック。ルークは不死身。"
+    "note": "白のルークがg7からチェック。黒はキングやクイーンで取る応手も選べる。"
    },
    {
     "san": "Kh8",
-    "note": "隅へ追い込まれる。"
+    "note": "黒のキングがh8へ移る。g7のルークに当てる。"
    },
    {
     "san": "Rxh7+",
-    "note": "ポーンを取りながらなおチェック。バルデレーベンは席を立って戻らず、スタイニッツは十手以内の詰みを読み上げた。連続チェックでキングを狩り切った不滅の名局。"
+    "note": "白のルークがh7のポーンを取り、チェック。記録された対局はここで終わり、結果は白の勝ち。"
    }
   ],
   "en": {
@@ -4751,24 +4751,24 @@ const FAMOUS_GAMES = [
    "white": "Wilhelm Steinitz",
    "black": "Curt von Bardeleben",
    "opening": "Italian Game",
-   "intro": "A classic game by the first official world champion. A series of rook checks that cannot safely be captured drives the king to the edge, creating a famous lesson in a forcing king hunt.",
-   "takeaway": "In a checking sequence, keep placing the attacking piece where the king cannot take it. Give the king legal squares, but use each move to build the next part of the net.",
+   "intro": "In this 1895 Hastings game, Steinitz gives a series of rook checks beginning on e7. The recorded game ends after 25.Rxh7+.",
+   "takeaway": "Check whether the rook can legally be captured and what counterplay follows if it is taken.",
    "moves": [
     {
      "san": "e4",
-     "note": "Takes central space."
+     "note": "White advances the e-pawn to e4 and claims space in the center."
     },
     {
      "san": "e5",
-     "note": "Black replies symmetrically."
+     "note": "Black advances the e-pawn to e5."
     },
     {
      "san": "Nf3",
-     "note": "Develops while attacking e5."
+     "note": "White's knight moves to f3. It attacks the pawn on e5."
     },
     {
      "san": "Nc6",
-     "note": "Defends the pawn."
+     "note": "Black's knight moves to c6. It supports the friendly pawn on e5."
     },
     {
      "san": "Bc4",
@@ -4776,23 +4776,23 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bc5",
-     "note": "Black replies symmetrically."
+     "note": "Black's bishop moves to c5. It attacks the pawn on f2."
     },
     {
      "san": "c3",
-     "note": "Prepares d4 and a larger center."
+     "note": "White advances the c-pawn to c3."
     },
     {
      "san": "Nf6",
-     "note": "Black attacks e4."
+     "note": "Black's knight moves to f6. It attacks the pawn on e4."
     },
     {
      "san": "d4",
-     "note": "White opens the center."
+     "note": "White advances the d-pawn to d4. It attacks the bishop on c5."
     },
     {
      "san": "exd4",
-     "note": "Black captures."
+     "note": "Black's e-pawn captures the pawn on d4. It attacks the pawn on c3."
     },
     {
      "san": "cxd4",
@@ -4800,27 +4800,27 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bb4+",
-     "note": "The bishop checks while developing."
+     "note": "Black's bishop moves to b4. The move gives check."
     },
     {
      "san": "Nc3",
-     "note": "White interposes and develops."
+     "note": "White's knight moves to c3."
     },
     {
      "san": "d5",
-     "note": "Black strikes in the center."
+     "note": "Black advances the d-pawn to d5. It attacks the bishop on c4."
     },
     {
      "san": "exd5",
-     "note": "White captures."
+     "note": "White's e-pawn captures the pawn on d5. It attacks the knight on c6."
     },
     {
      "san": "Nxd5",
-     "note": "Black recaptures."
+     "note": "Black's knight captures the pawn on d5. It attacks the knight on c3."
     },
     {
      "san": "O-O",
-     "note": "White castles and secures the king."
+     "note": "White castles kingside."
     },
     {
      "san": "Be6",
@@ -4828,11 +4828,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bg5",
-     "note": "The bishop pins and increases pressure."
+     "note": "White's bishop moves to g5 and directly attacks Black's queen on d8."
     },
     {
      "san": "Be7",
-     "note": "Black breaks the pin."
+     "note": "Black's bishop interposes on e7, protecting the queen on d8."
     },
     {
      "san": "Bxd5",
@@ -4840,19 +4840,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxd5",
-     "note": "Black recaptures."
+     "note": "Black's bishop captures the bishop on d5. It attacks the knight on f3."
     },
     {
      "san": "Nxd5",
-     "note": "White recaptures."
+     "note": "White's knight captures the bishop on d5. It attacks the bishop on e7."
     },
     {
      "san": "Qxd5",
-     "note": "The queen recaptures."
+     "note": "Black's queen captures the knight on d5. It attacks the bishop on g5."
     },
     {
      "san": "Bxe7",
-     "note": "The bishop exchanges and makes the king move."
+     "note": "White's bishop captures Black's bishop on e7."
     },
     {
      "san": "Nxe7",
@@ -4872,15 +4872,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd7",
-     "note": "Black organizes the defense."
+     "note": "Black's queen moves to d7. It attacks the pawn on d4."
     },
     {
      "san": "Rac1",
-     "note": "The second rook reaches a strong square; the whole army points toward the king."
+     "note": "White brings the a1-rook to c1 and attacks the pawn on c7."
     },
     {
      "san": "c6",
-     "note": "Black prevents the knight from reaching d5."
+     "note": "Black advances the c-pawn to c6, controlling d5."
     },
     {
      "san": "d5",
@@ -4888,7 +4888,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "cxd5",
-     "note": "Black captures."
+     "note": "Black's c-pawn captures the pawn on d5."
     },
     {
      "san": "Nd4",
@@ -4908,11 +4908,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qg4",
-     "note": "The queen turns toward the attack and eyes g7 and d7."
+     "note": "White's queen moves to g4 and attacks the g7-pawn."
     },
     {
      "san": "g6",
-     "note": "Black defends."
+     "note": "Black advances the g-pawn to g6."
     },
     {
      "san": "Ng5+",
@@ -4920,35 +4920,35 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ke8",
-     "note": "The king moves back in the selected line."
+     "note": "Black's king moves to e8."
     },
     {
      "san": "Rxe7+",
-     "note": "White sacrifices the rook with check. Taking it would allow a different mating continuation, so the rook cannot be touched safely."
+     "note": "White's rook captures the knight on e7 with check. Black can take the rook, but Qxe7 allows the reply Rxc8+."
     },
     {
      "san": "Kf8",
-     "note": "Black declines the capture and moves the king."
+     "note": "Black moves the king to f8 to escape the check."
     },
     {
      "san": "Rf7+",
-     "note": "The rook checks again from f7 and remains untouchable."
+     "note": "White's rook moves to f7 and checks again."
     },
     {
      "san": "Kg8",
-     "note": "The king moves."
+     "note": "Black's king moves to g8. It attacks the rook on f7."
     },
     {
      "san": "Rg7+",
-     "note": "The rook shifts sideways with check and continues the forcing sequence."
+     "note": "White's rook checks from g7. Black can also choose to capture it with the king or queen."
     },
     {
      "san": "Kh8",
-     "note": "The king is driven into the corner."
+     "note": "Black's king moves to h8. It attacks the rook on g7."
     },
     {
      "san": "Rxh7+",
-     "note": "The rook captures the pawn with check. The historical game is remembered for this relentless sequence; the players' later actions are part of the story, not a forced chess move."
+     "note": "White's rook captures the h7-pawn with check. The recorded game ends here with a win for White."
     }
    ]
   }
@@ -4962,24 +4962,24 @@ const FAMOUS_GAMES = [
   "event": "世界選手権 レイキャビク 第6局(7月23日)",
   "result": "1-0",
   "opening": "クイーンズ・ギャンビット(タルタコワー形)",
-  "intro": "冷戦下の『世紀の対決』で指された、フィッシャー会心の一局。いつもの 1.e4 ではなく 1.c4 で始め、静かな駒組みから中央を一気に開いて押し切ります。敗れたスパスキー自身が観客とともに拍手を送ったと伝えられます。",
-  "takeaway": "派手な犠牲がなくても勝てる。小さな優位(よい形・相手の弱いポーン・通ったライン)を積み上げ、機が熟したところで中央を開いて一気に攻める。",
+  "intro": "1972年の世界選手権第6局。フィッシャーは1.c4から始め、中央のポーンと駒を少しずつ前へ進めて勝利しました。",
+  "takeaway": "中央のポーンの形と、ルークやビショップが使える筋の変化を追ってみましょう。",
   "moves": [
    {
     "san": "c4",
-    "note": "いつもの e4 ではなく c4。相手の準備を外す心理戦でもあった。"
+    "note": "フィッシャーはcポーンを２マス進め、1.c4から対局を始める。"
    },
    {
     "san": "e6",
-    "note": "オーソドックスに応じる。"
+    "note": "黒はeポーンをe6へ進める。"
    },
    {
     "san": "Nf3",
-    "note": "柔軟に駒を出す。"
+    "note": "白のナイトがf3へ移る。"
    },
    {
     "san": "d5",
-    "note": "中央を主張。"
+    "note": "黒はdポーンをd5へ進める。c4のポーンに当てる。"
    },
    {
     "san": "d4",
@@ -4987,15 +4987,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf6",
-    "note": "自然な展開。"
+    "note": "黒のナイトがf6へ移る。d5の味方ポーンを支える。"
    },
    {
     "san": "Nc3",
-    "note": "駒を組み上げる。"
+    "note": "白のナイトがc3へ移る。d5のポーンに当てる。"
    },
    {
     "san": "Be7",
-    "note": "キャスリングを準備。"
+    "note": "黒のビショップがe7へ移る。"
    },
    {
     "san": "Bg5",
@@ -5003,7 +5003,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "O-O",
-    "note": "キングを安全に。"
+    "note": "黒はキング側にキャスリングする。"
    },
    {
     "san": "e3",
@@ -5011,11 +5011,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "h6",
-    "note": "ビショップに態度を問う。"
+    "note": "黒はhポーンをh6へ進める。g5のビショップに当てる。"
    },
    {
     "san": "Bh4",
-    "note": "ピンを保ったまま退く。"
+    "note": "白のビショップがh4へ移る。f6のナイトに当てる。"
    },
    {
     "san": "b6",
@@ -5031,15 +5031,15 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Bxe7",
-    "note": "交換を進める。"
+    "note": "白のビショップがe7の黒ビショップを取る。d8のクイーンに当てる。"
    },
    {
     "san": "Qxe7",
-    "note": "クイーンで取り返す。"
+    "note": "黒のクイーンがe7の白ビショップを取る。"
    },
    {
     "san": "Nxd5",
-    "note": "さらに清算。"
+    "note": "白のナイトがd5の黒ナイトを取る。e7のクイーンに当てる。"
    },
    {
     "san": "exd5",
@@ -5067,7 +5067,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rc8",
-    "note": "ルークをc筋へ。"
+    "note": "黒のルークがc8へ移る。c5の味方ポーンを支える。"
    },
    {
     "san": "Bb5",
@@ -5075,11 +5075,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "a6",
-    "note": "ビショップに当てる。"
+    "note": "黒はaポーンをa6へ進める。b5のビショップに当てる。"
    },
    {
     "san": "dxc5",
-    "note": "中央を清算。"
+    "note": "白はdポーンでc5の黒ポーンを取る。b6のポーンに当てる。"
    },
    {
     "san": "bxc5",
@@ -5091,7 +5091,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Ra7",
-    "note": "黒は窮屈な受けを強いられる。"
+    "note": "黒のルークがa7へ上がり、７段目に位置を変える。"
    },
    {
     "san": "Be2",
@@ -5099,7 +5099,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nd7",
-    "note": "駒を組み直す。"
+    "note": "黒のナイトがd7へ移る。c5の味方ポーンを支える。"
    },
    {
     "san": "Nd4",
@@ -5107,7 +5107,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qf8",
-    "note": "受けに回る。"
+    "note": "黒のクイーンがf8へ移る。c5の味方ポーンを支える。"
    },
    {
     "san": "Nxe6",
@@ -5119,7 +5119,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "e4",
-    "note": "この一局の決め手!中央を開き、黒の弱いポーンとキングに一気に照準を合わせる。"
+    "note": "白はeポーンをe4へ進め、d5の黒ポーンに当てる。"
    },
    {
     "san": "d4",
@@ -5131,7 +5131,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qe7",
-    "note": "受けを整える。"
+    "note": "黒のクイーンがe7へ移る。c5の味方ポーンを支える。"
    },
    {
     "san": "e5",
@@ -5139,7 +5139,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rb8",
-    "note": "反撃の糸口を探す。"
+    "note": "黒のルークがb8へ移る。b2のポーンに当てる。"
    },
    {
     "san": "Bc4",
@@ -5147,7 +5147,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kh8",
-    "note": "キングを避難させる。"
+    "note": "黒のキングがh8へ移る。"
    },
    {
     "san": "Qh3",
@@ -5155,7 +5155,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf8",
-    "note": "懸命に受ける。"
+    "note": "黒のナイトがf8へ移る。e6の味方ポーンを支える。"
    },
    {
     "san": "b3",
@@ -5171,7 +5171,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "exf5",
-    "note": "取るしかない。"
+    "note": "黒はeポーンでf5の白ポーンを取る。"
    },
    {
     "san": "Rxf5",
@@ -5187,7 +5187,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd8",
-    "note": "受けを模索する。"
+    "note": "黒のクイーンがd8へ移る。"
    },
    {
     "san": "Qg3",
@@ -5195,7 +5195,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Re7",
-    "note": "黒は必死に守りを繋ぐ。"
+    "note": "黒のルークがe7へ移る。e5のポーンに当てる。"
    },
    {
     "san": "h4",
@@ -5203,7 +5203,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rbb7",
-    "note": "黒はひたすら受けるのみ。"
+    "note": "黒はb8のルークをb7へ移し、b3のポーンを狙う。"
    },
    {
     "san": "e6",
@@ -5211,7 +5211,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rbc7",
-    "note": "受けるが…"
+    "note": "黒のルークがc7へ移る。c5の味方ポーンを支える。"
    },
    {
     "san": "Qe5",
@@ -5219,7 +5219,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qe8",
-    "note": "黒はもう有効な手がない。"
+    "note": "黒のクイーンはe8へ移り、後方から守りに加わる。"
    },
    {
     "san": "a4",
@@ -5227,7 +5227,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd8",
-    "note": "手詰まりで動くしかない。"
+    "note": "黒のクイーンはd8へ戻る。"
    },
    {
     "san": "R1f2",
@@ -5235,7 +5235,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qe8",
-    "note": "黒は待つしかない。"
+    "note": "黒のクイーンは再びe8へ戻る。"
    },
    {
     "san": "R2f3",
@@ -5243,23 +5243,23 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Qd8",
-    "note": "黒は同じ場所を往復するだけ。"
+    "note": "黒のクイーンは再びd8へ移る。"
    },
    {
     "san": "Bd3",
-    "note": "ビショップを h7 のナイトに向け、最後の狙いを作る。"
+    "note": "白のビショップがd3へ。f5のルークが動けば、h7へ向かう斜めが開く。"
    },
    {
     "san": "Qe8",
-    "note": "受けようがない。"
+    "note": "黒のクイーンがe8へ移る。a4のポーンに当てる。"
    },
    {
     "san": "Qe4",
-    "note": "クイーンが h7 とf筋を同時ににらむ位置へ。決着が近い。"
+    "note": "白のクイーンはe4へ移り、d4のポーンを狙う。"
    },
    {
     "san": "Nf6",
-    "note": "ナイトで受けるしかないが…"
+    "note": "黒のナイトがh7からf6へ跳び、e4のクイーンに当てる。"
    },
    {
     "san": "Rxf6",
@@ -5275,19 +5275,19 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kg8",
-    "note": "キングは逃げ惑う。"
+    "note": "黒のキングがg8へ移る。"
    },
    {
     "san": "Bc4",
-    "note": "ビショップも e6 の斜めからキングを狙い、逃げ道を消す。"
+    "note": "白のビショップはc4へ戻り、e6の自分のポーンを支える。"
    },
    {
     "san": "Kh8",
-    "note": "隅へ。"
+    "note": "黒のキングがh8へ移る。"
    },
    {
     "san": "Qf4",
-    "note": "とどめの一手。受けが尽きたスパスキーは投了し、観客とともに立ち上がって拍手を送ったと伝えられる。派手な犠牲ではなく、優位を積み重ねて押し切った完璧な一局。"
+    "note": "白のクイーンがf4へ移り、h6のポーンとc7のルークを狙う。黒はここで投了した。"
    }
   ],
   "en": {
@@ -5295,24 +5295,24 @@ const FAMOUS_GAMES = [
    "white": "Bobby Fischer",
    "black": "Boris Spassky",
    "opening": "Queen's Gambit (Tartakower variation)",
-   "intro": "Played during the Cold War match for the world title, this was one of Fischer's finest games. He begins with 1.c4 rather than his usual 1.e4, builds quietly, then opens the center and converts the accumulated advantages.",
-   "takeaway": "A game can be won without a spectacular sacrifice. Build small advantages—better piece placement, weak pawns, and open lines—then open the center when the position is ready.",
+   "intro": "In game six of the 1972 World Championship, Fischer begins with 1.c4 and gradually improves his central pawns and pieces.",
+   "takeaway": "Follow changes in the central pawn structure and in the files and diagonals available to the rooks and bishops.",
    "moves": [
     {
      "san": "c4",
-     "note": "Fischer begins with c4 instead of his usual e4, also sidestepping some preparation."
+     "note": "Fischer begins the game with 1.c4, advancing the c-pawn two squares."
     },
     {
      "san": "e6",
-     "note": "Black responds in a classical way."
+     "note": "Black advances the e-pawn to e6."
     },
     {
      "san": "Nf3",
-     "note": "White develops flexibly."
+     "note": "White's knight moves to f3."
     },
     {
      "san": "d5",
-     "note": "Black claims the center."
+     "note": "Black advances the d-pawn to d5. It attacks the pawn on c4."
     },
     {
      "san": "d4",
@@ -5320,15 +5320,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf6",
-     "note": "Natural development."
+     "note": "Black's knight moves to f6. It supports the friendly pawn on d5."
     },
     {
      "san": "Nc3",
-     "note": "White develops another piece."
+     "note": "White's knight moves to c3. It attacks the pawn on d5."
     },
     {
      "san": "Be7",
-     "note": "Black prepares to castle."
+     "note": "Black's bishop moves to e7."
     },
     {
      "san": "Bg5",
@@ -5336,7 +5336,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "O-O",
-     "note": "Black castles."
+     "note": "Black castles kingside."
     },
     {
      "san": "e3",
@@ -5344,11 +5344,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "h6",
-     "note": "Black asks the bishop to choose a square."
+     "note": "Black advances the h-pawn to h6. It attacks the bishop on g5."
     },
     {
      "san": "Bh4",
-     "note": "The bishop keeps the pin."
+     "note": "White's bishop moves to h4. It attacks the knight on f6."
     },
     {
      "san": "b6",
@@ -5364,15 +5364,15 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Bxe7",
-     "note": "White continues the exchange."
+     "note": "White's bishop captures the bishop on e7. It attacks the queen on d8."
     },
     {
      "san": "Qxe7",
-     "note": "The queen recaptures."
+     "note": "Black's queen captures the bishop on e7."
     },
     {
      "san": "Nxd5",
-     "note": "White exchanges again."
+     "note": "White's knight captures the knight on d5. It attacks the queen on e7."
     },
     {
      "san": "exd5",
@@ -5400,7 +5400,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rc8",
-     "note": "The rook joins the c-file."
+     "note": "Black's rook moves to c8. It supports the friendly pawn on c5."
     },
     {
      "san": "Bb5",
@@ -5408,11 +5408,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "a6",
-     "note": "Black attacks the bishop."
+     "note": "Black advances the a-pawn to a6. It attacks the bishop on b5."
     },
     {
      "san": "dxc5",
-     "note": "White exchanges in the center."
+     "note": "White's d-pawn captures the pawn on c5. It attacks the pawn on b6."
     },
     {
      "san": "bxc5",
@@ -5424,7 +5424,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Ra7",
-     "note": "Black is forced into a cramped defensive position."
+     "note": "Black's rook moves up to a7, repositioning on the seventh rank."
     },
     {
      "san": "Be2",
@@ -5432,7 +5432,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nd7",
-     "note": "Black rearranges the pieces."
+     "note": "Black's knight moves to d7. It supports the friendly pawn on c5."
     },
     {
      "san": "Nd4",
@@ -5440,7 +5440,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qf8",
-     "note": "Black defends."
+     "note": "Black's queen moves to f8. It supports the friendly pawn on c5."
     },
     {
      "san": "Nxe6",
@@ -5452,7 +5452,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "e4",
-     "note": "White opens the center with the key move of the game, targeting the weak pawns and king at once."
+     "note": "White advances the e-pawn to e4 and attacks Black's pawn on d5."
     },
     {
      "san": "d4",
@@ -5464,7 +5464,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qe7",
-     "note": "Black reorganizes the defense."
+     "note": "Black's queen moves to e7. It supports the friendly pawn on c5."
     },
     {
      "san": "e5",
@@ -5472,7 +5472,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rb8",
-     "note": "Black searches for counterplay."
+     "note": "Black's rook moves to b8. It attacks the pawn on b2."
     },
     {
      "san": "Bc4",
@@ -5480,7 +5480,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kh8",
-     "note": "Black moves the king away."
+     "note": "Black's king moves to h8."
     },
     {
      "san": "Qh3",
@@ -5488,7 +5488,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf8",
-     "note": "Black defends as well as possible."
+     "note": "Black's knight moves to f8. It supports the friendly pawn on e6."
     },
     {
      "san": "b3",
@@ -5504,7 +5504,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "exf5",
-     "note": "Black captures in the selected line."
+     "note": "Black's e-pawn captures the pawn on f5."
     },
     {
      "san": "Rxf5",
@@ -5520,7 +5520,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd8",
-     "note": "Black looks for a defensive square."
+     "note": "Black's queen moves to d8."
     },
     {
      "san": "Qg3",
@@ -5528,7 +5528,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Re7",
-     "note": "Black keeps trying to hold the line."
+     "note": "Black's rook moves to e7. It attacks the pawn on e5."
     },
     {
      "san": "h4",
@@ -5536,7 +5536,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rbb7",
-     "note": "Black can only defend."
+     "note": "Black moves the b8-rook to b7 and attacks the pawn on b3."
     },
     {
      "san": "e6",
@@ -5544,7 +5544,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rbc7",
-     "note": "Black moves the rook to block."
+     "note": "Black's rook moves to c7. It supports the friendly pawn on c5."
     },
     {
      "san": "Qe5",
@@ -5552,7 +5552,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qe8",
-     "note": "Black has no useful active move."
+     "note": "Black's queen moves to e8, joining the defense from the back rank."
     },
     {
      "san": "a4",
@@ -5560,7 +5560,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd8",
-     "note": "Black shuffles the queen."
+     "note": "Black's queen returns to d8."
     },
     {
      "san": "R1f2",
@@ -5568,7 +5568,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qe8",
-     "note": "Black shuffles again."
+     "note": "Black's queen returns to e8."
     },
     {
      "san": "R2f3",
@@ -5576,23 +5576,23 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Qd8",
-     "note": "Black returns the queen."
+     "note": "Black's queen moves back to d8."
     },
     {
      "san": "Bd3",
-     "note": "The bishop turns toward the h7-knight and creates the last tactical target."
+     "note": "White's bishop moves to d3. If the f5-rook moves, the diagonal toward h7 will open."
     },
     {
      "san": "Qe8",
-     "note": "Black tries to defend."
+     "note": "Black's queen moves to e8. It attacks the pawn on a4."
     },
     {
      "san": "Qe4",
-     "note": "The queen attacks h7 and the f-file at once."
+     "note": "White's queen moves to e4 and attacks the pawn on d4."
     },
     {
      "san": "Nf6",
-     "note": "The knight is forced to defend."
+     "note": "Black's knight jumps from h7 to f6 and attacks the queen on e4."
     },
     {
      "san": "Rxf6",
@@ -5608,19 +5608,19 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kg8",
-     "note": "The king moves."
+     "note": "Black's king moves to g8."
     },
     {
      "san": "Bc4",
-     "note": "The bishop helps control the king's escape squares."
+     "note": "White's bishop returns to c4 and supports the white pawn on e6."
     },
     {
      "san": "Kh8",
-     "note": "The king returns to the corner."
+     "note": "Black's king moves to h8."
     },
     {
      "san": "Qf4",
-     "note": "The queen delivers the final pressure. Spassky resigns in the selected line; the win was built from small advantages rather than a single flashy sacrifice."
+     "note": "White's queen moves to f4 and attacks the h6-pawn and rook on c7. Black resigned here."
     }
    ]
   }
@@ -5634,8 +5634,8 @@ const FAMOUS_GAMES = [
   "event": "ソ連 対 世界選抜(ベオグラード)",
   "result": "0-1",
   "opening": "ラルセン・オープニング(1.b3)",
-  "intro": "わずか17手で終わった、ミニチュアの傑作。ルークをまるごと差し出し、たった一つのポーンを昇格させて勝つという、信じられない結末が待っています。",
-  "takeaway": "駒の値打ちより『相手のキングに届くか』。ルークを捨ててでも、止められないポーンと連続チェックが残るなら、それが最速の勝ち筋になる。",
+  "intro": "1970年のソ連対世界選抜での一局。スパスキーはルークを差し出した後、gポーンを白陣の一番奥まで進めます。",
+  "takeaway": "キングの近くでポーンが進むときは、昇格マスへの道とチェックを合わせて調べましょう。",
   "moves": [
    {
     "san": "b3",
@@ -5643,7 +5643,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "e5",
-    "note": "黒は堂々と中央を取る。"
+    "note": "黒はeポーンをe5へ進める。"
    },
    {
     "san": "Bb2",
@@ -5651,7 +5651,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nc6",
-    "note": "ポーンを守りつつ展開。"
+    "note": "黒のナイトがc6へ移る。e5の味方ポーンを支える。"
    },
    {
     "san": "c4",
@@ -5659,11 +5659,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nf6",
-    "note": "自然に展開。"
+    "note": "黒のナイトがf6へ移る。"
    },
    {
     "san": "Nf3",
-    "note": "e5に当てて手を作る。"
+    "note": "白のナイトがf3へ移る。e5のポーンに当てる。"
    },
    {
     "san": "e4",
@@ -5671,7 +5671,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nd4",
-    "note": "ナイトを中央へ跳ねる。"
+    "note": "白のナイトがd4へ移る。c6のナイトに当てる。"
    },
    {
     "san": "Bc5",
@@ -5679,7 +5679,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Nxc6",
-    "note": "交換する。"
+    "note": "白のナイトがc6の黒ナイトを取る。d8のクイーンに当てる。"
    },
    {
     "san": "dxc6",
@@ -5687,7 +5687,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "e3",
-    "note": "陣形を整える。"
+    "note": "白はeポーンをe3へ進める。"
    },
    {
     "san": "Bf5",
@@ -5711,7 +5711,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "f4",
-    "note": "白は黒のポーンを攻めるが、これがキングの周りを緩めることに。"
+    "note": "白はfポーンをf4へ進める。e5とg5を見張る一方、キングの周りの形も変わる。"
    },
    {
     "san": "Ng4",
@@ -5739,7 +5739,7 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "hxg3",
-    "note": "取り返して、g3のポーンが白のキングのすぐそばに居座った。"
+    "note": "黒のhポーンがg3のポーンを取り、白キングに近づく。"
    },
    {
     "san": "Rg1",
@@ -5751,11 +5751,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Rxh1",
-    "note": "取るしかない。"
+    "note": "白のルークがh1の黒ルークを取る。"
    },
    {
     "san": "g2",
-    "note": "ポーンがルークを飛び越えて突進。もう止められない。"
+    "note": "黒のポーンがg2へ進み、h1のルークに当てる。"
    },
    {
     "san": "Rf1",
@@ -5767,11 +5767,11 @@ const FAMOUS_GAMES = [
    },
    {
     "san": "Kd1",
-    "note": "逃げる。"
+    "note": "白のキングがd1へ移る。d2の味方ポーンを支える。"
    },
    {
     "san": "gxf1=Q+",
-    "note": "ポーンがルークを取りながらクイーンに昇格!駒損どころか大優勢になり、ラルセンは投了。たった17手の伝説的な逆転劇。"
+    "note": "黒のgポーンがf1のルークを取り、クイーンに昇格しながらチェック。白はここで投了した。"
    }
   ],
   "en": {
@@ -5779,8 +5779,8 @@ const FAMOUS_GAMES = [
    "white": "Bent Larsen",
    "black": "Boris Spassky",
    "opening": "Larsen Opening (1.b3)",
-   "intro": "A miniature ending after only seventeen moves. White gives up a rook and relies on a single passed pawn, producing an astonishing promotion finish.",
-   "takeaway": "Material value is not everything: if a passed pawn cannot be stopped and checks remain available, sacrificing a rook may be the fastest route to victory.",
+   "intro": "In this game from the 1970 USSR versus the World match, Spassky offers a rook and advances his g-pawn to the last rank.",
+   "takeaway": "When a pawn advances near the king, examine both its route to promotion and the available checks.",
    "moves": [
     {
      "san": "b3",
@@ -5788,7 +5788,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "e5",
-     "note": "Black confidently takes the center."
+     "note": "Black advances the e-pawn to e5."
     },
     {
      "san": "Bb2",
@@ -5796,7 +5796,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nc6",
-     "note": "Develops while defending the pawn."
+     "note": "Black's knight moves to c6. It supports the friendly pawn on e5."
     },
     {
      "san": "c4",
@@ -5804,11 +5804,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nf6",
-     "note": "Natural development."
+     "note": "Black's knight moves to f6."
     },
     {
      "san": "Nf3",
-     "note": "White attacks e5 and gains a tempo."
+     "note": "White's knight moves to f3. It attacks the pawn on e5."
     },
     {
      "san": "e4",
@@ -5816,7 +5816,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nd4",
-     "note": "The knight jumps to the center."
+     "note": "White's knight moves to d4. It attacks the knight on c6."
     },
     {
      "san": "Bc5",
@@ -5824,7 +5824,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Nxc6",
-     "note": "White exchanges."
+     "note": "White's knight captures the knight on c6. It attacks the queen on d8."
     },
     {
      "san": "dxc6",
@@ -5832,7 +5832,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "e3",
-     "note": "White stabilizes the formation."
+     "note": "White advances the e-pawn to e3."
     },
     {
      "san": "Bf5",
@@ -5856,7 +5856,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "f4",
-     "note": "White attacks the black pawns but loosens the area around the king."
+     "note": "White advances the f-pawn to f4, controlling e5 and g5 while changing the king's pawn cover."
     },
     {
      "san": "Ng4",
@@ -5884,7 +5884,7 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "hxg3",
-     "note": "Black recaptures and leaves a pawn on g3 next to the king."
+     "note": "Black's h-pawn captures the pawn on g3, approaching the white king."
     },
     {
      "san": "Rg1",
@@ -5896,11 +5896,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Rxh1",
-     "note": "Black accepts the rook in the selected line."
+     "note": "White's rook captures Black's rook on h1."
     },
     {
      "san": "g2",
-     "note": "The pawn advances past the rook and cannot be stopped by ordinary means."
+     "note": "Black's pawn advances to g2 and attacks the rook on h1."
     },
     {
      "san": "Rf1",
@@ -5912,11 +5912,11 @@ const FAMOUS_GAMES = [
     },
     {
      "san": "Kd1",
-     "note": "The king moves in the selected variation."
+     "note": "White's king moves to d1. It supports the friendly pawn on d2."
     },
     {
      "san": "gxf1=Q+",
-     "note": "The pawn captures the rook and promotes with check. The rook sacrifice has produced a winning queen and Black resigns."
+     "note": "Black's g-pawn captures the rook on f1 and promotes to a queen with check. White resigned here."
     }
    ]
   }
