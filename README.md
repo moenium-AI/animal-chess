@@ -12,7 +12,7 @@
 - **かわいい駒たち**：キングはライオン、クイーンはネコ、ルークはクマ、ビショップはフクロウ、ナイトは馬、ポーンはヒヨコ。
 - **宴会場の演出**：取られた駒は馬車に乗って宴会場へ。食事、飲み物、お昼寝を楽しみます。
 - **対戦**：10段階のコンピューター対戦と、同じ端末での2人対戦。ヒント機能もあります。
-- **学習**：80教材、160問の理解度チェック、80問のチェスパズル、解説付き名局15局。
+- **学習**：80教材、160問の理解度チェック、80問のチェスパズル、解説付き名局20局。
 - **棋譜と便利な機能**：PGNの読み込み・再生、駒の種類の表示、日本語・英語の切り替え。
 - **音楽**：オリジナルBGM全10曲。自動再生、1曲リピート、ON/OFFに対応。
 
@@ -32,7 +32,7 @@
 - **Animal chess pieces:** lion king, cat queen, bear rook, owl bishop, horse knight, and chick pawn.
 - **A lively banquet:** captured pieces travel by carriage to a banquet hall, where they eat, drink, and nap.
 - **Play chess:** ten computer difficulty levels, local two-player mode, and move hints.
-- **Learn chess:** 80 lessons, 160 comprehension questions, 80 puzzles, and 15 annotated famous games.
+- **Learn chess:** 80 lessons, 160 comprehension questions, 80 puzzles, and 20 annotated famous games.
 - **Useful tools:** PGN import and replay, optional piece-type badges, Japanese/English language support, and ten original background-music tracks.
 
 Your settings and learning progress are saved locally in your browser using `localStorage`. No account is needed.

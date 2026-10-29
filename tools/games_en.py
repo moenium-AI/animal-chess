@@ -7,6 +7,9 @@ validate the two arrays together.
 """
 
 
+from famous_games_extra import EXTRA_FAMOUS_GAMES
+
+
 def E(title, white, black, opening, intro, takeaway, *notes):
     return {
         "title": title, "white": white, "black": black, "opening": opening,
@@ -611,3 +614,13 @@ EN = {
     "The pawn captures the rook and promotes with check. The rook sacrifice has produced a winning queen and Black resigns.",
   ),
 }
+
+
+# English notes share the same source rows as the Japanese notes.
+for extra in EXTRA_FAMOUS_GAMES:
+    if extra["id"] in EN:
+        raise ValueError("Duplicate famous-game ID: " + extra["id"])
+    EN[extra["id"]] = {
+        **extra["en"],
+        "notes": [en for _, _, en in extra["moves"]],
+    }

@@ -5920,5 +5920,3861 @@ const FAMOUS_GAMES = [
     }
    ]
   }
+ },
+ {
+  "id": "capablanca_tartakower_1924",
+  "title": "王さまとポーンの行進",
+  "white": "ホセ・ラウル・カパブランカ",
+  "black": "サヴィエリ・タルタコワー",
+  "year": 1924,
+  "event": "ニューヨーク国際大会",
+  "result": "1-0",
+  "opening": "ダッチ・ディフェンス",
+  "intro": "世界王者カパブランカが、ルークとポーンの終盤でキングを前線へ進めた一局。冒頭の黒の手順は資料によって異なり、ここでは1...e6から始まる棋譜を採用しています。",
+  "takeaway": "駒が減る終盤では、キングもポーンの前進を助ける大切な戦力になります。",
+  "moves": [
+   {
+    "san": "d4",
+    "note": "白はdポーンを２マス進め、中央に足場を作る。"
+   },
+   {
+    "san": "e6",
+    "note": "黒はeポーンを進める。資料には次のfポーンとの手順が逆のものもある。"
+   },
+   {
+    "san": "Nf3",
+    "note": "ナイトを展開し、中央のd4を支える。"
+   },
+   {
+    "san": "f5",
+    "note": "黒はfポーンを進め、中央のe4をにらむ。"
+   },
+   {
+    "san": "c4",
+    "note": "白もcポーンを出し、中央に働きかける。"
+   },
+   {
+    "san": "Nf6",
+    "note": "黒はナイトを展開し、e4を見張る。"
+   },
+   {
+    "san": "Bg5",
+    "note": "ビショップがf6のナイトに狙いをつける。"
+   },
+   {
+    "san": "Be7",
+    "note": "黒はビショップを展開し、キング側の準備を進める。"
+   },
+   {
+    "san": "Nc3",
+    "note": "白はもう一方のナイトを出し、中央に駒を集める。"
+   },
+   {
+    "san": "O-O",
+    "note": "黒はキャスリングでキングを囲い、ルークをつなぐ準備をする。"
+   },
+   {
+    "san": "e3",
+    "note": "白は中央を支え、ビショップの道を開く。"
+   },
+   {
+    "san": "b6",
+    "note": "黒はbポーンを進め、ビショップの展開場所を用意する。"
+   },
+   {
+    "san": "Bd3",
+    "note": "ビショップがd3に出て、f5のポーンをにらむ。"
+   },
+   {
+    "san": "Bb7",
+    "note": "黒のビショップは長い斜めの道に出て、f3を見張る。"
+   },
+   {
+    "san": "O-O",
+    "note": "白もキャスリングし、キングを安全な側へ移す。"
+   },
+   {
+    "san": "Qe8",
+    "note": "黒のクイーンがe8へ。キング側へ動ける位置を取る。"
+   },
+   {
+    "san": "Qe2",
+    "note": "白のクイーンはe2へ移り、ルーク同士の連携を整える。"
+   },
+   {
+    "san": "Ne4",
+    "note": "黒のナイトが中央に跳び、c3のナイトとg5のビショップに当たる。"
+   },
+   {
+    "san": "Bxe7",
+    "note": "白はビショップを交換し、黒の守りの駒を一枚減らす。"
+   },
+   {
+    "san": "Nxc3",
+    "note": "黒のナイトはc3のナイトを取る。次はe2のクイーンにも当たっている。"
+   },
+   {
+    "san": "bxc3",
+    "note": "白はbポーンで取り返す。c筋に白ポーンが二つ並ぶ形になる。"
+   },
+   {
+    "san": "Qxe7",
+    "note": "黒のクイーンがe7のビショップを取り返す。"
+   },
+   {
+    "san": "a4",
+    "note": "白はaポーンを進め、クイーン側に空間を作る。"
+   },
+   {
+    "san": "Bxf3",
+    "note": "黒のビショップがf3のナイトを取り、白の守りを減らす。"
+   },
+   {
+    "san": "Qxf3",
+    "note": "白はクイーンでビショップを取り返す。"
+   },
+   {
+    "san": "Nc6",
+    "note": "黒は残ったナイトを展開し、d4のポーンに当てる。"
+   },
+   {
+    "san": "Rfb1",
+    "note": "白はf筋のルークをb1へ回し、b6のポーンに圧力をかける。"
+   },
+   {
+    "san": "Rae8",
+    "note": "黒はa筋のルークをe8に移し、中央の列に備える。"
+   },
+   {
+    "san": "Qh3",
+    "note": "白のクイーンはh3へ。f5やh7に目を向ける。"
+   },
+   {
+    "san": "Rf6",
+    "note": "黒はもう一枚のルークをf6へ持ち上げ、守りと横移動に備える。"
+   },
+   {
+    "san": "f4",
+    "note": "白はfポーンを進め、中央とキング側に足場を作る。"
+   },
+   {
+    "san": "Na5",
+    "note": "黒のナイトがa5からc4のポーンに当たる。"
+   },
+   {
+    "san": "Qf3",
+    "note": "白のクイーンはf3へ戻り、中央の動きに備える。"
+   },
+   {
+    "san": "d6",
+    "note": "黒はdポーンを一歩進め、中央を支える。"
+   },
+   {
+    "san": "Re1",
+    "note": "白はb1のルークをe筋へ移し、eポーンの前進に備える。"
+   },
+   {
+    "san": "Qd7",
+    "note": "黒のクイーンはd7へ移り、a4のポーンもにらむ。"
+   },
+   {
+    "san": "e4",
+    "note": "白は中央のeポーンを進め、f5のポーンに当てる。"
+   },
+   {
+    "san": "fxe4",
+    "note": "黒はfポーンで取り、白のクイーンとビショップに当てる。"
+   },
+   {
+    "san": "Qxe4",
+    "note": "白のクイーンがe4で取り返し、中央に立つ。"
+   },
+   {
+    "san": "g6",
+    "note": "黒はgポーンを進め、キング側の陣形を整える。"
+   },
+   {
+    "san": "g3",
+    "note": "白はgポーンを一歩進め、キングの周囲を支える。"
+   },
+   {
+    "san": "Kf8",
+    "note": "黒はキングをf8へ。中央に近づく。"
+   },
+   {
+    "san": "Kg2",
+    "note": "白もキングをg2へ進め、少しずつ働かせる。"
+   },
+   {
+    "san": "Rf7",
+    "note": "黒のルークはf7へ下がり、f4のポーンをにらむ。"
+   },
+   {
+    "san": "h4",
+    "note": "白はhポーンを進め、黒のキング側に接近する。"
+   },
+   {
+    "san": "d5",
+    "note": "黒がdポーンを突き、白のクイーンとc4のポーンに当てる。"
+   },
+   {
+    "san": "cxd5",
+    "note": "白はcポーンでd5を取り、中央の交換を始める。"
+   },
+   {
+    "san": "exd5",
+    "note": "黒はeポーンで取り返し、再びクイーンに当てる。"
+   },
+   {
+    "san": "Qxe8+",
+    "note": "白はe8のルークを取りながらチェック。大駒の交換が始まる。"
+   },
+   {
+    "san": "Qxe8",
+    "note": "黒のクイーンが白のクイーンを取り返す。"
+   },
+   {
+    "san": "Rxe8+",
+    "note": "白のルークがクイーンを取り、続けてチェックをかける。"
+   },
+   {
+    "san": "Kxe8",
+    "note": "黒のキングがルークを取る。両者ともクイーンとルーク一枚を交換した。"
+   },
+   {
+    "san": "h5",
+    "note": "白のhポーンが前へ。g6を攻めてh筋を開こうとする。"
+   },
+   {
+    "san": "Rf6",
+    "note": "黒のルークがf6へ戻り、f4のポーンを見張る。"
+   },
+   {
+    "san": "hxg6",
+    "note": "白はg6のポーンを取り、h筋を開く。"
+   },
+   {
+    "san": "hxg6",
+    "note": "黒はhポーンで取り返し、g筋にポーンを残す。"
+   },
+   {
+    "san": "Rh1",
+    "note": "白の残るルークがh筋に入り、開いた列を使い始める。"
+   },
+   {
+    "san": "Kf8",
+    "note": "黒のキングはf8へ戻り、ルークの侵入に備える。"
+   },
+   {
+    "san": "Rh7",
+    "note": "白のルークが７段目に入り、c7のポーンを横から狙う。"
+   },
+   {
+    "san": "Rc6",
+    "note": "黒のルークもc筋へ移り、c3のポーンに圧力をかける。"
+   },
+   {
+    "san": "g4",
+    "note": "白はgポーンを進め、黒のキング側へ近づける。"
+   },
+   {
+    "san": "Nc4",
+    "note": "黒のナイトはc4へ移り、白陣への進入を図る。"
+   },
+   {
+    "san": "g5",
+    "note": "白のポーンはさらに一歩。黒のg6ポーンに近づく。"
+   },
+   {
+    "san": "Ne3+",
+    "note": "黒のナイトがe3からチェックをかける。"
+   },
+   {
+    "san": "Kf3",
+    "note": "白のキングはf3へ逃げ、ナイトにも近づく。"
+   },
+   {
+    "san": "Nf5",
+    "note": "黒のナイトがf5へ跳ぶが、白のビショップの利きに入る。"
+   },
+   {
+    "san": "Bxf5",
+    "note": "白のビショップがナイトを取る。"
+   },
+   {
+    "san": "gxf5",
+    "note": "黒はgポーンでビショップを取り返す。盤上にはルークとポーンが残る。"
+   },
+   {
+    "san": "Kg3",
+    "note": "白のキングがg3へ進み、ポーンと一緒に働き始める。"
+   },
+   {
+    "san": "Rxc3+",
+    "note": "黒のルークはc3のポーンを取りながらチェック。"
+   },
+   {
+    "san": "Kh4",
+    "note": "白のキングはh4へ進み、チェックをかわす。"
+   },
+   {
+    "san": "Rf3",
+    "note": "黒のルークがf3へ移り、f4のポーンに当てる。"
+   },
+   {
+    "san": "g6",
+    "note": "白はgポーンを６段目へ進め、昇格を目指す。"
+   },
+   {
+    "san": "Rxf4+",
+    "note": "黒はf4のポーンを取り、ルークでチェックする。"
+   },
+   {
+    "san": "Kg5",
+    "note": "白のキングはg5へ。ルークとポーンの近くに進む。"
+   },
+   {
+    "san": "Re4",
+    "note": "黒のルークはe4へ移り、d4のポーンを狙う。"
+   },
+   {
+    "san": "Kf6",
+    "note": "白のキングがf6へ入り、g6のポーンのそばに立つ。"
+   },
+   {
+    "san": "Kg8",
+    "note": "黒のキングはg8へ戻り、白ルークに近づく。"
+   },
+   {
+    "san": "Rg7+",
+    "note": "白はルークでチェックをかけ、g6のポーンも支える。"
+   },
+   {
+    "san": "Kh8",
+    "note": "黒のキングはh8へ逃げる。"
+   },
+   {
+    "san": "Rxc7",
+    "note": "白のルークがc7のポーンを取り、今度はa7にも狙いを向ける。"
+   },
+   {
+    "san": "Re8",
+    "note": "黒はルークをe8へ移し、背後からの働きを探る。"
+   },
+   {
+    "san": "Kxf5",
+    "note": "白のキングがf5のポーンを取る。終盤ではキング自身も攻めに参加する。"
+   },
+   {
+    "san": "Re4",
+    "note": "黒のルークはe4へ戻り、d4のポーンを狙う。"
+   },
+   {
+    "san": "Kf6",
+    "note": "白のキングはf6に戻り、進んだポーンの近くに残る。"
+   },
+   {
+    "san": "Rf4+",
+    "note": "黒のルークがf4からチェックをかける。"
+   },
+   {
+    "san": "Ke5",
+    "note": "白のキングはe5へ。d5の黒ポーンにも近づく。"
+   },
+   {
+    "san": "Rg4",
+    "note": "黒のルークはg4へ移り、g6のポーンに当てる。"
+   },
+   {
+    "san": "g7+",
+    "note": "白はgポーンを進めてチェック。ルークもこのポーンを支えている。"
+   },
+   {
+    "san": "Kg8",
+    "note": "黒のキングはg8へ戻る。g7のポーンはすぐには取れない。"
+   },
+   {
+    "san": "Rxa7",
+    "note": "白のルークがa7のポーンを取り、残る黒ポーンを減らす。"
+   },
+   {
+    "san": "Rg1",
+    "note": "黒のルークはg1へ移り、g7のポーンを縦に狙う。"
+   },
+   {
+    "san": "Kxd5",
+    "note": "白のキングがd5のポーンを取り、dポーンの前を進む。"
+   },
+   {
+    "san": "Rc1",
+    "note": "黒のルークはc1へ。白のキングとポーンの進行を見張る。"
+   },
+   {
+    "san": "Kd6",
+    "note": "白のキングがd6へ進み、dポーンの道を整える。"
+   },
+   {
+    "san": "Rc2",
+    "note": "黒のルークがc2へ移り、白の前進に備える。"
+   },
+   {
+    "san": "d5",
+    "note": "白はdポーンを進め、キングの後ろから続かせる。"
+   },
+   {
+    "san": "Rc1",
+    "note": "黒のルークはc1へ戻り、c筋にとどまる。"
+   },
+   {
+    "san": "Rc7",
+    "note": "白のルークがc7へ移り、c1の黒ルークに当てる。"
+   },
+   {
+    "san": "Ra1",
+    "note": "黒のルークはa1へ逃げ、a4のポーンを狙う。"
+   },
+   {
+    "san": "Kc6",
+    "note": "白のキングはc6へ。dポーンを支えながら前へ進む。"
+   },
+   {
+    "san": "Rxa4",
+    "note": "黒のルークがa4のポーンを取る。"
+   },
+   {
+    "san": "d6",
+    "note": "白のdポーンが６段目へ。ここで黒が投了し、白の勝ちとなった。"
+   }
+  ],
+  "en": {
+   "title": "The King's March",
+   "white": "José Raúl Capablanca",
+   "black": "Savielly Tartakower",
+   "opening": "Dutch Defense",
+   "intro": "World champion Capablanca brings his king forward in a rook-and-pawn ending. Sources differ on Black's opening move order; this score follows the record beginning with 1...e6.",
+   "takeaway": "In an ending with fewer pieces, the king can become an active partner in advancing pawns.",
+   "moves": [
+    {
+     "san": "d4",
+     "note": "White advances the d-pawn two squares and claims central space."
+    },
+    {
+     "san": "e6",
+     "note": "Black advances the e-pawn; some records reverse its order with the next f-pawn move."
+    },
+    {
+     "san": "Nf3",
+     "note": "The knight develops and supports the central d4-pawn."
+    },
+    {
+     "san": "f5",
+     "note": "Black advances the f-pawn and watches the central e4-square."
+    },
+    {
+     "san": "c4",
+     "note": "White advances the c-pawn to increase influence in the center."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black develops a knight toward the center and watches e4."
+    },
+    {
+     "san": "Bg5",
+     "note": "The bishop comes out and targets the knight on f6."
+    },
+    {
+     "san": "Be7",
+     "note": "Black develops the bishop and prepares the kingside."
+    },
+    {
+     "san": "Nc3",
+     "note": "White develops the other knight and brings another piece toward the center."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles, bringing the king to safety and the rook toward the center."
+    },
+    {
+     "san": "e3",
+     "note": "White supports the center and opens a diagonal for the bishop."
+    },
+    {
+     "san": "b6",
+     "note": "Black advances the b-pawn to prepare a square for the bishop."
+    },
+    {
+     "san": "Bd3",
+     "note": "The bishop develops to d3 and looks toward the f5-pawn."
+    },
+    {
+     "san": "Bb7",
+     "note": "Black places the bishop on the long diagonal, eyeing f3."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles as well, moving the king away from the center."
+    },
+    {
+     "san": "Qe8",
+     "note": "Black's queen moves to e8, with room to shift toward the kingside."
+    },
+    {
+     "san": "Qe2",
+     "note": "White's queen steps to e2 and clears the back rank for the rooks."
+    },
+    {
+     "san": "Ne4",
+     "note": "Black's knight jumps into the center, attacking the knight on c3 and the bishop on g5."
+    },
+    {
+     "san": "Bxe7",
+     "note": "White exchanges bishops, removing one of Black's defending pieces."
+    },
+    {
+     "san": "Nxc3",
+     "note": "Black's knight captures on c3 and also attacks the queen on e2."
+    },
+    {
+     "san": "bxc3",
+     "note": "White recaptures with the b-pawn, leaving two white pawns on the c-file."
+    },
+    {
+     "san": "Qxe7",
+     "note": "Black's queen recaptures the bishop on e7."
+    },
+    {
+     "san": "a4",
+     "note": "White advances the a-pawn to gain space on the queenside."
+    },
+    {
+     "san": "Bxf3",
+     "note": "Black's bishop captures the knight on f3, removing a white defender."
+    },
+    {
+     "san": "Qxf3",
+     "note": "White's queen recaptures the bishop."
+    },
+    {
+     "san": "Nc6",
+     "note": "Black develops the remaining knight and attacks the d4-pawn."
+    },
+    {
+     "san": "Rfb1",
+     "note": "White brings the f-rook to b1 and puts pressure on the b6-pawn."
+    },
+    {
+     "san": "Rae8",
+     "note": "Black brings the a-rook to e8 and prepares to use the central file."
+    },
+    {
+     "san": "Qh3",
+     "note": "White's queen moves to h3, looking toward f5 and h7."
+    },
+    {
+     "san": "Rf6",
+     "note": "Black lifts the other rook to f6, where it can defend and move along the rank."
+    },
+    {
+     "san": "f4",
+     "note": "White advances the f-pawn, gaining space near the center and kingside."
+    },
+    {
+     "san": "Na5",
+     "note": "Black's knight heads to a5 and attacks the c4-pawn."
+    },
+    {
+     "san": "Qf3",
+     "note": "White's queen returns to f3, ready for action in the center."
+    },
+    {
+     "san": "d6",
+     "note": "Black advances the d-pawn one square to support the center."
+    },
+    {
+     "san": "Re1",
+     "note": "White moves the b1-rook to the e-file behind the e-pawn."
+    },
+    {
+     "san": "Qd7",
+     "note": "Black's queen moves to d7 and also eyes the a4-pawn."
+    },
+    {
+     "san": "e4",
+     "note": "White pushes the e-pawn into the center and attacks the pawn on f5."
+    },
+    {
+     "san": "fxe4",
+     "note": "Black captures with the f-pawn, attacking White's queen and bishop."
+    },
+    {
+     "san": "Qxe4",
+     "note": "White's queen recaptures on e4 and occupies the center."
+    },
+    {
+     "san": "g6",
+     "note": "Black advances the g-pawn to reshape the kingside position."
+    },
+    {
+     "san": "g3",
+     "note": "White advances the g-pawn one square, reinforcing the king's surroundings."
+    },
+    {
+     "san": "Kf8",
+     "note": "Black moves the king to f8, nearer the central files."
+    },
+    {
+     "san": "Kg2",
+     "note": "White brings the king to g2, beginning to activate it."
+    },
+    {
+     "san": "Rf7",
+     "note": "Black's rook drops to f7 and eyes the f4-pawn."
+    },
+    {
+     "san": "h4",
+     "note": "White advances the h-pawn toward Black's kingside."
+    },
+    {
+     "san": "d5",
+     "note": "Black pushes the d-pawn, attacking White's queen and the c4-pawn."
+    },
+    {
+     "san": "cxd5",
+     "note": "White captures on d5 with the c-pawn, starting a central exchange."
+    },
+    {
+     "san": "exd5",
+     "note": "Black recaptures with the e-pawn, attacking the queen again."
+    },
+    {
+     "san": "Qxe8+",
+     "note": "White captures the rook on e8 with check, beginning a major-piece exchange."
+    },
+    {
+     "san": "Qxe8",
+     "note": "Black's queen recaptures White's queen."
+    },
+    {
+     "san": "Rxe8+",
+     "note": "White's rook takes the queen with another check."
+    },
+    {
+     "san": "Kxe8",
+     "note": "Black's king captures the rook. Each side has exchanged its queen and one rook."
+    },
+    {
+     "san": "h5",
+     "note": "White advances the h-pawn, attacking g6 and looking to open the h-file."
+    },
+    {
+     "san": "Rf6",
+     "note": "Black's rook returns to f6 and watches the f4-pawn."
+    },
+    {
+     "san": "hxg6",
+     "note": "White captures on g6, opening the h-file."
+    },
+    {
+     "san": "hxg6",
+     "note": "Black recaptures with the h-pawn, leaving a pawn on the g-file."
+    },
+    {
+     "san": "Rh1",
+     "note": "White's remaining rook takes the open h-file."
+    },
+    {
+     "san": "Kf8",
+     "note": "Black's king returns to f8 as White's rook becomes active."
+    },
+    {
+     "san": "Rh7",
+     "note": "White's rook reaches the seventh rank and attacks the c7-pawn along it."
+    },
+    {
+     "san": "Rc6",
+     "note": "Black moves the rook to the c-file and attacks the c3-pawn."
+    },
+    {
+     "san": "g4",
+     "note": "White advances the g-pawn toward Black's kingside."
+    },
+    {
+     "san": "Nc4",
+     "note": "Black's knight moves to c4, entering White's side of the board."
+    },
+    {
+     "san": "g5",
+     "note": "The pawn advances again, approaching Black's g6-pawn."
+    },
+    {
+     "san": "Ne3+",
+     "note": "Black's knight jumps to e3 with check."
+    },
+    {
+     "san": "Kf3",
+     "note": "White's king answers the check by moving to f3, next to the knight."
+    },
+    {
+     "san": "Nf5",
+     "note": "Black's knight jumps to f5, where White's bishop can capture it."
+    },
+    {
+     "san": "Bxf5",
+     "note": "White's bishop captures the knight."
+    },
+    {
+     "san": "gxf5",
+     "note": "Black recaptures with the g-pawn; rooks and pawns remain on the board."
+    },
+    {
+     "san": "Kg3",
+     "note": "White's king moves to g3, joining the pawns in the ending."
+    },
+    {
+     "san": "Rxc3+",
+     "note": "Black's rook captures the c3-pawn with check."
+    },
+    {
+     "san": "Kh4",
+     "note": "White's king moves forward to h4, escaping the check."
+    },
+    {
+     "san": "Rf3",
+     "note": "Black's rook moves to f3 and attacks the f4-pawn."
+    },
+    {
+     "san": "g6",
+     "note": "White pushes the g-pawn to the sixth rank, advancing toward promotion."
+    },
+    {
+     "san": "Rxf4+",
+     "note": "Black captures the f4-pawn with check."
+    },
+    {
+     "san": "Kg5",
+     "note": "White's king steps to g5, approaching the rook and pawns."
+    },
+    {
+     "san": "Re4",
+     "note": "Black's rook moves to e4 and attacks the d4-pawn."
+    },
+    {
+     "san": "Kf6",
+     "note": "White's king reaches f6, close to the advanced g-pawn."
+    },
+    {
+     "san": "Kg8",
+     "note": "Black's king returns to g8 and approaches White's rook."
+    },
+    {
+     "san": "Rg7+",
+     "note": "White checks with the rook and also protects the g6-pawn."
+    },
+    {
+     "san": "Kh8",
+     "note": "Black's king moves to h8 to answer the check."
+    },
+    {
+     "san": "Rxc7",
+     "note": "White's rook takes the c7-pawn and now eyes a7."
+    },
+    {
+     "san": "Re8",
+     "note": "Black moves the rook to e8, seeking activity from behind."
+    },
+    {
+     "san": "Kxf5",
+     "note": "White's king captures the f5-pawn, taking an active role in the ending."
+    },
+    {
+     "san": "Re4",
+     "note": "Black's rook returns to e4 and attacks the d4-pawn."
+    },
+    {
+     "san": "Kf6",
+     "note": "White's king returns to f6 and stays near the advanced pawn."
+    },
+    {
+     "san": "Rf4+",
+     "note": "Black's rook moves to f4 with check."
+    },
+    {
+     "san": "Ke5",
+     "note": "White's king goes to e5, approaching the black d5-pawn."
+    },
+    {
+     "san": "Rg4",
+     "note": "Black moves the rook to g4 and attacks the g6-pawn."
+    },
+    {
+     "san": "g7+",
+     "note": "White advances the g-pawn with check; the rook also protects it."
+    },
+    {
+     "san": "Kg8",
+     "note": "Black's king returns to g8; the protected pawn on g7 cannot be taken immediately."
+    },
+    {
+     "san": "Rxa7",
+     "note": "White's rook captures the a7-pawn, reducing Black's remaining pawns."
+    },
+    {
+     "san": "Rg1",
+     "note": "Black's rook moves to g1 and attacks the g7-pawn along the file."
+    },
+    {
+     "san": "Kxd5",
+     "note": "White's king captures on d5, clearing a path for the d-pawn."
+    },
+    {
+     "san": "Rc1",
+     "note": "Black's rook moves to c1 to watch White's advancing king and pawn."
+    },
+    {
+     "san": "Kd6",
+     "note": "White's king moves to d6, supporting the d-pawn's advance."
+    },
+    {
+     "san": "Rc2",
+     "note": "Black shifts the rook to c2 to meet White's advance."
+    },
+    {
+     "san": "d5",
+     "note": "White advances the d-pawn behind the king."
+    },
+    {
+     "san": "Rc1",
+     "note": "Black's rook returns to c1 and stays on the c-file."
+    },
+    {
+     "san": "Rc7",
+     "note": "White's rook moves to c7 and attacks the black rook on c1."
+    },
+    {
+     "san": "Ra1",
+     "note": "Black's rook moves to a1 and attacks the a4-pawn."
+    },
+    {
+     "san": "Kc6",
+     "note": "White's king steps to c6, continuing to support the d-pawn."
+    },
+    {
+     "san": "Rxa4",
+     "note": "Black's rook captures the pawn on a4."
+    },
+    {
+     "san": "d6",
+     "note": "White's d-pawn reaches the sixth rank. Black resigned, giving White the win."
+    }
+   ]
+  }
+ },
+ {
+  "id": "botvinnik_tal_1960",
+  "title": "ナイトが開いた戦場",
+  "white": "ミハイル・ボトヴィニク",
+  "black": "ミハイル・タリ",
+  "year": 1960,
+  "event": "世界選手権・第6局",
+  "result": "0-1",
+  "opening": "キングズ・インディアン・ディフェンス",
+  "intro": "1960年の世界選手権第6局。タリがナイトを差し出し、両クイーンも交換される複雑な戦いへ進みます。封じ手の後に投了したため、盤上で指された46...Kd4までを収録しています。",
+  "takeaway": "駒の損得だけでなく、開いた道や残った駒の働きも見て考えましょう。",
+  "moves": [
+   {
+    "san": "c4",
+    "note": "白はcポーンを進め、中央を横から支配する構えを取る。"
+   },
+   {
+    "san": "Nf6",
+    "note": "黒はナイトを展開し、中央のマスを見張る。"
+   },
+   {
+    "san": "Nf3",
+    "note": "白もナイトを出し、中央へ向かう。"
+   },
+   {
+    "san": "g6",
+    "note": "黒はgポーンを進め、ビショップの通り道を作る。"
+   },
+   {
+    "san": "g3",
+    "note": "白もgポーンを進め、ビショップを長い対角線に置く準備をする。"
+   },
+   {
+    "san": "Bg7",
+    "note": "黒のビショップがg7へ出て、中央を遠くから見る。"
+   },
+   {
+    "san": "Bg2",
+    "note": "白のビショップもg2へ。両者が長い斜めの道を確保した。"
+   },
+   {
+    "san": "O-O",
+    "note": "黒はキャスリングしてキングを囲う。"
+   },
+   {
+    "san": "d4",
+    "note": "白はdポーンも進め、中央に空間を広げる。"
+   },
+   {
+    "san": "d6",
+    "note": "黒はdポーンを進め、中央での反撃に備える。"
+   },
+   {
+    "san": "Nc3",
+    "note": "白はナイトを展開し、中央のd5とe4を見張る。"
+   },
+   {
+    "san": "Nbd7",
+    "note": "黒はb筋のナイトをd7に出し、中央を支える。"
+   },
+   {
+    "san": "O-O",
+    "note": "白もキャスリングし、キングを囲う。"
+   },
+   {
+    "san": "e5",
+    "note": "黒はeポーンを進め、d4にある白ポーンに当てる。"
+   },
+   {
+    "san": "e4",
+    "note": "白はeポーンを前へ出し、中央にポーンを並べる。"
+   },
+   {
+    "san": "c6",
+    "note": "黒はcポーンを進め、d5への働きかけを準備する。"
+   },
+   {
+    "san": "h3",
+    "note": "白はhポーンを一歩進め、g4への黒駒の進出を抑える。"
+   },
+   {
+    "san": "Qb6",
+    "note": "黒のクイーンはb6へ。b2とd4の両方に目を向ける。"
+   },
+   {
+    "san": "d5",
+    "note": "白はdポーンを押し出し、c6のポーンに当てる。"
+   },
+   {
+    "san": "cxd5",
+    "note": "黒はcポーンでd5を取って、白の中央に働きかける。"
+   },
+   {
+    "san": "cxd5",
+    "note": "白もcポーンで取り返し、d5にポーンを残す。"
+   },
+   {
+    "san": "Nc5",
+    "note": "黒のナイトがc5へ出て、e4のポーンを狙う。"
+   },
+   {
+    "san": "Ne1",
+    "note": "白のナイトはe1へ戻り、別の経路から中央を目指す。"
+   },
+   {
+    "san": "Bd7",
+    "note": "黒はビショップをd7に展開し、駒をつなぐ。"
+   },
+   {
+    "san": "Nd3",
+    "note": "白のナイトがd3に跳び、c5のナイトとe5のポーンに当てる。"
+   },
+   {
+    "san": "Nxd3",
+    "note": "黒は白のナイトを取り、中央の駒を交換する。"
+   },
+   {
+    "san": "Qxd3",
+    "note": "白のクイーンがd3で取り返す。"
+   },
+   {
+    "san": "Rfc8",
+    "note": "黒はf筋のルークをc8へ移し、c筋に圧力をかける。"
+   },
+   {
+    "san": "Rb1",
+    "note": "白のルークはb1へ。b筋からクイーン側を支える。"
+   },
+   {
+    "san": "Nh5",
+    "note": "黒のナイトがh5へ進み、キング側をにらむ。"
+   },
+   {
+    "san": "Be3",
+    "note": "白のビショップはe3へ出て、b6のクイーンに当てる。"
+   },
+   {
+    "san": "Qb4",
+    "note": "黒のクイーンはb4へ移り、b2・c3・e4を狙う。"
+   },
+   {
+    "san": "Qe2",
+    "note": "白はクイーンをe2へ引き、駒をまとめる。"
+   },
+   {
+    "san": "Rc4",
+    "note": "黒のルークがc4へ。c3のナイトとe4のポーンに圧力をかける。"
+   },
+   {
+    "san": "Rfc1",
+    "note": "白はf筋のルークをc1へ移し、c筋に対抗する。"
+   },
+   {
+    "san": "Rac8",
+    "note": "黒はa筋のルークもc8に配置し、c筋に二枚のルークを集める。"
+   },
+   {
+    "san": "Kh2",
+    "note": "白のキングはh2へ移り、g1のマスを空ける。"
+   },
+   {
+    "san": "f5",
+    "note": "黒はfポーンを突き、e4のポーンに挑む。"
+   },
+   {
+    "san": "exf5",
+    "note": "白はeポーンでf5を取り、中央の緊張を解く。"
+   },
+   {
+    "san": "Bxf5",
+    "note": "黒のビショップが取り返し、b1のルークをにらむ。"
+   },
+   {
+    "san": "Ra1",
+    "note": "白のルークはa1へ戻り、ビショップの利きから離れる。"
+   },
+   {
+    "san": "Nf4",
+    "note": "タリはナイトをf4へ。クイーンとビショップに当て、複雑な戦いに誘う。"
+   },
+   {
+    "san": "gxf4",
+    "note": "白はgポーンでナイトを取るが、キングの近くの形も変わる。"
+   },
+   {
+    "san": "exf4",
+    "note": "黒はeポーンで取り返し、e3のビショップに当てる。"
+   },
+   {
+    "san": "Bd2",
+    "note": "白はビショップをd2へ引き、f4のポーンをにらむ。"
+   },
+   {
+    "san": "Qxb2",
+    "note": "黒のクイーンがb2のポーンを取り、白のルークや駒に圧力をかける。"
+   },
+   {
+    "san": "Rab1",
+    "note": "白はa筋のルークをb1へ動かし、b2のクイーンに当てる。"
+   },
+   {
+    "san": "f3",
+    "note": "黒はクイーンを逃がさずfポーンを進め、e2のクイーンに当てる。"
+   },
+   {
+    "san": "Rxb2",
+    "note": "白はb2のクイーンを取る。だが、黒のポーンも白クイーンを狙っている。"
+   },
+   {
+    "san": "fxe2",
+    "note": "黒のポーンが白のクイーンを取る。両クイーンが盤から消えた。"
+   },
+   {
+    "san": "Rb3",
+    "note": "白のルークはb3へ移り、b7のポーンをにらむ。"
+   },
+   {
+    "san": "Rd4",
+    "note": "黒のルークがd4へ入り、d2のビショップに当てる。"
+   },
+   {
+    "san": "Be1",
+    "note": "白はビショップをe1へ引き、ルークの攻撃から離れる。"
+   },
+   {
+    "san": "Be5+",
+    "note": "黒のビショップがe5からチェックをかける。"
+   },
+   {
+    "san": "Kg1",
+    "note": "白のキングはg1へ移り、チェックをかわす。"
+   },
+   {
+    "san": "Bf4",
+    "note": "黒のビショップがf4へ。c1のルークに狙いをつける。"
+   },
+   {
+    "san": "Nxe2",
+    "note": "白のナイトがe2のポーンを取り、d4のルークにも当たる。"
+   },
+   {
+    "san": "Rxc1",
+    "note": "黒はc筋のルークでc1の白ルークを取る。"
+   },
+   {
+    "san": "Nxd4",
+    "note": "白のナイトがd4のルークを取り返す。"
+   },
+   {
+    "san": "Rxe1+",
+    "note": "黒の残るルークがe1のビショップを取り、チェックをかける。"
+   },
+   {
+    "san": "Bf1",
+    "note": "白はビショップをf1に置き、チェックを受け止める。"
+   },
+   {
+    "san": "Be4",
+    "note": "黒のビショップがe4へ移り、d5のポーンを狙う。"
+   },
+   {
+    "san": "Ne2",
+    "note": "白のナイトがe2へ戻り、f4のビショップに当てる。"
+   },
+   {
+    "san": "Be5",
+    "note": "黒はビショップをe5へ引き、ナイトから離す。"
+   },
+   {
+    "san": "f4",
+    "note": "白はfポーンを進め、今度はe5のビショップを追う。"
+   },
+   {
+    "san": "Bf6",
+    "note": "黒のビショップはf6へ下がり、駒を保つ。"
+   },
+   {
+    "san": "Rxb7",
+    "note": "白のルークがb7のポーンを取り、７段目に入る。"
+   },
+   {
+    "san": "Bxd5",
+    "note": "黒のビショップがd5のポーンを取り、b7のルークにも当てる。"
+   },
+   {
+    "san": "Rc7",
+    "note": "白のルークはc7へ移り、a7とh7を見張る。"
+   },
+   {
+    "san": "Bxa2",
+    "note": "黒のビショップがa2のポーンを取る。"
+   },
+   {
+    "san": "Rxa7",
+    "note": "白もa7のポーンを取り、黒のビショップに当てる。"
+   },
+   {
+    "san": "Bc4",
+    "note": "黒のビショップはc4へ移り、e2のナイトを狙う。"
+   },
+   {
+    "san": "Ra8+",
+    "note": "白のルークがa8からチェックをかける。"
+   },
+   {
+    "san": "Kf7",
+    "note": "黒のキングはf7へ進み、チェックをかわす。"
+   },
+   {
+    "san": "Ra7+",
+    "note": "白はルークをa7に戻して、再びチェックする。"
+   },
+   {
+    "san": "Ke6",
+    "note": "黒のキングはe6へ。中央に近づく。"
+   },
+   {
+    "san": "Ra3",
+    "note": "白のルークはa3へ引き、横から働ける位置を取る。"
+   },
+   {
+    "san": "d5",
+    "note": "黒はdポーンを進め、中央に通り道を作る。"
+   },
+   {
+    "san": "Kf2",
+    "note": "白のキングはf2へ進み、e1の黒ルークをにらむ。"
+   },
+   {
+    "san": "Bh4+",
+    "note": "黒のビショップがh4からチェックし、キングを追う。"
+   },
+   {
+    "san": "Kg2",
+    "note": "白のキングはg2へ移り、チェックをかわす。"
+   },
+   {
+    "san": "Kd6",
+    "note": "黒のキングがd6へ進み、ポーンの近くに立つ。"
+   },
+   {
+    "san": "Ng3",
+    "note": "白のナイトはg3へ跳び、キング側で働く。"
+   },
+   {
+    "san": "Bxg3",
+    "note": "黒のビショップがg3のナイトを取る。"
+   },
+   {
+    "san": "Bxc4",
+    "note": "白のビショップがc4の黒ビショップを取る。"
+   },
+   {
+    "san": "dxc4",
+    "note": "黒はdポーンで取り返し、c筋にポーンを残す。"
+   },
+   {
+    "san": "Kxg3",
+    "note": "白のキングがg3のビショップを取り、駒の交換が終わる。"
+   },
+   {
+    "san": "Kd5",
+    "note": "黒のキングがd5へ進み、cポーンを支える。"
+   },
+   {
+    "san": "Ra7",
+    "note": "白のルークはa7へ移り、h7のポーンをにらむ。"
+   },
+   {
+    "san": "c3",
+    "note": "黒のcポーンが３段目へ進み、昇格に近づく。"
+   },
+   {
+    "san": "Rc7",
+    "note": "白のルークはc7へ回り、進んだc3のポーンに当てる。"
+   },
+   {
+    "san": "Kd4",
+    "note": "黒のキングがd4に進んだところで中断。白は封じ手47.Rd7+の後、再開前に投了した。"
+   }
+  ],
+  "en": {
+   "title": "A Knight Opens the Battle",
+   "white": "Mikhail Botvinnik",
+   "black": "Mikhail Tal",
+   "opening": "King's Indian Defense",
+   "intro": "In game six of the 1960 World Championship, Tal gives up a knight and the game becomes a complex battle in which both queens are exchanged. The score ends at 46...Kd4, the last move played on the board before adjournment and resignation.",
+   "takeaway": "Look beyond the material count to the open lines and the activity of the remaining pieces.",
+   "moves": [
+    {
+     "san": "c4",
+     "note": "White advances the c-pawn and prepares to influence the center from the side."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black develops a knight and watches the central squares."
+    },
+    {
+     "san": "Nf3",
+     "note": "White develops a knight toward the center."
+    },
+    {
+     "san": "g6",
+     "note": "Black advances the g-pawn to prepare a diagonal for the bishop."
+    },
+    {
+     "san": "g3",
+     "note": "White likewise prepares to place the bishop on the long diagonal."
+    },
+    {
+     "san": "Bg7",
+     "note": "Black's bishop develops to g7 and looks toward the center from a distance."
+    },
+    {
+     "san": "Bg2",
+     "note": "White's bishop also reaches g2; both sides have established long diagonals."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles to shelter the king."
+    },
+    {
+     "san": "d4",
+     "note": "White advances the d-pawn as well, gaining space in the center."
+    },
+    {
+     "san": "d6",
+     "note": "Black advances the d-pawn, preparing counterplay in the center."
+    },
+    {
+     "san": "Nc3",
+     "note": "White develops the knight, watching d5 and e4."
+    },
+    {
+     "san": "Nbd7",
+     "note": "Black develops the b-knight to d7 in support of the center."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles as well, securing the king."
+    },
+    {
+     "san": "e5",
+     "note": "Black pushes the e-pawn and attacks White's pawn on d4."
+    },
+    {
+     "san": "e4",
+     "note": "White advances the e-pawn, establishing a broad pawn center."
+    },
+    {
+     "san": "c6",
+     "note": "Black advances the c-pawn and prepares to challenge d5."
+    },
+    {
+     "san": "h3",
+     "note": "White advances the h-pawn one square, discouraging a black piece from coming to g4."
+    },
+    {
+     "san": "Qb6",
+     "note": "Black's queen moves to b6, eyeing both b2 and d4."
+    },
+    {
+     "san": "d5",
+     "note": "White pushes the d-pawn forward, attacking the pawn on c6."
+    },
+    {
+     "san": "cxd5",
+     "note": "Black captures on d5 with the c-pawn, challenging White's center."
+    },
+    {
+     "san": "cxd5",
+     "note": "White recaptures with the c-pawn, leaving a pawn on d5."
+    },
+    {
+     "san": "Nc5",
+     "note": "Black's knight reaches c5 and attacks the e4-pawn."
+    },
+    {
+     "san": "Ne1",
+     "note": "White's knight retreats to e1, preparing a different route back toward the center."
+    },
+    {
+     "san": "Bd7",
+     "note": "Black develops the bishop to d7 and connects the pieces."
+    },
+    {
+     "san": "Nd3",
+     "note": "White's knight jumps to d3, attacking the knight on c5 and pawn on e5."
+    },
+    {
+     "san": "Nxd3",
+     "note": "Black captures the white knight, exchanging pieces in the center."
+    },
+    {
+     "san": "Qxd3",
+     "note": "White's queen recaptures on d3."
+    },
+    {
+     "san": "Rfc8",
+     "note": "Black moves the f-rook to c8 and puts pressure on the c-file."
+    },
+    {
+     "san": "Rb1",
+     "note": "White moves the rook to b1 to support the queenside along the b-file."
+    },
+    {
+     "san": "Nh5",
+     "note": "Black's knight moves to h5, looking toward the kingside."
+    },
+    {
+     "san": "Be3",
+     "note": "White develops the bishop to e3, attacking the queen on b6."
+    },
+    {
+     "san": "Qb4",
+     "note": "Black's queen moves to b4, eyeing b2, c3, and e4."
+    },
+    {
+     "san": "Qe2",
+     "note": "White retreats the queen to e2 and keeps the pieces connected."
+    },
+    {
+     "san": "Rc4",
+     "note": "Black's rook reaches c4, pressuring the knight on c3 and pawn on e4."
+    },
+    {
+     "san": "Rfc1",
+     "note": "White brings the f-rook to c1 to contest the c-file."
+    },
+    {
+     "san": "Rac8",
+     "note": "Black brings the a-rook to c8, placing both rooks on the c-file."
+    },
+    {
+     "san": "Kh2",
+     "note": "White's king steps to h2, leaving the g1-square open."
+    },
+    {
+     "san": "f5",
+     "note": "Black advances the f-pawn and challenges the pawn on e4."
+    },
+    {
+     "san": "exf5",
+     "note": "White captures on f5 with the e-pawn, resolving the central pawn tension."
+    },
+    {
+     "san": "Bxf5",
+     "note": "Black's bishop recaptures and eyes the rook on b1."
+    },
+    {
+     "san": "Ra1",
+     "note": "White's rook returns to a1, leaving the bishop's diagonal."
+    },
+    {
+     "san": "Nf4",
+     "note": "Tal jumps the knight to f4, attacking queen and bishop and inviting complications."
+    },
+    {
+     "san": "gxf4",
+     "note": "White takes the knight with the g-pawn, changing the pawn cover around the king."
+    },
+    {
+     "san": "exf4",
+     "note": "Black recaptures with the e-pawn, attacking the bishop on e3."
+    },
+    {
+     "san": "Bd2",
+     "note": "White retreats the bishop to d2 and eyes the pawn on f4."
+    },
+    {
+     "san": "Qxb2",
+     "note": "Black's queen captures on b2, putting pressure on White's rooks and pieces."
+    },
+    {
+     "san": "Rab1",
+     "note": "White brings the a-rook to b1 and attacks the queen on b2."
+    },
+    {
+     "san": "f3",
+     "note": "Instead of retreating the queen, Black advances the f-pawn to attack White's queen on e2."
+    },
+    {
+     "san": "Rxb2",
+     "note": "White takes the queen on b2, but Black's pawn is also attacking White's queen."
+    },
+    {
+     "san": "fxe2",
+     "note": "Black's pawn captures White's queen; both queens have left the board."
+    },
+    {
+     "san": "Rb3",
+     "note": "White's rook moves to b3 and eyes the pawn on b7."
+    },
+    {
+     "san": "Rd4",
+     "note": "Black's rook enters d4 and attacks the bishop on d2."
+    },
+    {
+     "san": "Be1",
+     "note": "White retreats the bishop to e1, moving away from the rook's attack."
+    },
+    {
+     "san": "Be5+",
+     "note": "Black's bishop moves to e5 with check."
+    },
+    {
+     "san": "Kg1",
+     "note": "White's king returns to g1 to escape the check."
+    },
+    {
+     "san": "Bf4",
+     "note": "Black's bishop moves to f4 and attacks the rook on c1."
+    },
+    {
+     "san": "Nxe2",
+     "note": "White's knight captures the pawn on e2 and attacks the rook on d4."
+    },
+    {
+     "san": "Rxc1",
+     "note": "Black's c-file rook captures White's rook on c1."
+    },
+    {
+     "san": "Nxd4",
+     "note": "White's knight captures the rook on d4."
+    },
+    {
+     "san": "Rxe1+",
+     "note": "Black's remaining rook captures the bishop on e1 with check."
+    },
+    {
+     "san": "Bf1",
+     "note": "White interposes the bishop on f1 to block the check."
+    },
+    {
+     "san": "Be4",
+     "note": "Black's bishop moves to e4 and attacks the pawn on d5."
+    },
+    {
+     "san": "Ne2",
+     "note": "White's knight returns to e2 and attacks the bishop on f4."
+    },
+    {
+     "san": "Be5",
+     "note": "Black withdraws the bishop to e5, away from the knight."
+    },
+    {
+     "san": "f4",
+     "note": "White advances the f-pawn, now driving the bishop on e5."
+    },
+    {
+     "san": "Bf6",
+     "note": "Black's bishop retreats to f6, preserving the piece."
+    },
+    {
+     "san": "Rxb7",
+     "note": "White's rook captures the b7-pawn and reaches the seventh rank."
+    },
+    {
+     "san": "Bxd5",
+     "note": "Black's bishop captures on d5 and attacks the rook on b7."
+    },
+    {
+     "san": "Rc7",
+     "note": "White's rook moves to c7, eyeing a7 and h7."
+    },
+    {
+     "san": "Bxa2",
+     "note": "Black's bishop captures the pawn on a2."
+    },
+    {
+     "san": "Rxa7",
+     "note": "White takes the a7-pawn and attacks Black's bishop."
+    },
+    {
+     "san": "Bc4",
+     "note": "Black's bishop moves to c4 and attacks the knight on e2."
+    },
+    {
+     "san": "Ra8+",
+     "note": "White's rook checks from a8."
+    },
+    {
+     "san": "Kf7",
+     "note": "Black's king steps to f7 to escape the check."
+    },
+    {
+     "san": "Ra7+",
+     "note": "White returns the rook to a7 with another check."
+    },
+    {
+     "san": "Ke6",
+     "note": "Black's king moves to e6, approaching the center."
+    },
+    {
+     "san": "Ra3",
+     "note": "White's rook retreats to a3, where it can operate along the rank."
+    },
+    {
+     "san": "d5",
+     "note": "Black advances the d-pawn, creating a path through the center."
+    },
+    {
+     "san": "Kf2",
+     "note": "White's king moves to f2 and approaches Black's rook on e1."
+    },
+    {
+     "san": "Bh4+",
+     "note": "Black's bishop checks from h4, driving the king away."
+    },
+    {
+     "san": "Kg2",
+     "note": "White's king moves to g2 to escape the check."
+    },
+    {
+     "san": "Kd6",
+     "note": "Black's king advances to d6, staying close to the pawns."
+    },
+    {
+     "san": "Ng3",
+     "note": "White's knight jumps to g3 to take part on the kingside."
+    },
+    {
+     "san": "Bxg3",
+     "note": "Black's bishop captures the knight on g3."
+    },
+    {
+     "san": "Bxc4",
+     "note": "White's bishop captures Black's bishop on c4."
+    },
+    {
+     "san": "dxc4",
+     "note": "Black recaptures with the d-pawn, leaving a pawn on the c-file."
+    },
+    {
+     "san": "Kxg3",
+     "note": "White's king captures the bishop on g3, completing the exchange of minor pieces."
+    },
+    {
+     "san": "Kd5",
+     "note": "Black's king advances to d5 to support the c-pawn."
+    },
+    {
+     "san": "Ra7",
+     "note": "White's rook moves to a7 and eyes the h7-pawn."
+    },
+    {
+     "san": "c3",
+     "note": "Black's c-pawn advances to the third rank, nearing promotion."
+    },
+    {
+     "san": "Rc7",
+     "note": "White's rook moves to c7 and attacks the advanced pawn on c3."
+    },
+    {
+     "san": "Kd4",
+     "note": "Black's king advances to d4 and the game was adjourned. White sealed 47.Rd7+ and resigned before play resumed."
+    }
+   ]
+  }
+ },
+ {
+  "id": "karpov_kasparov_1985",
+  "title": "陣地に根を張ったナイト",
+  "white": "アナトリー・カルポフ",
+  "black": "ガルリ・カスパロフ",
+  "year": 1985,
+  "event": "世界選手権・第16局",
+  "result": "0-1",
+  "opening": "シシリアン・ディフェンス",
+  "intro": "1985年の世界選手権第16局。カスパロフのナイトは白陣のd3に入り、黒の駒が連携する中で局面が動きます。",
+  "takeaway": "相手の陣地に進んだナイトが、味方の駒やポーンに支えられると大きな力を発揮します。",
+  "moves": [
+   {
+    "san": "e4",
+    "note": "白はeポーンを２マス進め、中央への道を開く。"
+   },
+   {
+    "san": "c5",
+    "note": "黒はcポーンで中央に働きかける。シシリアン・ディフェンスの始まり。"
+   },
+   {
+    "san": "Nf3",
+    "note": "白のナイトが展開し、中央のd4とe5を見張る。"
+   },
+   {
+    "san": "e6",
+    "note": "黒はeポーンを進め、中央を支える準備をする。"
+   },
+   {
+    "san": "d4",
+    "note": "白はdポーンを進め、c5のポーンに当てる。"
+   },
+   {
+    "san": "cxd4",
+    "note": "黒はcポーンでd4を取り、中央で交換する。"
+   },
+   {
+    "san": "Nxd4",
+    "note": "白のナイトがd4で取り返し、中央に出る。"
+   },
+   {
+    "san": "Nc6",
+    "note": "黒もナイトを出し、d4のナイトに当てる。"
+   },
+   {
+    "san": "Nb5",
+    "note": "白のナイトはb5へ跳び、a7をにらむ。"
+   },
+   {
+    "san": "d6",
+    "note": "黒はdポーンを進め、中央を支える。"
+   },
+   {
+    "san": "c4",
+    "note": "白はcポーンを進め、d5のマスを見張る。"
+   },
+   {
+    "san": "Nf6",
+    "note": "黒はもう一枚のナイトを展開し、e4のポーンに当てる。"
+   },
+   {
+    "san": "N1c3",
+    "note": "白はb1のナイトをc3に出し、中央に駒を加える。"
+   },
+   {
+    "san": "a6",
+    "note": "黒はaポーンを進め、b5のナイトを追う。"
+   },
+   {
+    "san": "Na3",
+    "note": "白のナイトはa3へ移り、黒ポーンの利きから離れる。"
+   },
+   {
+    "san": "d5",
+    "note": "黒はdポーンを前へ。c4とe4の白ポーンに挑む。"
+   },
+   {
+    "san": "cxd5",
+    "note": "白はcポーンでd5を取る。"
+   },
+   {
+    "san": "exd5",
+    "note": "黒はeポーンで取り返し、e4のポーンにも当てる。"
+   },
+   {
+    "san": "exd5",
+    "note": "白はeポーンでもd5を取り、c6のナイトを攻める。"
+   },
+   {
+    "san": "Nb4",
+    "note": "黒のナイトはb4へ跳び、d5のポーンをにらむ。"
+   },
+   {
+    "san": "Be2",
+    "note": "白はビショップをe2に展開し、キャスリングの準備をする。"
+   },
+   {
+    "san": "Bc5",
+    "note": "黒のビショップはc5へ出て、f2のポーンをにらむ。"
+   },
+   {
+    "san": "O-O",
+    "note": "白はキャスリングしてキングを囲う。"
+   },
+   {
+    "san": "O-O",
+    "note": "黒もキャスリングし、キングを安全な側へ移す。"
+   },
+   {
+    "san": "Bf3",
+    "note": "白のビショップがf3へ。中央やキング側に働きかける。"
+   },
+   {
+    "san": "Bf5",
+    "note": "黒はもう一枚のビショップをf5へ出す。"
+   },
+   {
+    "san": "Bg5",
+    "note": "白のビショップがg5へ。f6のナイトを攻める。"
+   },
+   {
+    "san": "Re8",
+    "note": "黒はルークをe8へ移し、中央の列に備える。"
+   },
+   {
+    "san": "Qd2",
+    "note": "白のクイーンはd2へ移り、ルークの道を空ける。"
+   },
+   {
+    "san": "b5",
+    "note": "黒はbポーンを進め、クイーン側に空間を作る。"
+   },
+   {
+    "san": "Rad1",
+    "note": "白はa筋のルークをd1へ回し、d筋で働かせる。"
+   },
+   {
+    "san": "Nd3",
+    "note": "黒のナイトがd3へ。白陣深くからb2やf2をにらむ。"
+   },
+   {
+    "san": "Nab1",
+    "note": "白はa3のナイトをb1に戻し、駒の配置を組み直す。"
+   },
+   {
+    "san": "h6",
+    "note": "黒はhポーンを進め、g5のビショップに当てる。"
+   },
+   {
+    "san": "Bh4",
+    "note": "白のビショップはh4へ引き、f6のナイトへの利きを保つ。"
+   },
+   {
+    "san": "b4",
+    "note": "黒のbポーンが進み、c3のナイトを追う。"
+   },
+   {
+    "san": "Na4",
+    "note": "白のナイトはa4へ跳び、c5のビショップに当てる。"
+   },
+   {
+    "san": "Bd6",
+    "note": "黒のビショップはd6へ移り、h2の方向を見る。"
+   },
+   {
+    "san": "Bg3",
+    "note": "白のビショップはg3に戻り、d6のビショップに当てる。"
+   },
+   {
+    "san": "Rc8",
+    "note": "黒はa筋のルークをc8へ移し、c筋に置く。"
+   },
+   {
+    "san": "b3",
+    "note": "白はbポーンを一歩進め、クイーン側を支える。"
+   },
+   {
+    "san": "g5",
+    "note": "黒はgポーンを進め、キング側にも空間を広げる。"
+   },
+   {
+    "san": "Bxd6",
+    "note": "白のビショップがd6のビショップを取る。"
+   },
+   {
+    "san": "Qxd6",
+    "note": "黒のクイーンが取り返し、d5の白ポーンをにらむ。"
+   },
+   {
+    "san": "g3",
+    "note": "白はgポーンを進め、キング側の配置を整える。"
+   },
+   {
+    "san": "Nd7",
+    "note": "黒のf6のナイトがd7へ移り、駒の配置を組み替える。"
+   },
+   {
+    "san": "Bg2",
+    "note": "白のビショップはg2へ下がり、長い対角線に戻る。"
+   },
+   {
+    "san": "Qf6",
+    "note": "黒のクイーンはf6へ移り、中央とキング側を見る。"
+   },
+   {
+    "san": "a3",
+    "note": "白はaポーンを進め、b4のポーンに当てる。"
+   },
+   {
+    "san": "a5",
+    "note": "黒はaポーンを進め、b4を支える。"
+   },
+   {
+    "san": "axb4",
+    "note": "白はaポーンでb4を取り、クイーン側の交換を始める。"
+   },
+   {
+    "san": "axb4",
+    "note": "黒はaポーンで取り返し、b4にポーンを残す。"
+   },
+   {
+    "san": "Qa2",
+    "note": "白のクイーンはa2へ移り、クイーン側に位置を変える。"
+   },
+   {
+    "san": "Bg6",
+    "note": "黒のビショップはg6へ引き、d3のナイトを支え続ける。"
+   },
+   {
+    "san": "d6",
+    "note": "白はdポーンを６段目へ進め、反撃を試みる。"
+   },
+   {
+    "san": "g4",
+    "note": "黒はgポーンをさらに進め、キング側の空間を広げる。"
+   },
+   {
+    "san": "Qd2",
+    "note": "白のクイーンはd2に戻り、d3のナイトに当てる。"
+   },
+   {
+    "san": "Kg7",
+    "note": "黒はキングをg7へ移し、陣形を整える。"
+   },
+   {
+    "san": "f3",
+    "note": "白はfポーンを進め、g4の黒ポーンに当てる。"
+   },
+   {
+    "san": "Qxd6",
+    "note": "黒のクイーンがd6のポーンを取り、白の反撃の駒を減らす。"
+   },
+   {
+    "san": "fxg4",
+    "note": "白はfポーンでg4のポーンを取る。"
+   },
+   {
+    "san": "Qd4+",
+    "note": "黒のクイーンがd4からチェック。対角線が白キングにつながる。"
+   },
+   {
+    "san": "Kh1",
+    "note": "白のキングはh1へ逃げる。"
+   },
+   {
+    "san": "Nf6",
+    "note": "黒のナイトがf6へ戻り、g4の白ポーンに当てる。"
+   },
+   {
+    "san": "Rf4",
+    "note": "白のルークがf4へ上がり、クイーンとナイトに当てる。"
+   },
+   {
+    "san": "Ne4",
+    "note": "黒のナイトがe4へ跳び、白のクイーンを攻める。"
+   },
+   {
+    "san": "Qxd3",
+    "note": "白のクイーンが長く居座ったd3のナイトを取る。"
+   },
+   {
+    "san": "Nf2+",
+    "note": "残る黒ナイトがf2からチェック。d3のクイーンにも当たる両取り。"
+   },
+   {
+    "san": "Rxf2",
+    "note": "白のルークがナイトを取り、チェックを受け止める。"
+   },
+   {
+    "san": "Bxd3",
+    "note": "黒のビショップがd3のクイーンを取る。ナイトとビショップの連携が実った。"
+   },
+   {
+    "san": "Rfd2",
+    "note": "白はf筋のルークをd2へ移し、d3のビショップを攻める。"
+   },
+   {
+    "san": "Qe3",
+    "note": "黒のクイーンがe3へ入り、d2のルークに当てる。"
+   },
+   {
+    "san": "Rxd3",
+    "note": "白のルークがd3のビショップを取る。"
+   },
+   {
+    "san": "Rc1",
+    "note": "黒のルークがc1へ入り、b1のナイトとd1のルークをにらむ。"
+   },
+   {
+    "san": "Nb2",
+    "note": "白はa4のナイトをb2へ戻し、守りに加える。"
+   },
+   {
+    "san": "Qf2",
+    "note": "黒のクイーンがf2へ。b2のナイトとg2のビショップに当てる。"
+   },
+   {
+    "san": "Nd2",
+    "note": "白のb1のナイトがd2へ移り、守りを固めようとする。"
+   },
+   {
+    "san": "Rxd1+",
+    "note": "黒のルークがd1のルークを取り、チェックをかける。"
+   },
+   {
+    "san": "Nxd1",
+    "note": "白のナイトがd1でルークを取り返す。"
+   },
+   {
+    "san": "Re1+",
+    "note": "黒の残るルークがe1からチェック。白はここで投了した。"
+   }
+  ],
+  "en": {
+   "title": "A Knight Deep in Enemy Territory",
+   "white": "Anatoly Karpov",
+   "black": "Garry Kasparov",
+   "opening": "Sicilian Defense",
+   "intro": "In game sixteen of the 1985 World Championship, Kasparov's knight reaches d3 in White's position as Black's pieces work together.",
+   "takeaway": "A knight deep in the opponent's position can become powerful when supported by friendly pieces and pawns.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "White advances the e-pawn two squares and opens lines toward the center."
+    },
+    {
+     "san": "c5",
+     "note": "Black challenges the center with the c-pawn, beginning the Sicilian Defense."
+    },
+    {
+     "san": "Nf3",
+     "note": "White develops a knight, watching d4 and e5."
+    },
+    {
+     "san": "e6",
+     "note": "Black advances the e-pawn to prepare support for the center."
+    },
+    {
+     "san": "d4",
+     "note": "White advances the d-pawn and attacks Black's c5-pawn."
+    },
+    {
+     "san": "cxd4",
+     "note": "Black captures on d4 with the c-pawn, beginning a central exchange."
+    },
+    {
+     "san": "Nxd4",
+     "note": "White's knight recaptures on d4 and occupies the center."
+    },
+    {
+     "san": "Nc6",
+     "note": "Black develops a knight and attacks White's knight on d4."
+    },
+    {
+     "san": "Nb5",
+     "note": "White's knight jumps to b5 and eyes the a7-pawn."
+    },
+    {
+     "san": "d6",
+     "note": "Black advances the d-pawn to support the center."
+    },
+    {
+     "san": "c4",
+     "note": "White advances the c-pawn and watches d5."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black develops the other knight and attacks the e4-pawn."
+    },
+    {
+     "san": "N1c3",
+     "note": "White develops the b1-knight to c3, adding another piece to the center."
+    },
+    {
+     "san": "a6",
+     "note": "Black pushes the a-pawn and attacks the knight on b5."
+    },
+    {
+     "san": "Na3",
+     "note": "White's knight moves to a3, away from the pawn's attack."
+    },
+    {
+     "san": "d5",
+     "note": "Black pushes the d-pawn, challenging White's pawns on c4 and e4."
+    },
+    {
+     "san": "cxd5",
+     "note": "White captures on d5 with the c-pawn."
+    },
+    {
+     "san": "exd5",
+     "note": "Black recaptures with the e-pawn and attacks the pawn on e4."
+    },
+    {
+     "san": "exd5",
+     "note": "White's e-pawn captures on d5 and attacks the knight on c6."
+    },
+    {
+     "san": "Nb4",
+     "note": "Black's knight jumps to b4 and eyes the pawn on d5."
+    },
+    {
+     "san": "Be2",
+     "note": "White develops the bishop to e2 and prepares to castle."
+    },
+    {
+     "san": "Bc5",
+     "note": "Black's bishop develops to c5 and eyes the pawn on f2."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles to shelter the king."
+    },
+    {
+     "san": "O-O",
+     "note": "Black also castles, moving the king to the kingside."
+    },
+    {
+     "san": "Bf3",
+     "note": "White's bishop moves to f3, looking toward the center and kingside."
+    },
+    {
+     "san": "Bf5",
+     "note": "Black develops the other bishop to f5."
+    },
+    {
+     "san": "Bg5",
+     "note": "White's bishop moves to g5 and attacks the knight on f6."
+    },
+    {
+     "san": "Re8",
+     "note": "Black moves the rook to e8, ready to use the central file."
+    },
+    {
+     "san": "Qd2",
+     "note": "White's queen moves to d2, clearing a route for the rook."
+    },
+    {
+     "san": "b5",
+     "note": "Black advances the b-pawn to gain queenside space."
+    },
+    {
+     "san": "Rad1",
+     "note": "White brings the a-rook to d1 to work along the d-file."
+    },
+    {
+     "san": "Nd3",
+     "note": "Black's knight enters d3, deep in White's position, and eyes b2 and f2."
+    },
+    {
+     "san": "Nab1",
+     "note": "White returns the a3-knight to b1 to reorganize the pieces."
+    },
+    {
+     "san": "h6",
+     "note": "Black advances the h-pawn and attacks the bishop on g5."
+    },
+    {
+     "san": "Bh4",
+     "note": "White's bishop retreats to h4, keeping its eye on the knight on f6."
+    },
+    {
+     "san": "b4",
+     "note": "Black's b-pawn advances and attacks the knight on c3."
+    },
+    {
+     "san": "Na4",
+     "note": "White's knight jumps to a4 and attacks the bishop on c5."
+    },
+    {
+     "san": "Bd6",
+     "note": "Black's bishop moves to d6, looking toward h2."
+    },
+    {
+     "san": "Bg3",
+     "note": "White's bishop returns to g3 and attacks the bishop on d6."
+    },
+    {
+     "san": "Rc8",
+     "note": "Black brings the a-rook to c8, taking the c-file."
+    },
+    {
+     "san": "b3",
+     "note": "White advances the b-pawn one square to support the queenside."
+    },
+    {
+     "san": "g5",
+     "note": "Black advances the g-pawn, gaining space on the kingside too."
+    },
+    {
+     "san": "Bxd6",
+     "note": "White's bishop captures the bishop on d6."
+    },
+    {
+     "san": "Qxd6",
+     "note": "Black's queen recaptures and eyes White's pawn on d5."
+    },
+    {
+     "san": "g3",
+     "note": "White advances the g-pawn to reinforce the kingside."
+    },
+    {
+     "san": "Nd7",
+     "note": "Black's f6-knight moves to d7, reorganizing the pieces."
+    },
+    {
+     "san": "Bg2",
+     "note": "White's bishop retreats to g2 and returns to the long diagonal."
+    },
+    {
+     "san": "Qf6",
+     "note": "Black's queen moves to f6, looking toward the center and kingside."
+    },
+    {
+     "san": "a3",
+     "note": "White advances the a-pawn and attacks Black's b4-pawn."
+    },
+    {
+     "san": "a5",
+     "note": "Black advances the a-pawn to support b4."
+    },
+    {
+     "san": "axb4",
+     "note": "White captures on b4 with the a-pawn, beginning a queenside exchange."
+    },
+    {
+     "san": "axb4",
+     "note": "Black recaptures with the a-pawn, leaving a pawn on b4."
+    },
+    {
+     "san": "Qa2",
+     "note": "White's queen shifts to a2 on the queenside."
+    },
+    {
+     "san": "Bg6",
+     "note": "Black's bishop retreats to g6 while continuing to support the knight on d3."
+    },
+    {
+     "san": "d6",
+     "note": "White pushes the d-pawn to the sixth rank, seeking counterplay."
+    },
+    {
+     "san": "g4",
+     "note": "Black advances the g-pawn again, gaining more kingside space."
+    },
+    {
+     "san": "Qd2",
+     "note": "White's queen returns to d2 and attacks the knight on d3."
+    },
+    {
+     "san": "Kg7",
+     "note": "Black moves the king to g7 and adjusts the kingside position."
+    },
+    {
+     "san": "f3",
+     "note": "White advances the f-pawn and attacks Black's pawn on g4."
+    },
+    {
+     "san": "Qxd6",
+     "note": "Black's queen captures the pawn on d6, removing White's advanced pawn."
+    },
+    {
+     "san": "fxg4",
+     "note": "White's f-pawn captures the pawn on g4."
+    },
+    {
+     "san": "Qd4+",
+     "note": "Black's queen checks from d4 along the diagonal toward White's king."
+    },
+    {
+     "san": "Kh1",
+     "note": "White's king moves to h1 to escape the check."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black's knight returns to f6 and attacks White's pawn on g4."
+    },
+    {
+     "san": "Rf4",
+     "note": "White's rook rises to f4, attacking both the queen and the knight."
+    },
+    {
+     "san": "Ne4",
+     "note": "Black's knight jumps to e4 and attacks White's queen."
+    },
+    {
+     "san": "Qxd3",
+     "note": "White's queen captures the knight that had occupied d3 for so long."
+    },
+    {
+     "san": "Nf2+",
+     "note": "Black's remaining knight checks from f2, simultaneously attacking the queen on d3."
+    },
+    {
+     "san": "Rxf2",
+     "note": "White's rook captures the knight, answering the check."
+    },
+    {
+     "san": "Bxd3",
+     "note": "Black's bishop captures the queen on d3, completing the coordination between knight and bishop."
+    },
+    {
+     "san": "Rfd2",
+     "note": "White moves the f-rook to d2 and attacks the bishop on d3."
+    },
+    {
+     "san": "Qe3",
+     "note": "Black's queen moves to e3 and attacks the rook on d2."
+    },
+    {
+     "san": "Rxd3",
+     "note": "White's rook captures the bishop on d3."
+    },
+    {
+     "san": "Rc1",
+     "note": "Black's rook enters c1, attacking the knight on b1 and rook on d1."
+    },
+    {
+     "san": "Nb2",
+     "note": "White returns the a4-knight to b2 to help defend."
+    },
+    {
+     "san": "Qf2",
+     "note": "Black's queen reaches f2, attacking the knight on b2 and bishop on g2."
+    },
+    {
+     "san": "Nd2",
+     "note": "White's b1-knight moves to d2, trying to reinforce the defense."
+    },
+    {
+     "san": "Rxd1+",
+     "note": "Black's rook captures the rook on d1 with check."
+    },
+    {
+     "san": "Nxd1",
+     "note": "White's knight recaptures the rook on d1."
+    },
+    {
+     "san": "Re1+",
+     "note": "Black's remaining rook checks from e1. White resigned in this position."
+    }
+   ]
+  }
+ },
+ {
+  "id": "hou_polgar_2012",
+  "title": "ルークがつなぐ勝ち筋",
+  "white": "侯逸凡（ホウ・イーファン）",
+  "black": "ユディット・ポルガー",
+  "year": 2012,
+  "event": "ジブラルタル・オープン・第7回戦",
+  "result": "1-0",
+  "opening": "シシリアン・ディフェンス",
+  "intro": "2012年のジブラルタルでの対局。早い段階でクイーンを交換した後、侯逸凡はルークとビショップを使い、ポーンを進めていきます。",
+  "takeaway": "終盤ではポーンの前進と駒の活用を組み合わせ、相手の駒の利きにも気を配りましょう。",
+  "moves": [
+   {
+    "san": "e4",
+    "note": "白はeポーンを２マス進め、中央への道を開く。"
+   },
+   {
+    "san": "c5",
+    "note": "黒はcポーンで中央に挑む。シシリアン・ディフェンスの始まり。"
+   },
+   {
+    "san": "Nf3",
+    "note": "白のナイトが中央へ展開する。"
+   },
+   {
+    "san": "e6",
+    "note": "黒はeポーンを進め、中央への反撃に備える。"
+   },
+   {
+    "san": "d4",
+    "note": "白はdポーンを進め、c5のポーンに当てる。"
+   },
+   {
+    "san": "cxd4",
+    "note": "黒はcポーンでd4を取る。"
+   },
+   {
+    "san": "Nxd4",
+    "note": "白のナイトがd4で取り返し、中央に出る。"
+   },
+   {
+    "san": "Nc6",
+    "note": "黒のナイトがc6に展開し、d4のナイトを攻める。"
+   },
+   {
+    "san": "Nc3",
+    "note": "白はもう一枚のナイトをc3に出し、中央を支える。"
+   },
+   {
+    "san": "a6",
+    "note": "黒はaポーンを一歩進め、b5のマスを見張る。"
+   },
+   {
+    "san": "Be2",
+    "note": "白のビショップはe2へ出て、キャスリングに備える。"
+   },
+   {
+    "san": "Nge7",
+    "note": "黒はg筋のナイトをe7に出し、中央へ向かう。"
+   },
+   {
+    "san": "Bf4",
+    "note": "白はもう一枚のビショップをf4に展開する。"
+   },
+   {
+    "san": "Ng6",
+    "note": "黒のナイトがg6へ跳び、f4のビショップに当てる。"
+   },
+   {
+    "san": "Nxc6",
+    "note": "白はd4のナイトでc6のナイトを取る。"
+   },
+   {
+    "san": "bxc6",
+    "note": "黒はbポーンで取り返し、c筋にポーンを残す。"
+   },
+   {
+    "san": "Bd6",
+    "note": "白のビショップがd6へ進み、f8のビショップに当てる。"
+   },
+   {
+    "san": "Bxd6",
+    "note": "黒はビショップで白のビショップを取る。"
+   },
+   {
+    "san": "Qxd6",
+    "note": "白のクイーンがd6で取り返し、中央に入る。"
+   },
+   {
+    "san": "Qe7",
+    "note": "黒のクイーンがe7へ。d6のクイーンを攻める。"
+   },
+   {
+    "san": "O-O-O",
+    "note": "白はロングキャスリング。キングをc1に、ルークをd1に移す。"
+   },
+   {
+    "san": "Qxd6",
+    "note": "黒のクイーンが白のクイーンを取り、交換に入る。"
+   },
+   {
+    "san": "Rxd6",
+    "note": "白はd1のルークで取り返し、d6にルークを置く。"
+   },
+   {
+    "san": "Ke7",
+    "note": "黒のキングがe7へ進み、d6のルークに当てる。"
+   },
+   {
+    "san": "Rhd1",
+    "note": "白はh筋のルークもd1へ。二枚のルークがd筋に並ぶ。"
+   },
+   {
+    "san": "Nf4",
+    "note": "黒のナイトがf4へ跳び、e2のビショップとg2のポーンを狙う。"
+   },
+   {
+    "san": "Bf3",
+    "note": "白のビショップはf3へ移り、ナイトの攻撃から離れる。"
+   },
+   {
+    "san": "Rb8",
+    "note": "黒のルークがb8へ移り、b2のポーンに当てる。"
+   },
+   {
+    "san": "R6d2",
+    "note": "白はd6のルークをd2へ下げ、キングの近くに戻す。"
+   },
+   {
+    "san": "g5",
+    "note": "黒はgポーンを２マス進め、キング側に空間を作る。"
+   },
+   {
+    "san": "Na4",
+    "note": "白のナイトはa4へ跳び、クイーン側に位置を変える。"
+   },
+   {
+    "san": "d5",
+    "note": "黒はdポーンを前へ出し、e4のポーンに当てる。"
+   },
+   {
+    "san": "g3",
+    "note": "白のgポーンが進み、f4のナイトを追う。"
+   },
+   {
+    "san": "Ng6",
+    "note": "黒のナイトはg6へ戻り、ポーンの攻撃を避ける。"
+   },
+   {
+    "san": "Re1",
+    "note": "白はd1のルークをe1に移し、e筋へ向ける。"
+   },
+   {
+    "san": "Kf6",
+    "note": "黒のキングはf6へ。クイーン交換後の盤面で前へ出る。"
+   },
+   {
+    "san": "Bh5",
+    "note": "白のビショップがh5へ移り、g6のナイトを攻める。"
+   },
+   {
+    "san": "Rb4",
+    "note": "黒のルークがb4へ入り、a4のナイトやe4のポーンに当てる。"
+   },
+   {
+    "san": "Nc3",
+    "note": "白のナイトはc3へ戻り、d5のポーンをにらむ。"
+   },
+   {
+    "san": "d4",
+    "note": "黒はdポーンを進め、c3のナイトに当てる。"
+   },
+   {
+    "san": "e5+",
+    "note": "白のeポーンが進んでチェック。黒キングに応手を迫る。"
+   },
+   {
+    "san": "Nxe5",
+    "note": "黒のナイトがe5のポーンを取り、チェックを解く。"
+   },
+   {
+    "san": "Ne4+",
+    "note": "白のナイトがe4からチェックし、g5のポーンも狙う。"
+   },
+   {
+    "san": "Ke7",
+    "note": "黒のキングはe7へ戻り、チェックをかわす。"
+   },
+   {
+    "san": "Nxg5",
+    "note": "白のナイトがg5のポーンを取り、黒陣へ入る。"
+   },
+   {
+    "san": "h6",
+    "note": "黒はhポーンを進め、g5のナイトに当てる。"
+   },
+   {
+    "san": "Nxe6",
+    "note": "白のナイトがe6のポーンを取り、駒交換を誘う。"
+   },
+   {
+    "san": "Bxe6",
+    "note": "黒のビショップがナイトを取る。"
+   },
+   {
+    "san": "Rxe5",
+    "note": "白のルークがe5のナイトを取り返す。"
+   },
+   {
+    "san": "Rd8",
+    "note": "黒はh筋のルークをd8へ移し、d筋に配置する。"
+   },
+   {
+    "san": "f4",
+    "note": "白はfポーンを進め、キング側の空間を広げる。"
+   },
+   {
+    "san": "Rb5",
+    "note": "黒のルークがb5へ移り、e5のルークに横から当てる。"
+   },
+   {
+    "san": "Rde2",
+    "note": "白はd2のルークをe2へ移し、e5のルークを支える。"
+   },
+   {
+    "san": "Kf6",
+    "note": "黒のキングがf6へ進み、e5のルークに当てる。"
+   },
+   {
+    "san": "Bf3",
+    "note": "白のビショップはf3へ戻り、c6のポーンをにらむ。"
+   },
+   {
+    "san": "c5",
+    "note": "黒はcポーンを進め、クイーン側で反撃を試みる。"
+   },
+   {
+    "san": "a4",
+    "note": "白はaポーンを進め、b5の黒ルークを追う。"
+   },
+   {
+    "san": "Rb4",
+    "note": "黒のルークはb4へ移り、a4とb2のポーンを狙う。"
+   },
+   {
+    "san": "Rxc5",
+    "note": "白のルークがc5のポーンを取る。"
+   },
+   {
+    "san": "Rxa4",
+    "note": "黒のルークはa4のポーンを取る。"
+   },
+   {
+    "san": "b3",
+    "note": "白はbポーンを一歩進め、a4のルークに当てる。"
+   },
+   {
+    "san": "Rb4",
+    "note": "黒のルークはb4へ戻り、b3のポーンを狙う。"
+   },
+   {
+    "san": "Be4",
+    "note": "白のビショップがe4へ移り、中央に位置を変える。"
+   },
+   {
+    "san": "Bg4",
+    "note": "黒のビショップがg4へ出て、e2の白ルークに当てる。"
+   },
+   {
+    "san": "Re1",
+    "note": "白のルークはe1へ引き、ビショップの利きを避ける。"
+   },
+   {
+    "san": "Rd6",
+    "note": "黒のd筋のルークがd6へ進み、横にも働ける位置に出る。"
+   },
+   {
+    "san": "Bd3",
+    "note": "白のビショップはd3へ移り、a6のポーンをにらむ。"
+   },
+   {
+    "san": "Bd7",
+    "note": "黒のビショップはd7へ下がり、位置を組み直す。"
+   },
+   {
+    "san": "Ree5",
+    "note": "白はe1のルークをe5へ上げ、中央に戻す。"
+   },
+   {
+    "san": "Be6",
+    "note": "黒のビショップはe6へ移り、b3のポーンに当てる。"
+   },
+   {
+    "san": "Kd2",
+    "note": "白のキングはd2へ進み、終盤の駒の一つとして働き始める。"
+   },
+   {
+    "san": "Rbb6",
+    "note": "黒はb筋のルークをb6へ移し、b3への圧力を保つ。"
+   },
+   {
+    "san": "Ra5",
+    "note": "白のルークがa5へ移り、a6のポーンを狙う。"
+   },
+   {
+    "san": "Rbc6",
+    "note": "黒はb6のルークをc6へ回し、c2のポーンに当てる。"
+   },
+   {
+    "san": "Ra4",
+    "note": "白のルークはa4へ下がり、a6とd4を見張る。"
+   },
+   {
+    "san": "Rb6",
+    "note": "黒のルークはb6へ戻り、再びb3を狙う。"
+   },
+   {
+    "san": "Re4",
+    "note": "白のe5のルークがe4へ移り、d4のポーンとe6のビショップをにらむ。"
+   },
+   {
+    "san": "Bf5",
+    "note": "黒のビショップはf5へ移り、e4のルークに当てる。"
+   },
+   {
+    "san": "Rexd4",
+    "note": "白はe4のルークでd4のポーンを取り、d6のルークにも当てる。"
+   },
+   {
+    "san": "Re6",
+    "note": "黒はd6のルークをe6へ移し、攻撃を避ける。"
+   },
+   {
+    "san": "Bc4",
+    "note": "白のビショップがc4へ出て、e6のルークを狙う。"
+   },
+   {
+    "san": "Rec6",
+    "note": "黒はe6のルークをc6へ移し、c4のビショップに当て返す。"
+   },
+   {
+    "san": "Ra5",
+    "note": "白のルークがa5へ戻り、f5のビショップもにらむ。"
+   },
+   {
+    "san": "Bc8",
+    "note": "黒のビショップはc8へ下がり、ルークの利きから離れる。"
+   },
+   {
+    "san": "Bd3",
+    "note": "白のビショップもd3へ戻り、c6のルークから離れる。"
+   },
+   {
+    "san": "Be6",
+    "note": "黒のビショップはe6へ出直し、b3のポーンを見張る。"
+   },
+   {
+    "san": "Rd8",
+    "note": "白のルークがd8へ進み、黒陣の奥に入る。"
+   },
+   {
+    "san": "Bc8",
+    "note": "黒のビショップはc8へ戻り、d8のルークと隣り合う。"
+   },
+   {
+    "san": "Rad5",
+    "note": "白はa5のルークをd5へ移し、もう一枚のルークとd筋に並べる。"
+   },
+   {
+    "san": "Be6",
+    "note": "黒のビショップはe6へ出て、d5のルークに当てる。"
+   },
+   {
+    "san": "Rh5",
+    "note": "白のルークはh5へ移り、h6のポーンを狙う。"
+   },
+   {
+    "san": "Kg7",
+    "note": "黒のキングはg7へ移り、キング側に戻る。"
+   },
+   {
+    "san": "f5",
+    "note": "白はfポーンを進め、e6のビショップに当てる。黒はここで投了した。"
+   }
+  ],
+  "en": {
+   "title": "Rooks Working Together",
+   "white": "Hou Yifan",
+   "black": "Judit Polgár",
+   "opening": "Sicilian Defense",
+   "intro": "In this game from Gibraltar in 2012, the queens are exchanged early. Hou Yifan then coordinates her rooks and bishop while advancing her pawns.",
+   "takeaway": "In the endgame, combine active pieces with pawn advances while watching your opponent's threats.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "White advances the e-pawn two squares and opens lines toward the center."
+    },
+    {
+     "san": "c5",
+     "note": "Black challenges the center with the c-pawn, beginning the Sicilian Defense."
+    },
+    {
+     "san": "Nf3",
+     "note": "White develops a knight toward the center."
+    },
+    {
+     "san": "e6",
+     "note": "Black advances the e-pawn in preparation for central counterplay."
+    },
+    {
+     "san": "d4",
+     "note": "White advances the d-pawn and attacks Black's c5-pawn."
+    },
+    {
+     "san": "cxd4",
+     "note": "Black captures on d4 with the c-pawn."
+    },
+    {
+     "san": "Nxd4",
+     "note": "White's knight recaptures on d4 and occupies the center."
+    },
+    {
+     "san": "Nc6",
+     "note": "Black develops a knight to c6 and attacks the knight on d4."
+    },
+    {
+     "san": "Nc3",
+     "note": "White develops the other knight to c3, supporting the center."
+    },
+    {
+     "san": "a6",
+     "note": "Black advances the a-pawn one square to control b5."
+    },
+    {
+     "san": "Be2",
+     "note": "White develops the bishop to e2 and prepares to castle."
+    },
+    {
+     "san": "Nge7",
+     "note": "Black develops the g-knight to e7, heading toward the center."
+    },
+    {
+     "san": "Bf4",
+     "note": "White develops the other bishop to f4."
+    },
+    {
+     "san": "Ng6",
+     "note": "Black's knight jumps to g6 and attacks the bishop on f4."
+    },
+    {
+     "san": "Nxc6",
+     "note": "White's d4-knight captures the knight on c6."
+    },
+    {
+     "san": "bxc6",
+     "note": "Black recaptures with the b-pawn, leaving a pawn on the c-file."
+    },
+    {
+     "san": "Bd6",
+     "note": "White's bishop advances to d6 and attacks the bishop on f8."
+    },
+    {
+     "san": "Bxd6",
+     "note": "Black's bishop captures White's bishop on d6."
+    },
+    {
+     "san": "Qxd6",
+     "note": "White's queen recaptures on d6 and enters the center."
+    },
+    {
+     "san": "Qe7",
+     "note": "Black's queen moves to e7 and attacks the queen on d6."
+    },
+    {
+     "san": "O-O-O",
+     "note": "White castles long, moving the king to c1 and rook to d1."
+    },
+    {
+     "san": "Qxd6",
+     "note": "Black's queen captures White's queen, beginning an exchange."
+    },
+    {
+     "san": "Rxd6",
+     "note": "White recaptures with the d1-rook, placing it on d6."
+    },
+    {
+     "san": "Ke7",
+     "note": "Black's king steps to e7 and attacks the rook on d6."
+    },
+    {
+     "san": "Rhd1",
+     "note": "White brings the h-rook to d1, placing both rooks on the d-file."
+    },
+    {
+     "san": "Nf4",
+     "note": "Black's knight jumps to f4, attacking the bishop on e2 and pawn on g2."
+    },
+    {
+     "san": "Bf3",
+     "note": "White moves the bishop to f3, away from the knight's attack."
+    },
+    {
+     "san": "Rb8",
+     "note": "Black's rook moves to b8 and attacks the pawn on b2."
+    },
+    {
+     "san": "R6d2",
+     "note": "White withdraws the d6-rook to d2, nearer the king."
+    },
+    {
+     "san": "g5",
+     "note": "Black advances the g-pawn two squares, gaining kingside space."
+    },
+    {
+     "san": "Na4",
+     "note": "White's knight jumps to a4, repositioning on the queenside."
+    },
+    {
+     "san": "d5",
+     "note": "Black advances the d-pawn and attacks White's pawn on e4."
+    },
+    {
+     "san": "g3",
+     "note": "White advances the g-pawn and attacks the knight on f4."
+    },
+    {
+     "san": "Ng6",
+     "note": "Black's knight returns to g6, escaping the pawn."
+    },
+    {
+     "san": "Re1",
+     "note": "White moves the d1-rook to e1, placing it on the e-file."
+    },
+    {
+     "san": "Kf6",
+     "note": "Black's king advances to f6 now that the queens are off the board."
+    },
+    {
+     "san": "Bh5",
+     "note": "White's bishop moves to h5 and attacks the knight on g6."
+    },
+    {
+     "san": "Rb4",
+     "note": "Black's rook enters b4, attacking the knight on a4 and pawn on e4."
+    },
+    {
+     "san": "Nc3",
+     "note": "White's knight returns to c3 and eyes the pawn on d5."
+    },
+    {
+     "san": "d4",
+     "note": "Black advances the d-pawn and attacks the knight on c3."
+    },
+    {
+     "san": "e5+",
+     "note": "White pushes the e-pawn with check, forcing Black to respond."
+    },
+    {
+     "san": "Nxe5",
+     "note": "Black's knight captures the e5-pawn, removing the check."
+    },
+    {
+     "san": "Ne4+",
+     "note": "White's knight checks from e4 and also attacks the pawn on g5."
+    },
+    {
+     "san": "Ke7",
+     "note": "Black's king returns to e7 to escape the check."
+    },
+    {
+     "san": "Nxg5",
+     "note": "White's knight captures on g5, entering Black's position."
+    },
+    {
+     "san": "h6",
+     "note": "Black advances the h-pawn and attacks the knight on g5."
+    },
+    {
+     "san": "Nxe6",
+     "note": "White's knight captures the e6-pawn, inviting an exchange."
+    },
+    {
+     "san": "Bxe6",
+     "note": "Black's bishop captures the knight on e6."
+    },
+    {
+     "san": "Rxe5",
+     "note": "White's rook captures the knight on e5 in return."
+    },
+    {
+     "san": "Rd8",
+     "note": "Black brings the h-rook to d8, placing it on the d-file."
+    },
+    {
+     "san": "f4",
+     "note": "White advances the f-pawn, gaining space on the kingside."
+    },
+    {
+     "san": "Rb5",
+     "note": "Black's rook moves to b5 and attacks the rook on e5 along the rank."
+    },
+    {
+     "san": "Rde2",
+     "note": "White moves the d2-rook to e2, supporting the rook on e5."
+    },
+    {
+     "san": "Kf6",
+     "note": "Black's king advances to f6 and attacks the rook on e5."
+    },
+    {
+     "san": "Bf3",
+     "note": "White's bishop returns to f3 and eyes the pawn on c6."
+    },
+    {
+     "san": "c5",
+     "note": "Black advances the c-pawn, seeking queenside counterplay."
+    },
+    {
+     "san": "a4",
+     "note": "White advances the a-pawn and attacks Black's rook on b5."
+    },
+    {
+     "san": "Rb4",
+     "note": "Black's rook moves to b4, attacking the pawns on a4 and b2."
+    },
+    {
+     "san": "Rxc5",
+     "note": "White's rook captures the pawn on c5."
+    },
+    {
+     "san": "Rxa4",
+     "note": "Black's rook captures the pawn on a4."
+    },
+    {
+     "san": "b3",
+     "note": "White advances the b-pawn one square, attacking the rook on a4."
+    },
+    {
+     "san": "Rb4",
+     "note": "Black's rook returns to b4 and attacks the pawn on b3."
+    },
+    {
+     "san": "Be4",
+     "note": "White's bishop moves to e4, repositioning in the center."
+    },
+    {
+     "san": "Bg4",
+     "note": "Black's bishop moves to g4 and attacks White's rook on e2."
+    },
+    {
+     "san": "Re1",
+     "note": "White's rook retreats to e1, away from the bishop's attack."
+    },
+    {
+     "san": "Rd6",
+     "note": "Black's d-file rook moves to d6, gaining room to operate along the rank."
+    },
+    {
+     "san": "Bd3",
+     "note": "White's bishop moves to d3 and eyes the pawn on a6."
+    },
+    {
+     "san": "Bd7",
+     "note": "Black's bishop retreats to d7, reorganizing its position."
+    },
+    {
+     "san": "Ree5",
+     "note": "White brings the e1-rook up to e5, returning it to the center."
+    },
+    {
+     "san": "Be6",
+     "note": "Black's bishop moves to e6 and attacks the pawn on b3."
+    },
+    {
+     "san": "Kd2",
+     "note": "White's king moves to d2 and begins to take an active role in the ending."
+    },
+    {
+     "san": "Rbb6",
+     "note": "Black moves the b-file rook to b6, maintaining pressure on b3."
+    },
+    {
+     "san": "Ra5",
+     "note": "White's rook moves to a5 and attacks the a6-pawn."
+    },
+    {
+     "san": "Rbc6",
+     "note": "Black shifts the b6-rook to c6 and attacks the c2-pawn."
+    },
+    {
+     "san": "Ra4",
+     "note": "White's rook drops to a4, watching a6 and d4."
+    },
+    {
+     "san": "Rb6",
+     "note": "Black's rook returns to b6 and attacks b3 again."
+    },
+    {
+     "san": "Re4",
+     "note": "White's e5-rook moves to e4, eyeing the pawn on d4 and bishop on e6."
+    },
+    {
+     "san": "Bf5",
+     "note": "Black's bishop moves to f5 and attacks the rook on e4."
+    },
+    {
+     "san": "Rexd4",
+     "note": "White's e4-rook captures the pawn on d4 and attacks the rook on d6."
+    },
+    {
+     "san": "Re6",
+     "note": "Black moves the d6-rook to e6, escaping the attack."
+    },
+    {
+     "san": "Bc4",
+     "note": "White's bishop moves to c4 and attacks the rook on e6."
+    },
+    {
+     "san": "Rec6",
+     "note": "Black moves the e6-rook to c6, counterattacking the bishop on c4."
+    },
+    {
+     "san": "Ra5",
+     "note": "White's rook returns to a5, also eyeing the bishop on f5."
+    },
+    {
+     "san": "Bc8",
+     "note": "Black's bishop retreats to c8, moving away from the rook's attack."
+    },
+    {
+     "san": "Bd3",
+     "note": "White's bishop returns to d3, away from the rook on c6."
+    },
+    {
+     "san": "Be6",
+     "note": "Black's bishop returns to e6 and watches the pawn on b3."
+    },
+    {
+     "san": "Rd8",
+     "note": "White's rook advances to d8, deep in Black's position."
+    },
+    {
+     "san": "Bc8",
+     "note": "Black's bishop returns to c8, next to the rook on d8."
+    },
+    {
+     "san": "Rad5",
+     "note": "White moves the a5-rook to d5, placing both rooks on the d-file."
+    },
+    {
+     "san": "Be6",
+     "note": "Black's bishop moves to e6 and attacks the rook on d5."
+    },
+    {
+     "san": "Rh5",
+     "note": "White's rook shifts to h5 and attacks the pawn on h6."
+    },
+    {
+     "san": "Kg7",
+     "note": "Black's king moves to g7, returning to the kingside."
+    },
+    {
+     "san": "f5",
+     "note": "White advances the f-pawn and attacks the bishop on e6. Black resigned here."
+    }
+   ]
+  }
+ },
+ {
+  "id": "carlsen_karjakin_2016",
+  "title": "最後に光るクイーン",
+  "white": "マグヌス・カールセン",
+  "black": "セルゲイ・カリヤキン",
+  "year": 2016,
+  "event": "世界選手権・ラピッドタイブレーク第4局",
+  "result": "1-0",
+  "opening": "シシリアン・ディフェンス",
+  "intro": "2016年の世界選手権、ラピッドのタイブレーク第4局。カールセンはクイーンと二枚のルークを連携させ、最後のチェックで勝負を決めました。",
+  "takeaway": "チェックへの応手を一つずつ調べると、クイーンとルークが協力する詰みの形が見えてきます。",
+  "moves": [
+   {
+    "san": "e4",
+    "note": "白はeポーンを進め、中央に足場を作る。"
+   },
+   {
+    "san": "c5",
+    "note": "黒はcポーンで中央に挑む。シシリアン・ディフェンスの始まり。"
+   },
+   {
+    "san": "Nf3",
+    "note": "白のナイトが中央へ展開する。"
+   },
+   {
+    "san": "d6",
+    "note": "黒はdポーンを進め、中央を支える準備をする。"
+   },
+   {
+    "san": "d4",
+    "note": "白はdポーンを進め、c5のポーンに当てる。"
+   },
+   {
+    "san": "cxd4",
+    "note": "黒はcポーンでd4を取る。"
+   },
+   {
+    "san": "Nxd4",
+    "note": "白のナイトがd4で取り返し、中央に立つ。"
+   },
+   {
+    "san": "Nf6",
+    "note": "黒のナイトがf6に出て、e4のポーンを狙う。"
+   },
+   {
+    "san": "f3",
+    "note": "白はfポーンを進め、e4のポーンを支える。"
+   },
+   {
+    "san": "e5",
+    "note": "黒はeポーンを前へ出し、d4のナイトを追う。"
+   },
+   {
+    "san": "Nb3",
+    "note": "白のナイトはb3へ移り、ポーンの攻撃を避ける。"
+   },
+   {
+    "san": "Be7",
+    "note": "黒はビショップをe7に展開し、キャスリングに備える。"
+   },
+   {
+    "san": "c4",
+    "note": "白はcポーンを進め、d5を見張る。"
+   },
+   {
+    "san": "a5",
+    "note": "黒はaポーンを２マス進め、クイーン側に空間を作る。"
+   },
+   {
+    "san": "Be3",
+    "note": "白のビショップがe3へ出て、中央に働きかける。"
+   },
+   {
+    "san": "a4",
+    "note": "黒のaポーンがさらに進み、b3のナイトを攻める。"
+   },
+   {
+    "san": "Nc1",
+    "note": "白のナイトはc1へ戻り、黒ポーンの利きから離れる。"
+   },
+   {
+    "san": "O-O",
+    "note": "黒はキャスリングしてキングを囲う。"
+   },
+   {
+    "san": "Nc3",
+    "note": "白はb1のナイトをc3へ出し、a4のポーンをにらむ。"
+   },
+   {
+    "san": "Qa5",
+    "note": "黒のクイーンはa5へ出て、c3のナイトに当てる。"
+   },
+   {
+    "san": "Qd2",
+    "note": "白はクイーンをd2に出し、c3のナイトを支える。"
+   },
+   {
+    "san": "Na6",
+    "note": "黒はb8のナイトをa6へ展開する。"
+   },
+   {
+    "san": "Be2",
+    "note": "白はビショップをe2に出し、キャスリングに備える。"
+   },
+   {
+    "san": "Nc5",
+    "note": "黒のナイトがc5へ進み、e4のポーンを狙う。"
+   },
+   {
+    "san": "O-O",
+    "note": "白もキャスリングし、キングを囲う。"
+   },
+   {
+    "san": "Bd7",
+    "note": "黒はc8のビショップをd7へ展開する。"
+   },
+   {
+    "san": "Rb1",
+    "note": "白はa筋のルークをb1へ移し、b筋に置く。"
+   },
+   {
+    "san": "Rfc8",
+    "note": "黒はf筋のルークをc8へ回し、c筋に配置する。"
+   },
+   {
+    "san": "b4",
+    "note": "白はbポーンを２マス進め、a5のクイーンとc5のナイトに当てる。"
+   },
+   {
+    "san": "axb3",
+    "note": "黒はアンパッサンでbポーンを取る。直前に２マス進んだポーンを取る特別な手。"
+   },
+   {
+    "san": "axb3",
+    "note": "白はaポーンでb3の黒ポーンを取り返す。"
+   },
+   {
+    "san": "Qd8",
+    "note": "黒のクイーンはd8へ戻り、白ポーンの攻撃を避ける。"
+   },
+   {
+    "san": "Nd3",
+    "note": "白のc1のナイトがd3に出て、c5のナイトとe5のポーンを狙う。"
+   },
+   {
+    "san": "Ne6",
+    "note": "黒のナイトはe6へ移り、攻撃をかわす。"
+   },
+   {
+    "san": "Nb4",
+    "note": "白のナイトはb4へ跳び、クイーン側に位置を変える。"
+   },
+   {
+    "san": "Bc6",
+    "note": "黒のビショップがc6に出て、e4のポーンをにらむ。"
+   },
+   {
+    "san": "Rfd1",
+    "note": "白はf筋のルークをd1へ移し、中央の列を使う。"
+   },
+   {
+    "san": "h5",
+    "note": "黒はhポーンを２マス進め、キング側に空間を作る。"
+   },
+   {
+    "san": "Bf1",
+    "note": "白のビショップはf1へ戻り、位置を組み直す。"
+   },
+   {
+    "san": "h4",
+    "note": "黒のhポーンがさらに進み、白のキング側に迫る。"
+   },
+   {
+    "san": "Qf2",
+    "note": "白のクイーンはf2へ移り、h4のポーンをにらむ。"
+   },
+   {
+    "san": "Nd7",
+    "note": "黒のf6のナイトがd7へ移り、駒の配置を変える。"
+   },
+   {
+    "san": "g3",
+    "note": "白はgポーンを進め、h4の黒ポーンに当てる。"
+   },
+   {
+    "san": "Ra3",
+    "note": "黒はa筋のルークをa3へ進め、b3のポーンを狙う。"
+   },
+   {
+    "san": "Bh3",
+    "note": "白のビショップがh3へ出て、e6のナイトに当てる。"
+   },
+   {
+    "san": "Rca8",
+    "note": "黒はc筋のルークをa8へ移し、a筋に二枚を集める。"
+   },
+   {
+    "san": "Nc2",
+    "note": "白のb4のナイトがc2へ移り、a3のルークに当てる。"
+   },
+   {
+    "san": "R3a6",
+    "note": "黒はa3のルークをa6へ上げ、ナイトの攻撃を避ける。"
+   },
+   {
+    "san": "Nb4",
+    "note": "白のナイトがb4へ戻り、a6のルークとc6のビショップを狙う。"
+   },
+   {
+    "san": "Ra5",
+    "note": "黒のルークはa5へ移り、ナイトの利きから外れる。"
+   },
+   {
+    "san": "Nc2",
+    "note": "白のナイトはc2に戻り、駒の配置を保つ。"
+   },
+   {
+    "san": "b6",
+    "note": "黒はbポーンを進め、クイーン側を支える。"
+   },
+   {
+    "san": "Rd2",
+    "note": "白はd1のルークをd2へ上げ、d6のポーンを見張る。"
+   },
+   {
+    "san": "Qc7",
+    "note": "黒のクイーンはc7へ移り、後方の駒をまとめる。"
+   },
+   {
+    "san": "Rbd1",
+    "note": "白はb1のルークをd1へ。二枚のルークをd筋に並べる。"
+   },
+   {
+    "san": "Bf8",
+    "note": "黒のビショップはf8へ戻り、後方の守りに加わる。"
+   },
+   {
+    "san": "gxh4",
+    "note": "白はgポーンでh4のポーンを取る。"
+   },
+   {
+    "san": "Nf4",
+    "note": "黒のe6のナイトがf4へ跳び、h3のビショップを攻める。"
+   },
+   {
+    "san": "Bxf4",
+    "note": "白はe3のビショップでf4のナイトを取る。"
+   },
+   {
+    "san": "exf4",
+    "note": "黒のeポーンがビショップを取り返す。"
+   },
+   {
+    "san": "Bxd7",
+    "note": "白のh3のビショップがd7のナイトを取り、c6もにらむ。"
+   },
+   {
+    "san": "Qxd7",
+    "note": "黒のクイーンがd7のビショップを取り返す。"
+   },
+   {
+    "san": "Nb4",
+    "note": "白のc2のナイトがb4へ跳び、c6のビショップに当てる。"
+   },
+   {
+    "san": "Ra3",
+    "note": "黒のルークはa3へ進み、b3のポーンを狙う。"
+   },
+   {
+    "san": "Nxc6",
+    "note": "白のナイトがc6のビショップを取る。"
+   },
+   {
+    "san": "Qxc6",
+    "note": "黒のクイーンがナイトを取り返し、c4とe4をにらむ。"
+   },
+   {
+    "san": "Nb5",
+    "note": "白の残るナイトがb5へ跳び、a3のルークとd6のポーンを攻める。"
+   },
+   {
+    "san": "Rxb3",
+    "note": "黒のルークがb3のポーンを取り、b5のナイトにも当てる。"
+   },
+   {
+    "san": "Nd4",
+    "note": "白のナイトはd4へ跳び、黒のクイーンとルークに当てる。"
+   },
+   {
+    "san": "Qxc4",
+    "note": "黒のクイーンがc4のポーンを取り、d4のナイトに当てる。"
+   },
+   {
+    "san": "Nxb3",
+    "note": "白のナイトがb3のルークを取る。"
+   },
+   {
+    "san": "Qxb3",
+    "note": "黒のクイーンがナイトを取り返し、d1のルークをにらむ。"
+   },
+   {
+    "san": "Qe2",
+    "note": "白のクイーンはe2へ移り、d1のルークを支える。"
+   },
+   {
+    "san": "Be7",
+    "note": "黒のビショップはe7へ出て、h4のポーンを狙う。"
+   },
+   {
+    "san": "Kg2",
+    "note": "白のキングはg2へ移り、終盤に向けて位置を変える。"
+   },
+   {
+    "san": "Qe6",
+    "note": "黒のクイーンはe6へ移り、e4のポーンをにらむ。"
+   },
+   {
+    "san": "h5",
+    "note": "白はhポーンを進め、黒陣へ近づける。"
+   },
+   {
+    "san": "Ra3",
+    "note": "黒の残るルークがa3へ進み、f3のポーンを狙う。"
+   },
+   {
+    "san": "Rd3",
+    "note": "白はd2のルークをd3へ移し、a3の黒ルークに当てる。"
+   },
+   {
+    "san": "Ra2",
+    "note": "黒のルークはa2へ下がり、e2のクイーンを横から攻める。"
+   },
+   {
+    "san": "R3d2",
+    "note": "白はd3のルークをd2に戻し、a2のルークに当てる。"
+   },
+   {
+    "san": "Ra3",
+    "note": "黒のルークはa3へ戻り、f3のポーンを再び狙う。"
+   },
+   {
+    "san": "Rd3",
+    "note": "白のルークもd3へ戻り、黒ルークに当てる。"
+   },
+   {
+    "san": "Ra7",
+    "note": "黒はルークをa7へ引き、d筋からの攻撃を避ける。"
+   },
+   {
+    "san": "Rd5",
+    "note": "白はルークをd5へ進め、d6のポーンに当てる。"
+   },
+   {
+    "san": "Rc7",
+    "note": "黒のルークはc7へ移り、７段目で横に働く。"
+   },
+   {
+    "san": "Qd2",
+    "note": "白のクイーンはd2へ移り、f4のポーンを狙う。"
+   },
+   {
+    "san": "Qf6",
+    "note": "黒のクイーンはf6へ移り、キング側に位置を変える。"
+   },
+   {
+    "san": "Rf5",
+    "note": "白のルークがf5へ。f6のクイーンとf4のポーンを攻める。"
+   },
+   {
+    "san": "Qh4",
+    "note": "黒のクイーンはh4へ移り、h2とh5のポーンをにらむ。"
+   },
+   {
+    "san": "Rc1",
+    "note": "白のd1のルークがc1へ移り、c7の黒ルークに当てる。"
+   },
+   {
+    "san": "Ra7",
+    "note": "黒のルークはa7へ引き、c筋の攻撃を避ける。"
+   },
+   {
+    "san": "Qxf4",
+    "note": "白のクイーンがf4のポーンを取り、h4の黒クイーンにも当てる。"
+   },
+   {
+    "san": "Ra2+",
+    "note": "黒のルークがa2から横にチェック。白キングに応手を迫る。"
+   },
+   {
+    "san": "Kh1",
+    "note": "白のキングはh1へ逃げる。"
+   },
+   {
+    "san": "Qf2",
+    "note": "黒のクイーンがf2へ入り、f3とh2のポーンを狙う。"
+   },
+   {
+    "san": "Rc8+",
+    "note": "白のルークがc8へ駆け上がり、８段目からチェックをかける。"
+   },
+   {
+    "san": "Kh7",
+    "note": "黒のキングはh7へ逃げる。この応手の後、白には強制的な詰みがある。"
+   },
+   {
+    "san": "Qh6+",
+    "note": "白のクイーンがh6からチェック。黒は投了。50...Kxh6には51.Rh8#、50...gxh6には51.Rxf7#が続く。"
+   }
+  ],
+  "en": {
+   "title": "A Queen's Final Check",
+   "white": "Magnus Carlsen",
+   "black": "Sergey Karjakin",
+   "opening": "Sicilian Defense",
+   "intro": "In the fourth rapid tiebreak game of the 2016 World Championship, Carlsen coordinates his queen and two rooks to finish with a decisive check.",
+   "takeaway": "Examine each response to a check to see how queen and rook can combine in a mating pattern.",
+   "moves": [
+    {
+     "san": "e4",
+     "note": "White advances the e-pawn and claims central space."
+    },
+    {
+     "san": "c5",
+     "note": "Black challenges the center with the c-pawn, beginning the Sicilian Defense."
+    },
+    {
+     "san": "Nf3",
+     "note": "White develops a knight toward the center."
+    },
+    {
+     "san": "d6",
+     "note": "Black advances the d-pawn to prepare central support."
+    },
+    {
+     "san": "d4",
+     "note": "White advances the d-pawn and attacks Black's pawn on c5."
+    },
+    {
+     "san": "cxd4",
+     "note": "Black captures on d4 with the c-pawn."
+    },
+    {
+     "san": "Nxd4",
+     "note": "White's knight recaptures on d4 and occupies the center."
+    },
+    {
+     "san": "Nf6",
+     "note": "Black develops the knight to f6 and attacks the e4-pawn."
+    },
+    {
+     "san": "f3",
+     "note": "White advances the f-pawn to support the pawn on e4."
+    },
+    {
+     "san": "e5",
+     "note": "Black pushes the e-pawn and attacks the knight on d4."
+    },
+    {
+     "san": "Nb3",
+     "note": "White's knight moves to b3, away from the pawn's attack."
+    },
+    {
+     "san": "Be7",
+     "note": "Black develops the bishop to e7 and prepares to castle."
+    },
+    {
+     "san": "c4",
+     "note": "White advances the c-pawn to control d5."
+    },
+    {
+     "san": "a5",
+     "note": "Black advances the a-pawn two squares, gaining queenside space."
+    },
+    {
+     "san": "Be3",
+     "note": "White develops the bishop to e3, influencing the center."
+    },
+    {
+     "san": "a4",
+     "note": "Black's a-pawn advances again and attacks the knight on b3."
+    },
+    {
+     "san": "Nc1",
+     "note": "White's knight returns to c1, escaping the pawn's attack."
+    },
+    {
+     "san": "O-O",
+     "note": "Black castles to shelter the king."
+    },
+    {
+     "san": "Nc3",
+     "note": "White develops the b1-knight to c3 and eyes the pawn on a4."
+    },
+    {
+     "san": "Qa5",
+     "note": "Black's queen moves to a5 and attacks the knight on c3."
+    },
+    {
+     "san": "Qd2",
+     "note": "White develops the queen to d2, supporting the knight on c3."
+    },
+    {
+     "san": "Na6",
+     "note": "Black develops the b8-knight to a6."
+    },
+    {
+     "san": "Be2",
+     "note": "White develops the bishop to e2 and prepares to castle."
+    },
+    {
+     "san": "Nc5",
+     "note": "Black's knight advances to c5 and attacks the e4-pawn."
+    },
+    {
+     "san": "O-O",
+     "note": "White castles as well, sheltering the king."
+    },
+    {
+     "san": "Bd7",
+     "note": "Black develops the c8-bishop to d7."
+    },
+    {
+     "san": "Rb1",
+     "note": "White brings the a-rook to b1, placing it on the b-file."
+    },
+    {
+     "san": "Rfc8",
+     "note": "Black brings the f-rook to c8, placing it on the c-file."
+    },
+    {
+     "san": "b4",
+     "note": "White advances the b-pawn two squares, attacking the queen on a5 and knight on c5."
+    },
+    {
+     "san": "axb3",
+     "note": "Black captures en passant, taking the pawn that just advanced two squares."
+    },
+    {
+     "san": "axb3",
+     "note": "White's a-pawn recaptures the black pawn on b3."
+    },
+    {
+     "san": "Qd8",
+     "note": "Black's queen returns to d8, away from the pawn's attack."
+    },
+    {
+     "san": "Nd3",
+     "note": "White's c1-knight moves to d3, attacking the knight on c5 and pawn on e5."
+    },
+    {
+     "san": "Ne6",
+     "note": "Black's knight moves to e6, escaping the attack."
+    },
+    {
+     "san": "Nb4",
+     "note": "White's knight jumps to b4, repositioning on the queenside."
+    },
+    {
+     "san": "Bc6",
+     "note": "Black's bishop moves to c6 and eyes the pawn on e4."
+    },
+    {
+     "san": "Rfd1",
+     "note": "White brings the f-rook to d1 to work along a central file."
+    },
+    {
+     "san": "h5",
+     "note": "Black advances the h-pawn two squares, gaining kingside space."
+    },
+    {
+     "san": "Bf1",
+     "note": "White's bishop returns to f1, reorganizing its position."
+    },
+    {
+     "san": "h4",
+     "note": "Black's h-pawn advances again, approaching White's kingside."
+    },
+    {
+     "san": "Qf2",
+     "note": "White's queen moves to f2 and eyes the pawn on h4."
+    },
+    {
+     "san": "Nd7",
+     "note": "Black's f6-knight moves to d7, adjusting the piece placement."
+    },
+    {
+     "san": "g3",
+     "note": "White advances the g-pawn and attacks Black's pawn on h4."
+    },
+    {
+     "san": "Ra3",
+     "note": "Black advances the a-rook to a3 and attacks the pawn on b3."
+    },
+    {
+     "san": "Bh3",
+     "note": "White's bishop moves to h3 and attacks the knight on e6."
+    },
+    {
+     "san": "Rca8",
+     "note": "Black brings the c-rook to a8, placing both rooks on the a-file."
+    },
+    {
+     "san": "Nc2",
+     "note": "White's b4-knight moves to c2 and attacks the rook on a3."
+    },
+    {
+     "san": "R3a6",
+     "note": "Black moves the a3-rook up to a6, escaping the knight's attack."
+    },
+    {
+     "san": "Nb4",
+     "note": "White's knight returns to b4, attacking the rook on a6 and bishop on c6."
+    },
+    {
+     "san": "Ra5",
+     "note": "Black's rook moves to a5, away from the knight's attacks."
+    },
+    {
+     "san": "Nc2",
+     "note": "White's knight returns to c2, maintaining its position."
+    },
+    {
+     "san": "b6",
+     "note": "Black advances the b-pawn to support the queenside."
+    },
+    {
+     "san": "Rd2",
+     "note": "White raises the d1-rook to d2, watching the d6-pawn."
+    },
+    {
+     "san": "Qc7",
+     "note": "Black's queen moves to c7, coordinating with the pieces behind it."
+    },
+    {
+     "san": "Rbd1",
+     "note": "White brings the b1-rook to d1, placing both rooks on the d-file."
+    },
+    {
+     "san": "Bf8",
+     "note": "Black's bishop returns to f8, reinforcing the back rank."
+    },
+    {
+     "san": "gxh4",
+     "note": "White's g-pawn captures the pawn on h4."
+    },
+    {
+     "san": "Nf4",
+     "note": "Black's e6-knight jumps to f4 and attacks the bishop on h3."
+    },
+    {
+     "san": "Bxf4",
+     "note": "White's e3-bishop captures the knight on f4."
+    },
+    {
+     "san": "exf4",
+     "note": "Black's e-pawn recaptures the bishop."
+    },
+    {
+     "san": "Bxd7",
+     "note": "White's h3-bishop captures the knight on d7 and also eyes c6."
+    },
+    {
+     "san": "Qxd7",
+     "note": "Black's queen recaptures the bishop on d7."
+    },
+    {
+     "san": "Nb4",
+     "note": "White's c2-knight jumps to b4 and attacks the bishop on c6."
+    },
+    {
+     "san": "Ra3",
+     "note": "Black's rook advances to a3 and attacks the pawn on b3."
+    },
+    {
+     "san": "Nxc6",
+     "note": "White's knight captures the bishop on c6."
+    },
+    {
+     "san": "Qxc6",
+     "note": "Black's queen recaptures the knight, eyeing c4 and e4."
+    },
+    {
+     "san": "Nb5",
+     "note": "White's remaining knight jumps to b5, attacking the rook on a3 and pawn on d6."
+    },
+    {
+     "san": "Rxb3",
+     "note": "Black's rook takes the b3-pawn and attacks the knight on b5."
+    },
+    {
+     "san": "Nd4",
+     "note": "White's knight jumps to d4, attacking Black's queen and rook."
+    },
+    {
+     "san": "Qxc4",
+     "note": "Black's queen captures the c4-pawn and attacks the knight on d4."
+    },
+    {
+     "san": "Nxb3",
+     "note": "White's knight captures the rook on b3."
+    },
+    {
+     "san": "Qxb3",
+     "note": "Black's queen recaptures the knight and eyes the rook on d1."
+    },
+    {
+     "san": "Qe2",
+     "note": "White's queen moves to e2, supporting the rook on d1."
+    },
+    {
+     "san": "Be7",
+     "note": "Black's bishop moves to e7 and attacks the pawn on h4."
+    },
+    {
+     "san": "Kg2",
+     "note": "White's king moves to g2, adjusting its position for the ending."
+    },
+    {
+     "san": "Qe6",
+     "note": "Black's queen moves to e6 and eyes White's pawn on e4."
+    },
+    {
+     "san": "h5",
+     "note": "White advances the h-pawn toward Black's position."
+    },
+    {
+     "san": "Ra3",
+     "note": "Black's remaining rook moves to a3 and attacks the f3-pawn."
+    },
+    {
+     "san": "Rd3",
+     "note": "White moves the d2-rook to d3 and attacks Black's rook on a3."
+    },
+    {
+     "san": "Ra2",
+     "note": "Black's rook drops to a2 and attacks the queen on e2 along the rank."
+    },
+    {
+     "san": "R3d2",
+     "note": "White returns the d3-rook to d2, attacking the rook on a2."
+    },
+    {
+     "san": "Ra3",
+     "note": "Black's rook returns to a3 and again attacks the f3-pawn."
+    },
+    {
+     "san": "Rd3",
+     "note": "White's rook returns to d3 and attacks Black's rook."
+    },
+    {
+     "san": "Ra7",
+     "note": "Black retreats the rook to a7, away from the d-file rook's attack."
+    },
+    {
+     "san": "Rd5",
+     "note": "White advances the rook to d5 and attacks the pawn on d6."
+    },
+    {
+     "san": "Rc7",
+     "note": "Black's rook moves to c7, operating along the seventh rank."
+    },
+    {
+     "san": "Qd2",
+     "note": "White's queen moves to d2 and attacks the pawn on f4."
+    },
+    {
+     "san": "Qf6",
+     "note": "Black's queen moves to f6, shifting toward the kingside."
+    },
+    {
+     "san": "Rf5",
+     "note": "White's rook moves to f5, attacking the queen on f6 and pawn on f4."
+    },
+    {
+     "san": "Qh4",
+     "note": "Black's queen moves to h4, eyeing the pawns on h2 and h5."
+    },
+    {
+     "san": "Rc1",
+     "note": "White's d1-rook moves to c1 and attacks the black rook on c7."
+    },
+    {
+     "san": "Ra7",
+     "note": "Black's rook retreats to a7, away from the attack on the c-file."
+    },
+    {
+     "san": "Qxf4",
+     "note": "White's queen captures the f4-pawn and attacks Black's queen on h4."
+    },
+    {
+     "san": "Ra2+",
+     "note": "Black's rook checks from a2 along the rank, forcing White to respond."
+    },
+    {
+     "san": "Kh1",
+     "note": "White's king moves to h1 to escape the check."
+    },
+    {
+     "san": "Qf2",
+     "note": "Black's queen enters f2, attacking the pawns on f3 and h2."
+    },
+    {
+     "san": "Rc8+",
+     "note": "White's rook races to c8 and checks along the eighth rank."
+    },
+    {
+     "san": "Kh7",
+     "note": "Black's king moves to h7. After this reply, White has a forced mate."
+    },
+    {
+     "san": "Qh6+",
+     "note": "White checks from h6 and Black resigns. After 50...Kxh6 comes 51.Rh8#; after 50...gxh6 comes 51.Rxf7#."
+    }
+   ]
+  }
  }
 ];

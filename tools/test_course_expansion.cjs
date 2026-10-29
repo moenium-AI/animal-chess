@@ -9,7 +9,7 @@ const {Chess,Learning,INTRO_LESSONS,LESSONS,EXTRA_LESSONS,FAMOUS_GAMES,PUZZLES} 
 assert.equal(INTRO_LESSONS.length,24);
 assert.equal(LESSONS.length,44);
 assert.equal(EXTRA_LESSONS.length,12);
-assert.equal(FAMOUS_GAMES.length,15);
+assert.equal(FAMOUS_GAMES.length,20);
 const lessons=[...INTRO_LESSONS,...LESSONS,...EXTRA_LESSONS];
 assert.equal(lessons.length,80);
 const ids=new Set(),validTheme=new Set(PUZZLES.map(x=>x.theme));
@@ -65,11 +65,11 @@ for(const item of FAMOUS_GAMES){
     gamePlies++;
   }
 }
-assert.equal(ids.size,95);
-assert.equal(gamePlies,695);
+assert.equal(ids.size,100);
+assert.equal(gamePlies,1162);
 const p=Learning.restoreProgress('{"op_london":"mastered","opera":"studied","fake":"mastered"}',ids);
 assert.equal(p.op_london,'mastered');assert.equal(p.opera,'studied');assert.equal(p.fake,undefined);
-console.log(JSON.stringify({lessons:80,chapters:counts,legacyPractice:legacyPractices,allPractice:practices,lessonPlies,famousGames:15,gamePlies,progress:'PASS'}));
+console.log(JSON.stringify({lessons:80,chapters:counts,legacyPractice:legacyPractices,allPractice:practices,lessonPlies,famousGames:20,gamePlies,progress:'PASS'}));
 // The regular course CI must also validate the reasoning catalog and storage. 
 require('./test_chess_terminology.cjs');
 require('./test_puzzle_theme_integrity.cjs');

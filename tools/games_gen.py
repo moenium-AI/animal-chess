@@ -11,6 +11,7 @@ import json
 import os
 import sys
 from generated_output import atomic_write
+from famous_games_extra import EXTRA_FAMOUS_GAMES
 
 try:
     from games_en import EN
@@ -901,6 +902,12 @@ GAMES = [
     ],
   },
 ]
+
+# Extend the legacy list from the bilingual, single-source annotations.
+for extra in EXTRA_FAMOUS_GAMES:
+    game = {key: value for key, value in extra.items() if key not in ("en", "moves")}
+    game["moves"] = [(san, ja) for san, ja, _ in extra["moves"]]
+    GAMES.append(game)
 
 
 def verify_and_build():
